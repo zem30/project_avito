@@ -1,6 +1,8 @@
 package com.amr.project.model.entity;
 
 import com.amr.project.model.enums.Gender;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -30,7 +32,9 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
+@Builder
 public class User implements UserDetails {
 
     @Id
@@ -77,7 +81,7 @@ public class User implements UserDetails {
     @JoinColumn(name = "address_id",referencedColumnName = "id")
     private Address address;
 
-    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")}

@@ -1,6 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ import java.util.List;
 @Table(name = "country")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
 @Builder
 public class Country {

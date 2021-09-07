@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Table(name = "image")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
 @Builder
 public class Image {
