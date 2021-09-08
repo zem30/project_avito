@@ -1,7 +1,6 @@
 package com.amr.project.dao.abstracts;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -10,8 +9,7 @@ import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-@Component
-public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
+public abstract class AbsReadWriteDao<T, K> implements ReadWriteDao<T, K> {
 
     Class<T> typeClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
@@ -23,6 +21,7 @@ public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
         return (List<T>) entityManager.createQuery("from " + typeClass.getSimpleName()).getResultList();
     }
 
+    @Transactional
     @Override
     public void persist(T obj) {
         entityManager.persist(obj);
@@ -53,8 +52,8 @@ public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
 
     @Override
     public boolean existsById(K key) {
-        int caunt = entityManager.createQuery("select u from " + typeClass.getSimpleName() + " u where  u.id= '" + key + "' ").getResultList().size();
-        return caunt > 0 ? true : false;
+        int count = entityManager.createQuery("select u from " + typeClass.getSimpleName() + " u where  u.id= '" + key + "' ").getResultList().size();
+        return count > 0 ? true : false;
     }
 
     @Override

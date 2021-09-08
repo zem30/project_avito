@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+
+  <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</head>
+<body>
+<nav class="navbar navbar-expand-xl navbar-light bg-light">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="/api/shops">Магазины</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse show" id="navbarText">
+      <ul class="navbar-nav me-auto mb-2 mb-xl-0">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Товары</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Избранное</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">ещё...</a>
+        </li>
+      </ul>
+      <span class="navbar-text">
+      </span>
+    </div>
+  </div>
+</nav>
+<div class="row">
+  <div class="col-sm-2">
+    <div class="card">
+      <div class="card-body">
+        <img th:src="|data:image/png;base64,${logo}|" class="card-img-top" alt="card-group-image">
+        <div class="card-body" align="center">
+          <h5 class="card-title" th:text="${shop.getName()}"></h5>
+            <p class="card-text" th:text="${shop.getLocation().getName()}"></p>
+            <p class="card-text" th:text="${shop.getPhone()}"></p>
+            <p class="card-text" th:text="${shop.getEmail()}"></p>
+            <p class="card-text" th:text="${shop.getDescription()}"></p>
+        </div>
+    </div>
+  </div>
+  </div>
+  <div class="col-sm-2">
+    <div class="card">
+      <div class="card-body" align="center">
+      <h5 class="card-title">Самый популярный товар!</h5>
+        <p class="card-text" th:text="${ratingItem.getName()}"></p>
+        <p class="card-text" th:text="${ratingItem.getPrice()}" ></p>
+        <p class="card-text" th:text="${ratingItem.getDescription()}"></p>
+    </div>
+      <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+          <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block w-100" th:src="|data:image/png;base64,${images.get(0)}|" alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" th:src="|data:image/png;base64,${images.get(1)}|" alt="Second slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block w-100" th:src="|data:image/png;base64,${images.get(2)}|" alt="Third slide">
+          </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only"></span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only"></span>
+        </a>
+      </div>
+      <div class="mt-2 pt-2 border-top">
+        <a th:href="@{/api/shop/{id}/item/{itemid} (id=${shop.id} ,itemid=${ratingItem.getId()})}" class="btn btn-primary btn-sm" >Страница товара</a>
+        <a th:href="@{/api/shop/{id}/list (id=${shop.id})}" class="btn btn-primary btn-sm" >Весь товар</a>
+      </div>
+  </div>
+  </div>
+</div>
+</body>
+</html>

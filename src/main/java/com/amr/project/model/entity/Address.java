@@ -1,6 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class Address {
@@ -32,7 +34,7 @@ public class Address {
     @Column(name = "city_index")
     private String cityIndex;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 
