@@ -11,6 +11,7 @@ import java.io.Serializable;
 @Table(name = "discount")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class Discount {
     @Id

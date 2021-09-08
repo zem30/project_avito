@@ -1,6 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "address")
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 @Builder
 public class Address {
