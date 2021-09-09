@@ -1,6 +1,7 @@
 package com.amr.project.model.entity;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,13 +12,15 @@ import java.util.List;
 @Table(name = "chat")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Chat {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<User> members;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
