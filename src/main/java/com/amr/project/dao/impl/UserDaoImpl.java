@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.Query;
 
 @Repository
-public class UsedDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao {
+public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao {
 
     @Override
     public User getByEmail(String email) {

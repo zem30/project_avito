@@ -31,12 +31,12 @@ public class EmailVerificationService {
     @Transactional
     public String checkActivationCode(String email, String activationCode) {
         String result = "";
-        User chekedUser = userDao.getByEmail(email);
-        if (chekedUser != null) {
-            if (!chekedUser.isActivate()) {
-                if (chekedUser.getActivationCode().equals(activationCode)) {
-                    chekedUser.setActivate(true);
-                    userDao.update(chekedUser);
+        User checkedUser = userDao.getByEmail(email);
+        if (checkedUser != null) {
+            if (!checkedUser.isActivate()) {
+                if (checkedUser.getActivationCode().equals(activationCode)) {
+                    checkedUser.setActivate(true);
+                    userDao.update(checkedUser);
                     result = "Email " + email + " successfully confirm!!! You can log in your account";
                 } else {
                     result = "Activation code incorrect!!!";
