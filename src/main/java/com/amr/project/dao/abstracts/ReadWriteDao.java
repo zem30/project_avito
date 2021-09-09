@@ -1,7 +1,8 @@
-package com.amr.project.dao.impl;
+package com.amr.project.dao.abstracts;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+@Repository
 public interface ReadWriteDao<T,K>{
      List<T> getAll();
      void persist(T obj);
