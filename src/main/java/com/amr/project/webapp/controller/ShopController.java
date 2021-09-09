@@ -3,7 +3,7 @@ package com.amr.project.webapp.controller;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ReadWriteService;
-import com.amr.project.service.impl.ShopService;
+import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.Api;
 import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
@@ -22,22 +22,22 @@ import java.util.Map;
 public class ShopController {
 
     private final ReadWriteService<Shop,Long> readWriteService;
-    private final ShopService shopService;
+    private final ShopServiceImpl shopServiceImpl;
 
-    public ShopController(ReadWriteService<Shop, Long> readWriteService, ShopService shopService1) {
+    public ShopController(ReadWriteService<Shop, Long> readWriteService, ShopServiceImpl shopServiceImpl) {
         this.readWriteService = readWriteService;
-        this.shopService = shopService1;
+        this.shopServiceImpl = shopServiceImpl;
     }
 
     @SneakyThrows
     @GetMapping(value = "/shop/{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
         Shop shop = readWriteService.getByKey(id);
-        Item ratingItem = shopService.getTheMostRatingItem(shop.getItems());
+        Item ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
 
         model.addAttribute("shop", shop);
-        model.addAttribute("images", shopService.convertListImages(ratingItem.getImages()));
-        model.addAttribute("logo", shopService.convertImage(shop.getLogo()));
+        model.addAttribute("images", shopServiceImpl.convertListImages(ratingItem.getImages()));
+        model.addAttribute("logo", shopServiceImpl.convertImage(shop.getLogo()));
         model.addAttribute("ratingItem", ratingItem);
         return "shop_page";
     }
@@ -48,7 +48,7 @@ public class ShopController {
         List<Item> itemList = readWriteService.getByKey(id).getItems();
         model.addAttribute("itemList", itemList);
         model.addAttribute("shop", shop);
-        model.addAttribute("logo", shopService.convertImage(shop.getLogo()));
+        model.addAttribute("logo", shopServiceImpl.convertImage(shop.getLogo()));
         return "shop_items_list";
     }
 
@@ -60,15 +60,15 @@ public class ShopController {
                 .filter(i -> i.getId().equals(itemId))
                 .findFirst().orElse(null);
         model.addAttribute("item", item);
-        model.addAttribute("image", shopService.convertListImages(item.getImages()));
+        model.addAttribute("image", shopServiceImpl.convertListImages(item.getImages()));
         return "shop_item_page";
     }
     @GetMapping(value = "/shops")
     public String listShops(Model model) {
-        List<Shop> shopList = shopService.getAll();
+        List<Shop> shopList = shopServiceImpl.getAll();
         Map<Shop,String> map = new LinkedHashMap<>();
         for (Shop shop : shopList) {
-            map.put(shop, shopService.convertImage(shop.getLogo()));
+            map.put(shop, shopServiceImpl.convertImage(shop.getLogo()));
         }
         model.addAttribute("map",map);
         return "shop_list";
