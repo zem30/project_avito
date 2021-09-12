@@ -61,51 +61,42 @@
             margin-left: 10px;
         }
 
-        .display-4
-        {
+        .display-4 {
             padding-top: 10px;
         }
 
-        .jumbotron
-        {
+        .jumbotron {
             background-color: #F8F9FA;
             padding-top: 20px;
-         }
+        }
 
-        .lead
-        {
+        .lead {
             padding-bottom: 20px;
         }
 
-        .top_search
-        {
-            padding-bottom: 20px ;
+        .top_search {
+            padding-bottom: 20px;
         }
 
-        .text-footer
-        {
+        .text-footer {
             color: gray;
-            padding-right: 145px ;
+            padding-right: 145px;
         }
 
-        .input-button
-        {
+        .input-button {
             padding-right: 160px;
         }
 
-        .button-in
-        {
+        .button-in {
             padding: 30px 300px 0 190px;
         }
 
-        .form-check
-        {
+        .form-check {
             padding-top: 10px;
 
         }
 
-        .image-header
-        {
+        .image-header {
             padding-left: 155px;
             padding-top: 55px;
             padding-bottom: 65px;
@@ -145,7 +136,7 @@
         </nav>
 
         <!-- Modal Sign In-->
-        <div class="modal fade" id="staticBackdrop"  data-bs-keyboard="false" tabindex="-1"
+        <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -155,13 +146,13 @@
                             <img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg"
                                  alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
                         </div>
-<!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                     </div>
 
 
                     <div class="modal-body">
-<!--                        <h5 class="modal-title" id="staticBackdropLabel">Войдите или зарегистрируйтесь, что бы-->
-<!--                            продолжить</h5>-->
+                        <!--                        <h5 class="modal-title" id="staticBackdropLabel">Войдите или зарегистрируйтесь, что бы-->
+                        <!--                            продолжить</h5>-->
 
 
                         <form>
@@ -173,7 +164,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="exampleInputPassword1" class="form-label">Пароль</label>
-                                <input type="password" placeholder="Password" class="form-control" id="exampleInputPassword1">
+                                <input type="password" placeholder="Password" class="form-control"
+                                       id="exampleInputPassword1">
 
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
@@ -182,17 +174,17 @@
                                     </label>
                                 </div>
                                 <div class="button-in">
-                                <button type="button" class="btn btn-warning">Войти</button>
+                                    <button type="button" class="btn btn-warning">Войти</button>
                                 </div>
 
 
                             </div>
                         </form>
                     </div>
-<!--                    <div class="modal-footer">-->
-<!--&lt;!&ndash;                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Регистрация</button>&ndash;&gt;-->
-<!--                        -->
-<!--                    </div>-->
+                    <!--                    <div class="modal-footer">-->
+                    <!--&lt;!&ndash;                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Регистрация</button>&ndash;&gt;-->
+                    <!--                        -->
+                    <!--                    </div>-->
 
                     <div class="modal-footer">
                         <h6 class="text-footer">если Вы у нас впервые:</h6>
@@ -236,11 +228,10 @@
         <!--    Modal Basket-->
 
 
-
-    <div class="container">
-        <h1 class="display-4">Shops 24</h1>
-        <p class="lead">Товары свободные от наценок</p>
-    </div>
+        <div class="container">
+            <h1 class="display-4">Shops 24</h1>
+            <p class="lead">Товары свободные от наценок</p>
+        </div>
         <div class="top">
             <!--        блок над окном поиска, пустой отступ        -->
         </div>
@@ -252,12 +243,7 @@
                             aria-expanded="false">
                         Каталог товаров
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a class="dropdown-item" href="#">Категория 0</a></li>
-                        <li><a class="dropdown-item" href="#">Категория 1</a></li>
-                        <li><a class="dropdown-item" href="#">Категория 2</a></li>
-                        <li><a class="dropdown-item" href="#">Категория 3</a></li>
-                        <li><a class="dropdown-item" href="#">Категория 4</a></li>
+                    <ul id="categoryItems" class="dropdown-menu">
 
                     </ul>
                 </div>
@@ -282,120 +268,18 @@
 </div>
 
 
-<div class="popular">
 
+<div id="cartItems" class="popular">
     <h3>Популярные товары</h3>
+    <div id="cardsPopularItems">
 
-    <div class="cards_with_popular_products">
-        <div class="card" style="width: 15rem;">
-            <img src="https://appleshop52.ru/upload/iblock/b08/b08b7ee20d917186b5caad4a161c3211.jpg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Карточка 1</h5>
-                <h6>Цена </h6>
-                <h7>Описание товара</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">В Корзину</a>
-            </div>
-        </div>
     </div>
 
-    <div class="cards_with_popular_products">
-        <div class="card" style="width: 15rem;">
-            <img src="https://appleshop52.ru/upload/iblock/b08/b08b7ee20d917186b5caad4a161c3211.jpg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Карточка 2</h5>
-                <h6>Цена </h6>
-                <h7>Описание товара</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">В Корзину</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="cards_with_popular_products">
-        <div class="card" style="width: 15rem;">
-            <img src="https://appleshop52.ru/upload/iblock/b08/b08b7ee20d917186b5caad4a161c3211.jpg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Карточка 3</h5>
-                <h6>Цена </h6>
-                <h7>Описание товара</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">В Корзину</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="cards_with_popular_products">
-        <div class="card" style="width: 15rem;">
-            <img src="https://appleshop52.ru/upload/iblock/b08/b08b7ee20d917186b5caad4a161c3211.jpg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">Карточка 4</h5>
-                <h6>Цена </h6>
-                <h7>Описание товара</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">В Корзину</a>
-            </div>
-        </div>
-    </div>
 
     <h3>Популярные магазины</h3>
+    <div id="cardsPopularShops">
 
-    <div class="popular_shops">
-        <div class="card" style="width: 15rem;">
-            <img src="https://www.timberk.ru/upload/iblock/a2e/a2ef776a9ed3a63552adedf756e849a5.jpeg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">М Видео</h5>
-                <h7>Описание магазина</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">Перейти</a>
-            </div>
-        </div>
     </div>
-
-    <div class="popular_shops">
-        <div class="card" style="width: 15rem;">
-            <img src="https://www.timberk.ru/upload/iblock/a2e/a2ef776a9ed3a63552adedf756e849a5.jpeg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">М Видео</h5>
-                <h7>Описание магазина</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">Перейти</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="popular_shops">
-        <div class="card" style="width: 15rem;">
-            <img src="https://www.timberk.ru/upload/iblock/a2e/a2ef776a9ed3a63552adedf756e849a5.jpeg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">М Видео</h5>
-                <h7>Описание магазина</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">Перейти</a>
-            </div>
-        </div>
-    </div>
-
-    <div class="popular_shops">
-        <div class="card" style="width: 15rem;">
-            <img src="https://www.timberk.ru/upload/iblock/a2e/a2ef776a9ed3a63552adedf756e849a5.jpeg"
-                 class="card-img-top" alt="...">
-            <div class="card-body">
-                <h5 class="card-title">М Видео</h5>
-                <h7>Описание магазина</h7>
-                <p class="card-text"></p>
-                <a href="#" class="btn btn-primary">Перейти</a>
-            </div>
-        </div>
-    </div>
-
 </div>
 
 
