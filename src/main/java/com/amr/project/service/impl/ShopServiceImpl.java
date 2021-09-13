@@ -19,7 +19,7 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
     }
 
     public Item getTheMostRatingItem(List<Item> itemList) {
-        return itemList.stream().max(Comparator.comparingDouble(Item::getRating)).get();
+        return itemList.stream().max(Comparator.comparingDouble(Item::getRating)).orElseGet(null);
     }
 
     public String convertImage(Image image) {

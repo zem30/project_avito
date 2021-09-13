@@ -42,16 +42,6 @@ public class ShopController {
         return "shopPage/shop_page";
     }
 
-    @GetMapping(value = "/shop/{id}/list")
-    public String shopItems(Model model,@PathVariable("id") Long id) {
-        Shop shop = readWriteService.getByKey(id);
-        List<Item> itemList = readWriteService.getByKey(id).getItems();
-        model.addAttribute("itemList", itemList);
-        model.addAttribute("shop", shop);
-        model.addAttribute("logo", shopServiceImpl.convertImage(shop.getLogo()));
-        return "shopPage/shop_items_list";
-    }
-
     @GetMapping(value = "/shop/{id}/item/{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long id,@PathVariable("itemId") Long itemId) {
         Item item = readWriteService.getByKey(id)
@@ -63,14 +53,5 @@ public class ShopController {
         model.addAttribute("image", shopServiceImpl.convertListImages(item.getImages()));
         return "shopPage/shop_item_page";
     }
-    @GetMapping(value = "/shops")
-    public String listShops(Model model) {
-        List<Shop> shopList = shopServiceImpl.getAll();
-        Map<Shop,String> map = new LinkedHashMap<>();
-        for (Shop shop : shopList) {
-            map.put(shop, shopServiceImpl.convertImage(shop.getLogo()));
-        }
-        model.addAttribute("map",map);
-        return "shopPage/shop_list";
-    }
+
 }
