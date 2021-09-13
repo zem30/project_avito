@@ -33,7 +33,6 @@ import java.util.Set;
 @Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
-@AllArgsConstructor
 @Data
 @Builder
 public class User implements UserDetails {
