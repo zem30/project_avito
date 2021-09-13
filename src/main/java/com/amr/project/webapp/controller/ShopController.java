@@ -39,7 +39,7 @@ public class ShopController {
         model.addAttribute("images", shopServiceImpl.convertListImages(ratingItem.getImages()));
         model.addAttribute("logo", shopServiceImpl.convertImage(shop.getLogo()));
         model.addAttribute("ratingItem", ratingItem);
-        return "shop_page";
+        return "shopPage/shop_page";
     }
 
     @GetMapping(value = "/shop/{id}/list")
@@ -49,7 +49,7 @@ public class ShopController {
         model.addAttribute("itemList", itemList);
         model.addAttribute("shop", shop);
         model.addAttribute("logo", shopServiceImpl.convertImage(shop.getLogo()));
-        return "shop_items_list";
+        return "shopPage/shop_items_list";
     }
 
     @GetMapping(value = "/shop/{id}/item/{itemId}")
@@ -61,7 +61,7 @@ public class ShopController {
                 .findFirst().orElse(null);
         model.addAttribute("item", item);
         model.addAttribute("image", shopServiceImpl.convertListImages(item.getImages()));
-        return "shop_item_page";
+        return "shopPage/shop_item_page";
     }
     @GetMapping(value = "/shops")
     public String listShops(Model model) {
@@ -71,21 +71,6 @@ public class ShopController {
             map.put(shop, shopServiceImpl.convertImage(shop.getLogo()));
         }
         model.addAttribute("map",map);
-        return "shop_list";
+        return "shopPage/shop_list";
     }
 }
-
-//    @ApiOperation(value = "Поиск магазина по ID")
-//    @GetMapping(path = "/{id}")
-//    @ApiResponses(value = {
-//            @ApiResponse(code = 200, message = "Магазин не найден по id"),
-//            @ApiResponse(code = 404, message = "Магазин не найден по id")
-//    })
-//    public ResponseEntity<?> findUser(@PathVariable Long id) {
-//        if (readWriteService.existsById(id)) {
-//            return ResponseEntity.ok(readWriteService.getByKey(id));
-//        }
-//        logger.info(String.format("Магазин с указанным ID: %d не найден!", id));
-//        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(String.format("Shop with ID: %d does not exist", id));
-//
-//    }
