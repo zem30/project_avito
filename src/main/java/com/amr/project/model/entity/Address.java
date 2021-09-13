@@ -34,7 +34,7 @@ public class Address {
     @Column(name = "city_index")
     private String cityIndex;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 

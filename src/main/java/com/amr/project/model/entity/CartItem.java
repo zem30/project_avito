@@ -1,7 +1,10 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -11,6 +14,9 @@ import java.math.RoundingMode;
 @Entity
 @Table(name = "cart_items")
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class CartItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

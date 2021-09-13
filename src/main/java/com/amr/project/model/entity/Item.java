@@ -43,7 +43,7 @@ public class Item {
     @Column
     private BigDecimal price;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "item_category",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})

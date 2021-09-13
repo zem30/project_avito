@@ -1,49 +1,27 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Feedback {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String reason;
     private String full_text;
 
-    public Feedback() {
-    }
-
-    public Feedback(String reason, String full_text) {
-        this.reason = reason;
-        this.full_text = full_text;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getReason() {
-        return reason;
-    }
-
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
-
-    public String getFull_text() {
-        return full_text;
-    }
-
-    public void setFull_text(String full_text) {
-        this.full_text = full_text;
-    }
 }
