@@ -31,6 +31,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
+@AllArgsConstructor
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
