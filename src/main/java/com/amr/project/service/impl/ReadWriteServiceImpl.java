@@ -1,7 +1,6 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.impl.ReadWriteDao;
-import com.amr.project.service.abstracts.ReadWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

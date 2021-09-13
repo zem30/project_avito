@@ -2,7 +2,7 @@ package com.amr.project.webapp.controller;
 
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
-import com.amr.project.service.abstracts.ReadWriteService;
+import com.amr.project.service.impl.ReadWriteService;
 import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.Api;
 import lombok.SneakyThrows;

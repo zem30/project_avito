@@ -1,6 +1,7 @@
 package com.amr.project.service.abstracts;
 
-import com.amr.project.dao.abstracts.ReadWriteDao;
+import com.amr.project.dao.impl.ReadWriteDao;
+import com.amr.project.service.impl.ReadWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;

@@ -1,8 +1,8 @@
-package com.amr.project.dao.abstracts;
+package com.amr.project.service.impl;
 
 import java.util.List;
 
-public interface ReadWriteDao<T, K> {
+public interface ReadWriteService<T, K> {
     void persist(T obj);
 
     void update(T obj);
