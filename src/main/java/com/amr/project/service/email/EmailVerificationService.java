@@ -29,24 +29,28 @@ public class EmailVerificationService {
     }
 
     @Transactional
-    public String checkActivationCode(String email, String activationCode) {
-        String result = "";
+    public String activateUser(String email, String activationCode) {
         User checkedUser = userDao.getByEmail(email);
-        if (checkedUser != null) {
-            if (!checkedUser.isActivate()) {
-                if (checkedUser.getActivationCode().equals(activationCode)) {
-                    checkedUser.setActivate(true);
-                    userDao.update(checkedUser);
-                    result = "Email " + email + " successfully confirm!!! You can log in your account";
-                } else {
-                    result = "Activation code incorrect!!!";
-                }
-            } else {
-                result = "Email " + email + " already verified and account already activated!!!";
-            }
-        } else {
-            result = "User with email " + email + " not found!!!";
+        String checkingResult = checkUser(checkedUser, activationCode);
+        if (checkingResult.equals("Ok")) {
+            checkedUser.setActivate(true);
+            userDao.update(checkedUser);
+            return "Email " + email + " successfully confirm!!! You can log in your account";
         }
-        return result;
+        return checkingResult;
+    }
+
+    private String checkUser(User checkedUser, String activationCode) {
+        if (checkedUser == null) {
+            return "User not found!!!";
+        }
+        if (checkedUser.isActivate()) {
+            return "Email already verified and account already activated!!!";
+        }
+        if (checkedUser.getActivationCode().equals(activationCode)) {
+            return "Ok";
+        } else {
+            return "Activation code incorrect!!!";
+        }
     }
 }

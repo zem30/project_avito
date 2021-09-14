@@ -14,6 +14,6 @@ public class EmailVerificationController {
 
     @GetMapping("/regitrationConfirm")
     public String verifyEmail(@RequestParam(name="email") String email, @RequestParam(name = "token") String token) {
-        return verificationService.checkActivationCode(email, token);
+        return verificationService.activateUser(email, token);
     }
 }
