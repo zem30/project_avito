@@ -10,6 +10,7 @@ import com.amr.project.service.abstracts.ReadWriteService;
 import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -33,14 +34,18 @@ public class ShopController {
     private final ShopPageItemMapper shopPageItemMapper;
 
 
-
+    @SneakyThrows
     @GetMapping(value = "/shop/{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
 
         ShopPageDto shop =shopPageMapper.shopToShopDTO(readWriteService.getByKey(id));
         ShopPageItemDto ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
-
-        List<String> images = shopServiceImpl.convertListImages(ratingItem.getImages());
+        List<String> images = null;
+        try {
+             images = shopServiceImpl.convertListImages(ratingItem.getImages());
+        }catch (NullPointerException ignore){
+            
+        }
         String logo = shopServiceImpl.convertImage(shopPageImageMapper.imageConvertToShopPageDto(shop.getLogo()));
 
         model.addAttribute("shop", shop);
@@ -56,6 +61,7 @@ public class ShopController {
 
         ShopPageItemDto item =shopPageItemMapper.itemConvertToShopPageItemDto(
                 shopServiceImpl.getItemById(readWriteService.getByKey(shopId).getItems(),itemId));
+
         List<String> image = shopServiceImpl.convertListImages(item.getImages());
 
         model.addAttribute("item",item);
