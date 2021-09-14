@@ -6,7 +6,7 @@ import com.amr.project.converter.ShopPageMapper;
 import com.amr.project.model.dto.ShopPageDto;
 import com.amr.project.model.dto.ShopPageItemDto;
 import com.amr.project.model.entity.Shop;
-import com.amr.project.service.abstracts.ReadWriteService;
+import com.amr.project.service.impl.ReadWriteService;
 import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
