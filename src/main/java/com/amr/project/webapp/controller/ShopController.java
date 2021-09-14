@@ -2,17 +2,13 @@ package com.amr.project.webapp.controller;
 
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
-import com.amr.project.service.impl.ReadWriteService;
+import com.amr.project.service.abstracts.ReadWriteService;
 import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.Api;
-import lombok.SneakyThrows;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
 
 
 @Controller
@@ -29,7 +25,7 @@ public class ShopController {
         this.shopServiceImpl = shopServiceImpl;
     }
 
-    @SneakyThrows
+
     @GetMapping(value = "/shop/{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
         Shop shop = readWriteService.getByKey(id);
@@ -43,12 +39,8 @@ public class ShopController {
     }
 
     @GetMapping(value = "/shop/{id}/item/{itemId}")
-    public String itemPage(Model model,@PathVariable("id") Long id,@PathVariable("itemId") Long itemId) {
-        Item item = readWriteService.getByKey(id)
-                .getItems()
-                .stream()
-                .filter(i -> i.getId().equals(itemId))
-                .findFirst().orElse(null);
+    public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
+        Item item = shopServiceImpl.getItemById(readWriteService.getByKey(shopId).getItems(),itemId);
         model.addAttribute("item", item);
         model.addAttribute("image", shopServiceImpl.convertListImages(item.getImages()));
         return "shopPage/shop_item_page";

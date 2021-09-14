@@ -1,6 +1,6 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.dao.impl.ReadWriteDao;
+import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.model.entity.Image;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
@@ -19,7 +19,8 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
     }
 
     public Item getTheMostRatingItem(List<Item> itemList) {
-        return itemList.stream().max(Comparator.comparingDouble(Item::getRating)).orElseGet(null);
+        return itemList.stream()
+                .max(Comparator.comparingDouble(Item::getRating)).orElse(null);
     }
 
     public String convertImage(Image image) {
@@ -27,7 +28,13 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
     }
 
     public List<String> convertListImages(List<Image> list) {
-        return list.stream().map(s -> Base64.encode(s.getPicture())).collect(Collectors.toList());
+        return list.stream()
+                .map(s -> Base64.encode(s.getPicture()))
+                .collect(Collectors.toList());
 
+    }
+
+    public Item getItemById (List<Item> itemList,long id) {
+        return itemList.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
     }
 }

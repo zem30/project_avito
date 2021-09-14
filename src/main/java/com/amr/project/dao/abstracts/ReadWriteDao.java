@@ -1,4 +1,4 @@
-package com.amr.project.dao.impl;
+package com.amr.project.dao.abstracts;
 
 import java.util.List;
 
