@@ -1,12 +1,14 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
+import com.amr.project.model.entity.Item;
 import org.springframework.stereotype.Component;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
@@ -59,4 +61,5 @@ public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
     public T getByKey(K key) {
         return entityManager.find(typeClass, key);
     }
+
 }

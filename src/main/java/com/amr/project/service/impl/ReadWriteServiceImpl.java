@@ -2,6 +2,7 @@ package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.dao.impl.ReadWriteDaoImp;
+import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ReadWriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 public abstract class ReadWriteServiceImpl<T, K> implements ReadWriteService<T, K> {
 
     private final ReadWriteDao<T, K> dao;
+
     @Autowired
     protected ReadWriteServiceImpl(ReadWriteDao<T, K> dao) {
         this.dao = dao;
