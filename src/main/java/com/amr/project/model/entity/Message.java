@@ -1,5 +1,7 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -9,6 +11,8 @@ import javax.persistence.*;
 @Table(name = "message")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Message {
     @Id
     @Column(name = "id")

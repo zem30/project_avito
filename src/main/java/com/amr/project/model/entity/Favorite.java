@@ -1,9 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -22,6 +20,8 @@ import java.util.List;
 @Table(name = "favorite")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 @ToString(exclude = "user")
 public class Favorite {
     @Id
