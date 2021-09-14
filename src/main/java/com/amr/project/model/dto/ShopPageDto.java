@@ -2,7 +2,6 @@ package com.amr.project.model.dto;
 import com.amr.project.model.entity.*;
 import lombok.*;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
@@ -11,7 +10,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Builder
-public class ShopDto {
+public class ShopPageDto {
 
     private Long id;
 
@@ -25,9 +24,7 @@ public class ShopDto {
 
     private Country location;
 
-    private List<Item> items = new ArrayList<>();
-
-    private List<Review> reviews;
+    private List<ShopPageItemDto> items = new ArrayList<>();
 
     private Image logo;
 
