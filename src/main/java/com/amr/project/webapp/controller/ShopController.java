@@ -26,7 +26,6 @@ import java.util.stream.Collectors;
 @Validated
 public class ShopController {
 
-    private final ReadWriteService<Shop,Long> readWriteService;
     private final ShopServiceImpl shopServiceImpl;
 
     private final ShopPageMapper shopPageMapper;
@@ -41,17 +40,12 @@ public class ShopController {
     }
 
 
-    @GetMapping(value = "/shop{id}")
+    @GetMapping(value = "/shop/{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
 
-        ShopPageDto shop =shopPageMapper.shopToShopDTO(readWriteService.getByKey(id));
+        ShopPageDto shop =shopPageMapper.shopToShopDTO(shopServiceImpl.getByKey(id));
         ShopPageItemDto ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
-        List<String> images = null;
-        try {
-             images = shopServiceImpl.convertListImages(ratingItem.getImages());
-        }catch (NullPointerException ignore){
-            
-        }
+        List<String> images = shopServiceImpl.convertListImages(ratingItem.getImages());
         String logo = shopServiceImpl.convertImage(shopPageImageMapper.imageConvertToShopPageDto(shop.getLogo()));
 
         model.addAttribute("shop", shop);
@@ -62,11 +56,11 @@ public class ShopController {
         return "shopPage/shop_page";
     }
 
-    @GetMapping(value = "/shop{id}/item{itemId}")
+    @GetMapping(value = "/shop/{id}/item/{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
 
         ShopPageItemDto item =shopPageItemMapper.itemConvertToShopPageItemDto(
-                shopServiceImpl.getItemById(readWriteService.getByKey(shopId).getItems(),itemId));
+                shopServiceImpl.getItemById(shopServiceImpl.getByKey(shopId).getItems(),itemId));
 
         List<String> image = shopServiceImpl.convertListImages(item.getImages());
 

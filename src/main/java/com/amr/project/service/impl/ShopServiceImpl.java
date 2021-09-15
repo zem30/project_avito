@@ -22,7 +22,7 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
 
     public ShopPageItemDto getTheMostRatingItem(List<ShopPageItemDto> itemList) {
         return itemList.stream()
-                .max(Comparator.comparingDouble(ShopPageItemDto::getRating)).orElse(null);
+                .max(Comparator.comparingDouble(ShopPageItemDto::getRating)).get();
     }
 
     public String convertImage(ShopPageImageDto image) {

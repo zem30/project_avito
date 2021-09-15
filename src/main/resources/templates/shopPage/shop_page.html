@@ -179,16 +179,16 @@
       <div class="card-body">
         <img th:src="|data:image/png;base64,${logo}|" class="card-img-top" alt="card-group-image">
         <div class="card-body" align="center">
-          <h5 class="card-title" th:text="${shop.getName()}" value='Название:'></h5>
-            <p class="card-text" th:text="${shop.getLocation().getName()}">Город:</p>
-            <p class="card-text" th:text="${shop.getPhone()}">Контакты: </p>
+          <h5 class="card-title" th:text="${shop.getName()}"></h5>
+            <p class="card-text" th:text="${shop.getLocation().getName()}"></p>
+            <p class="card-text" th:text="${shop.getPhone()}"></p>
             <p class="card-text" th:text="${shop.getEmail()}"></p>
-            <p class="card-text" th:text="${shop.getDescription()}">Описание:</p>
+            <p class="card-text" th:text="${shop.getDescription()}"></p>
         </div>
     </div>
   </div>
   </div>
-  <div class="col-sm-2" th:if="${ratingItem != null}">
+  <div class="col-sm-2" th:if="${images != null}">
     <div class="card">
       <div class="card-body" align="center">
       <h5 class="card-title">Самый популярный товар!</h5>
@@ -228,7 +228,7 @@
       </div>
   </div>
   </div>
-  <div class="col-sm-2" th:if="${ratingItem == null}">
+  <div class="col-sm-2" th:if="${images == null}">
     В магазине нет товаров!!!
   </div>
 </div>

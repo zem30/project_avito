@@ -41,12 +41,12 @@ $(document).ready(
                     shops => {
                         temp += `
         <div className="card" style="width: 15rem;">
-        <img src="${shops.logo}" className="card-img-top" alt="...">
+        <img src="data:image/png;base64,${shops.logo.picture}">
         <div className="card-body">
             <h5 id="nameShop1" className="card-title">${shops.name}</h5>
             <h6>Описание: <h7>${shops.description}</h7></h6>
             <p className="card-text"></p>
-            <a href="/shop${shops.id}" className="btn btn-primary">Перейти</a>
+            <a href="/shop/${shops.id}" className="btn btn-primary">Перейти</a>
         </div>
     </div>`
                     })
