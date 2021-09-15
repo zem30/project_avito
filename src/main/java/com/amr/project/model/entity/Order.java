@@ -2,6 +2,8 @@ package com.amr.project.model.entity;
 
 import com.amr.project.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.CascadeType;
@@ -24,6 +26,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Order {
 
     @Id

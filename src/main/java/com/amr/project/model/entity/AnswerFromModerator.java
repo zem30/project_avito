@@ -1,38 +1,23 @@
 package com.amr.project.model.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 public class AnswerFromModerator {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "answer")
     private String answer_from_moderator;
 
-    public AnswerFromModerator() {
-    }
-
-    public AnswerFromModerator(String answer_from_moderator) {
-        this.answer_from_moderator = answer_from_moderator;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getAnswer_from_moderator() {
-        return answer_from_moderator;
-    }
-
-    public void setAnswer_from_moderator(String answer_from_moderator) {
-        this.answer_from_moderator = answer_from_moderator;
-    }
 }

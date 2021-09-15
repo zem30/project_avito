@@ -1,5 +1,7 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -16,6 +18,8 @@ import java.util.Objects;
 @Table(name = "role")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class Role implements GrantedAuthority {
 
     @Id
