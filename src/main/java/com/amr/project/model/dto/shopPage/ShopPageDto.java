@@ -1,4 +1,4 @@
-package com.amr.project.model.dto;
+package com.amr.project.model.dto.shopPage;
 import com.amr.project.model.entity.*;
 import lombok.*;
 import java.util.ArrayList;

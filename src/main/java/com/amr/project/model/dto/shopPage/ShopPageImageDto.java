@@ -1,4 +1,4 @@
-package com.amr.project.model.dto;
+package com.amr.project.model.dto.shopPage;
 
 import lombok.*;
 

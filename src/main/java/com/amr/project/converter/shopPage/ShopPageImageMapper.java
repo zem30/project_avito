@@ -1,6 +1,6 @@
-package com.amr.project.converter;
+package com.amr.project.converter.shopPage;
 
-import com.amr.project.model.dto.ShopPageImageDto;
+import com.amr.project.model.dto.shopPage.ShopPageImageDto;
 import com.amr.project.model.entity.Image;
 import org.mapstruct.Mapper;
 

@@ -1,27 +1,27 @@
 package com.amr.project.webapp.controller;
 
-import com.amr.project.converter.ShopPageImageMapper;
-import com.amr.project.converter.ShopPageItemMapper;
-import com.amr.project.converter.ShopPageMapper;
-import com.amr.project.model.dto.ShopPageDto;
-import com.amr.project.model.dto.ShopPageItemDto;
+import com.amr.project.converter.shopPage.ShopPageImageMapper;
+import com.amr.project.converter.shopPage.ShopPageItemMapper;
+import com.amr.project.converter.shopPage.ShopPageMapper;
+import com.amr.project.model.dto.shopPage.ShopPageDto;
+import com.amr.project.model.dto.shopPage.ShopPageItemDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.impl.ReadWriteService;
 import com.amr.project.service.impl.ShopServiceImpl;
-import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
-import lombok.SneakyThrows;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
+@ControllerAdvice
 @Controller
-@RequestMapping(value = "/api")
-@Api(value = "ShopApi", description = "Операции с магазином (получение списка товара, получение магазина по ID)")
+@RequestMapping()
 @RequiredArgsConstructor
 @Validated
 public class ShopController {
@@ -33,9 +33,15 @@ public class ShopController {
     private final ShopPageImageMapper shopPageImageMapper;
     private final ShopPageItemMapper shopPageItemMapper;
 
+    @GetMapping("allShops")
+    public ResponseEntity<List<ShopPageDto>> getAllShops() {
+        return ResponseEntity.ok(shopServiceImpl.getAll().stream()
+                .map(shopPageMapper::shopToShopDTO)
+                .collect(Collectors.toList()));
+    }
 
-    @SneakyThrows
-    @GetMapping(value = "/shop/{id}")
+
+    @GetMapping(value = "/shop{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
 
         ShopPageDto shop =shopPageMapper.shopToShopDTO(readWriteService.getByKey(id));
@@ -56,7 +62,7 @@ public class ShopController {
         return "shopPage/shop_page";
     }
 
-    @GetMapping(value = "/shop/{id}/item/{itemId}")
+    @GetMapping(value = "/shop{id}/item{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
 
         ShopPageItemDto item =shopPageItemMapper.itemConvertToShopPageItemDto(

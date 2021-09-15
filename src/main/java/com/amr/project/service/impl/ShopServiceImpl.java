@@ -1,8 +1,8 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.impl.ReadWriteDao;
-import com.amr.project.model.dto.ShopPageImageDto;
-import com.amr.project.model.dto.ShopPageItemDto;
+import com.amr.project.model.dto.shopPage.ShopPageImageDto;
+import com.amr.project.model.dto.shopPage.ShopPageItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ReadWriteServiceImpl;
