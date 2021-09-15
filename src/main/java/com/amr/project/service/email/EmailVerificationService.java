@@ -30,7 +30,7 @@ public class EmailVerificationService {
 
     @Transactional
     public String activateUser(String email, String activationCode) {
-        User checkedUser = userDao.getByEmail(email);
+        User checkedUser = userDao.findByEmail(email);
         String checkingResult = checkUser(checkedUser, activationCode);
         if (checkingResult.equals("Ok")) {
             checkedUser.setActivate(true);
