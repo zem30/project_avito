@@ -31,8 +31,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "user")
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Builder
 public class User implements UserDetails {
@@ -163,7 +163,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return activate;
     }
 
     public User(Long id, String email, String username) {

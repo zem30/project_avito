@@ -14,5 +14,4 @@ public interface ItemMapper {
 
     @Mapping(source = "shopId", target = "shop.id")
     Item dtoToItem(ItemDto itemDto);
-
 }

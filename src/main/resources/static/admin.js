@@ -27,36 +27,35 @@ function sendRequestForCategoryes(url, body) {
  * Вставка магазинов
  */
 
-function sendRequestForShops(url, body) {
-    const headers = {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+$(document).ready(
+    function sendRequestForShops() {
+        const headers = {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        }
 
-    let temp = '';
-    return fetch(url).then(response => { // дописать актуальный Url
-        return response.json().then(data => {
-            data.forEach(
-                shops => {
-                    temp += `<div className="card" style="width: 15rem;">
-        <img src="${shops.logo}"
-             className="card-img-top" alt="...">
-        <div className="card-body">
-            <h5 id="nameShop1" className="card-title">${shops.name}</h5>
-            <h6>Описание: <h7>${shops.description}</h7></h6>
-            <p className="card-text"></p>
-            <a href="#" className="btn btn-primary">Перейти</a>
-        </div>
-    </div>`
-                }
-            )
+        let temp = '';
+        fetch('allShops', {headers}).then(response => { // дописать актуальный Url
+            return response.json().then(data => {
+                data.forEach(
+                    shops => {
+                        temp += `
+        <div className="card" style="width: 15rem;">
+        <img src="data:image/png;base64,${shops.logo.picture}" height="150" width="150">
+            <div className="card-body">
+                <h5 id="nameShop1" className="card-title">${shops.name}</h5>
+                <h6>Описание: <h7>${shops.description}</h7></h6>
+                <p className="card-text"></p>
+                <a href="/shop/${shops.id}" class="btn btn-outline-warning">Страница магазина</a>
+            </div>
+        </div>`
 
-            document.querySelector('#cardsPopularShops').innerHTML = temp;
-        });
+                    })
+                document.querySelector('#cardsPopularShops').innerHTML = temp;
+            });
 
-    })
-}
-
+        })
+    });
 
 /**
  * Вставка популярных товаров

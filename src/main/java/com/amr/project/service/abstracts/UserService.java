@@ -2,8 +2,12 @@ package com.amr.project.service.abstracts;
 
 import com.amr.project.model.entity.User;
 
-import java.util.Optional;
+import javax.persistence.NoResultException;
 
 public interface UserService extends ReadWriteService<User, Long> {
-    Optional<User> findByUsername(String username);
+    User findByUsername(String username) throws NoResultException;
+
+    User findByEmail(String email) throws NoResultException;
+
+    User findByPhone(String phone) throws NoResultException;
 }
