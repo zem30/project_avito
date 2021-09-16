@@ -1,4 +1,4 @@
-package com.amr.project.webapp.rest_controller;
+package com.amr.project.webapp.rest_controller.moderator_controller;
 
 import com.amr.project.converter.ReviewMapper;
 import com.amr.project.model.dto.ReviewDto;

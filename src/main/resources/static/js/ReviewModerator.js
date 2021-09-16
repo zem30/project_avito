@@ -104,10 +104,8 @@ async function acceptReview(id) {
                                 <div class="row card-body">
                                     <div class="col-sm-6">
                           <h5 class="card-title"><b>Отзывов для модерации нет!</h5>                        
-                            </p>
-                  
+                            </p>                  
                         </div>
-                        <img class="col-sm-6 text-right" src="https://w-dog.ru/wallpapers/5/19/361416555427750/kot-kotenok-seryj-pushistyj-lapy-kogotki.jpg" alt="https://iproger.ru/content/news/46014.jpg"/>
                     </div>
                 </div>
                 </div>

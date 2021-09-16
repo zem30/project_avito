@@ -1,8 +1,8 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
-import com.amr.project.model.dto.shopPage.ImageDto;
-import com.amr.project.model.dto.shopPage.ItemDto;
+import com.amr.project.model.dto.ImageDto;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.github.scribejava.core.base64.Base64;
