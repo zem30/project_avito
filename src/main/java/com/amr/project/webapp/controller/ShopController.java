@@ -55,7 +55,7 @@ public class ShopController {
     @GetMapping(value = "/shop/{id}/item/{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
 
-        ItemDto item = itemMapper.itemConvertToShopPageItemDto(
+        ItemDto item = itemMapper.itemConvertToItemDto(
                 shopServiceImpl.getItemById(shopServiceImpl.getByKey(shopId).getItems(),itemId));
 
         List<String> image = shopServiceImpl.convertListImages(item.getImages());

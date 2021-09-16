@@ -7,5 +7,5 @@ import org.mapstruct.Mapper;
 @Mapper(componentModel = "spring")
 public interface ItemMapper {
 
-    ItemDto itemConvertToShopPageItemDto(Item item);
+    ItemDto itemConvertToItemDto(Item item);
 }

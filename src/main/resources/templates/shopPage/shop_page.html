@@ -16,7 +16,7 @@
   <div class="nav_panel">
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
       <div class="container-fluid">
-        <a class="navbar-brand" href="http://localhost:63342/project/templates/Index.html">Shop</a>
+        <a class="navbar-brand" href="/">Shop</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarNavAltMarkup"
                 aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
@@ -223,8 +223,8 @@
         </a>
       </div>
       <div class="mt-2 pt-2 border-top">
-        <a th:href="@{/shop{id}/item{itemid} (id=${shop.id} ,itemid=${ratingItem.getId()})}" class="btn btn-primary btn-sm" >Страница товара</a>
-        <a th:href="@{/shop{id}/list (id=${shop.id})}" class="btn btn-primary btn-sm" >Весь товар</a>
+        <a th:href="@{/shop/{id}/item/{itemid} (id=${shop.id} ,itemid=${ratingItem.getId()})}" class="btn btn-primary btn-sm" >Страница товара</a>
+        <a th:href="@{/shop/{id}/list (id=${shop.id})}" class="btn btn-primary btn-sm" >Весь товар</a>
       </div>
   </div>
   </div>
