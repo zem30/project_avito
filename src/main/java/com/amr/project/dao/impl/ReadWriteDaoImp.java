@@ -14,7 +14,7 @@ public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
     Class<T> typeClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     @PersistenceContext
-    protected EntityManager entityManager;
+    private EntityManager entityManager;
 
     @Override
     public List<T> getAll() {
