@@ -1,5 +1,4 @@
 package com.amr.project.model.dto.shopPage;
-import com.amr.project.model.entity.*;
 import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +9,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Builder
-public class ShopPageDto {
+public class ShopDto {
 
     private Long id;
 
@@ -22,11 +21,11 @@ public class ShopPageDto {
 
     private String description;
 
-    private Country location;
+    private CountryDto location;
 
-    private List<ShopPageItemDto> items = new ArrayList<>();
+    private List<ItemDto> items = new ArrayList<>();
 
-    private Image logo;
+    private ImageDto logo;
 
     private double rating;
 

@@ -1,12 +1,9 @@
 package com.amr.project.webapp.controller;
 
-import com.amr.project.converter.shopPage.ShopPageImageMapper;
-import com.amr.project.converter.shopPage.ShopPageItemMapper;
-import com.amr.project.converter.shopPage.ShopPageMapper;
-import com.amr.project.model.dto.shopPage.ShopPageDto;
-import com.amr.project.model.dto.shopPage.ShopPageItemDto;
-import com.amr.project.model.entity.Shop;
-import com.amr.project.service.impl.ReadWriteService;
+import com.amr.project.converter.ItemMapper;
+import com.amr.project.converter.ShopMapper;
+import com.amr.project.model.dto.shopPage.ShopDto;
+import com.amr.project.model.dto.shopPage.ItemDto;
 import com.amr.project.service.impl.ShopServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -28,14 +25,13 @@ public class ShopController {
 
     private final ShopServiceImpl shopServiceImpl;
 
-    private final ShopPageMapper shopPageMapper;
-    private final ShopPageImageMapper shopPageImageMapper;
-    private final ShopPageItemMapper shopPageItemMapper;
+    private final ShopMapper shopMapper;
+    private final ItemMapper itemMapper;
 
     @GetMapping("allShops")
-    public ResponseEntity<List<ShopPageDto>> getAllShops() {
+    public ResponseEntity<List<ShopDto>> getAllShops() {
         return ResponseEntity.ok(shopServiceImpl.getAll().stream()
-                .map(shopPageMapper::shopToShopDTO)
+                .map(shopMapper::shopToShopDTO)
                 .collect(Collectors.toList()));
     }
 
@@ -43,10 +39,10 @@ public class ShopController {
     @GetMapping(value = "/shop/{id}")
     public String shopPage(Model model,@PathVariable("id") Long id) {
 
-        ShopPageDto shop =shopPageMapper.shopToShopDTO(shopServiceImpl.getByKey(id));
-        ShopPageItemDto ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
+        ShopDto shop = shopMapper.shopToShopDTO(shopServiceImpl.getByKey(id));
+        ItemDto ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
         List<String> images = shopServiceImpl.convertListImages(ratingItem.getImages());
-        String logo = shopServiceImpl.convertImage(shopPageImageMapper.imageConvertToShopPageDto(shop.getLogo()));
+        String logo = shopServiceImpl.convertImage(shop.getLogo());
 
         model.addAttribute("shop", shop);
         model.addAttribute("images", images);
@@ -59,7 +55,7 @@ public class ShopController {
     @GetMapping(value = "/shop/{id}/item/{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
 
-        ShopPageItemDto item =shopPageItemMapper.itemConvertToShopPageItemDto(
+        ItemDto item = itemMapper.itemConvertToShopPageItemDto(
                 shopServiceImpl.getItemById(shopServiceImpl.getByKey(shopId).getItems(),itemId));
 
         List<String> image = shopServiceImpl.convertListImages(item.getImages());
