@@ -8,7 +8,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @Builder
-public class ShopPageImageDto {
+public class ImageDto {
 
     private Long id;
 
