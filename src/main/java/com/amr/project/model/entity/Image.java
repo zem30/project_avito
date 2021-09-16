@@ -21,7 +21,8 @@ public class Image {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    @Column
+    private String url;
     @Lob
     @Column(length = Integer.MAX_VALUE)
     private byte[] picture;
