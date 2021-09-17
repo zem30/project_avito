@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Builder
 public class Discount {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "min_order")

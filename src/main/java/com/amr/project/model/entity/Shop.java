@@ -65,7 +65,7 @@ public class Shop {
     @JoinTable(name = "shop_review",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
-    private List<Review> reviews;
+    private List<Review> reviews = new ArrayList<>();
 
     @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -89,7 +89,7 @@ public class Shop {
     @JoinTable(name = "shop_discount",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
-    private Collection<Discount> discounts;
+    private Collection<Discount> discounts = new ArrayList<>();
 
     @Column(name = "is_moderated")
     private boolean isModerated = false;

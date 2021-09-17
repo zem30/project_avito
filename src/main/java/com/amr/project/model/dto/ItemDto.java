@@ -1,7 +1,8 @@
-package com.amr.project.model.dto.shopPage;
+package com.amr.project.model.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class ItemDto {
 
     private BigDecimal price;
 
-    private List<ImageDto> images;
+    private List<ImageDto> images = new ArrayList<>();
 
     private Double rating;
 
