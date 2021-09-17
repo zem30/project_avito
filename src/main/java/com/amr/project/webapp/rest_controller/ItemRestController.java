@@ -1,4 +1,4 @@
-package com.amr.project.webapp.rest_controller.user_rest_controller;
+package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.model.dto.shopPage.ItemDto;
@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.Arrays;
 import java.util.stream.Collectors;
 

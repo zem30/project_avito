@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements ShopService {
+public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements ShopService {
 
     private ShopDaoImpl shopDao;
 
@@ -42,7 +42,7 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
 
     }
 
-    public Item getItemById (List<Item> itemList,long id) {
+    public Item getItemById(List<Item> itemList, long id) {
         return itemList.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
     }
 

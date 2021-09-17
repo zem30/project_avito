@@ -1,11 +1,9 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ShopDao;
-import com.amr.project.model.entity.Category;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.TypedQuery;
 
 @Repository

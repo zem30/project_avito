@@ -4,7 +4,6 @@ import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.TypedQuery;
 
 @Repository
