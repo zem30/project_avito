@@ -8,4 +8,9 @@ import org.mapstruct.Mapper;
 public interface ItemMapper {
 
     ItemDto itemConvertToShopPageItemDto(Item item);
+
+    Item ItemDtoToItem(ItemDto itemDto);
+
+    ItemDto ItemToItemDto(Item item);
+
 }
