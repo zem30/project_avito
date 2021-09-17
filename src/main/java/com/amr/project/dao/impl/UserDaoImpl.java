@@ -14,6 +14,7 @@ import javax.persistence.TypedQuery;
 @RequiredArgsConstructor
 public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao {
     private final EntityManager entityManager;
+
     @Override
     public User findByUsername(String username) throws NoResultException {
         TypedQuery<User> query = entityManager.createQuery("from User where username = :username", User.class);
