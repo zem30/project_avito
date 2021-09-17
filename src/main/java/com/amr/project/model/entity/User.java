@@ -157,7 +157,7 @@ public class User implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return activate;
+        return true;
     }
 
     public User(Long id, String email, String username) {
