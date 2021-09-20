@@ -13,8 +13,6 @@ public interface ItemMapper {
     @Mapping(source = "shop.id", target = "shopId")
     ItemDto itemToDto(Item item);
 
-    ItemDto itemConvertToShopPageItemDto(Item item);
-
     Item ItemDtoToItem(ItemDto itemDto);
 
     ItemDto ItemToItemDto(Item item);
