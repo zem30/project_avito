@@ -16,14 +16,14 @@ import javax.persistence.NoResultException;
 @Service
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
-    private final UserDao userDAO;
+    private final UserDao userDao;
     private PasswordEncoder passwordEncoder;
     private EmailVerificationService verificationService;
 
     @Autowired
-    public UserServiceImpl(UserDao userDAO, EmailVerificationService verificationService) {
-        super(userDAO);
-        this.userDAO = userDAO;
+    public UserServiceImpl(UserDao userDao, EmailVerificationService verificationService) {
+        super(userDao);
+        this.userDao = userDao;
         this.verificationService = verificationService;
         passwordEncoder = new BCryptPasswordEncoder();
     }
@@ -31,26 +31,26 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Override
     @Transactional(readOnly = true)
     public User findByUsername(String username) throws NoResultException {
-        return userDAO.findByUsername(username);
+        return userDao.findByUsername(username);
     }
 
     @Override
     @Transactional(readOnly = true)
     public User findByEmail(String email) throws NoResultException {
-        return userDAO.findByEmail(email);
+        return userDao.findByEmail(email);
     }
 
     @Override
     @Transactional(readOnly = true)
     public User findByPhone(String phone) throws NoResultException {
-        return userDAO.findByPhone(phone);
+        return userDao.findByPhone(phone);
     }
 
     @Override
     @Transactional
     public void persist(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDAO.persist(user);
+        userDao.persist(user);
         verificationService.sendVerificationEmail(user);
 
     }

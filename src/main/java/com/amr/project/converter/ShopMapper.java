@@ -4,8 +4,10 @@ import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import org.mapstruct.Mapper;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ImageMapper.class, ItemMapper.class,
+        ReviewMapper.class})
 public interface ShopMapper {
+    ShopDto shopToDto(Shop shop);
 
-    ShopDto shopToShopDTO(Shop shop);
+    Shop dtoToShop(ShopDto shopDto);
 }

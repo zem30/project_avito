@@ -55,7 +55,7 @@ public class Item {
             inverseJoinColumns = {@JoinColumn(name = "image_id")})
     private List<Image> images;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "item_review",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
@@ -74,18 +74,15 @@ public class Item {
     private Integer discount;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Shop shop;
-
     @Column(name = "is_moderated")
-    private boolean isModerated = false;
-
+    private boolean isModerated;
     @Column(name = "is_moderate_accept")
-    private boolean isModerateAccept = false;
-
+    private boolean isModerateAccept;
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
 

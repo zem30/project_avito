@@ -54,14 +54,14 @@ public class Shop {
     private Country location;
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "shop_item",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "item_id")})
     private List<Item> items = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "shop_review",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
@@ -78,7 +78,7 @@ public class Shop {
     private double rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "user_id")})
@@ -92,10 +92,10 @@ public class Shop {
     private Collection<Discount> discounts;
 
     @Column(name = "is_moderated")
-    private boolean isModerated = false;
+    private boolean isModerated;
 
     @Column(name = "is_moderate_accept")
-    private boolean isModerateAccept = false;
+    private boolean isModerateAccept;
 
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;

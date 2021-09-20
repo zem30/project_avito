@@ -1,6 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -52,10 +53,10 @@ public class Review {
     private Item item;
 
     @Column
-    private boolean isModerated = false;
+    private boolean isModerated;
 
     @Column
-    private boolean isModerateAccept = false;
+    private boolean isModerateAccept;
 
     @Column
     private String moderatedRejectReason;
