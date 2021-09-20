@@ -1,8 +1,11 @@
 package com.amr.project.service.abstracts;
 
-
 import com.amr.project.model.entity.Shop;
 
-public interface ShopService {
+import java.util.List;
+
+public interface ShopService extends ReadWriteService<Shop, Long> {
+    List<Shop> getAllShop();
+
     Shop getShop(String nameShop);
 }
