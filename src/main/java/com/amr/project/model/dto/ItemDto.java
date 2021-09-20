@@ -1,27 +1,29 @@
 package com.amr.project.model.dto;
-import lombok.*;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.List;
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Getter
 @Setter
-@EqualsAndHashCode
-@Builder
+@NoArgsConstructor
+@ToString
 public class ItemDto {
-
     private Long id;
-
-    private String name;
-
-    private BigDecimal price;
-
-    private List<ImageDto> images = new ArrayList<>();
-
-    private Double rating;
-
     private String description;
-
+    private boolean isModerateAccept;
+    private boolean isModerated;
+    private boolean isPretendentToBeDeleted;
+    private String moderatedRejectReason;
+    private String name;
+    private BigDecimal price;
+    private double rating;
+    private List<ImageDto> images;
+    private List<CategoryDto> categories;
+    private List<ReviewDto> reviews;
+    private Long shopId;
 }

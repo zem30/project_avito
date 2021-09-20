@@ -9,10 +9,7 @@ import lombok.ToString;
 @Setter
 @NoArgsConstructor
 @ToString
-public class ImageDto {
+public class CategoryDto {
     private Long id;
-    private byte[] picture;
-    private String url;
-
-
+    private String name;
 }
