@@ -1,7 +1,5 @@
-package com.amr.project.model.dto.shopPage;
+package com.amr.project.model.dto;
 
-import com.amr.project.model.entity.Address;
-import com.amr.project.model.entity.Country;
 import lombok.*;
 
 import java.util.List;

@@ -1,7 +1,7 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ItemMapper;
-import com.amr.project.model.dto.shopPage.ItemDto;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.service.impl.CategoryServiceImpl;
 import com.amr.project.service.impl.ItemServiceImpl;
