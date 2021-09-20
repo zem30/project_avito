@@ -38,6 +38,8 @@ public class ShopModeratorController {
 
     @GetMapping("/getUnmoderatedShops")
     public ResponseEntity<List<ShopDto>> getUnmoderatedShops() {
+//        List<ShopDto> list = shopModeratorService.getUnmoderatedShops().stream().map(shopMapper::shopToDto).collect(Collectors.toList());
+//        System.out.println(list);
         return new ResponseEntity<>(
                 shopModeratorService
                         .getUnmoderatedShops()
@@ -45,6 +47,7 @@ public class ShopModeratorController {
                         .collect(Collectors.toList()),
                 HttpStatus.OK);
     }
+
 
     @GetMapping("/getOneUnmoderatedShop/{id}")
     public ResponseEntity<ShopDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
