@@ -2,8 +2,8 @@ package com.amr.project.webapp.controller;
 
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
-import com.amr.project.model.dto.shopPage.ShopDto;
-import com.amr.project.model.dto.shopPage.ItemDto;
+import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.service.impl.ShopServiceImpl;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -55,7 +55,7 @@ public class ShopController {
     @GetMapping(value = "/shop/{id}/item/{itemId}")
     public String itemPage(Model model,@PathVariable("id") Long shopId,@PathVariable("itemId") Long itemId) {
 
-        ItemDto item = itemMapper.itemConvertToShopPageItemDto(
+        ItemDto item = itemMapper.itemConvertToItemDto(
                 shopServiceImpl.getItemById(shopServiceImpl.getByKey(shopId).getItems(),itemId));
 
         List<String> image = shopServiceImpl.convertListImages(item.getImages());
