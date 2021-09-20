@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ItemDao extends ReadWriteDao<Item, Long> {
     List<Item> getAll();
+    Item getItemName(String nameItem);
 }

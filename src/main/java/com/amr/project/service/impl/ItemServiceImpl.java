@@ -6,6 +6,7 @@ import com.amr.project.model.entity.Item;
 import com.amr.project.service.abstracts.ItemService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -22,4 +23,11 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     public List<Item> getAllItem() {
         return itemDao.getAll();
     }
+
+    @Override
+    @Transactional
+    public Item getItemName(String nameItem) {
+        return itemDao.getItemName(nameItem);
+    }
+
 }

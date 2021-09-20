@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface ItemService extends ReadWriteService<Item, Long> {
     List<Item> getAllItem();
+    Item getItemName(String nameItem);
 }

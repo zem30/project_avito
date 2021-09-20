@@ -5,19 +5,13 @@ import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import com.amr.project.service.email.EmailVerificationService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.persistence.NoResultException;
-import java.util.List;
+
 
 @Service
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {

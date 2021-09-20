@@ -8,6 +8,7 @@ import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ShopService;
 import com.github.scribejava.core.base64.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,14 +16,14 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @Transactional
-public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements ShopService {
+public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements ShopService {
 
     private final ShopDao shopDao;
 
-    protected ShopServiceImpl(ReadWriteDao<Shop, Long> dao, ShopDao shopDao) {
+    @Autowired
+    public ShopServiceImpl(ReadWriteDao<Shop, Long> dao, ShopDao shopDao) {
         super(dao);
         this.shopDao = shopDao;
     }
@@ -49,7 +50,12 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
 
     }
 
-    public Item getItemById(List<Item> itemList, long id) {
+    public Item getItemById (List<Item> itemList,long id) {
         return itemList.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Shop getShop(String nameShop) {
+        return shopDao.getShop(nameShop);
     }
 }

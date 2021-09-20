@@ -1,18 +1,17 @@
 package com.amr.project.model.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
+@NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
-@NoArgsConstructor
-@ToString
+@EqualsAndHashCode
+@Builder
 public class ImageDto {
-    private Long id;
-    private byte[] picture;
-    private String url;
 
+    private Long id;
+
+    private byte[] picture;
 
 }

@@ -9,12 +9,12 @@ import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
 @Component
-public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
+public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
 
     Class<T> typeClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
     public List<T> getAll() {
