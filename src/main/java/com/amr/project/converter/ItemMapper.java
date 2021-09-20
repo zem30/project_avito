@@ -9,8 +9,13 @@ import org.mapstruct.Mapping;
         ImageMapper.class, CategoryMapper.class,
         ReviewMapper.class})
 public interface ItemMapper {
+
     @Mapping(source = "shop.id", target = "shopId")
     ItemDto itemToDto(Item item);
+
+    Item ItemDtoToItem(ItemDto itemDto);
+
+    ItemDto ItemToItemDto(Item item);
 
     @Mapping(source = "shopId", target = "shop.id")
     Item dtoToItem(ItemDto itemDto);
