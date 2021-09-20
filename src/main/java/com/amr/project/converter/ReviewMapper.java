@@ -36,20 +36,4 @@ public interface ReviewMapper {
     })
     Review dtoToReview(ReviewDto reviewDto);
 
-    default List<Review> map(Shop shop) {
-        return shop.getReviews();
-    }
-
-    default String[] map(Collection<Review> reviews) {
-        if (reviews == null) {
-            reviews = new ArrayList<>();
-        }
-        int iterCount = 0;
-        String[] strings = new String[reviews.size()];
-        for (Review review :
-                reviews) {
-            strings[iterCount] = review.getText();
-        }
-        return strings;
-    }
 }
