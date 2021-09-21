@@ -12,8 +12,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
-@Import(FlywayMigrationConfig.class)
-@DBrider
-@DBUnit(case)
+//@Import(FlywayMigrationConfig.class)
+//@DBrider
+//@DBUnit(case)
 public abstract class AbstractApiTest {
 }
