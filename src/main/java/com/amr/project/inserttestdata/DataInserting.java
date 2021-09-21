@@ -457,7 +457,7 @@ public class DataInserting {
                .user(userRepository.findByEmail("user1@mail"))
                .discounts(null)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .activity(0)
                .file(null)
@@ -477,7 +477,7 @@ public class DataInserting {
                .user(userRepository.findByEmail("user2@mail"))
                .discounts(null)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .activity(0)
                .file(null)
@@ -497,7 +497,7 @@ public class DataInserting {
                .user(userRepository.findByEmail("user3@mail"))
                .discounts(null)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .activity(0)
                .file(null)
@@ -533,7 +533,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop1)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -549,7 +549,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop1)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -565,7 +565,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop1)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -581,7 +581,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop2)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -597,7 +597,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop2)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -613,7 +613,7 @@ public class DataInserting {
                .discount(0)
                .shop(shop2)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .isPretendentToBeDeleted(false)
                .build();
@@ -785,13 +785,13 @@ public class DataInserting {
                .item(null)
                .shop(null)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .build();
        reviewRepository.save(review1_user4_item);
 
        review1_user4_item.setItem(item_review1_user4);
-       review1_user4_item.setShop(null);
+       review1_user4_item.setShop(shop_review1_user4);
        review1_user4_item.setUser(user4_review);
        reviewRepository.save(review1_user4_item); //создалась связь в колонке user_id (таблица review) и item_review
 
@@ -800,8 +800,10 @@ public class DataInserting {
        userRepository.save(user4_review); // создалась связь в таблицу user_review
 
        //Ревью user5 на магазин shop1
+
        User user5_review = userRepository.findByEmail("user5@mail");
-       Shop shop_review1_user5 = shopRepository.findByName("shop1");
+       Item item_review1_user5 = itemRepository.findByName("item2");
+       Shop shop_review1_user5 = shopRepository.findByName("shop2");
        Review review1_user5_shop = Review.builder()
                .dignity("dignity_review_user5")
                .flaw("flaw_review_user5")
@@ -812,11 +814,11 @@ public class DataInserting {
                .item(null)
                .shop(null)
                .isModerated(false)
-               .isModerateAccept(true)
+               .isModerateAccept(false)
                .moderatedRejectReason(null)
                .build();
        reviewRepository.save(review1_user5_shop);
-
+       review1_user5_shop.setItem(item_review1_user5);
        review1_user5_shop.setShop(shop_review1_user5);
        review1_user5_shop.setUser(user5_review);
        reviewRepository.save(review1_user5_shop); //создалась связь в колонке user_id (таблица review) и shop_review

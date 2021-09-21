@@ -5,7 +5,6 @@ import com.amr.project.model.entity.User;
 import com.amr.project.util.QueryResultWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;

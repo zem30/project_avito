@@ -25,6 +25,7 @@ async function getUnmoderatedItems() {
     await itemFetchService.getUnmoderatedItems()
         .then(res => res.json())
         .then(items => {
+            console.log(items.length)
                 if (items.length === 0) {
                     itemCards.append(`<div class="row">
                          <div class="col-sm-6">

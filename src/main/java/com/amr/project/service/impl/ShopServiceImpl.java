@@ -23,16 +23,10 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
     private final ShopDao shopDao;
 
     @Autowired
-    public ShopServiceImpl(ReadWriteDao<Shop, Long> dao, ShopDao shopDao) {
-        super(dao);
+    public ShopServiceImpl(ShopDao shopDao) {
+        super(shopDao);
         this.shopDao = shopDao;
     }
-
-    @Override
-    public List<Shop> getAllShop() {
-        return shopDao.getAllShop();
-    }
-
 
     public ItemDto getTheMostRatingItem(List<ItemDto> itemList) {
         return itemList.stream()
@@ -57,5 +51,14 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
     @Override
     public Shop getShop(String nameShop) {
         return shopDao.getShop(nameShop);
+    }
+    @Override
+    public List<Shop> getUnmoderatedShops() {
+        return shopDao.getUnmoderatedShops();
+    }
+
+    @Override
+    public List<Shop> getModeratedShops() {
+        return shopDao.getModeratedShops();
     }
 }

@@ -1,7 +1,6 @@
 package com.amr.project.dao.abstracts;
 
 import com.amr.project.model.entity.User;
-
 import javax.persistence.NoResultException;
 
 public interface UserDao extends ReadWriteDao<User, Long> {

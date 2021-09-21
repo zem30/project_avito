@@ -12,27 +12,21 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 public class ItemDto {
-
     private Long id;
-
-    @NonNull
     private String name;
-
-    @NonNull
     private String[] categoriesName;
-
     private Integer count;
-
     private BigDecimal price;
-
     private List<ImageDto> images;
-
     private Double rating;
-
     private String description;
-
-    @NonNull
     private String shopName;
-
+    private boolean isModerateAccept;
+    private boolean isModerated;
+    private boolean isPretendentToBeDeleted;
+    private String moderatedRejectReason;
+    private List<CategoryDto> categories;
+    private List<ReviewDto> reviews;
+    private Long shopId;
 
 }
