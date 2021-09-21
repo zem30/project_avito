@@ -13,6 +13,8 @@ public class AddressDto {
     private String cityIndex;
     private String street;
     private String house;
+    private String city;
+    private String country;
 
 
 }
