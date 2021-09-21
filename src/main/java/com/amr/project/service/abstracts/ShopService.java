@@ -5,7 +5,7 @@ import com.amr.project.model.entity.Shop;
 import java.util.List;
 
 public interface ShopService extends ReadWriteService<Shop, Long> {
-    List<Shop> getAllShop();
-
     Shop getShop(String nameShop);
+    List<Shop> getUnmoderatedShops();
+    List<Shop> getModeratedShops();
 }

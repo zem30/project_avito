@@ -1,7 +1,6 @@
 package com.amr.project.dao.impl;
 
-import com.amr.project.dao.abstracts.ReviewModeratorDao;
-import com.amr.project.model.entity.Item;
+import com.amr.project.dao.abstracts.ReviewDao;
 import com.amr.project.model.entity.Review;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import javax.persistence.PersistenceContext;
 import java.util.List;
 
 @Repository
-public class ReviewModeratorDaoImpl extends ReadWriteDaoImp<Review, Long> implements ReviewModeratorDao {
+public class ReviewDaoImpl extends ReadWriteDaoImpl<Review, Long> implements ReviewDao {
     @PersistenceContext
     EntityManager entityManager;
     @Override

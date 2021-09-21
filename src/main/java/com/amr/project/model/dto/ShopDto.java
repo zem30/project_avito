@@ -25,7 +25,7 @@ public class ShopDto {
 
     private CountryDto location;
 
-    private List<ItemDto> items = new ArrayList<>();
+    private List<ItemDto> items;
 
     private ImageDto logo;
 

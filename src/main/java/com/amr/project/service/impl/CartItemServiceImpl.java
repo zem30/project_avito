@@ -12,13 +12,8 @@ import java.util.List;
 public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> implements CartItemService {
     private final CartItemDao cartItemDao;
 
-    protected CartItemServiceImpl(ReadWriteDao<CartItem, Long> dao, CartItemDao cartItemDao) {
-        super(dao);
+    protected CartItemServiceImpl(CartItemDao cartItemDao) {
+        super(cartItemDao);
         this.cartItemDao = cartItemDao;
-    }
-
-    @Override
-    public List<CartItem> getAllCartItem() {
-        return cartItemDao.getAllCartItem();
     }
 }

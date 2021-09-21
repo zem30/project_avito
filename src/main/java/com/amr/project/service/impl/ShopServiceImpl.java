@@ -28,12 +28,6 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
         this.shopDao = shopDao;
     }
 
-    @Override
-    public List<Shop> getAllShop() {
-        return shopDao.getAllShop();
-    }
-
-
     public ItemDto getTheMostRatingItem(List<ItemDto> itemList) {
         return itemList.stream()
                 .max(Comparator.comparingDouble(ItemDto::getRating)).get();
@@ -57,5 +51,14 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
     @Override
     public Shop getShop(String nameShop) {
         return shopDao.getShop(nameShop);
+    }
+    @Override
+    public List<Shop> getUnmoderatedShops() {
+        return shopDao.getUnmoderatedShops();
+    }
+
+    @Override
+    public List<Shop> getModeratedShops() {
+        return shopDao.getModeratedShops();
     }
 }

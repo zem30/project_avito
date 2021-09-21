@@ -18,12 +18,17 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
         this.itemDao = itemDao;
     }
 
-
     @Override
-    public List<Item> getAllItem() {
-        return itemDao.getAll();
+    @Transactional
+    public List<Item> getUnmoderatedItems() {
+        return itemDao.getUnmoderatedItems();
     }
 
+    @Override
+    @Transactional
+    public List<Item> getModeratedItems() {
+        return itemDao.getModeratedItems();
+    }
     @Override
     @Transactional
     public Item getItemName(String nameItem) {

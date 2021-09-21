@@ -23,7 +23,4 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
         return categoryDao.getCategory(nameCategory);
     }
 
-    public List<Category> getAllCategory() {
-        return categoryDao.getAll();
-    }
 }

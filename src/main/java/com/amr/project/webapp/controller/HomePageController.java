@@ -41,22 +41,22 @@ public class HomePageController {
     @RequestMapping("/homepage")
     public String homePage(Model model) {
         List<CartItemDto> cartItemDto = new ArrayList<>();
-        List<CartItem> cartItem = cartItemService.getAllCartItem();
+        List<CartItem> cartItem = cartItemService.getAll();
         cartItem.forEach(s -> cartItemDto.add(cartItemMapper.cartItemToDto(s)));
         model.addAttribute("cartItems", cartItemDto);
 
         List<CategoryDto> categoryDto = new ArrayList<>();
-        List<Category> category = categoryService.getAllCategory();
+        List<Category> category = categoryService.getAll();
         category.forEach(s -> categoryDto.add(categoryMapper.categoryToDto(s)));
         model.addAttribute("categoryItems", categoryDto);
 
         List<ItemDto> itemDto = new ArrayList<>();
-        List<Item> item = itemService.getAllItem();
+        List<Item> item = itemService.getAll();
         item.forEach(s -> itemDto.add(itemMapper.itemToDto(s)));
         model.addAttribute("items", itemDto);
 
         List<ShopDto> shopDto = new ArrayList<>();
-        List<Shop> shop = shopService.getAllShop();
+        List<Shop> shop = shopService.getAll();
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
 
