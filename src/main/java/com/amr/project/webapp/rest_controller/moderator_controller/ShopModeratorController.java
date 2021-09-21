@@ -7,6 +7,8 @@ import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = {"API для работы с магазинами на странице модератора"})
 @RestController
 @RequestMapping("moderator/api/shops")
 public class ShopModeratorController {
@@ -33,35 +36,37 @@ public class ShopModeratorController {
         this.reviewMapper = reviewMapper;
     }
 
+    @ApiOperation(value = "Отправляет все магазины не прошедшие модерацию на фронт")
     @GetMapping("/getUnmoderatedShops")
     public ResponseEntity<List<ShopDto>> getUnmoderatedShops() {
-        return new ResponseEntity<>(
+        return ResponseEntity.ok(
                 shopService
                         .getUnmoderatedShops()
                         .stream().map(shopMapper::shopToDto)
-                        .collect(Collectors.toList()),
-                HttpStatus.OK);
+                        .collect(Collectors.toList()));
     }
 
+    @ApiOperation(value = "Отправляет один не прошедший модерацию магазин на фронт по id")
     @GetMapping("/getOneUnmoderatedShop/{id}")
     public ResponseEntity<ShopDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
         return shopService.getByKey(id).isModerated() ?
-                new ResponseEntity<>(HttpStatus.NOT_FOUND) :
-                new ResponseEntity<>(shopMapper.shopToDto(shopService.getByKey(id)), HttpStatus.OK);
+                ResponseEntity.notFound().build() :
+                ResponseEntity.ok(shopMapper.shopToDto(shopService.getByKey(id)));
     }
 
+    @ApiOperation(value = "Получает измененный магазин из фронта и обновляет в базе данных")
     @PutMapping("/editShop")
     public ResponseEntity<ShopDto> editItem(@RequestBody ShopDto shopDto) {
         Shop shop = shopMapper.dtoToShop(shopDto);
         shopService.update(shop);
-        return new ResponseEntity<>(shopMapper.shopToDto(shop), HttpStatus.OK);
+        return ResponseEntity.ok(shopMapper.shopToDto(shop));
     }
 
+    @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию магазинов для счетчика")
     @GetMapping("/getUnmoderatedShopsCount")
     public ResponseEntity<Long> getUnmoderatedItemsCount() {
-        return new ResponseEntity<>((long) shopService
+        return ResponseEntity.ok((long) shopService
                 .getUnmoderatedShops()
-                .size(),
-                HttpStatus.OK);
+                .size());
     }
 }

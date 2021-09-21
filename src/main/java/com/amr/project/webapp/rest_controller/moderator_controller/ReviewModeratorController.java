@@ -2,20 +2,22 @@ package com.amr.project.webapp.rest_controller.moderator_controller;
 
 import com.amr.project.converter.ReviewMapper;
 import com.amr.project.model.dto.ReviewDto;
-import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Review;
-import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ReviewService;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
+@Api(tags = {"API для работы с отзывами на странице модератора"})
 @RestController
 @RequestMapping("/moderator/api/reviews")
 public class ReviewModeratorController {
@@ -34,17 +36,17 @@ public class ReviewModeratorController {
         this.itemService = itemService;
         this.reviewMapper = reviewMapper;
     }
-
+    @ApiOperation(value = "Отправляет все отзывы не прошедшие модерацию на фронт")
     @GetMapping("/getUnmoderatedReviews")
     public ResponseEntity<List<ReviewDto>> getUnmodetaredReviews() {
-        return new ResponseEntity<>(reviewService.
+        return ResponseEntity.ok(reviewService.
                 getUnmoderatedReviews()
                 .stream()
                 .map(reviewMapper::reviewToDto)
-                .collect(Collectors.toList()),
-                HttpStatus.OK);
+                .collect(Collectors.toList()));
     }
 
+    @ApiOperation(value = "Отправляет один не прошедший модерацию отзыв на фронт по id")
     @GetMapping("/getOneUnmoderatedReview/{id}")
     public ResponseEntity<ReviewDto> getOneUnmoderatedReview(@PathVariable("id") Long id) {
         if (reviewService.getByKey(id).isModerated()) {
@@ -54,26 +56,22 @@ public class ReviewModeratorController {
         }
     }
 
+    @ApiOperation(value = "Получает измененный отзыв из фронта и обновляет в базе данных")
     @PutMapping("/editReview")
     public ResponseEntity<ReviewDto> editReview(@RequestBody ReviewDto reviewDto) {
         Review review = reviewMapper.dtoToReview(reviewDto);
-
         review.setUser(userService.getByKey(reviewDto.getUserId()));
-        if (reviewDto.getShopId() != null) {
-            review.setShop(shopService.getByKey(reviewDto.getShopId()));
-        }
-
-        if (reviewDto.getItemId() != null){
-            review.setItem(itemService.getByKey(reviewDto.getItemId()));
-        }
+        review.setShop(shopService.getByKey(reviewDto.getShopId()));
+        review.setItem(itemService.getByKey(reviewDto.getItemId()));
         reviewService.update(review);
         return ResponseEntity.ok(reviewMapper.reviewToDto(reviewService.getByKey(reviewDto.getId())));
     }
 
+    @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию отзывов для счетчика")
     @GetMapping("/getUnmoderatedReviewsCount")
     public ResponseEntity<Long> getUnmoderatedReviewsCount() {
-        return new ResponseEntity<>((long) reviewService
+        return ResponseEntity.ok((long) reviewService
                 .getUnmoderatedReviews()
-                .size(), HttpStatus.OK);
+                .size());
     }
 }
