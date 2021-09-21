@@ -5,7 +5,6 @@ import com.amr.project.model.entity.Shop;
 import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Transient;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;

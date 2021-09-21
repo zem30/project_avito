@@ -43,7 +43,6 @@ public class ShopModeratorController {
                 HttpStatus.OK);
     }
 
-
     @GetMapping("/getOneUnmoderatedShop/{id}")
     public ResponseEntity<ShopDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
         return shopService.getByKey(id).isModerated() ?
@@ -66,6 +65,3 @@ public class ShopModeratorController {
                 HttpStatus.OK);
     }
 }
-
-
-

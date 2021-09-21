@@ -23,8 +23,8 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements 
     private final ShopDao shopDao;
 
     @Autowired
-    public ShopServiceImpl(ReadWriteDao<Shop, Long> dao, ShopDao shopDao) {
-        super(dao);
+    public ShopServiceImpl(ShopDao shopDao) {
+        super(shopDao);
         this.shopDao = shopDao;
     }
 

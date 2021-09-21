@@ -61,7 +61,7 @@ public class Shop {
     private List<Item> items = new ArrayList<>();
 
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JoinTable(name = "shop_review",
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})

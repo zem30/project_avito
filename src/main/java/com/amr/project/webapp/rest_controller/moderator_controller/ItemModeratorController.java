@@ -37,7 +37,6 @@ public class ItemModeratorController {
                 HttpStatus.OK);
     }
 
-
     @GetMapping("/getOneUnmoderatedItem/{id}")
     public ResponseEntity<ItemDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
         return itemService.getByKey(id).isModerated() ?

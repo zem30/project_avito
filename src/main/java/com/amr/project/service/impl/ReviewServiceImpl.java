@@ -10,8 +10,10 @@ import java.util.List;
 
 @Service
 public class ReviewServiceImpl extends ReadWriteServiceImpl<Review, Long> implements ReviewService {
+
     private ReviewDao reviewDao;
-@Autowired
+
+    @Autowired
     protected ReviewServiceImpl(ReviewDao reviewDao) {
         super(reviewDao);
         this.reviewDao = reviewDao;

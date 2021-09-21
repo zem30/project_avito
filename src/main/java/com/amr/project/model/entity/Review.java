@@ -44,11 +44,11 @@ public class Review {
     private User user;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "item_review", joinColumns = @JoinColumn(name = "review_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
     private Item item;
 
