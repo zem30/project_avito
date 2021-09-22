@@ -4,16 +4,19 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
-
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.*;
 
@@ -32,7 +35,7 @@ public class UserRestController {
     }
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registrateNewUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
         Map<String, Object> body = new LinkedHashMap<>();
         User registratedUser = userService.findByEmail(user.getEmail());
         if (registratedUser != null) {
@@ -44,7 +47,7 @@ public class UserRestController {
             body.put("isExist", "User with this phone exist");
             return ResponseEntity.badRequest().body(body);
         }
-        userService.findByUsername(user.getUsername());
+        registratedUser = userService.findByUsername(user.getUsername());
         if (registratedUser != null) {
             body.put("isExist", "User with this username exist");
             return ResponseEntity.badRequest().body(body);
@@ -89,6 +92,7 @@ public class UserRestController {
         body.put("errors", errors);
         return ResponseEntity.badRequest().body(body);
     }
+
 
 
 }

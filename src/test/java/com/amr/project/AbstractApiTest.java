@@ -1,19 +1,32 @@
 package com.amr.project;
 
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.springframework.boot.test.autoconfigure.core.AutoConfigureCache;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultHandlers.*;
 
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT, classes = ProjectApplication.class)
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-@ExtendWith(SpringExtension.class)
-@ActiveProfiles("test")
-//@Import(FlywayMigrationConfig.class)
-//@DBrider
-//@DBUnit(case)
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = {ProjectApplication.class})
+@AutoConfigureMockMvc
+@TestPropertySource(
+        locations = "classpath:/application-integrationtest.properties")
 public abstract class AbstractApiTest {
+
+    @Autowired
+    protected MockMvc mvc;
+
+    protected String asJsonString(final Object obj) {
+        try {
+            final ObjectMapper mapper = new ObjectMapper();
+            final String jsonContent = mapper.writeValueAsString(obj);
+            return jsonContent;
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
