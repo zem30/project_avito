@@ -63,7 +63,6 @@ class UserRestControllerTest extends AbstractApiTest {
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)).andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
-//        assertEquals(defaultUser,userRepository.findByEmail(defaultUser.getEmail()));
     }
 
     @Test
