@@ -1,7 +1,6 @@
 package com.amr.project.dao.abstracts;
 
 import java.util.List;
-
 public interface ReadWriteDao<T,K>{
      List<T> getAll();
      void persist(T obj);

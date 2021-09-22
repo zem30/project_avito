@@ -1,22 +1,31 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
-import com.amr.project.model.dto.shopPage.ImageDto;
-import com.amr.project.model.dto.shopPage.ItemDto;
+import com.amr.project.dao.abstracts.ShopDao;
+import com.amr.project.model.dto.ImageDto;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
+import com.amr.project.service.abstracts.ShopService;
 import com.github.scribejava.core.base64.Base64;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
+@Transactional
+public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements ShopService {
 
-    protected ShopServiceImpl(ReadWriteDao<Shop, Long> dao) {
-        super(dao);
+    private final ShopDao shopDao;
+
+    @Autowired
+    public ShopServiceImpl(ShopDao shopDao) {
+        super(shopDao);
+        this.shopDao = shopDao;
     }
 
     public ItemDto getTheMostRatingItem(List<ItemDto> itemList) {
@@ -37,5 +46,19 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
 
     public Item getItemById (List<Item> itemList,long id) {
         return itemList.stream().filter(i -> i.getId().equals(id)).findFirst().orElse(null);
+    }
+
+    @Override
+    public Shop getShop(String nameShop) {
+        return shopDao.getShop(nameShop);
+    }
+    @Override
+    public List<Shop> getUnmoderatedShops() {
+        return shopDao.getUnmoderatedShops();
+    }
+
+    @Override
+    public List<Shop> getModeratedShops() {
+        return shopDao.getModeratedShops();
     }
 }

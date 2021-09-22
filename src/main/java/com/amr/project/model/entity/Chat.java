@@ -30,6 +30,6 @@ public class Chat {
 
     public Chat(List<User> members) {
         this.members = members;
-        this.hash = members.stream().map(e -> e.getId()).map(e -> e.hashCode()).mapToLong(e -> e).sum();
+        this.hash = members.stream().map(User::getId).map(Object::hashCode).mapToLong(e -> e).sum();
     }
 }
