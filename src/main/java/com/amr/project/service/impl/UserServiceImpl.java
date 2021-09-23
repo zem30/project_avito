@@ -17,8 +17,8 @@ import javax.persistence.NoResultException;
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
     private final UserDao userDao;
-    private PasswordEncoder passwordEncoder;
-    private EmailVerificationService verificationService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailVerificationService verificationService;
 
     @Autowired
     public UserServiceImpl(UserDao userDao, EmailVerificationService verificationService) {
@@ -52,7 +52,6 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userDao.persist(user);
         verificationService.sendVerificationEmail(user);
-
     }
 
 }
