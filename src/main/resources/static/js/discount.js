@@ -13,7 +13,7 @@ function createTableRow(u) {
         <td>${u.phone}</td>
         <td>${u.email}</td>
         <td>
-        <a  href="/api/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
+        <a  href="/myshop/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
         </td>
     </tr>`;
 }
@@ -35,16 +35,37 @@ function restartAllUser() {
     });
 }
 
+let userId = null;
 document.addEventListener('click', function (event) {
     event.preventDefault()
-
     if ($(event.target).hasClass('discBtn')) {
+        let href = $(event.target).attr("href");
         $(".discount #discountModal").modal();
-
+        userId = $.get(href, function (user) {
+            fetch('/myshop/userlist/' + user.id, {
+                method: 'GET'
+            }).then(function (response) {
+                response.json().then(function (user) {
+                    userId = user.id;
+                });
+            });
+        });
     }
 
+
     if ($(event.target).hasClass('discountButton')) {
+        $(event.target).attr("href");
+        $(".discount #discountModal").modal();
+        console.log($(event.target));
+
+        if (!document.querySelector('.first').classList.contains('active')) {
+            $('#percentageDiscount').val('');
+        } else if (!document.querySelector('.second').classList.contains('active')) {
+            $('#fixedDiscount').val('');
+        }
+
         let discount = {
+            id: userId,
             minOrder: $('#minOderDiscount').val(),
             percentage: $('#percentageDiscount').val(),
             fixedDiscount: $('#fixedDiscount').val(),
@@ -56,14 +77,14 @@ document.addEventListener('click', function (event) {
 });
 
 function discountModalButton(discount) {
+    console.log(discount)
     fetch("/myshop/userlist/addDiscount", {
-        method: "POST",
+        method: "PUT",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         },
         body: JSON.stringify(discount)
-    }).then(function (response) {
-        $('input').val('');
+    }).then(function () {
         $('.discount #discountModal').modal('hide');
         restartAllUser();
     });

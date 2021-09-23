@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
@@ -29,10 +30,18 @@ public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao 
         return QueryResultWrapper.wrapGetSingleResult(query);
     }
 
+
     @Override
     public User findByPhone(String phone) throws NoResultException {
         TypedQuery<User> query = entityManager.createQuery("from User where phone = :phone", User.class);
         query.setParameter("phone", phone);
         return QueryResultWrapper.wrapGetSingleResult(query);
+    }
+
+    @Override
+    public List<User> findByRole(String role) throws NoResultException {
+        TypedQuery<User> query = entityManager.createQuery("from User where role = :role", User.class);
+        query.setParameter("role", role);
+        return query.getResultList();
     }
 }
