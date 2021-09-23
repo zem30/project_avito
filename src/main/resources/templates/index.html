@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
 
-    <title>Title</title>
-    <link rel="stylesheet" href="/css/homePageStyle.css">
+    <title>Главная страница</title>
+    <linK rel="stylesheet" href="/css/homePageStyle.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
-
-
 </head>
 
 <body>
@@ -30,16 +29,16 @@
                     </div>
                 </div>
                 <div class="d-flex">
-
-                    <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="#staticBackdrop">Sign
-                        In
+                    <h5><span class="user-tag" sec:authorize="isAuthenticated()"
+                              sec:authentication="principal.username"></span></h5>
+                    <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
+                            data-toggle="modal" data-target="#staticBackdrop">Войти
                     </button>
-
-                    <div class="btn_danger_out">
-                        <button class="btn btn-outline-danger ">Sign Out</button>
-                    </div>
+                    <form method="post" action="/logout" class="btn_danger_out">
+                        <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
+                        </button>
+                    </form>
                 </div>
-
             </div>
         </nav>
 
@@ -48,73 +47,57 @@
              aria-labelledby="staticBackdropLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-
                     <div class="modal-header">
                         <div class="image-header">
                             <img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg"
                                  alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
                         </div>
-                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
                     </div>
-
-
                     <div class="modal-body">
-                        <!--                        <h5 class="modal-title" id="staticBackdropLabel">Войдите или зарегистрируйтесь, что бы-->
-                        <!--                            продолжить</h5>-->
-
-
-                        <form>
+                        <form method="post" action="/index">
                             <div class="mb-3">
-                                <label for="exampleInputEmail1" class="form-label">Адрес электронной почты</label>
-                                <input type="email" placeholder="Email" class="form-control" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp">
+                                <label for="SignInUsername" class="form-label">Имя пользователя</label>
+                                <input type="text" placeholder="Username" class="form-control"
+                                       id="SignInUsername" name="username">
                                 <div id="emailHelp" class="form-text"></div>
                             </div>
                             <div class="mb-3">
-                                <label for="exampleInputPassword1" class="form-label">Пароль</label>
+                                <label for="SignInPassword" class="form-label">Пароль</label>
                                 <input type="password" placeholder="Password" class="form-control"
-                                       id="exampleInputPassword1">
-
+                                       id="SignInPassword" name="password">
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                           name="remember-me">
                                     <label class="form-check-label" for="flexCheckDefault">
                                         Запомнить пароль
                                     </label>
                                 </div>
                                 <div class="button-in">
-                                    <button type="button" class="btn btn-warning">Войти</button>
+                                    <button type="submit" class="btn btn-warning">Войти</button>
                                 </div>
-
-
                             </div>
                         </form>
                     </div>
-                    <!--                    <div class="modal-footer">-->
-                    <!--&lt;!&ndash;                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Регистрация</button>&ndash;&gt;-->
-                    <!--                        -->
-                    <!--                    </div>-->
-
                     <div class="modal-footer">
-                        <h6 class="text-footer">если Вы у нас впервые:</h6>
-
-                        <a id="registrationButtonModal" class="input-button" href="#">зарегистрироваться</a>
-
+                        <a id="registrationButtonModal" class="input-button" href="#">Зарегистрироваться</a>
                     </div>
                 </div>
             </div>
         </div>
+
         <!--    Modal Sign In  -->
+
 
         <!--    Modal Basket-->
 
-        <div class="modal fade" id="staticBackdropBasket" data-bs-backdrop="static" data-bs-keyboard="false"
+        <div class="modal fade" id="staticBackdropBasket" data-backdrop="static" data-keyboard="false"
              tabindex="-1"
              aria-labelledby="staticBackdropLabelBasket" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
 
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <h6 class="modal-title" id="staticBackdropLabelBasket">Список ваших товаров:</h6>
@@ -126,7 +109,7 @@
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-bs-dismiss="modal">Оформить заказ</button>
+                        <button type="button" class="btn btn-success" data-dismiss="modal">Оформить заказ</button>
 
                     </div>
                 </div>
@@ -147,7 +130,7 @@
             <div class="search">
                 <!-- Пример отдельной кнопки danger -->
                 <div class="btn-group">
-                    <button type="button" class="btn btn-warning dropdown-toggle" data-bs-toggle="dropdown"
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
                             aria-expanded="false">
                         Каталог товаров
                     </button>
@@ -165,8 +148,8 @@
 
             <div class="basket">
                 <form action="#">
-                    <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
-                            data-bs-target="#staticBackdropBasket">Корзина
+                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                            data-target="#staticBackdropBasket">Корзина
                     </button>
                 </form>
             </div>
@@ -174,7 +157,6 @@
         </div>
     </div>
 </div>
-
 
 
 <div id="cartItems" class="popular">
@@ -266,7 +248,7 @@
                 <label for="avatar" class="form-label">User avatar</label>
                 <input class="form-control avatarImage" accept="image/*" type="file" id="avatar" name="avatar">
             </div>
-            <button class="w-100 btn btn-lg btn-warning registratinButton" type="button" id="registrationButton"
+            <button class="w-100 btn btn-lg btn-warning registrationButton" type="button" id="registrationButton"
                     onclick="">
                 Регистрация
             </button>
@@ -282,6 +264,5 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="/js/admin.js"></script>
 <script src="/js/registration.js"></script>
-
 </body>
 </html>
