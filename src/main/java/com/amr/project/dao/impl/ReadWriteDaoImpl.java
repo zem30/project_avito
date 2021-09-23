@@ -2,6 +2,7 @@ package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
 import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -33,7 +34,7 @@ public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
 
     @Override
     public void delete(T obj) {
-        entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
+        //entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
     }
 
     @Override

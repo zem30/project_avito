@@ -50,8 +50,11 @@ public class ItemRestController {
     @PutMapping("item")
     public ResponseEntity<ItemDto> updateItem(@RequestBody @NonNull ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
-        item.setId(itemServiceImpl.getItemName(itemDto.getName()).getId());
-        item.setCategories(Arrays.stream(itemDto.getCategoriesName()).map(category -> categoryService.getCategory(category)).collect(Collectors.toList()));
+        item.setId(itemDto.getId());
+        item.setShop(shopService.getShop(itemDto.getShopName()));
+        item.setCategories(Arrays.stream(itemDto.getCategoriesName())
+                .map(category -> categoryService.getCategory(category))
+                .collect(Collectors.toList()));
         itemServiceImpl.update(item);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
