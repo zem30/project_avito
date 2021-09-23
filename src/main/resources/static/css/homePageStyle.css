@@ -64,7 +64,7 @@
 
 .text-footer {
     color: gray;
-    padding-right: 145px;
+    padding-left: 200px;
 }
 
 .input-button {
@@ -87,4 +87,8 @@
 }
 .alert {
     margin-top: 5px;
+}
+.user-tag {
+    color: grey;
+    padding-top: 30px;
 }

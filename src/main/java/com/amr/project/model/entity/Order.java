@@ -28,6 +28,8 @@ import java.util.Collection;
 @Setter
 @AllArgsConstructor
 @Builder
+@Getter
+@Setter
 public class Order {
 
     @Id

@@ -20,10 +20,10 @@ import javax.persistence.NoResultException;
 public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements UserService {
 
     private final UserDao userDao;
-    private PasswordEncoder passwordEncoder;
-    private EmailVerificationService verificationService;
-    private TrackedEmailUser trackedEmailUser;
-    private EmailSenderService emailSenderService;
+    private final PasswordEncoder passwordEncoder;
+    private final EmailVerificationService verificationService;
+    private final TrackedEmailUser trackedEmailUser;
+    private final EmailSenderService emailSenderService;
 
     @Autowired
     public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService) {
