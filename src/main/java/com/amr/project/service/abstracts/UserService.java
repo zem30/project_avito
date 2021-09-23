@@ -10,4 +10,7 @@ public interface UserService extends ReadWriteService<User, Long> {
     User findByEmail(String email) throws NoResultException;
 
     User findByPhone(String phone) throws NoResultException;
+
+    @Override
+    void persist(User user);
 }
