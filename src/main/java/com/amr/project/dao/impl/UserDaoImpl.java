@@ -5,15 +5,16 @@ import com.amr.project.model.entity.User;
 import com.amr.project.util.QueryResultWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 @Repository
 @RequiredArgsConstructor
-public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao {
+public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao {
+
     private final EntityManager entityManager;
+
     @Override
     public User findByUsername(String username) throws NoResultException {
         TypedQuery<User> query = entityManager.createQuery("from User where username = :username", User.class);

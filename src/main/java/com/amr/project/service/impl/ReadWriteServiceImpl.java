@@ -65,4 +65,5 @@ public abstract class ReadWriteServiceImpl<T, K> implements ReadWriteService<T, 
     public List<T> getAll() {
         return dao.getAll();
     }
+
 }
