@@ -57,12 +57,12 @@ public class TrackedEmailUser {
         List<Discount> discounts = user.getDiscounts();
 
         for (Discount discount : discounts) {
-            if (discountsOriginal.contains(discount))
+            if (!discountsOriginal.contains(discount))
                 message += "Был добавлин discount: " + discount.toString();
         }
 
         for (Discount discount : discountsOriginal) {
-            if (discounts.contains(discount))
+            if (!discounts.contains(discount))
                 message += "Был удален discount: " + discount.toString();
         }
 
