@@ -20,7 +20,7 @@ $(document).ready(function () {
         $('.registrationForm').slideUp()
         $('#staticBackdrop').slideDown()
     })
-    $('.registratinButton').on('click', async function (event) {
+    $('.registrationButton').on('click', async function (event) {
         let imageInput = $('.avatarImage')[0].files[0]
         let image
         if (imageInput !== undefined) {
@@ -75,7 +75,6 @@ async function userVerification(user) {
                 }
             }
         }
-
     }
 }
 

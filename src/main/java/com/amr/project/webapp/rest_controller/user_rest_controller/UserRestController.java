@@ -44,6 +44,7 @@ public class UserRestController {
             body.put("isExist", "User with this phone exist");
             return ResponseEntity.badRequest().body(body);
         }
+        registratedUser = userService.findByUsername(user.getUsername());
         userService.findByUsername(user.getUsername());
         if (registratedUser != null) {
             body.put("isExist", "User with this username exist");
