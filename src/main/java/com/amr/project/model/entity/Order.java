@@ -24,10 +24,10 @@ import java.util.Collection;
 @Entity
 @Table(name = "orders")
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 @Getter
 @Setter
+@AllArgsConstructor
+@Builder
 public class Order {
 
     @Id

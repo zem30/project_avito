@@ -14,16 +14,18 @@ public class ShopDaoImpl extends ReadWriteDaoImpl<Shop, Long> implements ShopDao
 
     @Override
     public Shop getShop(String nameShop) {
-        TypedQuery<Shop> category = (TypedQuery<Shop>) entityManager.createQuery("select u from Category u where u.name=:nameShop");
-        category.setParameter("nameShop", nameShop);
-        return QueryResultWrapper.wrapGetSingleResult(category);
+        TypedQuery<Shop> shop = (TypedQuery<Shop>) entityManager.createQuery("select u from Shop u where u.name=:nameShop");
+        shop.setParameter("nameShop", nameShop);
+        return QueryResultWrapper.wrapGetSingleResult(shop);
     }
+
     @Override
     @Transactional
     public List<Shop> getUnmoderatedShops() {
         return entityManager.createQuery("SELECT s FROM Shop s WHERE s.isModerateAccept = false AND s.isModerated = false", Shop.class)
                 .getResultList();
     }
+
     @Override
     @Transactional
     public List<Shop> getModeratedShops() {
