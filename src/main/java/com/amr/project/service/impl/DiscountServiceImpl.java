@@ -2,11 +2,12 @@ package com.amr.project.service.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.model.entity.Discount;
+import com.amr.project.service.abstracts.DiscountService;
 import com.amr.project.service.abstracts.UserService;
 import org.springframework.stereotype.Service;
 
 @Service
-public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> {
+public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> implements DiscountService {
 
     private final UserService userService;
 
@@ -17,7 +18,7 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> {
 
     /*
     В теле Discount не Discount.id a User.id.
-    По id достаём пользователя и sett-им его скидке.
+    По id достаём пользователя и sett-им его в Discount.
      */
     @Override
     public void persist(Discount obj) {

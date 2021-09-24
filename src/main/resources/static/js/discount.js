@@ -12,6 +12,8 @@ function createTableRow(u) {
         <td>${u.age}</td>
         <td>${u.phone}</td>
         <td>${u.email}</td>
+        <td>${u.birthday}</td>
+
         <td>
         <a  href="/myshop/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
         </td>
@@ -72,8 +74,6 @@ document.addEventListener('click', function (event) {
             shop: $('#chooseShop').val()
         }
         discountModalButton(discount)
-        updateUser(discount)
-        console.log(discount);
     }
 });
 
@@ -89,14 +89,4 @@ function discountModalButton(discount) {
         $('.discount #discountModal').modal('hide');
         restartAllUser();
     });
-}
-
-function updateUser(discount) {
-    fetch("/myshop/userlist/updateUser", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(discount)
-    }).then(r => console.log(r));
 }
