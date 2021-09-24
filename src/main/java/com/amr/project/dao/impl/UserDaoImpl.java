@@ -40,7 +40,7 @@ public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao 
 
     @Override
     public List<User> findByRole(String role) throws NoResultException {
-        TypedQuery<User> query = entityManager.createQuery("from User where role = :role", User.class);
+        TypedQuery<User> query = entityManager.createQuery("select u from User u inner join Role r WHERE r.name =: role", User.class);
         query.setParameter("role", role);
         return query.getResultList();
     }

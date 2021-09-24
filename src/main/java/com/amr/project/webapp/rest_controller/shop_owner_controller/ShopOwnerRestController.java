@@ -29,7 +29,7 @@ public class ShopOwnerRestController {
 
     @GetMapping("/all")
     public ResponseEntity<List<User>> findAllUsersWithRoleUser() {
-        return ResponseEntity.ok(userService.findByRole());
+        return ResponseEntity.ok(userService.getAll());
     }
 
     @GetMapping("/{id}")
