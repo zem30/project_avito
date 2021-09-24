@@ -1,10 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.persistence.*;
@@ -14,7 +11,8 @@ import java.util.Set;
 
 @Entity
 @Table(name = "role")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -27,9 +25,6 @@ public class Role implements GrantedAuthority {
 
     @Column(name = "role_name", unique = true)
     private String name;
-
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users = new HashSet<>();
 
     @Override
     public String getAuthority() {

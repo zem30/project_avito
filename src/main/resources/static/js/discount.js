@@ -72,6 +72,7 @@ document.addEventListener('click', function (event) {
             shop: $('#chooseShop').val()
         }
         discountModalButton(discount)
+        updateUser(discount)
         console.log(discount);
     }
 });
@@ -88,4 +89,14 @@ function discountModalButton(discount) {
         $('.discount #discountModal').modal('hide');
         restartAllUser();
     });
+}
+
+function updateUser(discount) {
+    fetch("/myshop/userlist/updateUser", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: JSON.stringify(discount)
+    }).then(r => console.log(r));
 }

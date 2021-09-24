@@ -1,10 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.amr.project.model.enums.Gender;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,7 +30,8 @@ import java.util.Set;
 @Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
+@Getter
+@Setter
 @Builder
 public class User implements UserDetails {
 

@@ -13,4 +13,5 @@ public interface UserService extends ReadWriteService<User, Long> {
     User findByPhone(String phone) throws NoResultException;
 
     List<User> findByRole(String role) throws NoResultException;
+
 }

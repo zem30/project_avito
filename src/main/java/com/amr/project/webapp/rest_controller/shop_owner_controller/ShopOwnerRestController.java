@@ -37,18 +37,10 @@ public class ShopOwnerRestController {
         return new ResponseEntity<>(userService.getByKey(id), HttpStatus.OK);
     }
 
+
     @PutMapping("/addDiscount")
-    public ResponseEntity<Discount> update(@Valid @RequestBody Discount discount) {
-        User user = userService.getByKey(discount.getId());
-
-        Discount disc = Discount.builder().build();
-        disc.setFixedDiscount(discount.getFixedDiscount());
-        disc.setPercentage(discount.getPercentage());
-        disc.setMinOrder(discount.getMinOrder());
-        disc.setShop(discount.getShop());
-        disc.setUser(user);
-
-        discountService.persist(disc);
+    public ResponseEntity<Discount> addDiscount(@Valid @RequestBody Discount discount) {
+        discountService.persist(discount);
         return new ResponseEntity<>(discount,HttpStatus.OK);
     }
 

@@ -38,4 +38,5 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User,Long> implements 
     public List<User> findByRole(String role) throws NoResultException {
         return userDao.findByRole(role);
     }
+
 }
