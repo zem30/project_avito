@@ -14,9 +14,6 @@ import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -60,8 +57,6 @@ public class HomePageController {
         List<Shop> shop = shopService.getAll();
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute(user);
         return "index";
     }
 }
