@@ -21,7 +21,7 @@ public class TrackedEmailItem {
 
         //Delete
         if (item.isPretendentToBeDeleted() == true) {
-            String message = "Товар удален: " + item.getName() + "в магазине " + item.getShop().getName();
+            String message = "Товар удален: " + item.getName() + "в магазине " + item.getShop().getEmail();
             mail.setTo(item.getShop().getEmail());
             mail.setMessage(message);
             return mail;

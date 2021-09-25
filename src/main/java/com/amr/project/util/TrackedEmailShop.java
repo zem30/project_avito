@@ -42,9 +42,11 @@ public class TrackedEmailShop {
         List<Discount> discountsOriginal = (List<Discount>) shopOriginal.getDiscounts();
         List<Discount> discounts = (List<Discount>) shop.getDiscounts();
 
-        for (Discount discount : discounts) {
-            if (!discountsOriginal.contains(discount))
-                message += "Был добавлен discount " + discount.getShop().getName() + ". ";
+        if (discounts != null) {
+            for (Discount discount : discounts) {
+                if (!discountsOriginal.contains(discount))
+                    message += "Был добавлен discount " + discount.getShop().getName() + ". ";
+            }
         }
 
         mail.setTo(shop.getUser().getEmail());
