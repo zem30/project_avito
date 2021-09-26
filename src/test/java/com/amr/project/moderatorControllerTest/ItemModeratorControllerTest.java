@@ -28,9 +28,9 @@ public class ItemModeratorControllerTest extends AbstractIntegrationTest {
 
         mockMvc.perform(get(url + "getUnmoderatedItems"))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andDo(print());
-//                .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.length()").value(6));
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(6));
     }
 
 
