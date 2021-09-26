@@ -10,7 +10,6 @@ import org.springframework.boot.autoconfigure.session.SessionAutoConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-
 @SpringBootApplication(exclude = {SessionAutoConfiguration.class, SecurityAutoConfiguration.class})
 @EnableAsync
 public class ProjectApplication {
