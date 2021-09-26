@@ -195,6 +195,11 @@
             <artifactId>assertj-core</artifactId>
         </dependency>
 
+        <dependency>
+            <groupId>com.github.database-rider</groupId>
+            <artifactId>rider-junit5</artifactId>
+            <version>1.14.0</version>
+        </dependency>
     </dependencies>
 
     <build>

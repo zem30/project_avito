@@ -8,20 +8,19 @@ import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.dto.CategoryDto;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
-import com.amr.project.model.entity.*;
+import com.amr.project.model.entity.CartItem;
+import com.amr.project.model.entity.Category;
+import com.amr.project.model.entity.Item;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.CartItemService;
 import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.OAuth2AuthenticatedPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,8 +59,6 @@ public class HomePageController {
         List<Shop> shop = shopService.getAll();
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
-        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        model.addAttribute(user);
         return "index";
     }
 }
