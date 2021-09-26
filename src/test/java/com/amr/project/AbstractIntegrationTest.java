@@ -19,10 +19,10 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @ExtendWith(SpringExtension.class)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
-@TestPropertySource("/application.properties")
+@TestPropertySource("/application-test.properties")
 @AutoConfigureMockMvc
 @DBRider
-@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "qa_platform_test")
+@DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "platform_test")
 public abstract class AbstractIntegrationTest {
 
 
