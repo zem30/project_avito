@@ -4,35 +4,36 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
-
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.WebRequest;
 
+import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.*;
 
+@AllArgsConstructor
 @RestController
 public class UserRestController {
 
     private final UserService userService;
+
     private final ShopMapper shopMapper;
+
     private final ItemMapper itemMapper;
 
-    @Autowired
-    public UserRestController(UserService userService, ShopMapper shopMapper, ItemMapper itemMapper) {
-        this.userService = userService;
-        this.shopMapper = shopMapper;
-        this.itemMapper = itemMapper;
-    }
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registrateNewUser(@Valid @RequestBody User user) {
+    public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
         Map<String, Object> body = new LinkedHashMap<>();
         User registratedUser = userService.findByEmail(user.getEmail());
         if (registratedUser != null) {
@@ -45,7 +46,6 @@ public class UserRestController {
             return ResponseEntity.badRequest().body(body);
         }
         registratedUser = userService.findByUsername(user.getUsername());
-        userService.findByUsername(user.getUsername());
         if (registratedUser != null) {
             body.put("isExist", "User with this username exist");
             return ResponseEntity.badRequest().body(body);
