@@ -5,6 +5,6 @@ import com.amr.project.model.entity.Discount;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class DiscountDaoImpl extends ReadWriteDaoImp<Discount,Long> implements DiscountDao {
+public class DiscountDaoImpl extends ReadWriteDaoImpl<Discount,Long> implements DiscountDao {
 
 }
