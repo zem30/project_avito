@@ -30,8 +30,8 @@ function sendRequestForCategoryes(url, body) {
 $(document).ready(
     function sendRequestForShops() {
         const headers = {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
         }
 
         let temp = '';

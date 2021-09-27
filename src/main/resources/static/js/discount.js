@@ -5,7 +5,7 @@ $(document).ready(function () {
 function createTableRow(u) {
     return `<tr id="user_table_row">
         <td>${u.id}</td>
-        <td><img src="data:image/png;base64,${u.images}" width="80" height="80"></td>
+        <td><img src="data:image/png;base64,${u.images.picture()}" width="80" height="80"></td>
         <td>${u.gender}</td>
         <td>${u.firstName}</td>
         <td>${u.lastName}</td>

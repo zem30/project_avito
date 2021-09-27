@@ -17,7 +17,7 @@ public class ShopOwnerController {
     @GetMapping("/myshop/userlist")
     String getPage(@CurrentSecurityContext(expression = "authentication.principal") User principal,
                    Model model) {
-        model.addAttribute("user",userMapper.userToUserDto(principal));
+        model.addAttribute("user",userMapper.userToDto(principal));
         return "shopOwner/shop_add_discount";
     }
 }

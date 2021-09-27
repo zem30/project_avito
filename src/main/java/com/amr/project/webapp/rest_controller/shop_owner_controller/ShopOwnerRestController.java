@@ -34,14 +34,14 @@ public class ShopOwnerRestController {
     public ResponseEntity<List<UserDto>> findAllUsersWithRoleUser() {
         return ResponseEntity.ok(userService.findByRole("User")
                 .stream()
-                .map(userMapper::userToUserDto)
+                .map(userMapper::userToDto)
                 .collect(Collectors.toList()));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") long id) {
         User user = userService.getByKey(id);
-        return new ResponseEntity<>(userMapper.userToUserDto(user), HttpStatus.OK);
+        return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
     }
 
 
