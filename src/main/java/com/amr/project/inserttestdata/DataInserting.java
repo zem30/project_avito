@@ -56,9 +56,9 @@ public class DataInserting {
     @PostConstruct
     public void init() throws IOException {
 //---------------------------------------------------------------Roles
-        Role roleAdmin = Role.builder().name("Admin").build();
-        Role roleModerator = Role.builder().name("Moderator").build();
-        Role roleUser = Role.builder().name("User").build();
+        Role roleAdmin = Role.builder().name("ADMIN").build();
+        Role roleModerator = Role.builder().name("MODERATOR").build();
+        Role roleUser = Role.builder().name("USER").build();
         roleRepository.save(roleAdmin);
         roleRepository.save(roleModerator);
         roleRepository.save(roleUser);
@@ -261,7 +261,7 @@ public class DataInserting {
                 .lastName("admin1_lastname")
                 .address(null)
                 .age(0)
-                .roles(Set.of(roleRepository.findByName("Admin")))
+                .roles(Set.of(roleRepository.findByName("ADMIN")))
                 .gender(Gender.UNKNOWN)
                 .birthday(null)
                 .images(adminImage)
@@ -284,7 +284,7 @@ public class DataInserting {
                 .lastName("moderator1_lastname")
                 .address(null)
                 .age(0)
-                .roles(Set.of(roleRepository.findByName("Moderator")))
+                .roles(Set.of(roleRepository.findByName("MODERATOR")))
                 .gender(Gender.UNKNOWN)
                 .birthday(null)
                 .images(moderatorImage)
@@ -310,7 +310,7 @@ public class DataInserting {
                 .lastName("user1_lastname")
                 .address(address1)
                 .age(30)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1991, 1, 1))
                 .images(user1Image)
@@ -333,7 +333,7 @@ public class DataInserting {
                 .lastName("user2_lastname")
                 .address(address2)
                 .age(29)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1992, 2, 2))
                 .images(user2Image)
@@ -356,7 +356,7 @@ public class DataInserting {
                 .lastName("user3_lastname")
                 .address(address3)
                 .age(28)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1993, 3, 3))
                 .images(user3Image)
@@ -379,7 +379,7 @@ public class DataInserting {
                 .lastName("user4_lastname")
                 .address(address4)
                 .age(27)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1994, 4, 4))
                 .images(user4Image)
@@ -402,7 +402,7 @@ public class DataInserting {
                 .lastName("user5_lastname")
                 .address(address5)
                 .age(26)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1995, 5, 5))
                 .images(user5Image)
@@ -425,7 +425,7 @@ public class DataInserting {
                 .lastName("user6_lastname")
                 .address(address6)
                 .age(25)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1996, 6, 6))
                 .images(user6Image)
@@ -459,7 +459,7 @@ public class DataInserting {
                 .user(userRepository.findByEmail("user1@mail"))
                 .discounts(null)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .activity(0)
                 .file(null)
@@ -479,7 +479,7 @@ public class DataInserting {
                 .user(userRepository.findByEmail("user2@mail"))
                 .discounts(null)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .activity(0)
                 .file(null)
@@ -499,7 +499,7 @@ public class DataInserting {
                 .user(userRepository.findByEmail("user3@mail"))
                 .discounts(null)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .activity(0)
                 .file(null)
@@ -535,7 +535,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop1)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -551,7 +551,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop1)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -567,7 +567,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop1)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -583,7 +583,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop2)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -599,7 +599,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop2)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -615,7 +615,7 @@ public class DataInserting {
                 .discount(0)
                 .shop(shop2)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -787,13 +787,13 @@ public class DataInserting {
                 .item(null)
                 .shop(null)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .build();
         reviewRepository.save(review1_user4_item);
 
         review1_user4_item.setItem(item_review1_user4);
-        review1_user4_item.setShop(null);
+        review1_user4_item.setShop(shop_review1_user4);
         review1_user4_item.setUser(user4_review);
         reviewRepository.save(review1_user4_item); //создалась связь в колонке user_id (таблица review) и item_review
 
@@ -803,6 +803,7 @@ public class DataInserting {
 
         //Ревью user5 на магазин shop1
         User user5_review = userRepository.findByEmail("user5@mail");
+        Item item_review1_user5 = itemRepository.findByName("item2");
         Shop shop_review1_user5 = shopRepository.findByName("shop1");
         Review review1_user5_shop = Review.builder()
                 .dignity("dignity_review_user5")
@@ -814,11 +815,11 @@ public class DataInserting {
                 .item(null)
                 .shop(null)
                 .isModerated(false)
-                .isModerateAccept(true)
+                .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .build();
         reviewRepository.save(review1_user5_shop);
-
+        review1_user5_shop.setItem(item_review1_user5);
         review1_user5_shop.setShop(shop_review1_user5);
         review1_user5_shop.setUser(user5_review);
         reviewRepository.save(review1_user5_shop); //создалась связь в колонке user_id (таблица review) и shop_review

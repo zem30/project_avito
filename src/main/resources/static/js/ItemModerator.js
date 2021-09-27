@@ -13,7 +13,7 @@ const itemFetchService = {
     getUnmoderatedItems: async () => await fetch(`${url}/getUnmoderatedItems`),
     getOneUnmoderatedItem: async (id) => await fetch(`${url}/getOneUnmoderatedItem/${id}`),
     updateItem: async (item) => await fetch(`${url}/editItem`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: itemFetchService.head,
         body: JSON.stringify(item)
     }),
@@ -42,11 +42,7 @@ async function getUnmoderatedItems() {
                 `)
                 } else {
                     items.forEach(item => {
-                        let categories = item.categories;
-                        let categoryName = [];
-                        for (let i = 0; i < categories.length ; i++) {
-                            categoryName[i] = categories[i].name;
-                        }
+
                         console.log(item)
                         let cardFilling =
                             `<div class="row" id="itemRow${item.id}">
@@ -56,7 +52,7 @@ async function getUnmoderatedItems() {
                                     <div class="col-sm-6">
                           <h5 class="card-title"><b>Наименование товара: </b>${item.name}</h5>
                            <p class="card-text" id="cardText"><b>Описание товара: </b>${item.description}<br>
-                            <b>Категории товара: </b>${categoryName}<br>
+                            <b>Категории товара: </b>${item.categoriesName}<br>
                             </p>
                             
                            <button data-itemid="${item.id}" data-action="accept" class="btn btn-success">Одобрить</a>

@@ -6,6 +6,8 @@ import com.amr.project.model.entity.Item;
 import com.amr.project.service.impl.CategoryServiceImpl;
 import com.amr.project.service.impl.ItemServiceImpl;
 import com.amr.project.service.impl.ShopServiceImpl;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 @RestControllerAdvice
 @RestController
 @RequiredArgsConstructor
+@Api(tags = {"API для работы с товаром"})
 @RequestMapping("shop/")
 public class ItemRestController {
 
@@ -30,6 +33,7 @@ public class ItemRestController {
 
     private final ItemMapper itemConverter;
 
+    @ApiOperation(value = "Сохраняет объект Item")
     @PostMapping("item")
     public ResponseEntity<?> addItem(@RequestBody ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
@@ -41,6 +45,7 @@ public class ItemRestController {
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "Удаляет объект Item по id")
     @DeleteMapping("item/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable @NonNull Long id) {
         Item item = itemServiceImpl.getByKey(id);
@@ -51,6 +56,7 @@ public class ItemRestController {
         return ResponseEntity.ok().build();
     }
 
+    @ApiOperation(value = "Обновляет объект Item")
     @PutMapping("item")
     public ResponseEntity<ItemDto> updateItem(@RequestBody @NonNull ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);

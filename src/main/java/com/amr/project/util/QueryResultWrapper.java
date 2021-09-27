@@ -8,6 +8,7 @@ public class QueryResultWrapper {
         try {
             return query.getSingleResult();
         } catch (Exception e) {
+            System.err.println(e.getMessage());
             return null;
         }
     }

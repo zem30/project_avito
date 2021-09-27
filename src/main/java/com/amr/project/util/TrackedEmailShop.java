@@ -49,7 +49,9 @@ public class TrackedEmailShop {
             }
         }
 
-        mail.setTo(shop.getUser().getEmail());
+        if (shop.getUser() != null) {
+            mail.setTo(shop.getUser().getEmail());
+        }
         mail.setMessage(message.length() > 31 ? message : null);
 
         return mail;
