@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
         locations = "classpath:/application-integrationtest.properties")
 public abstract class AbstractApiTest {
 
+    @Autowired
     protected MockMvc mvc;
 
     protected String asJsonString(final Object obj) {
