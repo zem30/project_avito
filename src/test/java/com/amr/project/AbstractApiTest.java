@@ -1,9 +1,9 @@
 package com.amr.project;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.junit5.api.DBRider;
 import com.github.springtestdbunit.annotation.DbUnitConfiguration;
-import org.codehaus.jackson.map.ObjectMapper;
 import com.github.springtestdbunit.annotation.DatabaseSetup;
 import org.dbunit.ext.mysql.MySqlDataTypeFactory;
 import org.junit.Rule;

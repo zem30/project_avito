@@ -35,27 +35,27 @@ class ItemRestControllerTest extends AbstractApiTest {
                 .count(2).rating(0d).price(new BigDecimal(200)).categoriesName(new String[]{"Sport"}).build();
         ItemDto itemDto3 = ItemDto.builder().name("Test").shopName("Alibaba").description("Test")
                 .count(2).rating(0d).price(new BigDecimal(200)).build();
-        mockMvc.perform(
+        mvc.perform(
                 post("/shop/item")
-                        .content(objectMapper.writeValueAsString(itemDto))
+                        .content(asJsonString(itemDto))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(
+        mvc.perform(
                 post("/shop/item")
-                        .content(objectMapper.writeValueAsString(itemDto2))
+                        .content(asJsonString(itemDto2))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError());
 
-        mockMvc.perform(
+        mvc.perform(
                 post("/shop/item")
-                        .content(objectMapper.writeValueAsString(itemDto3))
+                        .content(asJsonString(itemDto3))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError());
 
-        mockMvc.perform(
+        mvc.perform(
                 post("/shop/item")
-                        .content(objectMapper.writeValueAsString(null))
+                        .content(asJsonString(null))
                         .contentType(MediaType.APPLICATION_JSON)
         ).andExpect(status().is4xxClientError());
 
@@ -65,9 +65,9 @@ class ItemRestControllerTest extends AbstractApiTest {
     @DataSet(cleanBefore = true, value = "dataset/testApiItem/TestItemDelete.xml")
     @ExpectedDataSet(value = "dataset/testApiItem/expected/TestItemDelete.xml")
     public void testItemDelete() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.delete("/shop/item/{id}", 1))
+        mvc.perform(MockMvcRequestBuilders.delete("/shop/item/{id}", 1))
                 .andExpect(status().is2xxSuccessful());
-        mockMvc.perform(MockMvcRequestBuilders.delete("/shop/item/{id}", 2))
+        mvc.perform(MockMvcRequestBuilders.delete("/shop/item/{id}", 2))
                 .andExpect(status().is4xxClientError());
     }
 
@@ -86,16 +86,16 @@ class ItemRestControllerTest extends AbstractApiTest {
         ItemDto itemDto2 = itemMapper.itemToDto(itemService.getByKey(1l));
         itemDto2.setCategoriesName(null);
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/shop/item")
-                .content(objectMapper.writeValueAsString(itemDto)).contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.put("/shop/item")
+                .content(asJsonString(itemDto)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is2xxSuccessful());
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/shop/item")
-                .content(objectMapper.writeValueAsString(itemDto1)).contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.put("/shop/item")
+                .content(asJsonString(itemDto1)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
 
-        mockMvc.perform(MockMvcRequestBuilders.put("/shop/item")
-                .content(objectMapper.writeValueAsString(itemDto2)).contentType(MediaType.APPLICATION_JSON))
+        mvc.perform(MockMvcRequestBuilders.put("/shop/item")
+                .content(asJsonString(itemDto2)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is4xxClientError());
     }
 
