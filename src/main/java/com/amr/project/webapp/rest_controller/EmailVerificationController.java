@@ -12,7 +12,7 @@ public class EmailVerificationController {
 
     private EmailVerificationService verificationService;
 
-    @GetMapping("/regitrationConfirm")
+    @GetMapping("/registrationConfirm")
     public String verifyEmail(@RequestParam(name="email") String email, @RequestParam(name = "token") String token) {
         return verificationService.activateUser(email, token);
     }

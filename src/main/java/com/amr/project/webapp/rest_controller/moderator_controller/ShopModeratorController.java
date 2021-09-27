@@ -1,16 +1,12 @@
 package com.amr.project.webapp.rest_controller.moderator_controller;
 
-import com.amr.project.converter.ItemMapper;
-import com.amr.project.converter.ReviewMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
-import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,18 +18,13 @@ import java.util.stream.Collectors;
 @RequestMapping("moderator/api/shops")
 public class ShopModeratorController {
     private final ShopService shopService;
-    private final ItemService itemService;
     private final ShopMapper shopMapper;
-    private final ItemMapper itemMapper;
-    private final ReviewMapper reviewMapper;
 
     @Autowired
-    public ShopModeratorController(ShopService shopService, ShopMapper shopMapper, ItemService itemService, ItemMapper itemMapper, ReviewMapper reviewMapper) {
+    public ShopModeratorController(ShopService shopService, ShopMapper shopMapper) {
         this.shopService = shopService;
         this.shopMapper = shopMapper;
-        this.itemService = itemService;
-        this.itemMapper = itemMapper;
-        this.reviewMapper = reviewMapper;
+
     }
 
     @ApiOperation(value = "Отправляет все магазины не прошедшие модерацию на фронт")
