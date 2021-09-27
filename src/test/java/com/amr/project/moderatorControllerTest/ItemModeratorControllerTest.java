@@ -8,11 +8,13 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-
-@DataSet(value = {"Item.xml", "Item-category.xml", "Category.xml"} , cleanBefore = true)
+@DataSet(value = {"Item.xml", "Item-category.xml",
+        "Category.xml", "Shop.xml", "Shop-item.xml",
+"Country.xml"} , cleanBefore = true, cleanAfter = true)
 public class ItemModeratorControllerTest extends AbstractIntegrationTest {
 
     private final MockMvc mockMvc;
@@ -33,5 +35,95 @@ public class ItemModeratorControllerTest extends AbstractIntegrationTest {
                 .andExpect(jsonPath("$.length()").value(6));
     }
 
+    @Test
+    public  void moderatedFalseTest() throws Exception {
+        mockMvc.perform(get(url + "getUnmoderatedItems"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].moderated").value(false));
+    }
 
+    @Test
+    public void getUnmoderatedItemTest() throws Exception {
+        mockMvc.perform(get(url + "getOneUnmoderatedItem/{id}", 1))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
+    }
+
+    @Test
+    public void getUnmoderatedItemNotFoundTest() throws Exception {
+        mockMvc.perform(get(url + "getOneUnmoderatedItem/55"))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void itemIdIsExistAndOkTest() throws Exception {
+//        ItemDto item = new ItemDto(1L,"sdadas",
+//                new String[]{"category1"}, 1, BigDecimal.valueOf(111), new ArrayList<>(),
+//                4.0, "descr", "shop1",
+//                true, true,
+//                false, null,
+//                new ArrayList<>(), new ArrayList<>(), 1L);
+        mockMvc.perform(put(url + "editItem")
+                .contentType(MediaType.APPLICATION_JSON).content(
+                        "{"  + "\"id\": 1," +
+                                "\"name\": \"item1\"," +
+                                "\"categoriesName\": []," +
+                                "\"count\": 100," +
+                                "\"price\": 111111.00," +
+                                "\"images\": []," +
+                                "\"rating\": 1.0," +
+                                "\"description\": \"item1_description\"," +
+                                "\"shopName\": \"shop1\"," +
+                                "\"moderateAccept\": true," +
+                                "\"moderated\": true," +
+                                "\"pretendentToBeDeleted\": false," +
+                                "\"moderatedRejectReason\": null," +
+                                "\"categories\": []," +
+                                "\"reviews\": []," +
+                                "\"shopId\": 1" +
+                                "}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.moderated").value(true))
+                .andExpect(jsonPath("$.moderateAccept").value(true))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+    }
+    @Test
+    public void itemIdIsNotExistAndBadRequest() throws Exception {
+        mockMvc.perform(put(url + "editItem")
+                .contentType(MediaType.APPLICATION_JSON).content(
+                        "{"  + "\"id\": 55," +
+                                "\"name\": \"item4\"," +
+                                "\"categoriesName\": []," +
+                                "\"count\": 100," +
+                                "\"price\": 111111.00," +
+                                "\"images\": []," +
+                                "\"rating\": 1.0," +
+                                "\"description\": \"item1_description\"," +
+                                "\"shopName\": \"shop1\"," +
+                                "\"moderateAccept\": true," +
+                                "\"moderated\": true," +
+                                "\"pretendentToBeDeleted\": false," +
+                                "\"moderatedRejectReason\": null," +
+                                "\"categories\": []," +
+                                "\"reviews\": []," +
+                                "\"shopId\": 1" +
+                                "}"))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void itemsCountIsOkTest() throws Exception {
+        mockMvc.perform(get(url + "getUnmoderatedItemsCount"))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(content().string("6"));
+    }
 }

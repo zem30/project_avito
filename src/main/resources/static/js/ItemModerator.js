@@ -13,7 +13,7 @@ const itemFetchService = {
     getUnmoderatedItems: async () => await fetch(`${url}/getUnmoderatedItems`),
     getOneUnmoderatedItem: async (id) => await fetch(`${url}/getOneUnmoderatedItem/${id}`),
     updateItem: async (item) => await fetch(`${url}/editItem`, {
-        method: 'PATCH',
+        method: 'PUT',
         headers: itemFetchService.head,
         body: JSON.stringify(item)
     }),

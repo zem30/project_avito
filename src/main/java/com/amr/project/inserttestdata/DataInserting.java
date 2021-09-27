@@ -56,9 +56,9 @@ public class DataInserting {
     @PostConstruct
     public void init() throws IOException {
 //---------------------------------------------------------------Roles
-        Role roleAdmin = Role.builder().name("Admin").build();
-        Role roleModerator = Role.builder().name("Moderator").build();
-        Role roleUser = Role.builder().name("User").build();
+        Role roleAdmin = Role.builder().name("ADMIN").build();
+        Role roleModerator = Role.builder().name("MODERATOR").build();
+        Role roleUser = Role.builder().name("USER").build();
         roleRepository.save(roleAdmin);
         roleRepository.save(roleModerator);
         roleRepository.save(roleUser);
@@ -261,7 +261,7 @@ public class DataInserting {
                 .lastName("admin1_lastname")
                 .address(null)
                 .age(0)
-                .roles(Set.of(roleRepository.findByName("Admin")))
+                .roles(Set.of(roleRepository.findByName("ADMIN")))
                 .gender(Gender.UNKNOWN)
                 .birthday(null)
                 .images(adminImage)
@@ -284,7 +284,7 @@ public class DataInserting {
                 .lastName("moderator1_lastname")
                 .address(null)
                 .age(0)
-                .roles(Set.of(roleRepository.findByName("Moderator")))
+                .roles(Set.of(roleRepository.findByName("MODERATOR")))
                 .gender(Gender.UNKNOWN)
                 .birthday(null)
                 .images(moderatorImage)
@@ -310,7 +310,7 @@ public class DataInserting {
                 .lastName("user1_lastname")
                 .address(address1)
                 .age(30)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1991, 1, 1))
                 .images(user1Image)
@@ -333,7 +333,7 @@ public class DataInserting {
                 .lastName("user2_lastname")
                 .address(address2)
                 .age(29)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1992, 2, 2))
                 .images(user2Image)
@@ -356,7 +356,7 @@ public class DataInserting {
                 .lastName("user3_lastname")
                 .address(address3)
                 .age(28)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.MALE)
                 .birthday(new GregorianCalendar(1993, 3, 3))
                 .images(user3Image)
@@ -379,7 +379,7 @@ public class DataInserting {
                 .lastName("user4_lastname")
                 .address(address4)
                 .age(27)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1994, 4, 4))
                 .images(user4Image)
@@ -402,7 +402,7 @@ public class DataInserting {
                 .lastName("user5_lastname")
                 .address(address5)
                 .age(26)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1995, 5, 5))
                 .images(user5Image)
@@ -425,7 +425,7 @@ public class DataInserting {
                 .lastName("user6_lastname")
                 .address(address6)
                 .age(25)
-                .roles(Set.of(roleRepository.findByName("User")))
+                .roles(Set.of(roleRepository.findByName("USER")))
                 .gender(Gender.FEMALE)
                 .birthday(new GregorianCalendar(1996, 6, 6))
                 .images(user6Image)

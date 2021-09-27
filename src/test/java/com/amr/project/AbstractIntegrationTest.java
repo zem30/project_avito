@@ -20,7 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @AutoConfigureTestEntityManager
 @TestPropertySource("/application-test.properties")
-@AutoConfigureMockMvc
+@AutoConfigureMockMvc(addFilters = false)
 @DBRider
 @DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "platform_test")
 public abstract class AbstractIntegrationTest {
