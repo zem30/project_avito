@@ -11,10 +11,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 public class CityDto {
-
     private Long id;
-
     private String name;
-
     private List<AddressDto> addresses;
 }

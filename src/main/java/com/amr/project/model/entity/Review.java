@@ -1,10 +1,8 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +19,8 @@ import java.util.Date;
 
 @Entity
 @Table(name = "review")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -52,10 +51,10 @@ public class Review {
     private Item item;
 
     @Column
-    private boolean isModerated = false;
+    private boolean isModerated;
 
     @Column
-    private boolean isModerateAccept = false;
+    private boolean isModerateAccept;
 
     @Column
     private String moderatedRejectReason;

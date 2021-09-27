@@ -12,11 +12,8 @@ import java.util.List;
 @Builder
 
 public class CountryDto {
-
     private Long id;
-
     private String name;
-
     private List<CityDto> cities;
 
 }

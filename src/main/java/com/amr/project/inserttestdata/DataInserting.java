@@ -6,6 +6,7 @@ import com.amr.project.model.enums.Gender;
 import com.amr.project.model.enums.Status;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
@@ -50,7 +51,8 @@ public class DataInserting {
     private final AnswerFromModeratorRepository answerFromModeratorRepository;
     @Autowired
     private final CouponRepository couponRepository;
-
+    @Autowired
+    private final PasswordEncoder passwordEncoder;
     @PostConstruct
     public void init() throws IOException {
 //---------------------------------------------------------------Roles
@@ -251,7 +253,7 @@ public class DataInserting {
         User admin1 = User.builder()
                 .email("admin1@mail")
                 .username("admin1_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("admin1_activation_code")
                 .phone("admin1_phone")
@@ -274,7 +276,7 @@ public class DataInserting {
         User moderator1 = User.builder()
                 .email("moderator1@mail")
                 .username("moderator1_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("moderator1_activation_code")
                 .phone("moderator1_phone")
@@ -300,7 +302,7 @@ public class DataInserting {
         User user1 = User.builder()
                 .email("user1@mail")
                 .username("user1_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user1_activation_code")
                 .phone("user1_phone")
@@ -323,7 +325,7 @@ public class DataInserting {
         User user2 = User.builder()
                 .email("user2@mail")
                 .username("user2_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user2_activation_code")
                 .phone("user2_phone")
@@ -346,7 +348,7 @@ public class DataInserting {
         User user3 = User.builder()
                 .email("user3@mail")
                 .username("user3_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user3_activation_code")
                 .phone("user3_phone")
@@ -369,7 +371,7 @@ public class DataInserting {
         User user4 = User.builder()
                 .email("user4@mail")
                 .username("user4_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user4_activation_code")
                 .phone("user4_phone")
@@ -392,7 +394,7 @@ public class DataInserting {
         User user5 = User.builder()
                 .email("user5@mail")
                 .username("user5_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user5_activation_code")
                 .phone("user5_phone")
@@ -415,7 +417,7 @@ public class DataInserting {
         User user6 = User.builder()
                 .email("user6@mail")
                 .username("user6_username")
-                .password("password")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("user6_activation_code")
                 .phone("user6_phone")

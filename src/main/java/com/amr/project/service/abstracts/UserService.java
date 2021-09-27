@@ -14,4 +14,7 @@ public interface UserService extends ReadWriteService<User, Long> {
 
     List<User> findByRole(String role) throws NoResultException;
 
+    @Override
+    void persist(User user);
+
 }

@@ -1,8 +1,9 @@
 package com.amr.project.model.dto;
+
 import lombok.*;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -12,17 +13,20 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 public class ItemDto {
-
     private Long id;
-
     private String name;
-
+    private String[] categoriesName;
+    private Integer count;
     private BigDecimal price;
-
-    private List<ImageDto> images = new ArrayList<>();
-
+    private List<ImageDto> images;
     private Double rating;
-
     private String description;
-
+    private String shopName;
+    private boolean isModerateAccept;
+    private boolean isModerated;
+    private boolean isPretendentToBeDeleted;
+    private String moderatedRejectReason;
+    private List<CategoryDto> categories;
+    private List<ReviewDto> reviews;
+    private Long shopId;
 }

@@ -1,20 +1,21 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
 
-@Component
-public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
+@Repository
+public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
 
     Class<T> typeClass = (Class<T>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
 
     @PersistenceContext
-    private EntityManager entityManager;
+    protected EntityManager entityManager;
 
     @Override
     public List<T> getAll() {
@@ -33,7 +34,7 @@ public abstract class ReadWriteDaoImp<T, K> implements ReadWriteDao<T, K> {
 
     @Override
     public void delete(T obj) {
-        entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
+        //entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
     }
 
     @Override
