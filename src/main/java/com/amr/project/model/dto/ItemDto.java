@@ -3,6 +3,7 @@ package com.amr.project.model.dto;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.List;
 
 @NoArgsConstructor
@@ -28,5 +29,4 @@ public class ItemDto {
     private List<CategoryDto> categories;
     private List<ReviewDto> reviews;
     private Long shopId;
-
 }

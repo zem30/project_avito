@@ -1,10 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.CascadeType;
@@ -27,7 +24,8 @@ import java.util.List;
 
 @Entity
 @Table(name = "shop")
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -109,4 +107,5 @@ public class Shop {
 
     @Column
     private boolean isPretendentToBeDeleted = false;
+
 }
