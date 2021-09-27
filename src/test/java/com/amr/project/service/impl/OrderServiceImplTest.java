@@ -1,14 +1,11 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.AbstractIntegrationTest;
+import com.amr.project.model.enums.Status;
 import com.amr.project.service.abstracts.OrderService;
-import com.amr.project.service.abstracts.UserService;
-import com.github.database.rider.core.DBUnitRule;
 import com.github.database.rider.core.api.configuration.DBUnit;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.junit5.api.DBRider;
-import com.github.database.rider.junit5.util.EntityManagerProvider;
-import org.junit.Rule;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -19,28 +16,43 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-
 @TestPropertySource("/application-test.properties")
 @DBRider
 @DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "platform_test")
-
-@DataSet(value = {"Role.xml"} , cleanBefore = true)
+@DataSet(value = {"Orders.xml"})
 class OrderServiceImplTest extends AbstractIntegrationTest {
-
     private final OrderService orderService;
-    private final UserService userService;
 
     @Autowired
-    public OrderServiceImplTest(OrderService orderService, UserService userService) {
+    public OrderServiceImplTest(OrderService orderService) {
         this.orderService = orderService;
-        this.userService = userService;
     }
 
     @Test
     void changeStatusToPaid() {
+        long idTestingOrder = 1L;
+        orderService.changeStatusToPaid(idTestingOrder);
+        Assertions.assertEquals(Status.PAID, orderService.getByKey(idTestingOrder).getStatus());
+    }
 
-        System.out.println(userService.getByKey(1L).getEmail());
+    @Test
+    void changeStatusToSent() {
+        long idTestingOrder = 1L;
+        orderService.changeStatusToSent(idTestingOrder);
+        Assertions.assertEquals(Status.SENT, orderService.getByKey(idTestingOrder).getStatus());
+    }
 
-        Assertions.assertTrue(true);
+    @Test
+    void changeStatusToDelivered() {
+        long idTestingOrder = 1L;
+        orderService.changeStatusToDelivered(idTestingOrder);
+        Assertions.assertEquals(Status.DELIVERED, orderService.getByKey(idTestingOrder).getStatus());
+    }
+
+    @Test
+    void changeStatusToCompleted() {
+        long idTestingOrder = 1L;
+        orderService.changeStatusToCompleted(idTestingOrder);
+        Assertions.assertEquals(Status.COMPLETE, orderService.getByKey(idTestingOrder).getStatus());
     }
 }

@@ -38,9 +38,9 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
 
     @Override
     public void update(Order order) {
-        Mail mail = trackedEmailOrder.trackedEmailOrderUpdate(order);
-        if (mail != null)
-            emailSenderService.sendSimpleEmail(mail);
+//        Mail mail = trackedEmailOrder.trackedEmailOrderUpdate(order);
+//        if (mail != null)
+//            emailSenderService.sendSimpleEmail(mail);
         orderDao.update(order);
     }
 
@@ -54,7 +54,7 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
     public void changeStatusToPaid(long order_id) {
         Order order = orderDao.getByKey(order_id);
         order.setStatus(Status.PAID);
-        orderDao.update(order);
+        this.update(order);
     }
 
     @Override
