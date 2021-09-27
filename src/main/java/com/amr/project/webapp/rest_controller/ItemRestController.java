@@ -31,8 +31,10 @@ public class ItemRestController {
     private final ItemMapper itemConverter;
 
     @PostMapping("item")
-    public ResponseEntity<Void> addItem(@RequestBody ItemDto itemDto) {
+    public ResponseEntity<?> addItem(@RequestBody ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
+        if (itemDto.getShopName() == null || itemDto.getCategoriesName() == null)
+            return ResponseEntity.badRequest().body("empty shop");
         item.setCategories(Arrays.stream(itemDto.getCategoriesName()).map(category -> categoryService.getCategory(category)).collect(Collectors.toList()));
         item.setShop(shopService.getShop(itemDto.getShopName()));
         itemServiceImpl.persist(item);
@@ -40,8 +42,10 @@ public class ItemRestController {
     }
 
     @DeleteMapping("item/{id}")
-    public ResponseEntity<Void> deleteItem(@PathVariable @NonNull Long id) {
+    public ResponseEntity<?> deleteItem(@PathVariable @NonNull Long id) {
         Item item = itemServiceImpl.getByKey(id);
+        if (item == null)
+            return ResponseEntity.badRequest().body("empty item");
         item.setPretendentToBeDeleted(true);
         itemServiceImpl.update(item);
         return ResponseEntity.ok().build();
@@ -50,6 +54,8 @@ public class ItemRestController {
     @PutMapping("item")
     public ResponseEntity<ItemDto> updateItem(@RequestBody @NonNull ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
+        if (itemDto.getId() == null || itemDto.getShopName() == null || itemDto.getCategoriesName() == null)
+            return ResponseEntity.badRequest().build();
         item.setId(itemDto.getId());
         item.setShop(shopService.getShop(itemDto.getShopName()));
         item.setCategories(Arrays.stream(itemDto.getCategoriesName())
