@@ -6,6 +6,7 @@ import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,19 +21,16 @@ import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.*;
 
+@AllArgsConstructor
 @RestController
 public class UserRestController {
 
     private final UserService userService;
+
     private final ShopMapper shopMapper;
+
     private final ItemMapper itemMapper;
 
-    @Autowired
-    public UserRestController(UserService userService, ShopMapper shopMapper, ItemMapper itemMapper) {
-        this.userService = userService;
-        this.shopMapper = shopMapper;
-        this.itemMapper = itemMapper;
-    }
 
     @PostMapping("/registration")
     public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
@@ -92,7 +90,6 @@ public class UserRestController {
         body.put("errors", errors);
         return ResponseEntity.badRequest().body(body);
     }
-
 
 
 }

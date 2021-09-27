@@ -40,7 +40,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .key("$2a$12$77RCxpN39Xd9K4y1jsSGSObeEZ/glP9YkwzRFCiMSJxqrbcXz9mS6")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/registration", "/registrationConfirm").permitAll()
+                .antMatchers("/", "/registration", "/registrationConfirm","/getUserShops/{id}","/getUserOrders/{id}").permitAll()
 //                .antMatchers("/static/**").permitAll()
                 .antMatchers("/js/**","/css/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("Admin")
