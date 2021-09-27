@@ -5,6 +5,7 @@ import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Shop;
+import com.amr.project.service.abstracts.ShopService;
 import com.github.scribejava.core.base64.Base64;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> {
+public class ShopServiceImpl extends ReadWriteServiceImpl<Shop,Long> implements ShopService {
 
     protected ShopServiceImpl(ReadWriteDao<Shop, Long> dao) {
         super(dao);

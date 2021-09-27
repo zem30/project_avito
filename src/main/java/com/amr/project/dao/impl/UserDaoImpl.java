@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -43,9 +41,10 @@ public class UserDaoImpl extends ReadWriteDaoImp<User, Long> implements UserDao 
 
     @Override
     public List<User> findByRole(String role) throws NoResultException {
-        TypedQuery<User> query = (TypedQuery<User>) entityManager.createNativeQuery("select * from platform.user" +
-                " inner join platform.user_role on user.id = user_role.user_id" +
-                " inner join platform.role on user_role.role_id = role.id" +
+        TypedQuery<User> query = (TypedQuery<User>) entityManager.createNativeQuery(
+                "select * from platform.user" +
+                    " inner join platform.user_role on user.id = user_role.user_id" +
+                    " inner join platform.role on user_role.role_id = role.id" +
                 " where role.role_name =:role ", User.class);
         query.setParameter("role",role);
         return query.getResultList();

@@ -32,9 +32,4 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> im
         super.persist(discount);
 
     }
-
-    @Override
-    public void update(Discount obj) {
-        super.update(obj);
-    }
 }

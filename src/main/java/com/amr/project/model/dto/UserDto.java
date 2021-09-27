@@ -1,16 +1,19 @@
 package com.amr.project.model.dto;
 
-import com.amr.project.model.entity.*;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.enums.Gender;
-import org.hibernate.validator.constraints.Length;
+import lombok.*;
 
-import javax.persistence.*;
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
-import java.util.Set;
 
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode
+@Builder
 public class UserDto {
 
     private Long id;
@@ -33,5 +36,7 @@ public class UserDto {
 
     private ImageDto images;
 
-    private List<DiscountDto> discounts;
+    private List<DiscountDto> discounts = new ArrayList<>();
+
+    private List<ShopDto> shops;
 }

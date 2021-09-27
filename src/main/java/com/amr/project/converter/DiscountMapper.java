@@ -8,4 +8,5 @@ import org.mapstruct.Mapper;
 public interface DiscountMapper {
 
     DiscountDto discountToDiscountDto(Discount discount);
+    Discount discountDtoToDiscount(DiscountDto discountDto);
 }
