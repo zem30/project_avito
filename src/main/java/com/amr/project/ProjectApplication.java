@@ -18,15 +18,15 @@ public class ProjectApplication {
         SpringApplication.run(ProjectApplication.class, args);
     }
 
-    @Bean
-    CommandLineRunner run(OrderService orderService) {
-        return args -> {
-            System.out.println("COMMAND LINE RUNNER");
-            Order order = orderService.getByKey(1L);
-            System.out.println(order.getStatus());
-            orderService.changeStatusToCompleted(1L);
-            System.out.println(orderService.getByKey(1L).getStatus());
-        };
-    }
+//    @Bean
+//    CommandLineRunner run(OrderService orderService) {
+//        return args -> {
+//            System.out.println("COMMAND LINE RUNNER");
+//            Order order = orderService.getByKey(1L);
+//            System.out.println(order.getStatus());
+//            orderService.changeStatusToPaid(1L);
+//            System.out.println(orderService.getByKey(1L).getStatus());
+//        };
+//    }
 
 }

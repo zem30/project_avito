@@ -1,5 +1,7 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.dao.abstracts.OrderDao;
+import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.dao.impl.OrderDaoImpl;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.model.entity.Order;
@@ -14,13 +16,14 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implements OrderService {
 
-    private final OrderDaoImpl orderDao;
+    private final OrderDao orderDao;
     private final EmailSenderService emailSenderService;
     private final TrackedEmailOrder trackedEmailOrder;
 
-    protected OrderServiceImpl(OrderDaoImpl dao, OrderDaoImpl orderDao,
-                               EmailSenderService emailSenderService,
-                               TrackedEmailOrder trackedEmailOrder) {
+    public OrderServiceImpl(ReadWriteDao<Order, Long> dao,
+                            OrderDao orderDao,
+                            EmailSenderService emailSenderService,
+                            TrackedEmailOrder trackedEmailOrder) {
         super(dao);
         this.orderDao = orderDao;
         this.emailSenderService = emailSenderService;
@@ -49,29 +52,29 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
 
     @Override
     public void changeStatusToPaid(long order_id) {
-        Order order = this.getByKey(order_id);
+        Order order = orderDao.getByKey(order_id);
         order.setStatus(Status.PAID);
         orderDao.update(order);
     }
 
     @Override
     public void changeStatusToSent(long order_id) {
-        Order order = this.getByKey(order_id);
+        Order order = orderDao.getByKey(order_id);
         order.setStatus(Status.SENT);
-        orderDao.update(order);
+        this.update(order);
     }
 
     @Override
     public void changeStatusToDelivered(long order_id) {
-        Order order = this.getByKey(order_id);
+        Order order = orderDao.getByKey(order_id);
         order.setStatus(Status.DELIVERED);
-        orderDao.update(order);
+        this.update(order);
     }
 
     @Override
     public void changeStatusToCompleted(long order_id) {
-        Order order = this.getByKey(order_id);
+        Order order = orderDao.getByKey(order_id);
         order.setStatus(Status.COMPLETE);
-        orderDao.update(order);
+        this.update(order);
     }
 }
