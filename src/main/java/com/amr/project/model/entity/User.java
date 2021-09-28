@@ -21,10 +21,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -100,7 +97,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_coupon",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
-    private List<Coupon> coupons;
+    private List<Coupon> coupons = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_cart",
@@ -131,7 +128,7 @@ public class User implements UserDetails {
     @JoinTable(name = "user_discount",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
-    private List<Discount> discounts;
+    private List<Discount> discounts = new ArrayList<>();
 
     public User(String email, String username, String password) {
         this.email = email;

@@ -223,8 +223,8 @@
         </a>
       </div>
       <div class="mt-2 pt-2 border-top">
-        <a th:href="@{/shop{id}/item{itemid} (id=${shop.id} ,itemid=${ratingItem.getId()})}" class="btn btn-primary btn-sm" >Страница товара</a>
-        <a th:href="@{/shop{id}/list (id=${shop.id})}" class="btn btn-primary btn-sm" >Весь товар</a>
+        <a th:href="@{/shop/{id}/item/{itemid} (id=${shop.id} ,itemid=${ratingItem.getId()})}" class="btn btn-primary btn-sm" >Страница товара</a>
+        <a th:href="@{/shop/{id}/list (id=${shop.id})}" class="btn btn-primary btn-sm" >Весь товар</a>
       </div>
   </div>
   </div>
