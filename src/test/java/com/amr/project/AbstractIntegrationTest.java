@@ -24,8 +24,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 @DBRider
 @DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "platform_test")
 public abstract class AbstractIntegrationTest {
-
-
     protected ObjectMapper objectMapper = new ObjectMapper();
 
     {
