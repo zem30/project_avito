@@ -20,7 +20,7 @@ public class EmailVerificationService {
         createdUser.setActivationCode(EmailVerificationTokenGenerator.generate());
         Mail verificationMessage = new Mail();
         verificationMessage.setTo(createdUser.getEmail());
-        verificationMessage.setMessage("<a href=http://localhost:8888/regitrationConfirm?email=" +
+        verificationMessage.setMessage("<a href=http://localhost:8888/registrationConfirm?email=" +
                 createdUser.getEmail() + "&token=" + createdUser.getActivationCode() +
                 ">Verify email and activate account</a>");
         verificationMessage.setSubject("Verify new account with e-mail: " + createdUser.getEmail());

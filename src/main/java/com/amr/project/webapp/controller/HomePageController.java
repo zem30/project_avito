@@ -59,7 +59,6 @@ public class HomePageController {
         List<Shop> shop = shopService.getAll();
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
-
         return "index";
     }
 }

@@ -8,6 +8,7 @@ import com.amr.project.service.abstracts.ShopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,22 +43,27 @@ public class ItemModeratorController {
     @ApiOperation(value = "Отправляет один не прошедший модерацию товар на фронт по id")
     @GetMapping("/getOneUnmoderatedItem/{id}")
     public ResponseEntity<ItemDto> getOneUnmoderatedItem(@PathVariable("id") Long id) {
-        return itemService.getByKey(id).isModerated() ?
-                ResponseEntity.notFound().build():
-                ResponseEntity.ok(itemMapper.itemToDto(itemService.getByKey(id)));
+        Item item = itemService.getByKey(id);
+        if (item == null || item.isModerated()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(itemMapper.itemToDto(item));
     }
     @ApiOperation(value = "Получает измененный товар из фронта и обновляет в базе данных")
-    @PatchMapping("/editItem")
+    @PutMapping("/editItem")
     public ResponseEntity<ItemDto> editItem(@RequestBody ItemDto itemDto) {
-
-        Item item = itemMapper.dtoToItem(itemDto);
-        item.setShop(shopService.getByKey(itemDto.getShopId()));
-        itemService.update(item);
-        return ResponseEntity.ok(itemMapper.itemToDto(itemService.getByKey(itemDto.getId())));
+        if (itemService.existsById(itemDto.getId())) {
+            Item item = itemMapper.dtoToItem(itemDto);
+            item.setShop(shopService.getByKey(itemDto.getShopId()));
+            itemService.update(item);
+            return ResponseEntity.ok(itemMapper.itemToDto(item));
+        }
+        return ResponseEntity.badRequest().build();
     }
     @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию товаров для счетчика")
     @GetMapping("/getUnmoderatedItemsCount")
     public ResponseEntity<Long> getUnmoderatedItemsCount() {
-        return ResponseEntity.ok((long) itemService.getUnmoderatedItems().size());
+        int size = itemService.getUnmoderatedItems().size();
+        return ResponseEntity.ok((long) size);
     }
 }
