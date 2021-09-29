@@ -92,18 +92,3 @@ function discountModalButton(discount) {
         restartAllUser();
     });
 }
-
-// function updateUser(discount) {
-//     console.log(discount)
-//     fetch("/userlist/updateUser", {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json;charset=utf-8"
-//         },
-//         body: JSON.stringify(discount)
-//     }).then(function (response) {
-//         response.json().then(function (user) {
-//             console.log(user);
-//         });
-//     });
-// }
