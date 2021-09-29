@@ -3,6 +3,7 @@ $(document).ready(function () {
 });
 
 function createTableRow(u) {
+    let date = new Date(u.birthday);
     return `<tr id="user_table_row">
         <td>${u.id}</td>
         <td><img src="data:image/png;base64,${u.images.picture}" width="80" height="80"></td>
@@ -12,7 +13,7 @@ function createTableRow(u) {
         <td>${u.age}</td>
         <td>${u.phone}</td>
         <td>${u.email}</td>
-        <td>${u.birthday}</td>
+        <td>${date.getDay() + " - " + date.getMonth() + " - " + date.getFullYear()}</td>
 
         <td>
         <a  href="/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>

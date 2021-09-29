@@ -21,9 +21,7 @@ import java.util.*;
 public class UserRestController {
 
     private final UserService userService;
-
     private final ShopMapper shopMapper;
-
     private final ItemMapper itemMapper;
 
 

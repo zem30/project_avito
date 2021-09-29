@@ -65,14 +65,4 @@ public class ShopOwnerRestController {
         return new ResponseEntity<>(discount,HttpStatus.OK);
     }
 
-//    @PostMapping("/userlist/updateUser")
-//    public ResponseEntity<Discount> updateUser(@Valid @RequestBody DiscountDto discountDto) {
-//        Discount discount = discountMapper.discountDtoToDiscount(discountDto);
-//        User user = discount.getUser();
-//        List<Discount> discountList = user.getDiscounts();
-//        discountList.add(discount);
-//        userService.update(user);
-//        return new ResponseEntity<>(discount,HttpStatus.OK);
-//    }
-
 }
