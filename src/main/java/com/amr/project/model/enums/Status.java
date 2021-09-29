@@ -2,7 +2,8 @@ package com.amr.project.model.enums;
 
 public enum Status {
     START,
-    COMPLETE,
+    PAID,
     SENT,
-    DELIVERED
+    DELIVERED,
+    COMPLETE
 }
