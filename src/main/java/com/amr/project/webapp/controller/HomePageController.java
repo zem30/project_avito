@@ -16,6 +16,10 @@ import com.amr.project.service.abstracts.CartItemService;
 import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +30,7 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
+@Api(tags = {"API для работы c главной страницей и получение списков предметов в корзине, категории товаров, преметов и магазинов"})
 public class HomePageController {
 
     private final CartItemService cartItemService;
@@ -37,8 +42,9 @@ public class HomePageController {
     private final ShopService shopService;
     private final ShopMapper shopMapper;
 
-
     @RequestMapping("/homepage")
+    @ApiOperation(value = "получение списков получение списков предметов в корзине, категории товаров, преметов и магазинов")
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "Списки главной страницы получены")})
     public String homePage(Model model) {
         List<CartItemDto> cartItemDto = new ArrayList<>();
         List<CartItem> cartItem = cartItemService.getAll();
@@ -59,6 +65,7 @@ public class HomePageController {
         List<Shop> shop = shopService.getAll();
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
+
         return "index";
     }
 }
