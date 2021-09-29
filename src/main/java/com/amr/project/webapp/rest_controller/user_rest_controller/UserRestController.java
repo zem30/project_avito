@@ -7,22 +7,17 @@ import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.TransactionSystemException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.context.request.WebRequest;
 
-import javax.persistence.NoResultException;
 import javax.validation.Valid;
 import java.util.*;
 
-@AllArgsConstructor
 @RestController
+@AllArgsConstructor
 public class UserRestController {
 
     private final UserService userService;
