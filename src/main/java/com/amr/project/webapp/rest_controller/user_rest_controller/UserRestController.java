@@ -6,6 +6,8 @@ import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -16,8 +18,9 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
-@RestController
 @AllArgsConstructor
+@RestController
+@Api(tags = {"Api для работы с юзером и его данными"})
 public class UserRestController {
 
     private final UserService userService;
@@ -28,6 +31,7 @@ public class UserRestController {
 
 
     @PostMapping("/registration")
+    @ApiOperation(value = "Валидация пользователя , поиск пользователя по ключевыйм полям в бд и дальнейшая регистрация ")
     public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
         Map<String, Object> body = new LinkedHashMap<>();
         User registratedUser = userService.findByEmail(user.getEmail());
@@ -51,6 +55,7 @@ public class UserRestController {
 
 
     @GetMapping("/getUserShops/{id}")
+    @ApiOperation(value = "Отдает список магазинов юзера с айди указанным в url")
     public ResponseEntity<List<ShopDto>> getShops(@PathVariable("id") Long id) {
         User user = userService.getByKey(id);
         List<ShopDto> shops = new ArrayList<>();
@@ -63,6 +68,7 @@ public class UserRestController {
     }
 
     @GetMapping("/getUserOrders/{id}")
+    @ApiOperation(value = "Отдает список купленных товаров юзера с айди указанным в url")
     public ResponseEntity<List<ItemDto>> getOrders(@PathVariable("id") Long id) {
         User user = userService.getByKey(id);
         List<ItemDto> itemDtos = new ArrayList<>();
@@ -76,6 +82,7 @@ public class UserRestController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
+    @ApiOperation(value = "Ловит исключения вызванные аннотацией @Valid при валидации юзера для регистрации")
     public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
