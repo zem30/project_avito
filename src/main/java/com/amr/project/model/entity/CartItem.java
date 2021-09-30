@@ -22,16 +22,16 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "item_id")
     private Item item;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -40,8 +40,8 @@ public class CartItem {
     @Transient
     public BigDecimal getSubTotal() {
         return this.item.getPrice().subtract(BigDecimal.valueOf(this.item.getDiscount())
-                .multiply(this.item.getPrice())
-                .divide(BigDecimal.valueOf(100)))
+                        .multiply(this.item.getPrice())
+                        .divide(BigDecimal.valueOf(100)))
                 .multiply(new BigDecimal(quantity)).setScale(2, RoundingMode.CEILING);
     }
 

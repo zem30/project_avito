@@ -23,9 +23,7 @@ import java.util.stream.Collectors;
 public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements ShopService {
 
     private final ShopDao shopDao;
-
     private final TrackedEmailShop trackedEmailShop;
-
     private final EmailSenderService emailSenderService;
 
     @Autowired
@@ -95,5 +93,11 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
         emailSenderService.sendSimpleEmail(trackedEmailShop.trackedEmailShopDelete(shop));
         shopDao.delete(shop);
 
+    }
+
+    @Override
+    @Transactional
+    public List<Shop> getMostPopular(int quantity) {
+        return shopDao.getMostPopular(quantity);
     }
 }

@@ -6,4 +6,5 @@ import java.util.List;
 
 public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
+    public boolean existByUserIdAndItemId(long userId, long itemId);
 }

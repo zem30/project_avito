@@ -16,4 +16,9 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
         super(cartItemDao);
         this.cartItemDao = cartItemDao;
     }
+
+    @Override
+    public boolean existByUserIdAndItemId(long userId, long itemId) {
+        return cartItemDao.existByUserIdAndItemId(userId, itemId);
+    }
 }

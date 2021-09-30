@@ -58,5 +58,11 @@ public class ItemRestController {
         itemServiceImpl.update(item);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
+
+    @GetMapping("item/{id}")
+    public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
+        Item item = itemServiceImpl.getByKey(id);
+        return ResponseEntity.ok().body(itemConverter.itemToDto(item));
+    }
 }
 

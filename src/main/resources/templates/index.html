@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html lang="en"
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-
-    <title>Главная страница</title>
-    <linK rel="stylesheet" href="/css/homePageStyle.css">
+    <title>Title</title>
+    <link rel="stylesheet" href="/css/homePageStyle.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
@@ -18,8 +18,8 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <div class="container-fluid">
                 <a class="navbar-brand" href="/">Shop24</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                        data-bs-target="#navbarNavAltMarkup"
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavAltMarkup"
                         aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
@@ -38,7 +38,9 @@
                         <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                         </button>
                     </form>
+
                 </div>
+
             </div>
         </nav>
 
@@ -93,24 +95,38 @@
         <div class="modal fade" id="staticBackdropBasket" data-backdrop="static" data-keyboard="false"
              tabindex="-1"
              aria-labelledby="staticBackdropLabelBasket" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-
-                        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+                        <h6 class="modal-title" id="staticBackdropLabelBasket">Список ваших товаров:</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
                     </div>
                     <div class="modal-body">
-                        <h6 class="modal-title" id="staticBackdropLabelBasket">Список ваших товаров:</h6>
-                        <h5>-</h5>
-                        <h5>-</h5>
-                        <h5>-</h5>
-                        <h5>-</h5>
-                        <h5>-</h5>
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>Наименование товара</td>
+                                <td>&nbsp;</td>
+                                <td colspan="3">Количество</td>
+                                <td>&nbsp;</td>
+                                <td>Цена</td>
+                                <td>&nbsp;</td>
+                                <td>Сумма</td>
+                                <td>&nbsp;</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody id="cartItemsList">
+
+                            </tbody>
+                        </table>
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-success" data-dismiss="modal">Оформить заказ</button>
-
+                        <span class="user-tag" sec:authorize="isAnonymous()"> Для оформления заказа необходимо зарегистрироваться и выполнить вход в систему</span>
+                        <button type="button" sec:authorize="isAuthenticated()" class="btn btn-success" data-dismiss="modal">Оформить заказ</button>
                     </div>
                 </div>
             </div>
@@ -248,7 +264,7 @@
                 <label for="avatar" class="form-label">User avatar</label>
                 <input class="form-control avatarImage" accept="image/*" type="file" id="avatar" name="avatar">
             </div>
-            <button class="w-100 btn btn-lg btn-warning registrationButton" type="button" id="registrationButton"
+            <button class="w-100 btn btn-lg btn-warning registratinButton" type="button" id="registrationButton"
                     onclick="">
                 Регистрация
             </button>
@@ -261,8 +277,9 @@
         </form>
     </div>
 </div>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="/js/admin.js"></script>
 <script src="/js/registration.js"></script>
+<script src="/js/cart.js"></script>
+
 </body>
 </html>
