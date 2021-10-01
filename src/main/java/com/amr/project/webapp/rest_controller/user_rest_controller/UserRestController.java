@@ -4,10 +4,11 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
-
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -17,22 +18,21 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.*;
 
+@AllArgsConstructor
 @RestController
+@Api(tags = {"Api для работы с юзером и его данными"})
 public class UserRestController {
 
     private final UserService userService;
+
     private final ShopMapper shopMapper;
+
     private final ItemMapper itemMapper;
 
-    @Autowired
-    public UserRestController(UserService userService, ShopMapper shopMapper, ItemMapper itemMapper) {
-        this.userService = userService;
-        this.shopMapper = shopMapper;
-        this.itemMapper = itemMapper;
-    }
 
     @PostMapping("/registration")
-    public ResponseEntity<?> registrateNewUser(@Valid @RequestBody User user) {
+    @ApiOperation(value = "Валидация пользователя , поиск пользователя по ключевыйм полям в бд и дальнейшая регистрация ")
+    public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
         Map<String, Object> body = new LinkedHashMap<>();
         User registratedUser = userService.findByEmail(user.getEmail());
         if (registratedUser != null) {
@@ -44,7 +44,7 @@ public class UserRestController {
             body.put("isExist", "User with this phone exist");
             return ResponseEntity.badRequest().body(body);
         }
-        userService.findByUsername(user.getUsername());
+        registratedUser = userService.findByUsername(user.getUsername());
         if (registratedUser != null) {
             body.put("isExist", "User with this username exist");
             return ResponseEntity.badRequest().body(body);
@@ -55,6 +55,7 @@ public class UserRestController {
 
 
     @GetMapping("/getUserShops/{id}")
+    @ApiOperation(value = "Отдает список магазинов юзера с айди указанным в url")
     public ResponseEntity<List<ShopDto>> getShops(@PathVariable("id") Long id) {
         User user = userService.getByKey(id);
         List<ShopDto> shops = new ArrayList<>();
@@ -67,6 +68,7 @@ public class UserRestController {
     }
 
     @GetMapping("/getUserOrders/{id}")
+    @ApiOperation(value = "Отдает список купленных товаров юзера с айди указанным в url")
     public ResponseEntity<List<ItemDto>> getOrders(@PathVariable("id") Long id) {
         User user = userService.getByKey(id);
         List<ItemDto> itemDtos = new ArrayList<>();
@@ -80,6 +82,7 @@ public class UserRestController {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseBody
+    @ApiOperation(value = "Ловит исключения вызванные аннотацией @Valid при валидации юзера для регистрации")
     public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
         BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();

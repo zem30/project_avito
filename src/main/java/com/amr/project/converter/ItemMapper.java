@@ -17,7 +17,7 @@ public interface ItemMapper {
 
     @Mapping(source = "shop.id", target = "shopId")
     @Mapping(source = "categories", target = "categoriesName", qualifiedByName = "array")
-    @Mapping(source = "item.shop.name", target = "shopName")
+    @Mapping(source = "shop.name", target = "shopName")
     ItemDto itemToDto(Item item);
 
     @Mapping(source = "shopId", target = "shop.id")
