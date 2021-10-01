@@ -8,13 +8,13 @@ import com.amr.project.service.abstracts.CartItemService;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import lombok.AllArgsConstructor;
-import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -27,41 +27,68 @@ public class ShoppingCartController {
     private final CartItemMapper cartItemMapper;
     private final ShopMapper shopMapper;
 
-    @GetMapping("/getShoppingCart")
+    @GetMapping("/getUserShoppingCart")
     public List<CartItemDto> getShoppingCart(Principal principal) {
-        System.out.println(principal);
         List<CartItemDto> cartItemDtos = new ArrayList<>();
         if (principal != null) {
-            List<CartItem> cartItems = cartItemService.getAll();
-            cartItems.forEach(s -> cartItemDtos.add(cartItemMapper.cartItemToDto(s)));
+            List<CartItem> cartItems = cartItemService.getAllByUser(userService.findByUsername(principal.getName()));
+            if (cartItems != null) {
+                cartItems.forEach(cartItem -> cartItemDtos.add(cartItemMapper.cartItemToDto(cartItem)));
+            }
         }
         return cartItemDtos;
     }
 
-    @PostMapping("/addCartItem")
-    public ResponseEntity<Void> addCartItem(@RequestBody CartItemDto cartItemDto, Principal principal) {
+    @PostMapping("/loadLocalShoppingCartToServer")
+    public ResponseEntity<Void> loadLocalShoppingCartToServer(@RequestBody Set<CartItemDto> localCart, Principal principal) {
+        if (principal != null && userService.findByUsername(principal.getName()).getCart().size() == 0) {
+            localCart.forEach(cartItemDto -> {
+                CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+                cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
+                cartItem.setUser(userService.findByUsername(principal.getName()));
+                List<CartItem> cart = cartItem.getUser().getCart();
+                cart.add(cartItem);
+                cartItem.getUser().setCart(cart);
+                cartItemService.persist(cartItem);
+            });
+        }
+        return ResponseEntity.ok().build();
+    }
+
+    @PostMapping("/addNewCartItemsAndUpdateQuantity")
+    public ResponseEntity<Void> addNewCartItemsAndUpdateQuantity(@RequestBody CartItemDto cartItemDto, Principal principal) {
         if (principal != null) {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if(cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
-                CartItem tmpCartItem = cartItemService.getByKey(cartItem.getId());
-                cartItem.setQuantity(cartItem.getQuantity() + tmpCartItem.getQuantity());
-                cartItemService.update(cartItem);
+            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
+                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId());
+                tmpCartItem.setQuantity(cartItem.getQuantity());
+                cartItemService.update(tmpCartItem);
             } else {
+                List<CartItem> cart = cartItem.getUser().getCart();
+                cart.add(cartItem);
+                cartItem.getUser().setCart(cart);
                 cartItemService.persist(cartItem);
             }
         }
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/deleteCartItem")
-    public ResponseEntity<Void> deleteCartItem(@PathVariable @NonNull Long id, Principal principal) {
-        System.out.println(principal.getName());
-        CartItem item = cartItemService.getByKey(id);
-        cartItemService.delete(item);
+    @DeleteMapping("/deletePositionFromCart")
+    public ResponseEntity<Void> deletePositionFromCart(@RequestBody CartItemDto cartItemDto, Principal principal) {
+        if (principal != null) {
+            CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
+            cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
+            cartItem.setUser(userService.findByUsername(principal.getName()));
+            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
+                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId());
+                List<CartItem> cart = tmpCartItem.getUser().getCart();
+                cart.remove(tmpCartItem);
+                tmpCartItem.getUser().setCart(cart);
+                cartItemService.delete(tmpCartItem);
+            }
+        }
         return ResponseEntity.ok().build();
     }
-
-
 }

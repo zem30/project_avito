@@ -34,7 +34,7 @@ public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
 
     @Override
     public void delete(T obj) {
-        //entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
+        entityManager.remove(entityManager.contains(obj) ? obj : entityManager.merge(obj));
     }
 
     @Override
