@@ -15,9 +15,25 @@ class CartItem {
 let cartItems = document.querySelector('#cartItemsList');
 let userTag = document.querySelector('#userTag');
 
-function sendRequestForAddNewCartItemsAndUpdateQuantity(body) {
+function sendRequestForAddNewCartItem(body) {
     if (localStorage.getItem('isAnonymous') === 'false') {
-        fetch("/shoppingCart/addNewCartItemsAndUpdateQuantity", {
+        fetch("/shoppingCart/addNewCartItem", {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        })
+            .then(res => {
+                console.dir(res)
+                drawShoppingCart()
+            })
+    }
+}
+
+function sendRequestForUpdateQuantityCartItem(body) {
+    if (localStorage.getItem('isAnonymous') === 'false') {
+        fetch("/shoppingCart/updateQuantity", {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -155,11 +171,14 @@ function addToShoppingCart(id, quantity) {
                                             tmpCartItem => {
                                                 if (tmpCartItem.itemDto.id === cartItem.itemDto.id) {
                                                     cartItem.quantity += tmpCartItem.quantity
+                                                    sendRequestForUpdateQuantityCartItem(cartItem)
+                                                    return
                                                 }
                                             }
                                         )
+                                        sendRequestForAddNewCartItem(cartItem)
+                                        return
                                     }
-                                    sendRequestForAddNewCartItemsAndUpdateQuantity(cartItem)
                                 })
                     }
                 })
@@ -185,7 +204,7 @@ function addOneToShoppingCartPosition(id) {
                         tmpCartItem => {
                             if (tmpCartItem.itemDto.id === id) {
                                 tmpCartItem.quantity++
-                                sendRequestForAddNewCartItemsAndUpdateQuantity(tmpCartItem)
+                                sendRequestForUpdateQuantityCartItem(tmpCartItem)
                             }
                         }
                     )
@@ -213,7 +232,7 @@ function deleteOneFromShoppingCartPosition(id) {
                         tmpCartItem => {
                             if (tmpCartItem.itemDto.id === id && tmpCartItem.quantity >= 2) {
                                 tmpCartItem.quantity--
-                                sendRequestForAddNewCartItemsAndUpdateQuantity(tmpCartItem)
+                                sendRequestForUpdateQuantityCartItem(tmpCartItem)
                             }
                         }
                     )
