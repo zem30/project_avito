@@ -1,4 +1,3 @@
-
 /**
  * Вставка категорий
  */
@@ -41,14 +40,17 @@ $(document).ready(
                     shops => {
                         temp += `
         <div className="card" style="width: 15rem;">
-        <img src="data:image/png;base64,${shops.logo.picture}" height="150" width="150">
-            <div className="card-body">
-                <h5 id="nameShop1" className="card-title">${shops.name}</h5>
-                <h6>Описание: <h7>${shops.description}</h7></h6>
-                <p className="card-text"></p>
-                <a href="/shop/${shops.id}" class="btn btn-outline-warning">Страница магазина</a>
-            </div>
-        </div>`
+        <img src="data:image/png;base64,${discount.shop.logo.picture}" height="150" width="150">
+        <div className="card-body">
+            <h5 id="nameShop1" className="card-title">${discount.shop.name}</h5>
+            <h6>Если Вы купите на <h6>${discount.minOrder}</h6> рублей, то получите единоразово скидку на товар в
+                размере
+                <h6>${discount.fixedDiscount}</h6>.
+            </h6>
+            <p className="card-text"></p>
+            <a href="/shop/${discount.shop.id}" class="btn btn-outline-warning">Страница магазина</a>
+        </div>
+    </div>`
 
                     })
                 document.querySelector('#cardsPopularShops').innerHTML = temp;

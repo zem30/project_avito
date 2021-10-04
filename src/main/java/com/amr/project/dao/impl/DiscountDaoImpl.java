@@ -17,7 +17,7 @@ public class DiscountDaoImpl extends ReadWriteDaoImpl<Discount, Long> implements
 
     @Override
     public List<Discount> findByUser(User user) {
-        return  entityManager.createQuery("select u from Discount u where u.user.username = :name ", Discount.class)
+        return entityManager.createQuery("select u from Discount u where u.user.username = :name ", Discount.class)
                 .setParameter("name", user.getUsername()).getResultList();
     }
 
@@ -28,11 +28,12 @@ public class DiscountDaoImpl extends ReadWriteDaoImpl<Discount, Long> implements
     }
 
     @Override
-    public Optional<Discount> findByUserAndShop(Long userId, Long shopId) {
+    public Discount findByUserAndShop(Long userId, Long shopId) {
         return entityManager.createQuery("SELECT d from Discount d where d.user.id=:userId and d.shop.id=:shopId", Discount.class)
                 .setParameter("userId", userId)
                 .setParameter("shopId", shopId)
-                .getResultStream().findAny();
+                .getSingleResult();
     }
+
 
 }

@@ -9,9 +9,8 @@ import java.util.List;
 import java.util.Optional;
 
 public interface DiscountService extends ReadWriteService <Discount, Long> {
+
     List<DiscountDto> findByUser(User user);
-
     List<DiscountDto> findByShop (Shop shop);
-
     DiscountDto findByUserAndShop (Long userId, Long shopId);
 }
