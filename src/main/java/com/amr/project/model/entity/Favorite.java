@@ -42,7 +42,7 @@ public class Favorite {
     private List<Item> items;
 
     @JsonIgnore
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(mappedBy = "favorite",fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 }
