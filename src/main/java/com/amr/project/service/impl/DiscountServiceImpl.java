@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> implements DiscountService {
 
     private final DiscountDao discountDao;
-    private final DiscountMapper  discountMapper;
+    private final DiscountMapper discountMapper;
 
     @Autowired
     public DiscountServiceImpl(DiscountDao discountDao, DiscountMapper discountMapper) {
@@ -31,8 +31,7 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> im
     @Override
     public List<DiscountDto> findByUser(User user) {
         List<Discount> discount = discountDao.findByUser(user);
-
-        List<DiscountDto> listDto = discount.stream().map( d -> discountMapper.discountToDiscountDto(d))
+        List<DiscountDto> listDto = discount.stream().map(d -> discountMapper.discountToDiscountDto(d))
                 .collect(Collectors.toList());
         return listDto;
     }
@@ -40,27 +39,22 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> im
     @Override
     public List<DiscountDto> findByShop(Shop shop) {
         List<Discount> discounts = discountDao.findByShop(shop);
-        if(discounts == null) {
+        if (discounts == null) {
             return new ArrayList<>();
         }
-
-        List<DiscountDto> listdto = discounts.stream().map( d -> discountMapper.discountToDiscountDto(d))
+        List<DiscountDto> listdto = discounts.stream().map(d -> discountMapper.discountToDiscountDto(d))
                 .filter(x -> x.getFixedDiscount() != 0 || x.getPercentage() != 0)
                 .collect(Collectors.toList());
-
         return listdto;
     }
 
     @Override
     public DiscountDto findByUserAndShop(Long userId, Long shopId) {
-        Optional<Discount> list = discountDao.findByUserAndShop(userId, shopId);
-
-        if (list.isEmpty()){
+        Discount list = discountDao.findByUserAndShop(userId, shopId);
+        if (list == null) {
             return new DiscountDto();
         }
-
-        return discountMapper.discountToDiscountDto(list.get());
+        return discountMapper.discountToDiscountDto(list);
     }
-
 
 }

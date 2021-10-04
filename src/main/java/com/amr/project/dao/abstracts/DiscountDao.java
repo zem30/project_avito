@@ -7,12 +7,10 @@ import com.amr.project.model.entity.User;
 import java.util.List;
 import java.util.Optional;
 
-public interface DiscountDao extends ReadWriteDao<Discount, Long>{
+public interface DiscountDao extends ReadWriteDao<Discount, Long> {
 
-    List <Discount> findByUser(User user);
-
+    List<Discount> findByUser(User user);
     List<Discount> findByShop(Shop shop);
-
-    Optional<Discount> findByUserAndShop(Long userId, Long shopId);
+    Discount findByUserAndShop(Long userId, Long shopId);
 
 }

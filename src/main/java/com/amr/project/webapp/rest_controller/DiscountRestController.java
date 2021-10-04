@@ -34,7 +34,7 @@ public class DiscountRestController {
     }
 
     @GetMapping(value = "/discounts")
-    public ResponseEntity<List<DiscountDto>> getDiscount (){
+    public ResponseEntity<List<DiscountDto>> getDiscount() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userService.findByUsername(authentication.getName());
         List<DiscountDto> discounts = discountService.findByUser(user);
@@ -42,11 +42,10 @@ public class DiscountRestController {
     }
 
     @GetMapping(value = "/discounts/{shopId}")
-    public ResponseEntity<DiscountDto> getDiscountByShopId (@PathVariable("shopId") Long shopId){
+    public ResponseEntity<DiscountDto> getDiscountByShopId(@PathVariable("shopId") Long shopId) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         Optional<User> userOptional = Optional.ofNullable(userService.findByUsername(authentication.getName()));
-
-        if (authentication.isAuthenticated() && userOptional.isPresent()){
+        if (authentication.isAuthenticated() && userOptional.isPresent()) {
             return ResponseEntity.ok(discountService.findByUserAndShop(userOptional.get().getId(), shopId));
         }
         return ResponseEntity.notFound().build();
