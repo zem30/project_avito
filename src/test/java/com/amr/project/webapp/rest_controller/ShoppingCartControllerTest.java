@@ -164,7 +164,7 @@ class ShoppingCartControllerTest extends AbstractApiTest {
                 post(ADD_NEW_CART_ITEM_URL)
                         .content(asJsonString(cartItemDto))
                         .contentType(MediaType.APPLICATION_JSON)
-        ).andExpect(status().is2xxSuccessful());
+        ).andExpect(status().isOk());
     }
 
     @Test
@@ -204,7 +204,7 @@ class ShoppingCartControllerTest extends AbstractApiTest {
 
         mvc.perform(MockMvcRequestBuilders.put(UPDATE_QUANTITY_URL)
                         .content(asJsonString(cartItemDto)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -240,7 +240,7 @@ class ShoppingCartControllerTest extends AbstractApiTest {
 
         mvc.perform(MockMvcRequestBuilders.delete(DELETE_POSITION_FROM_SHOPPING_CART_URL)
                         .content(asJsonString(cartItemDto)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().isOk());
     }
 
     @Test
