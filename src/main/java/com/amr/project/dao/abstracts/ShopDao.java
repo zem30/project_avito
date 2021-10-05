@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface ShopDao extends ReadWriteDao<Shop, Long> {
     Shop getShop(String nameShop);
+
     List<Shop> getUnmoderatedShops();
-    public List<Shop> getModeratedShops();
+
+    List<Shop> getModeratedShops();
+
+    List<Shop> getMostPopular(int quantity);
 }

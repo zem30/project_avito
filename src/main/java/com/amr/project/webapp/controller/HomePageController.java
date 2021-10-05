@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,5 +68,32 @@ public class HomePageController {
         model.addAttribute("cardsPopularShops", shopDto);
 
         return "index";
+    }
+
+    @RequestMapping("/allCategories")
+    @ResponseBody
+    public List<CategoryDto> getAllCategories() {
+        List<CategoryDto> categoryDto = new ArrayList<>();
+        List<Category> categories = categoryService.getAll();
+        categories.forEach(s -> categoryDto.add(categoryMapper.categoryToDto(s)));
+        return categoryDto;
+    }
+
+    @RequestMapping("/popularItems")
+    @ResponseBody
+    public List<ItemDto> getPopularItems() {
+        List<ItemDto> itemDto = new ArrayList<>();
+        List<Item> items = itemService.getMostPopular(4); // захардкодил кол-во популярных товаров на странице по рейтингу
+        items.forEach(s -> itemDto.add(itemMapper.itemToDto(s)));
+        return itemDto;
+    }
+
+    @RequestMapping("/popularShops")
+    @ResponseBody
+    public List<ShopDto> getPopularShops() {
+        List<ShopDto> shopDto = new ArrayList<>();
+        List<Shop> shops = shopService.getMostPopular(3); // захардкодил кол-во популярных магазинов на странице по рейтингу
+        shops.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
+        return shopDto;
     }
 }

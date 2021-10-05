@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface ShopService extends ReadWriteService<Shop, Long> {
     Shop getShop(String nameShop);
+
     List<Shop> getUnmoderatedShops();
+
     List<Shop> getModeratedShops();
+
+    List<Shop> getMostPopular(int quantity);
 }

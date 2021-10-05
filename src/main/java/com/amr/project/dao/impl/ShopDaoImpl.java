@@ -5,6 +5,7 @@ import com.amr.project.model.entity.Shop;
 import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import javax.transaction.Transactional;
 import java.util.List;
@@ -31,5 +32,12 @@ public class ShopDaoImpl extends ReadWriteDaoImpl<Shop, Long> implements ShopDao
     public List<Shop> getModeratedShops() {
         return entityManager.createQuery("SELECT s FROM Shop s WHERE s.isModerateAccept = true AND s.isModerated = true ", Shop.class)
                 .getResultList();
+    }
+
+    @Override
+    @Transactional
+    public List<Shop> getMostPopular(int quantity) {
+        Query query = entityManager.createQuery("Select s from Shop as s order by s.rating desc");
+        return query.getResultList().size() > quantity ? query.getResultList().subList(0, quantity) : query.getResultList();
     }
 }
