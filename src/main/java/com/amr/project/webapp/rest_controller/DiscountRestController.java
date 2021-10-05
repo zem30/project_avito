@@ -66,7 +66,7 @@ public class DiscountRestController {
     @ApiOperation(value = "Добавление скидки")
     @PostMapping("/userlist/addDiscount")
     public ResponseEntity<?> addDiscount(@RequestBody DiscountDto discountDto) {
-        if (discountDto.getShop() == null || discountDto.getUser() == null)
+        if (discountDto.getShop() == null | discountDto.getUser() == null)
             return ResponseEntity.badRequest().build();
         Discount discount = discountMapper.discountDtoToDiscount(discountDto);
         discount.setShop(shopService.getShop(discountDto.getShop().getName()));
