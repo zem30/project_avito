@@ -2,8 +2,6 @@ package com.amr.project.model.dto;
 
 import lombok.*;
 
-import java.util.List;
-
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -13,7 +11,7 @@ import java.util.List;
 @Builder
 public class CartItemDto {
     private Long id;
-    private List<ItemDto> itemDTOList;
-    private List<ShopDto> shopDTOS;
+    private ItemDto itemDto;
+    private ShopDto shopDto;
     private int quantity;
 }

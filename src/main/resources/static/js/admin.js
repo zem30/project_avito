@@ -1,19 +1,18 @@
-
 /**
  * Вставка категорий
  */
-function sendRequestForCategoryes(url, body) {
+function sendRequestForCategories(url, body) {
     const headers = {
         'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 
     let temp = '';
-    return fetch(url).then(response => { // дописать актуальный Url
+    fetch('allCategories', {headers}).then(response => { // дописать актуальный Url
         return response.json().then(data => {
             data.forEach(
                 category => {
-                    temp += `<li><a class="dropdown-item" href="#">${category}</a></li>`;
+                    temp += `<li><a class="dropdown-item" href="#">${category.name}</a></li>`;
                 }
             )
 
@@ -27,35 +26,34 @@ function sendRequestForCategoryes(url, body) {
  * Вставка магазинов
  */
 
-$(document).ready(
-    function sendRequestForShops() {
-        const headers = {
-            'Content-Type': 'application/json',
-            'Accept': 'application/json'
-        }
+function sendRequestForShops() {
+    const headers = {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+    }
 
-        let temp = '';
-        fetch('allShops', {headers}).then(response => { // дописать актуальный Url
-            return response.json().then(data => {
-                data.forEach(
-                    shops => {
-                        temp += `
-        <div className="card" style="width: 15rem;">
-        <img src="data:image/png;base64,${shops.logo.picture}" height="150" width="150">
-            <div className="card-body">
-                <h5 id="nameShop1" className="card-title">${shops.name}</h5>
-                <h6>Описание: <h7>${shops.description}</h7></h6>
-                <p className="card-text"></p>
-                <a href="/shop/${shops.id}" class="btn btn-outline-warning">Страница магазина</a>
+    let temp = '';
+    fetch('popularShops', {headers}).then(response => { // дописать актуальный Url
+        return response.json().then(data => {
+            data.forEach(
+                shop => {
+                    temp += `
+        <div class="card" style="width: 15rem;">
+        <img src="data:image/png;base64,${shop.logo.picture}" height="150" width="150">
+            <div class="card-body">
+                <h5 id="nameShop1" class="card-title">${shop.name}</h5>
+                <h6>Описание: <h7>${shop.description}</h7></h6>
+                <p class="card-text"></p>
+                <a href="/shop/${shop.id}" class="btn btn-outline-warning">Страница магазина</a>
             </div>
         </div>`
 
-                    })
-                document.querySelector('#cardsPopularShops').innerHTML = temp;
-            });
+                })
+            document.querySelector('#cardsPopularShops').innerHTML = temp;
+        });
 
-        })
-    });
+    })
+}
 
 /**
  * Вставка популярных товаров
@@ -68,28 +66,33 @@ function sendRequestForItems(url, body) {
     }
 
     let temp = '';
-    return fetch(url).then(response => { // дописать актуальный Url
+    fetch('popularItems', {headers}).then(response => { // дописать актуальный Url
         return response.json().then(data => {
             data.forEach(
-                items => {
-                    temp += `<div class="cards_with_popular_products">
-            <div class="card" style="width: 15rem;">
-                <img src="${items.images}"
+                item => {
+                    temp += `
+            <div class="cards_with_popular_products">
+                <div class="card" style="width: 15rem;">
+                    <img src="${item.images}"
                      class="card-img-top" alt="...">
-                <div class="card-body">
-                    <h5 id="item1" class="card-title">${items.name}</h5>
-                    <h6>Цена: ${items.price}</h6>
-                    <h7>Описание товара: ${items.description}</h7>
-                    <p class="card-text"></p>
-                    <a href="#" class="btn btn-primary">В Корзину</a>
+                    <div class="card-body">
+                        <h5 id="item1" class="card-title">${item.name}</h5>
+                        <h6>Цена: ${item.price}</h6>
+                        <h7>Описание товара: ${item.description}</h7>
+                        <p class="card-text"></p>
+                        <a id="addToCart" class="btn btn-primary" onclick="addToShoppingCart(${item.id}, 1)">В Корзину</a>
+                    </div>
                 </div>
             </div>
-        </div>`
-                }
-            )
+                        `;
+                })
 
-            document.querySelector('#cardPopularItems').innerHTML = temp;
+            document.querySelector('#cardsPopularItems').innerHTML = temp;
         });
 
     })
 }
+
+sendRequestForCategories();
+sendRequestForItems();
+sendRequestForShops();

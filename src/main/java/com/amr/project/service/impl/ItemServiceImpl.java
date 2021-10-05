@@ -1,6 +1,6 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.dao.impl.ItemDaoImpl;
+import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.service.abstracts.ItemService;
@@ -15,14 +15,12 @@ import java.util.List;
 @Service
 public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements ItemService {
 
-    private final ItemDaoImpl itemDao;
-
+    private final ItemDao itemDao;
     private final TrackedEmailItem trackedEmailItem;
-
     private final EmailSenderService emailSenderService;
 
     @Autowired
-    protected ItemServiceImpl(ItemDaoImpl itemDao, EmailSenderService emailSenderService, TrackedEmailItem trackedEmailItem) {
+    protected ItemServiceImpl(ItemDao itemDao, TrackedEmailItem trackedEmailItem, EmailSenderService emailSenderService) {
         super(itemDao);
         this.itemDao = itemDao;
         this.emailSenderService = emailSenderService;
@@ -61,5 +59,11 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     public void persist(Item item) {
         emailSenderService.sendSimpleEmail(trackedEmailItem.trackedEmailItemPersist(item));
         itemDao.persist(item);
+    }
+
+    @Override
+    @Transactional
+    public List<Item> getMostPopular(int quantity) {
+        return itemDao.getMostPopular(quantity);
     }
 }
