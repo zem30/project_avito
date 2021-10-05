@@ -26,10 +26,10 @@ import java.util.stream.Collectors;
 
 @Api(tags = {"API для получения пользователей и добавления скидки на странице владельца магазина"})
 @RestController
-@RequestMapping()
+@RequestMapping("/api")
 @Validated
 @RequiredArgsConstructor
-public class ShopOwnerRestController {
+public class DiscountRestController {
 
     private final UserServiceImpl userService;
     private final ShopService shopService;
@@ -52,22 +52,27 @@ public class ShopOwnerRestController {
     @GetMapping("/userlist/{id}")
     public ResponseEntity<UserDto> getUserById(@PathVariable("id") long id) {
         User user = userService.getByKey(id);
-        return new ResponseEntity<>(userMapper.userToDto(user), HttpStatus.OK);
+        return ResponseEntity.ok().body(userMapper.userToDto(user));
+
     }
 
     @ApiOperation(value = "Получаем магазин по ID ")
     @GetMapping("/userlist/shop/{id}")
     public ResponseEntity<ShopDto> getShopById(@PathVariable("id") long id) {
         Shop shop = shopService.getByKey(id);
-        return new ResponseEntity<>(shopMapper.shopToDto(shop), HttpStatus.OK);
+        return ResponseEntity.ok().body(shopMapper.shopToDto(shop));
     }
 
     @ApiOperation(value = "Добавление скидки")
-    @PutMapping("/userlist/addDiscount")
-    public ResponseEntity<Discount> addDiscount(@Valid @RequestBody DiscountDto discountDto) {
+    @PostMapping("/userlist/addDiscount")
+    public ResponseEntity<?> addDiscount(@RequestBody DiscountDto discountDto) {
+        if (discountDto.getShop() == null || discountDto.getUser() == null)
+            return ResponseEntity.badRequest().build();
         Discount discount = discountMapper.discountDtoToDiscount(discountDto);
+        discount.setShop(shopService.getShop(discountDto.getShop().getName()));
+        discount.setUser(userService.findByUsername(discountDto.getUser().getUsername()));
         discountService.persist(discount);
-        return new ResponseEntity<>(discount,HttpStatus.OK);
+        return ResponseEntity.ok().build();
     }
 
 }

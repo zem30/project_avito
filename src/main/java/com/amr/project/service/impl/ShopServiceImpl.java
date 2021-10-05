@@ -1,6 +1,5 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.dao.abstracts.ShopDao;
 import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ItemDto;

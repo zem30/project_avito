@@ -15,6 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
         "Category.xml", "Shop.xml", "Shop-item.xml",
         "Country.xml"}, cleanBefore = true, cleanAfter = true)
 public class HomePageControllerTest extends AbstractIntegrationTest {
+    
     @Autowired
     private MockMvc mockMvc;
 

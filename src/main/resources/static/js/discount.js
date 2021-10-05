@@ -16,7 +16,7 @@ function createTableRow(u) {
         <td>${date.getDay() + " - " + date.getMonth() + " - " + date.getFullYear()}</td>
 
         <td>
-        <a  href="/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
+        <a  href="/api/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
         </td>
     </tr>`;
 }
@@ -26,7 +26,7 @@ function restartAllUser() {
 
     UserTableBody.children().remove();
 
-    fetch("/userlist/all")
+    fetch("/api/userlist/all")
         .then((response) => {
             response.json().then(
                 data => data.forEach(function (item) {
@@ -61,7 +61,7 @@ document.addEventListener('click', function (event) {
         }
         let shopId = $('#chooseShop').val()[0];
 
-        fetch('/userlist/shop/' + shopId, {
+        fetch('/api/userlist/shop/' + shopId, {
             method: 'GET'
         }).then(function (response) {
             response.json().then(function (shop) {
@@ -81,8 +81,8 @@ document.addEventListener('click', function (event) {
 
 function discountModalButton(discount) {
     console.log(discount)
-    fetch("/userlist/addDiscount", {
-        method: "PUT",
+    fetch("/api/userlist/addDiscount", {
+        method: "POST",
         headers: {
             "Content-Type": "application/json;charset=utf-8"
         },
