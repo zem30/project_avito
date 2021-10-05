@@ -1,4 +1,4 @@
-package com.amr.project.webapp.rest_controller.shop_owner_controller;
+package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.DiscountMapper;
 import com.amr.project.converter.ShopMapper;

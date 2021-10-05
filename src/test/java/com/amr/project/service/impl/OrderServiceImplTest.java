@@ -19,7 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @TestPropertySource("/application-test.properties")
 @DBRider
 @DBUnit(caseSensitiveTableNames = true, allowEmptyFields = true, schema = "platform_test")
-@DataSet(value = {"Orders.xml"})
+@DataSet(value = {"Orders.xml","User-orders.xml", "Orders-item.xml"})
 class OrderServiceImplTest extends AbstractIntegrationTest {
     private final OrderService orderService;
 
