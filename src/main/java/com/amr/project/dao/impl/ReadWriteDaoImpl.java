@@ -53,7 +53,7 @@ public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
     @Override
     public boolean existsById(K key) {
         int count = entityManager.createQuery("select u from " + typeClass.getSimpleName() + " u where  u.id= '" + key + "' ").getResultList().size();
-        return count > 0 ? true : false;
+        return count > 0;
     }
 
     @Override

@@ -33,16 +33,16 @@ public class ShoppingCartController {
     @ApiOperation(value = "Возвращает список товаров в корзине у пользователя, переданного через параметр Principal")
     @GetMapping("/getUserShoppingCart")
     public ResponseEntity<List<CartItemDto>> getUserShoppingCart(Principal principal) {
-        List<CartItemDto> cartItemDtos = new ArrayList<>();
         if (principal != null) {
+            List<CartItemDto> cartItemDtos = new ArrayList<>();
             List<CartItem> cartItems = cartItemService.getAllByUser(userService.findByUsername(principal.getName()));
             if (cartItems != null) {
                 cartItems.forEach(cartItem -> cartItemDtos.add(cartItemMapper.cartItemToDto(cartItem)));
             }
+            return ResponseEntity.ok(cartItemDtos);
         } else {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok(cartItemDtos);
     }
 
     @ApiOperation(value = "Сохраняет на сервере полученную корзину пользователя, переданного через Principal")
@@ -59,7 +59,7 @@ public class ShoppingCartController {
                 cartItemService.persist(cartItem);
             });
         } else {
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
@@ -72,7 +72,7 @@ public class ShoppingCartController {
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
             if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
-                ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest().build();
             } else {
                 List<CartItem> cart = cartItem.getUser().getCart();
                 cart.add(cartItem);
@@ -80,13 +80,13 @@ public class ShoppingCartController {
                 cartItemService.persist(cartItem);
             }
         } else {
-            ResponseEntity.badRequest().build();
+           return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "Обновляет количество переданной существующей позиции в корзине пользователя, переданного через Principal")
-    @PostMapping("/updateQuantity")
+    @PutMapping("/updateQuantity")
     public ResponseEntity<Void> updateQuantityCartItem(@RequestBody CartItemDto cartItemDto, Principal principal) {
         if (principal != null) {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
@@ -97,10 +97,10 @@ public class ShoppingCartController {
                 tmpCartItem.setQuantity(cartItem.getQuantity());
                 cartItemService.update(tmpCartItem);
             } else {
-                ResponseEntity.badRequest().build();
+                return ResponseEntity.badRequest().build();
             }
         } else {
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }
@@ -118,9 +118,11 @@ public class ShoppingCartController {
                 cart.remove(tmpCartItem);
                 tmpCartItem.getUser().setCart(cart);
                 cartItemService.delete(tmpCartItem);
+            } else {
+                return ResponseEntity.badRequest().build();
             }
         } else {
-            ResponseEntity.badRequest().build();
+            return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok().build();
     }

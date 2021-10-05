@@ -34,7 +34,7 @@ function sendRequestForAddNewCartItem(body) {
 function sendRequestForUpdateQuantityCartItem(body) {
     if (localStorage.getItem('isAnonymous') === 'false') {
         fetch("/shoppingCart/updateQuantity", {
-            method: 'POST',
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
