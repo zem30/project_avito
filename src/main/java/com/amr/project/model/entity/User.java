@@ -169,7 +169,4 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
     }
-
-
-
 }

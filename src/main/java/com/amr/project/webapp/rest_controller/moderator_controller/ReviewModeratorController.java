@@ -36,6 +36,7 @@ public class ReviewModeratorController {
         this.itemService = itemService;
         this.reviewMapper = reviewMapper;
     }
+
     @ApiOperation(value = "Отправляет все отзывы не прошедшие модерацию на фронт")
     @GetMapping("/getUnmoderatedReviews")
     public ResponseEntity<List<ReviewDto>> getUnmodetaredReviews() {
@@ -49,22 +50,26 @@ public class ReviewModeratorController {
     @ApiOperation(value = "Отправляет один не прошедший модерацию отзыв на фронт по id")
     @GetMapping("/getOneUnmoderatedReview/{id}")
     public ResponseEntity<ReviewDto> getOneUnmoderatedReview(@PathVariable("id") Long id) {
-        if (reviewService.getByKey(id).isModerated()) {
-            return ResponseEntity.badRequest().build();
+        Review review = reviewService.getByKey(id);
+        if (review == null || review.isModerated()) {
+            return ResponseEntity.notFound().build();
         } else {
-            return ResponseEntity.ok(reviewMapper.reviewToDto(reviewService.getByKey(id)));
+            return ResponseEntity.ok(reviewMapper.reviewToDto(review));
         }
     }
 
     @ApiOperation(value = "Получает измененный отзыв из фронта и обновляет в базе данных")
     @PutMapping("/editReview")
     public ResponseEntity<ReviewDto> editReview(@RequestBody ReviewDto reviewDto) {
-        Review review = reviewMapper.dtoToReview(reviewDto);
-        review.setUser(userService.getByKey(reviewDto.getUserId()));
-        review.setShop(shopService.getByKey(reviewDto.getShopId()));
-        review.setItem(itemService.getByKey(reviewDto.getItemId()));
-        reviewService.update(review);
-        return ResponseEntity.ok(reviewMapper.reviewToDto(reviewService.getByKey(reviewDto.getId())));
+        if (reviewService.existsById(reviewDto.getId())) {
+            Review review = reviewMapper.dtoToReview(reviewDto);
+            review.setUser(userService.getByKey(reviewDto.getUserId()));
+            review.setShop(shopService.getByKey(reviewDto.getShopId()));
+            review.setItem(itemService.getByKey(reviewDto.getItemId()));
+            reviewService.update(review);
+            return ResponseEntity.ok(reviewMapper.reviewToDto(review));
+        }
+        return ResponseEntity.badRequest().build();
     }
 
     @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию отзывов для счетчика")
