@@ -4,6 +4,8 @@ package com.amr.project.model.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 @NoArgsConstructor
@@ -13,6 +15,7 @@ import java.util.List;
 @EqualsAndHashCode
 @Builder
 @ToString
+
 public class UserDto {
     private Long id;
     private String username;
@@ -22,7 +25,11 @@ public class UserDto {
     private String phone;
     private AddressDto address;
     private ImageDto images;
-    private List<OrderDto> orders;
+    private Calendar birthday;
+    private List<OrderDto> orders = new ArrayList<>();
+    private List<ShopDto> shops = new ArrayList<>();
+
+
 
 
 

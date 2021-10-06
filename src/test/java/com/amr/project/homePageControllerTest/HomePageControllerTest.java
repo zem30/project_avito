@@ -13,8 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DataSet(value = {"Item.xml", "Item-category.xml",
         "Category.xml", "Shop.xml", "Shop-item.xml",
-        "Country.xml"}, cleanBefore = true, cleanAfter = true)
+        "Country.xml","Image.xml","Item-image.xml"}, cleanBefore = true, cleanAfter = true)
 public class HomePageControllerTest extends AbstractIntegrationTest {
+    
     @Autowired
     private MockMvc mockMvc;
 

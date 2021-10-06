@@ -5,17 +5,12 @@ import com.amr.project.model.entity.Discount;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {UserMapper.class,ShopMapper.class})
 public interface DiscountMapper {
-
-    @Mapping(source = "shop.id", target = "shopId")
-    @Mapping(source = "user.id", target = "userId")
+//    @Mapping(target = "city" , source ="city.name")
+//    @Mapping(target = "country" , source ="country.name")
     DiscountDto discountToDiscountDto(Discount discount);
-
-    @Mapping(source = "shopId", target = "shop.id")
-    @Mapping(source = "userId", target = "user.id")
-    Discount DiscountDtoToDiscount (DiscountDto discountDto);
-
-
-
+//    @Mapping(target = "city.name" , source ="city")
+//    @Mapping(target =  "country.name", source ="country")
+    Discount discountDtoToDiscount(DiscountDto discountDto);
 }

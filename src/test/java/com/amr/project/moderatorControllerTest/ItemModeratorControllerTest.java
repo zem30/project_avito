@@ -1,6 +1,7 @@
 package com.amr.project.moderatorControllerTest;
 
-import com.amr.project.AbstractIntegrationTest;
+import
+        com.amr.project.AbstractIntegrationTest;
 import com.github.database.rider.core.api.dataset.DataSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DataSet(value = {"Item.xml", "Item-category.xml",
         "Category.xml", "Shop.xml", "Shop-item.xml",
-"Country.xml"} , cleanBefore = true, cleanAfter = true)
+        "Country.xml","Image.xml","Item-image.xml"} , cleanBefore = true, cleanAfter = true)
 public class ItemModeratorControllerTest extends AbstractIntegrationTest {
 
     private final MockMvc mockMvc;

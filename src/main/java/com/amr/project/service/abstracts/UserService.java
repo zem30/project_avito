@@ -3,6 +3,7 @@ package com.amr.project.service.abstracts;
 import com.amr.project.model.entity.User;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 public interface UserService extends ReadWriteService<User, Long> {
     User findByUsername(String username) throws NoResultException;
@@ -11,6 +12,9 @@ public interface UserService extends ReadWriteService<User, Long> {
 
     User findByPhone(String phone) throws NoResultException;
 
+    List<User> findByRole(String role) throws NoResultException;
+
     @Override
     void persist(User user);
+
 }

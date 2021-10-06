@@ -9,9 +9,10 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "discount")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
+@Setter
 @Builder
 public class Discount {
     @Id

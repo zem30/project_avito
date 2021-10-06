@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
+import java.util.List;
 
 
 @Service
@@ -78,4 +79,10 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         emailSenderService.sendSimpleEmail(trackedEmailUser.trackedEmailUserDelete(user));
         userDao.delete(user);
     }
+
+    @Override
+    public List<User> findByRole(String role) throws NoResultException {
+        return userDao.findByRole(role);
+    }
+
 }
