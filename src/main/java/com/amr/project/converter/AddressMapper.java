@@ -5,7 +5,8 @@ import com.amr.project.model.entity.Address;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {CountryMapper.class,
+                                            CityMapper.class})
 public interface AddressMapper{
     @Mapping(target = "city" , source ="city.name")
     @Mapping(target = "country" , source ="country.name")
