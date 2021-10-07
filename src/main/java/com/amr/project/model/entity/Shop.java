@@ -33,7 +33,7 @@ public class Shop {
 
     @Id
     @Column
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true)
@@ -65,7 +65,7 @@ public class Shop {
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
     private List<Review> reviews;
 
-    @JsonIgnore
+
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Image logo;
 
@@ -88,23 +88,25 @@ public class Shop {
             joinColumns = {@JoinColumn(name = "shop_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
     private Collection<Discount> discounts;
-
+    @JsonIgnore
     @Column(name = "is_moderated")
     private boolean isModerated;
-
+    @JsonIgnore
     @Column(name = "is_moderate_accept")
     private boolean isModerateAccept;
-
+    @JsonIgnore
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
 
+
     //поле для подтверждения модератором
+    @JsonIgnore
     @Column
     private int activity;
-
+    @JsonIgnore
     @Transient
     private MultipartFile file;
-
+    @JsonIgnore
     @Column
     private boolean isPretendentToBeDeleted = false;
 

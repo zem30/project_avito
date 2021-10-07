@@ -1,5 +1,6 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.dao.abstracts.CategoryDao;
 import com.amr.project.dao.impl.CategoryDaoImpl;
 import com.amr.project.model.entity.Category;
 import com.amr.project.model.entity.Mail;
@@ -14,14 +15,14 @@ import javax.transaction.Transactional;
 @Service
 public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> implements CategoryService {
 
-    private final CategoryDaoImpl categoryDao;
+    private final CategoryDao categoryDao;
 
     private final TrackedEmailCategory trackedEmailCategory;
 
     private final EmailSenderService emailSenderService;
 
     @Autowired
-    protected CategoryServiceImpl(CategoryDaoImpl categoryDao, TrackedEmailCategory trackedEmailCategory, EmailSenderService emailSenderService) {
+    protected CategoryServiceImpl(CategoryDao categoryDao, TrackedEmailCategory trackedEmailCategory, EmailSenderService emailSenderService) {
         super(categoryDao);
         this.categoryDao = categoryDao;
         this.trackedEmailCategory = trackedEmailCategory;

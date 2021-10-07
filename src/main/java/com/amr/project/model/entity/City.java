@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -45,14 +44,12 @@ public class City {
                 '}';
     }
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinTable(name = "country_city",
             joinColumns = {@JoinColumn(name = "city_id")},
             inverseJoinColumns = {@JoinColumn(name = "country_id")})
     private Country country;
 
-
-    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private List<Address> addresses;
+//    @OneToMany(mappedBy = "city",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    private List<Address> addresses;
 }

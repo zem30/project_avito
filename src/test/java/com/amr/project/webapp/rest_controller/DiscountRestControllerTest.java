@@ -17,12 +17,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 class DiscountRestControllerTest extends AbstractApiTest {
-
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/Discount.xml")
     @ExpectedDataSet(value = "datasets/discount/expected/discountExpected.xml")
     public void addDiscountTest() throws Exception {
-
         DiscountDto discount = DiscountDto.builder()
                 .minOrder(100)
                 .fixedDiscount(10)
@@ -68,7 +66,6 @@ class DiscountRestControllerTest extends AbstractApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(discount)))
                 .andExpect(status().isBadRequest());
-
     }
 
     @Test
@@ -78,7 +75,6 @@ class DiscountRestControllerTest extends AbstractApiTest {
         String getShopByIdUrl = "/api/userlist/shop/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, 1))
                 .andExpect(status().is2xxSuccessful());
-
     }
 
     @Test
@@ -100,5 +96,4 @@ class DiscountRestControllerTest extends AbstractApiTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(3)));
     }
-
 }

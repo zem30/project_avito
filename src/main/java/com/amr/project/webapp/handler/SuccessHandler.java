@@ -21,7 +21,7 @@ public class SuccessHandler implements AuthenticationSuccessHandler {
         Set<String> roles = AuthorityUtils.authorityListToSet(authentication.getAuthorities());
 
         if (roles.contains("ADMIN")) {
-            httpServletResponse.sendRedirect("/"); //Надо допписать адрес
+            httpServletResponse.sendRedirect("/admin");
         } else if (roles.contains("MODERATOR")) {
             httpServletResponse.sendRedirect("/moderator");
         }

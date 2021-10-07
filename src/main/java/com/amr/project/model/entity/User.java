@@ -23,14 +23,12 @@ public class User implements UserDetails {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-
     private Long id;
 
     @Column(unique = true)
     @NotBlank
     @Email(message = "Введите корректный email")
     private String email;
-
 
     @Column(unique = true)
     @NotBlank(message = "Введите имя пользователя")
@@ -57,7 +55,7 @@ public class User implements UserDetails {
     @Column(name = "last_name")
     private String lastName;
 
-    @Column
+    @Column(name = "age")
     private int age;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -71,10 +69,10 @@ public class User implements UserDetails {
     )
     private Set<Role> roles;
 
-    @Column
+    @Column(name = "gender")
     private Gender gender;
 
-    @Column
+    @Column(name = "birthday")
     private Calendar birthday;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)

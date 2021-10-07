@@ -42,9 +42,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/shop/item/**", "/registration", "/**",
                         "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
-                .antMatchers("/js/**","/css/**").permitAll()
                 .antMatchers("/admin/**").hasAuthority("ADMIN")
                 .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
+                .antMatchers("/js/**","/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()

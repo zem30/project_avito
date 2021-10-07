@@ -3,9 +3,9 @@ package com.amr.project.webapp.rest_controller;
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
-import com.amr.project.service.impl.CategoryServiceImpl;
-import com.amr.project.service.impl.ItemServiceImpl;
-import com.amr.project.service.impl.ShopServiceImpl;
+import com.amr.project.service.abstracts.CategoryService;
+import com.amr.project.service.abstracts.ItemService;
+import com.amr.project.service.abstracts.ShopService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.NonNull;
@@ -25,11 +25,11 @@ import java.util.stream.Collectors;
 @RequestMapping("shop/")
 public class ItemRestController {
 
-    private final CategoryServiceImpl categoryService;
+    private final CategoryService categoryService;
 
-    private final ShopServiceImpl shopService;
+    private final ShopService shopService;
 
-    private final ItemServiceImpl itemServiceImpl;
+    private final ItemService itemService;
 
     private final ItemMapper itemConverter;
 
@@ -39,20 +39,20 @@ public class ItemRestController {
         Item item = itemConverter.dtoToItem(itemDto);
         if (itemDto.getShopName() == null || itemDto.getCategoriesName() == null)
             return ResponseEntity.badRequest().body("empty shop");
-        item.setCategories(Arrays.stream(itemDto.getCategoriesName()).map(category -> categoryService.getCategory(category)).collect(Collectors.toList()));
+//        item.setCategories(Arrays.stream(itemDto.getCategoriesName()).map(category -> categoryService.getCategory(category)).collect(Collectors.toList()));
         item.setShop(shopService.getShop(itemDto.getShopName()));
-        itemServiceImpl.persist(item);
+        itemService.persist(item);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "Удаляет объект Item по id")
     @DeleteMapping("item/{id}")
     public ResponseEntity<?> deleteItem(@PathVariable @NonNull Long id) {
-        Item item = itemServiceImpl.getByKey(id);
+        Item item = itemService.getByKey(id);
         if (item == null)
             return ResponseEntity.badRequest().body("empty item");
         item.setPretendentToBeDeleted(true);
-        itemServiceImpl.update(item);
+        itemService.update(item);
         return ResponseEntity.ok().build();
     }
 
@@ -67,13 +67,13 @@ public class ItemRestController {
         item.setCategories(Arrays.stream(itemDto.getCategoriesName())
                 .map(category -> categoryService.getCategory(category))
                 .collect(Collectors.toList()));
-        itemServiceImpl.update(item);
+        itemService.update(item);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
 
     @GetMapping("item/{id}")
     public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
-        Item item = itemServiceImpl.getByKey(id);
+        Item item = itemService.getByKey(id);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
 }

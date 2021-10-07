@@ -10,10 +10,8 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Builder
-
 public class CountryDto {
     private Long id;
     private String name;
-    private List<CityDto> cities;
-
+   // private List<CityDto> cities;
 }
