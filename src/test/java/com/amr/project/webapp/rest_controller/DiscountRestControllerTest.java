@@ -1,7 +1,9 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.AbstractApiTest;
-import com.amr.project.model.dto.*;
+import com.amr.project.model.dto.DiscountDto;
+import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.dto.UserDto;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
@@ -79,6 +81,8 @@ class DiscountRestControllerTest extends AbstractApiTest {
         mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, 1))
                 .andExpect(status().is2xxSuccessful());
 
+        mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, "www"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -88,6 +92,9 @@ class DiscountRestControllerTest extends AbstractApiTest {
         String getUserByIdUrl = "/api/userlist/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getUserByIdUrl, 1))
                 .andExpect(status().is2xxSuccessful());
+
+        mvc.perform(MockMvcRequestBuilders.get(getUserByIdUrl, "user"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -100,5 +107,6 @@ class DiscountRestControllerTest extends AbstractApiTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(3)));
     }
+
 
 }
