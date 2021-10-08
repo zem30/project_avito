@@ -1,7 +1,9 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.AbstractApiTest;
-import com.amr.project.model.dto.*;
+import com.amr.project.model.dto.DiscountDto;
+import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.dto.UserDto;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
@@ -17,10 +19,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc(addFilters = false)
 class DiscountRestControllerTest extends AbstractApiTest {
+
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/Discount.xml")
     @ExpectedDataSet(value = "datasets/discount/expected/discountExpected.xml")
     public void addDiscountTest() throws Exception {
+
         DiscountDto discount = DiscountDto.builder()
                 .minOrder(100)
                 .fixedDiscount(10)
@@ -66,6 +70,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(asJsonString(discount)))
                 .andExpect(status().isBadRequest());
+
     }
 
     @Test
@@ -75,6 +80,9 @@ class DiscountRestControllerTest extends AbstractApiTest {
         String getShopByIdUrl = "/api/userlist/shop/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, 1))
                 .andExpect(status().is2xxSuccessful());
+
+        mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, "www"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -84,6 +92,9 @@ class DiscountRestControllerTest extends AbstractApiTest {
         String getUserByIdUrl = "/api/userlist/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getUserByIdUrl, 1))
                 .andExpect(status().is2xxSuccessful());
+
+        mvc.perform(MockMvcRequestBuilders.get(getUserByIdUrl, "user"))
+                .andExpect(status().isBadRequest());
     }
 
     @Test
@@ -96,4 +107,6 @@ class DiscountRestControllerTest extends AbstractApiTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(jsonPath("$", hasSize(3)));
     }
+
+
 }

@@ -4,21 +4,35 @@ import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
 
+@ControllerAdvice
 @Controller
 @RequiredArgsConstructor
+@Validated
+@Api(tags = { "Операции с пользователем"})
 public class UserPageController {
 
     private final UserService userService;
     private final UserMapper userMapper;
 
+    @ApiOperation(value = "Получение пользователя по ID")
     @GetMapping(value = "/user/{id}", produces = "image/png")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по ID"),
+            @ApiResponse(code = 404, message = "Пользователь не найден по ID")
+    })
     public String getUserPage(@PathVariable("id") Long id, Model model) {
         User user = userService.getByKey(id);
         UserDto userDto = userMapper.userToDto(user);
@@ -27,7 +41,12 @@ public class UserPageController {
         return "UserPage";
     }
 
+    @ApiOperation(value = "Просмотр списка покупателей")
     @GetMapping("/user/{id}/userlist")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по ID"),
+            @ApiResponse(code = 404, message = "Пользователь не найден по ID")
+    })
     public String getUserList(@PathVariable("id") Long id, Model model){
         User user = userService.getByKey(id);
         UserDto userDto = userMapper.userToDto(user);
