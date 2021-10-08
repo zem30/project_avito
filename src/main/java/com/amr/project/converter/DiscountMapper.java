@@ -7,10 +7,10 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring",uses = {UserMapper.class,ShopMapper.class})
 public interface DiscountMapper {
-//    @Mapping(target = "city" , source ="city.name")
-//    @Mapping(target = "country" , source ="country.name")
+    @Mapping(target = "city" , source ="city.name")
+    @Mapping(target = "country" , source ="country.name")
     DiscountDto discountToDiscountDto(Discount discount);
-//    @Mapping(target = "city.name" , source ="city")
-//    @Mapping(target =  "country.name", source ="country")
+    @Mapping(target = "city.name" , source ="city")
+    @Mapping(target =  "country.name", source ="country")
     Discount discountDtoToDiscount(DiscountDto discountDto);
 }
