@@ -37,13 +37,13 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column
+    @Column(name = "name")
     private String name;
 
-    @Column
+    @Column(name = "price")
     private BigDecimal price;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinTable(name = "item_category",
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "category_id")})
@@ -61,16 +61,16 @@ public class Item {
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
     private List<Review> reviews;
 
-    @Column
+    @Column(name = "count")
     private Integer count;
 
-    @Column
+    @Column(name = "rating")
     private Double rating;
 
-    @Column
+    @Column(name = "description")
     private String description;
 
-    @Column
+    @Column(name = "discount")
     private Integer discount;
 
     @JsonIgnore
@@ -79,13 +79,13 @@ public class Item {
             joinColumns = {@JoinColumn(name = "item_id")},
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Shop shop;
+
     @Column(name = "is_moderated")
     private boolean isModerated;
     @Column(name = "is_moderate_accept")
     private boolean isModerateAccept;
     @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
-
     @Column(name = "pretendent_to_be_deleted")
     private boolean isPretendentToBeDeleted;
 

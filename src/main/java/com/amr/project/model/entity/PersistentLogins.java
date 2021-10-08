@@ -1,5 +1,6 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "persistent_logins")
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 public class PersistentLogins {
     @Column(name = "username", nullable = false)
     private String username;
@@ -26,4 +27,8 @@ public class PersistentLogins {
 
     @Column(name = "last_used", nullable = false)
     private LocalDateTime lastUsed;
+
+    public PersistentLogins() {
+
+    }
 }

@@ -3,7 +3,7 @@ package com.amr.project.webapp.rest_controller;
 import com.amr.project.AbstractApiTest;
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.model.dto.ItemDto;
-import com.amr.project.service.impl.ItemServiceImpl;
+import com.amr.project.service.abstracts.ItemService;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 class ItemRestControllerTest extends AbstractApiTest {
 
     @Autowired
-    private ItemServiceImpl itemService;
+    private ItemService itemService;
 
     @Autowired
     private ItemMapper itemMapper;
@@ -28,7 +28,6 @@ class ItemRestControllerTest extends AbstractApiTest {
     @DataSet(cleanBefore = true, value = "dataset/testApiItem/TestItemPersist.xml")
     @ExpectedDataSet(value = "dataset/testApiItem/expected/TestItemPersist.xml")
     public void testItemPersist() throws Exception {
-
         ItemDto itemDto = ItemDto.builder().name("Test").shopName("Alibaba").description("Test")
                 .count(2).rating(0d).price(new BigDecimal(200)).categoriesName(new String[]{"Sport"}).build();
         ItemDto itemDto2 = ItemDto.builder().name("Test").description("Test")

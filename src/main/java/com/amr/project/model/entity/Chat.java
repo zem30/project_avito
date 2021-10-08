@@ -11,7 +11,6 @@ import java.util.List;
 @Entity
 @Table(name = "chat")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 public class Chat {
@@ -31,5 +30,9 @@ public class Chat {
     public Chat(List<User> members) {
         this.members = members;
         this.hash = members.stream().map(User::getId).map(Object::hashCode).mapToLong(e -> e).sum();
+    }
+
+    public Chat() {
+
     }
 }

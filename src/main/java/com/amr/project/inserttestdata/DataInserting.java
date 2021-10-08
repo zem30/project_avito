@@ -252,8 +252,8 @@ public class DataInserting {
 //---------------------------------------------------------------Admin + Moderator
         User admin1 = User.builder()
                 .email("admin1@mail")
-                .username("admin1_username")
-                .password(passwordEncoder.encode("password"))
+                .username("A1")
+                .password(passwordEncoder.encode("p"))
                 .activate(true)
                 .activationCode("admin1_activation_code")
                 .phone("admin1_phone")

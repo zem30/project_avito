@@ -1,5 +1,6 @@
 package com.amr.project.model.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import springfox.documentation.annotations.ApiIgnore;
@@ -9,7 +10,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "coupon")
 @Data
-@NoArgsConstructor
+@AllArgsConstructor
 @ApiIgnore
 public class Coupon {
 
@@ -17,4 +18,8 @@ public class Coupon {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    public Coupon() {
+
+    }
 }
