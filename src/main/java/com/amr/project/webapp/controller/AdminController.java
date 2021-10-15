@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class AdminController {
 
     @GetMapping({"/admin"})
-    public String showAdminPage(Model model, Authentication authentication) {
-        model.addAttribute("admin",authentication.getPrincipal());
+    public String showAdminPage(Model model) {
+        model.addAttribute("admin");
         return "adminPage/adminPage";
     }
 }
