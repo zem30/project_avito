@@ -15,8 +15,8 @@ import java.util.List;
 public class ItemDto {
     private Long id;
     private String name;
-    private String[] categoriesName;
     private Integer count;
+    private String[] categoriesName;
     private BigDecimal price;
     private List<ImageDto> images;
     private Double rating;
