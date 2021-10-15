@@ -3,6 +3,7 @@ package com.amr.project.webapp.security.config;
 import com.amr.project.webapp.handler.SuccessHandler;
 import com.amr.project.webapp.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -18,12 +19,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private final UserDetailsServiceImpl userDetailsServiceImpl;
+    private final UserDetailsService userDetailsService;
 
     private final SuccessHandler successHandler;
 
-    public SecurityConfig(UserDetailsServiceImpl userDetailsServiceImpl, SuccessHandler successHandler) {
-        this.userDetailsServiceImpl = userDetailsServiceImpl;
+    public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessHandler successHandler) {
+        this.userDetailsService = userDetailsService;
         this.successHandler = successHandler;
     }
 
@@ -36,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .loginProcessingUrl("/index")
                 .successHandler(successHandler)
                 .and()
-                .rememberMe().userDetailsService(userDetailsServiceImpl)
+                .rememberMe().userDetailsService(userDetailsService)
                 .key("$2a$12$77RCxpN39Xd9K4y1jsSGSObeEZ/glP9YkwzRFCiMSJxqrbcXz9mS6")
                 .and()
                 .authorizeRequests()
@@ -46,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 //                .antMatchers("/admin/**").hasAuthority("ADMIN")
 //                .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
 //                .antMatchers("/js/**","/css/**").permitAll()
-                .anyRequest().authenticated()
+//                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .and()
@@ -59,7 +60,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     protected DaoAuthenticationProvider daoAuthenticationProvider() {
         DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailsServiceImpl);
+        daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(encoder());
         return daoAuthenticationProvider;
     }
