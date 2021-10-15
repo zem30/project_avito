@@ -40,11 +40,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .key("$2a$12$77RCxpN39Xd9K4y1jsSGSObeEZ/glP9YkwzRFCiMSJxqrbcXz9mS6")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/", "/shop/item/**", "/registration", "/**",
-                        "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
-                .antMatchers("/admin/**").hasAuthority("ADMIN")
-                .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
-                .antMatchers("/js/**","/css/**").permitAll()
+                .antMatchers("/**").permitAll()
+//                .antMatchers("/", "/shop/item/**", "/registration", "/**",
+//                        "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
+//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
+//                .antMatchers("/js/**","/css/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
