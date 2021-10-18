@@ -75,9 +75,14 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
         return itemDao.getMostPopular(quantity);
     }
 
+    @Override
+    public Item getItemId(long id) {
+        Item item = itemRepository.findById(id).orElse(null);
+        return item;
+    }
     //8888
     @Override
-    public ItemDto getItemId(long id) {
+    public ItemDto getItemDtoId(long id) {
         ItemDto itemDto = itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
         return itemDto;
     }

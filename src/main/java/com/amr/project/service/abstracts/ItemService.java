@@ -14,7 +14,9 @@ public interface ItemService extends ReadWriteService<Item, Long> {
 
     List<Item> getMostPopular(int quantity);
 
-    ItemDto getItemId(long id);
+    Item getItemId(long id);
+
+    ItemDto getItemDtoId(long id);
 
     List<ItemDto> getAllItemsRatingSort();
 

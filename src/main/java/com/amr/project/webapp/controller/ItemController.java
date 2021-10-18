@@ -20,7 +20,7 @@ public class ItemController {
     //8888
     @GetMapping("/{id}")
     public String getItem(@PathVariable("id") long id, Model model){
-        model.addAttribute("item", itemService.getItemId(id));
+        model.addAttribute("item", itemService.getItemDtoId(id));
         return "shopPage/home-shop-page";
     }
 }

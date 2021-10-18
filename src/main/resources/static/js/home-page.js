@@ -9,7 +9,7 @@ const popular_item = () => {
         <h6>${i.name}</h6>
         <h6>${i.price}</h6>
         <p>${i.description}</p>
-        <button type="button" class="btn btn-primary" id="${i.id}">В корзину</button>
+        <button type="button" class="btn btn-primary basket-add" id="${i.id}">В корзину</button>
         </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;

@@ -78,7 +78,7 @@ public class ItemRestController {
     //8888
     @GetMapping("item/{id}")
     public ItemDto getItem(@PathVariable("id") long id){
-        ItemDto itemDto = itemService.getItemId(id);
+        ItemDto itemDto = itemService.getItemDtoId(id);
         return itemDto;
     }
     //8888
