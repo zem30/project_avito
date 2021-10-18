@@ -43,7 +43,7 @@ public class HomePageController {
     private final ShopService shopService;
     private final ShopMapper shopMapper;
 
-    @RequestMapping("/homepage")
+    @RequestMapping("/")
     @ApiOperation(value = "получение списков получение списков предметов в корзине, категории товаров, преметов и магазинов")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Списки главной страницы получены")})
     public String homePage(Model model) {
