@@ -1,0 +1,43 @@
+.item-container{
+    text-align: center;
+}
+.item-div img{
+    width: 200px;
+}
+.item-div{
+    border: solid 1px #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: left
+}
+.item-div{
+    display:inline-block;
+}
+.shop-container{
+    text-align: center;
+}
+.shop-div img{
+    width: 100px;
+}
+.shop-div{
+    border: solid 1px #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: left;
+}
+.shop-div{
+    display: inline-block;
+}
+
+
+
+.about {
+    display:inline-block;
+}
+
+.about img {
+    display:block;
+}
+
