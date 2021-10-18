@@ -33,60 +33,35 @@ import java.util.List;
 public class Item {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "name")
     private String name;
-
-    @Column(name = "price")
     private BigDecimal price;
+    private Integer count;
+    private Double rating;
+    private String description;
+    private Integer discount;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinTable(name = "item_category",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "category_id")})
     private List<Category> categories;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "item_image",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "image_id")})
     private List<Image> images;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JoinTable(name = "item_review",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "review_id")})
     private List<Review> reviews;
-
-    @Column(name = "count")
-    private Integer count;
-
-    @Column(name = "rating")
-    private Double rating;
-
-    @Column(name = "description")
-    private String description;
-
-    @Column(name = "discount")
-    private Integer discount;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinTable(name = "shop_item",
-            joinColumns = {@JoinColumn(name = "item_id")},
-            inverseJoinColumns = {@JoinColumn(name = "shop_id")})
     private Shop shop;
 
-    @Column(name = "is_moderated")
+    @JsonIgnore
+    @ManyToMany(mappedBy = "items")
+    private List<CartItem> cartItems;
+
     private boolean isModerated;
-    @Column(name = "is_moderate_accept")
     private boolean isModerateAccept;
-    @Column(name = "moderated_reject_reason")
     private String moderatedRejectReason;
-    @Column(name = "pretendent_to_be_deleted")
     private boolean isPretendentToBeDeleted;
 
 }

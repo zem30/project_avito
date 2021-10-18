@@ -1,0 +1,16 @@
+.home-shop-right-body{
+    text-align: center;
+}
+.item-div img{
+    width: 150px;
+}
+.item-div{
+    border: solid 1px #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: left
+}
+.item-div{
+    display:inline-block;
+}

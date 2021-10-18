@@ -453,9 +453,9 @@
 //                .location(russia)
 //                .items(null)
 //                .reviews(null)
-//                .logo(shop1Image)
+//                .logo(List.of(shop1Image))
 //                .count(0)
-//                .rating(0)
+//                .rating(1)
 //                .user(userRepository.findByEmail("user1@mail"))
 //                .discounts(null)
 //                .isModerated(false)
@@ -473,9 +473,9 @@
 //                .location(ukraine)
 //                .items(null)
 //                .reviews(null)
-//                .logo(shop2Image)
+//                .logo(List.of(shop2Image))
 //                .count(0)
-//                .rating(0)
+//                .rating(2)
 //                .user(userRepository.findByEmail("user2@mail"))
 //                .discounts(null)
 //                .isModerated(false)
@@ -493,9 +493,9 @@
 //                .location(belorus)
 //                .items(null)
 //                .reviews(null)
-//                .logo(shop3Image)
+//                .logo(List.of(shop3Image))
 //                .count(0)
-//                .rating(0)
+//                .rating(3)
 //                .user(userRepository.findByEmail("user3@mail"))
 //                .discounts(null)
 //                .isModerated(false)
@@ -626,6 +626,12 @@
 //        itemRepository.save(item4);
 //        itemRepository.save(item5);
 //        itemRepository.save(item6);
+////---------------------------------------------------------------Shop_Items
+//        shop1.setItems(List.of(item1, item2, item3));
+//        shop2.setItems(List.of(item4, item5, item6));
+//
+//        shopRepository.save(shop1);
+//        shopRepository.save(shop2);
 ////---------------------------------------------------------------CartItem
 //        User user4_cartItem = userRepository.findByEmail("user4@mail");
 //        User user5_cartItem = userRepository.findByEmail("user5@mail");
@@ -638,38 +644,38 @@
 //        Item item6_cart_item6 = itemRepository.findByName("item6");
 //
 //        CartItem cartItem1 = CartItem.builder()
-//                .item(item1_cart_item1)
+//                .items(List.of(item1_cart_item1))
 //                .shop(item1_cart_item1.getShop())
 //                .user(user4_cartItem)
 //                .quantity(2)
 //                .build();
 //        CartItem cartItem2 = CartItem.builder()
-//                .item(item2_cart_item2)
+//                .items(List.of(item2_cart_item2))
 //                .shop(item2_cart_item2.getShop())
 //                .user(user4_cartItem)
 //                .quantity(2)
 //                .build();
 //        CartItem cartItem3 = CartItem.builder()
-//                .item(item3_cart_item3)
+//                .items(List.of(item3_cart_item3))
 //                .shop(item3_cart_item3.getShop())
 //                .user(user4_cartItem)
 //                .quantity(2)
 //                .build();
 //
 //        CartItem cartItem4 = CartItem.builder()
-//                .item(item4_cart_item4)
+//                .items(List.of(item4_cart_item4))
 //                .shop(item4_cart_item4.getShop())
 //                .user(user5_cartItem)
 //                .quantity(2)
 //                .build();
 //        CartItem cartItem5 = CartItem.builder()
-//                .item(item5_cart_item5)
+//                .items(List.of(item5_cart_item5))
 //                .shop(item5_cart_item5.getShop())
 //                .user(user5_cartItem)
 //                .quantity(2)
 //                .build();
 //        CartItem cartItem6 = CartItem.builder()
-//                .item(item6_cart_item6)
+//                .items(List.of(item6_cart_item6))
 //                .shop(item6_cart_item6.getShop())
 //                .user(user5_cartItem)
 //                .quantity(2)

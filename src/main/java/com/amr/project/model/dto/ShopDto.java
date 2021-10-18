@@ -19,7 +19,7 @@ public class ShopDto {
     private String description;
     private CountryDto location;
     private List<ItemDto> items;
-    private ImageDto logo;
+    private List<ImageDto> logo;
     private double rating;
     private String username;
     private boolean isModerated;

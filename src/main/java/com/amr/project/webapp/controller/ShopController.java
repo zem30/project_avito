@@ -2,6 +2,7 @@ package com.amr.project.webapp.controller;
 
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
+import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.service.impl.ShopServiceImpl;
@@ -35,7 +36,7 @@ public class ShopController {
 
 
     @ApiOperation(value = "получение магазина по ID")
-    @GetMapping(value = "/shop/{id}")
+    @GetMapping(value = "/shopi/{id}")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "магазин найден по ID"),
             @ApiResponse(code = 404, message = "Магазин не найден по id")
@@ -45,7 +46,7 @@ public class ShopController {
         ShopDto shop = shopMapper.shopToDto(shopServiceImpl.getByKey(id));
         ItemDto ratingItem = shopServiceImpl.getTheMostRatingItem(shop.getItems());
         List<String> images = shopServiceImpl.convertListImages(ratingItem.getImages());
-        String logo = shopServiceImpl.convertImage(shop.getLogo());
+        String logo = shopServiceImpl.convertImage(shop.getLogo().get(0));
 
         model.addAttribute("shop", shop);
         model.addAttribute("images", images);
@@ -71,5 +72,13 @@ public class ShopController {
         model.addAttribute("image", image);
         return "shopPage/shop_item_page";
     }
+    //8888
+    @GetMapping("/shop/{id}")
+    public String homeShopPage(@PathVariable("id") long id, Model model){
+        model.addAttribute("shop", shopServiceImpl.getShopId(id));
+        return "shopPage/home-shop-page";
+    }
+
+
 
 }

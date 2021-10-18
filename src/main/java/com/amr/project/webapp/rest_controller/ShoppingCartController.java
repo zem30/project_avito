@@ -71,7 +71,7 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
+            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
                 return ResponseEntity.badRequest().build();
             } else {
                 List<CartItem> cart = cartItem.getUser().getCart();
@@ -92,8 +92,8 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
-                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId());
+            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
+                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId());
                 tmpCartItem.setQuantity(cartItem.getQuantity());
                 cartItemService.update(tmpCartItem);
             } else {
@@ -112,8 +112,8 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId())) {
-                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItem().getId());
+            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
+                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId());
                 List<CartItem> cart = tmpCartItem.getUser().getCart();
                 cart.remove(tmpCartItem);
                 tmpCartItem.getUser().setCart(cart);

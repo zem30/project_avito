@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 
 @Entity
-@Table(name = "cart_items")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,9 +22,8 @@ public class CartItem {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(cascade = {CascadeType.MERGE})
-    @JoinColumn(name = "item_id")
-    private Item item;
+    @ManyToMany (fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    private List<Item> items;
 
     @ManyToOne(cascade = {CascadeType.MERGE})
     @JoinColumn(name = "shop_id")
@@ -37,13 +36,13 @@ public class CartItem {
 
     private int quantity;
 
-    @Transient
-    public BigDecimal getSubTotal() {
-        return this.item.getPrice().subtract(BigDecimal.valueOf(this.item.getDiscount())
-                        .multiply(this.item.getPrice())
-                        .divide(BigDecimal.valueOf(100)))
-                .multiply(new BigDecimal(quantity)).setScale(2, RoundingMode.CEILING);
-    }
+//    @Transient
+//    public BigDecimal getSubTotal() {
+//        return this.item.getPrice().subtract(BigDecimal.valueOf(this.item.getDiscount())
+//                        .multiply(this.item.getPrice())
+//                        .divide(BigDecimal.valueOf(100)))
+//                .multiply(new BigDecimal(quantity)).setScale(2, RoundingMode.CEILING);
+//    }
 
 
 }

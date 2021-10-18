@@ -15,6 +15,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Validated
@@ -26,11 +27,8 @@ import java.util.stream.Collectors;
 public class ItemRestController {
 
     private final CategoryService categoryService;
-
     private final ShopService shopService;
-
     private final ItemService itemService;
-
     private final ItemMapper itemConverter;
 
     @ApiOperation(value = "Сохраняет объект Item")
@@ -71,10 +69,23 @@ public class ItemRestController {
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
 
+//    @GetMapping("item/{id}")
+//    public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
+//        Item item = itemService.getByKey(id);
+//        return ResponseEntity.ok().body(itemConverter.itemToDto(item));
+//    }
+
+    //8888
     @GetMapping("item/{id}")
-    public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
-        Item item = itemService.getByKey(id);
-        return ResponseEntity.ok().body(itemConverter.itemToDto(item));
+    public ItemDto getItem(@PathVariable("id") long id){
+        ItemDto itemDto = itemService.getItemDtoId(id);
+        return itemDto;
+    }
+    //8888
+    @GetMapping("/items")
+    public List<ItemDto> getAllItems(){
+        List<ItemDto> itemDtoList = itemService.getAllItemsRatingSort();
+        return itemDtoList;
     }
 }
 

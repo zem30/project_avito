@@ -1,5 +1,6 @@
 package com.amr.project.service.abstracts;
 
+import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
 
@@ -12,4 +13,6 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
     CartItem getByUserIdAndItemId(long userId, long itemId);
 
     List<CartItem> getAllByUser(User user);
+
+    CartItemDto temporaryBasket(Long id);
 }
