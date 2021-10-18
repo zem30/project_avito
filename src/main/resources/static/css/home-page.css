@@ -2,7 +2,7 @@
     text-align: center;
 }
 .item-div img{
-    width: 200px;
+    width: 150px;
 }
 .item-div{
     border: solid 1px #dbdbdb;
@@ -31,13 +31,4 @@
     display: inline-block;
 }
 
-
-
-.about {
-    display:inline-block;
-}
-
-.about img {
-    display:block;
-}
 

@@ -1,6 +1,9 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.ItemDao;
+import com.amr.project.inserttestdata.repository.ItemRepository;
+import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.service.abstracts.ItemService;
@@ -11,17 +14,22 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements ItemService {
 
+    private final ItemMapper itemMapper;
+    private final ItemRepository itemRepository;
     private final ItemDao itemDao;
     private final TrackedEmailItem trackedEmailItem;
     private final EmailSenderService emailSenderService;
 
     @Autowired
-    protected ItemServiceImpl(ItemDao itemDao, TrackedEmailItem trackedEmailItem, EmailSenderService emailSenderService) {
+    protected ItemServiceImpl(ItemMapper itemMapper, ItemRepository itemRepository, ItemDao itemDao, TrackedEmailItem trackedEmailItem, EmailSenderService emailSenderService) {
         super(itemDao);
+        this.itemMapper = itemMapper;
+        this.itemRepository = itemRepository;
         this.itemDao = itemDao;
         this.emailSenderService = emailSenderService;
         this.trackedEmailItem = trackedEmailItem;
@@ -65,5 +73,20 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     @Transactional
     public List<Item> getMostPopular(int quantity) {
         return itemDao.getMostPopular(quantity);
+    }
+
+    //8888
+    @Override
+    public ItemDto getItemId(long id) {
+        ItemDto itemDto = itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
+        return itemDto;
+    }
+
+    //8888
+    @Override
+    public List<ItemDto> getAllItemsRatingSort(){
+        List<Item> itemList = itemRepository.findAllByOrderByRatingDesc();
+        List<ItemDto> itemDtoList = itemList.stream().map(item -> itemMapper.itemToDto(item)).collect(Collectors.toList());
+        return itemDtoList;
     }
 }

@@ -1,8 +1,11 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.converter.ShopMapper;
 import com.amr.project.dao.abstracts.ShopDao;
+import com.amr.project.inserttestdata.repository.ShopRepository;
 import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.model.entity.Shop;
@@ -22,13 +25,17 @@ import java.util.stream.Collectors;
 @Transactional
 public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements ShopService {
 
+    private final ShopMapper shopMapper;
+    private final ShopRepository shopRepository;
     private final ShopDao shopDao;
     private final TrackedEmailShop trackedEmailShop;
     private final EmailSenderService emailSenderService;
 
     @Autowired
-    public ShopServiceImpl(ShopDao shopDao, TrackedEmailShop trackedEmailShop, EmailSenderService emailSenderService) {
+    public ShopServiceImpl(ShopMapper shopMapper, ShopRepository shopRepository, ShopDao shopDao, TrackedEmailShop trackedEmailShop, EmailSenderService emailSenderService) {
         super(shopDao);
+        this.shopMapper = shopMapper;
+        this.shopRepository = shopRepository;
         this.shopDao = shopDao;
         this.trackedEmailShop = trackedEmailShop;
         this.emailSenderService = emailSenderService;
@@ -99,5 +106,17 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
     @Transactional
     public List<Shop> getMostPopular(int quantity) {
         return shopDao.getMostPopular(quantity);
+    }
+    //8888
+    @Override
+    public ShopDto getShopId(Long id){
+        ShopDto shopDto = shopMapper.shopToDto(shopRepository.findById(id).orElse(null));
+        return shopDto;
+    }
+    //8888
+    public List<ShopDto> getAllShopsRatingSort(){
+        List<Shop> shopList = shopRepository.findAllByOrderByRatingDesc();
+        List<ShopDto> shopDtoList = shopList.stream().map(shop -> shopMapper.shopToDto(shop)).collect(Collectors.toList());
+        return shopDtoList;
     }
 }

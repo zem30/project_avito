@@ -39,7 +39,7 @@ function sendRequestForShops() {
                 shop => {
                     temp += `
         <div class="card" style="width: 15rem;">
-        <img src="data:image/png;base64,${shop.logo.picture}" height="150" width="150">
+        <img src="data:image/png;base64,${shop.logo[0].picture}" height="150" width="150">
             <div class="card-body">
                 <h5 id="nameShop1" class="card-title">${shop.name}</h5>
                 <h6>Описание: <h7>${shop.description}</h7></h6>
@@ -73,7 +73,7 @@ function sendRequestForItems(url, body) {
                     temp += `
             <div class="cards_with_popular_products">
                 <div class="card" style="width: 15rem;">
-                    <img src="${item.images}"
+                    <img src="data:image/png;base64,${item.images[0].picture}"
                      class="card-img-top" alt="...">
                     <div class="card-body">
                         <h5 id="item1" class="card-title">${item.name}</h5>

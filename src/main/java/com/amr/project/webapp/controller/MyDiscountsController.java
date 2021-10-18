@@ -9,7 +9,7 @@ public class MyDiscountsController {
 
     @GetMapping()
     public String discountPage() {
-        return "myDiscountOffersPage";
+        return "home-page";
     }
 
 }

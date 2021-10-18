@@ -25,9 +25,6 @@ public class Country {
 
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "country_city",
-            joinColumns = {@JoinColumn(name = "country_id")},
-            inverseJoinColumns = {@JoinColumn(name = "city_id")})
     private List<City> cities;
 
 }

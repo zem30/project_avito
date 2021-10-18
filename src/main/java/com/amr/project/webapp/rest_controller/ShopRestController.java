@@ -12,10 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/shop_api")
 @AllArgsConstructor
 public class ShopRestController {
+
 
     private final ShopService shopService;
     private final ShopMapper shopConverter;
@@ -24,5 +27,18 @@ public class ShopRestController {
     public ResponseEntity<ShopDto> getShop(@PathVariable @NonNull String name) {
         Shop shop = shopService.getShop(name);
         return ResponseEntity.ok().body(shopConverter.shopToDto(shop));
+    }
+
+    //8888
+    @GetMapping("/shops")
+    public List<ShopDto> getAllShop(){
+        List<ShopDto> shopDtoList = shopService.getAllShopsRatingSort();
+        return shopDtoList;
+    }
+    //8888
+    @GetMapping("/shop/{id}")
+    public ShopDto shop(@PathVariable("id") long id){
+        ShopDto shopDto = shopService.getShopId(id);
+        return shopDto;
     }
 }
