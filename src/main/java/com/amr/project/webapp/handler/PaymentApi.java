@@ -7,6 +7,7 @@ import com.qiwi.billpayments.sdk.model.MoneyAmount;
 import com.qiwi.billpayments.sdk.model.in.CreateBillInfo;
 import com.qiwi.billpayments.sdk.model.in.Customer;
 import com.qiwi.billpayments.sdk.model.out.BillResponse;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -18,10 +19,7 @@ import java.util.UUID;
 @Component
 public class PaymentApi {
 
-    String secretKey = "eyJ2ZXJzaW9uIjoiUDJQIiwiZGF0YSI6eyJwYXlpbl9tZXJjaGFudF9zaXRlX3VpZCI6Ijg1ejgyeS0wMCIsInVzZXJfaWQiOiI3OTYxODEyMjExMiIsInNlY3JldCI6IjRkMDk3ZTBlYWNkODc2M2Q5ODJjZjNkMWM5Mjk3MjRiY2ZhMzFkM2Y5NWUxMTFlZjM2NmVkOTc3NTRkYTE2MzEifX0=";
-    String currency = "RUB";
-
-    private final BillPaymentClient client = BillPaymentClientFactory.createDefault(secretKey);
+    private final BillPaymentClient client = BillPaymentClientFactory.createDefault("payment.secretKey");
 
     public String payUrl(Order order) {
         CreateBillInfo billInfo = new CreateBillInfo(
@@ -29,7 +27,7 @@ public class PaymentApi {
                 new MoneyAmount(order.getTotal(),
                         Currency.getInstance("currency")
                 ),
-                "oplata zakaza " + order.getDate(),
+                "oplata " + order.getDate(),
                 ZonedDateTime.now().plusDays(3),
                 new Customer(
                         order.getUser().getEmail(),
