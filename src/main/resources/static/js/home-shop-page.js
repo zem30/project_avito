@@ -1,6 +1,6 @@
 const pathname = document.location.pathname;
-const shop_items = () => {
-    fetch("http://localhost:8888/shop_api"+pathname)
+function shop_items(){
+    fetch("http://localhost:8888/shop_api" + pathname)
         .then(res => res.json())
         .then(shop => {
             let logo = `<div class="shop-div">
@@ -16,16 +16,16 @@ const shop_items = () => {
         <h6>${i.name}</h6>
         <h6>${i.price}</h6>
         <p>${i.description}</p>
-        <button type="button" class="btn btn-primary basket-add" id="${i.id}">В корзину</button>
+        <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
         </div>`
             })
             document.querySelector(".home-shop-right-body").innerHTML = text + items;
             document.querySelector(".home-shop-left-body").innerHTML = logo;
-            })
+        })
 }
 
-const item_present = () => {
-    fetch("http://localhost:8888/shop"+pathname)
+function item_present(){
+    fetch("http://localhost:8888/shop" + pathname)
         .then(res => res.json())
         .then(item => {
             let item_present = `<div>
@@ -43,11 +43,19 @@ const item_present = () => {
         })
 }
 
-const shop_or_item = () => {
-    if(pathname.indexOf("shop") > -1){
+function basket_home_page(){
+        let text1 = `<h3>Hello</h3>`
+        let text2 = `<h3>Basket</h3>`
+        document.querySelector(".home-shop-left-body").innerHTML = text1;
+        document.querySelector(".home-shop-right-body").innerHTML = text2;
+}
+
+function shop_or_item(){
+    if (pathname.indexOf("cart-item") > -1) {
+        basket_home_page();
+    } else if (pathname.indexOf("shop") > -1) {
         shop_items();
-    }
-    if (pathname.indexOf("item") > -1){
+    } else if (pathname.indexOf("item") > -1) {
         item_present();
     }
 }

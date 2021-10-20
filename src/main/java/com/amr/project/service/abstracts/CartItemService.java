@@ -14,5 +14,5 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
     List<CartItem> getAllByUser(User user);
 
-    CartItemDto temporaryBasket(Long id);
+    CartItem getAllItem(CartItem cartItem);
 }

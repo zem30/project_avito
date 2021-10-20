@@ -2,7 +2,7 @@ package com.amr.project.service.impl;
 
 import com.amr.project.converter.CartItemMapper;
 import com.amr.project.dao.abstracts.CartItemDao;
-import com.amr.project.model.dto.CartItemDto;
+import com.amr.project.inserttestdata.repository.ItemRepository;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
@@ -14,17 +14,20 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> implements CartItemService {
 
+    private final ItemRepository itemRepository;
     private final ItemService itemService;
     private final CartItemMapper cartItemMapper;
     private final CartItemDao cartItemDao;
 
     @Autowired
-    protected CartItemServiceImpl(ItemService itemService, CartItemMapper cartItemMapper, CartItemDao cartItemDao) {
+    protected CartItemServiceImpl(ItemRepository itemRepository, ItemService itemService, CartItemMapper cartItemMapper, CartItemDao cartItemDao) {
         super(cartItemDao);
+        this.itemRepository = itemRepository;
         this.itemService = itemService;
         this.cartItemMapper = cartItemMapper;
         this.cartItemDao = cartItemDao;
@@ -48,17 +51,17 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
         return cartItemDao.getAllByUser(user);
     }
 
-    //8888 времменая корзина для не авторизированых пользователей
     @Override
-    public CartItemDto temporaryBasket(Long id){
-        List<Item> itemList = new ArrayList<>();
-        CartItem cartItem = new CartItem();
-        if (id != null){
-            itemList.add(itemService.getItemId(id));
-        } else {
-            cartItem.setItems(itemList);
-            return cartItemMapper.cartItemToDto(cartItem);
+    public CartItem getAllItem(CartItem cartItem){
+        List<Long> list = cartItem.getItems().stream().map(item -> item.getId()).collect(Collectors.toList());
+        List<Item> itemsList = new ArrayList<>();
+        for (Long id : list){
+            itemsList.add(itemRepository.findById(id).orElse(null));
         }
-        return null;
+        CartItem item = new CartItem();
+        item.setItems(itemsList);
+        return item;
     }
+
+
 }

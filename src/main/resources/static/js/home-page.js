@@ -1,21 +1,21 @@
-const popular_item = () => {
+function popular_item(){
     fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
             let logs = ``;
             items.forEach((i) => {
                 logs += `<div class="item-div">
-        <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
-        <h6>${i.name}</h6>
-        <h6>${i.price}</h6>
-        <p>${i.description}</p>
-        <button type="button" class="btn btn-primary basket-add" id="${i.id}">В корзину</button>
-        </div>`;
+                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
+                         <h6>${i.name}</h6>
+                         <h6>${i.price}</h6>
+                         <p>${i.description}</p>
+                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
+                         </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-const popular_shops = () => {
+function popular_shops(){
     fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
         .then(shops => {
