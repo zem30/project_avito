@@ -51,8 +51,9 @@ function basket_home_page(){
 }
 
 function shop_or_item(){
-    if (pathname.indexOf("cart-item") > -1) {
-        basket_home_page();
+    if (pathname.indexOf("basket") > -1) {
+        //basket_home_page();
+        basket_cookie_name();
     } else if (pathname.indexOf("shop") > -1) {
         shop_items();
     } else if (pathname.indexOf("item") > -1) {

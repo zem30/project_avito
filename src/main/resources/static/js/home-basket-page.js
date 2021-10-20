@@ -1,7 +1,7 @@
 
 function click_basket(){
     $(document).on("click", ".basket-btn", function (){
-        basket_home_page();
+        basket_cookie_name();
 
     })
 }

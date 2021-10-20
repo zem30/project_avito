@@ -7,16 +7,23 @@ function sendData(url, data, method){
         body: data,
     }).then(res => res.json())
         .then(basket_item => {
+            let count = 0;
             let basket = ``;
             basket_item.items.forEach((i) => {
-                basket += `<div>
+                count += Number(i.price)
+                console.log(count)
+                basket += `<div class="basket-div">
                                 <img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail">
                                 <h6>${i.name}</h6>
                                 <h6>${i.price}</h6>
                                 <p>${i.description}</p>
                                 </div>`
             })
+            let all_price = `<h3>Итого:</h3>
+                             <h3>${count}</h3>`;
             document.querySelector(".home-shop-right-body").innerHTML = basket;
+            document.querySelector(".home-shop-left-body").innerHTML = all_price;
+
         })
 }
 function getCookie(name) {
@@ -79,4 +86,4 @@ function basket_cookie_name(){
     }
     sendData("http://localhost:8888/api/cart-item",JSON.stringify(data),"POST")
 }
-basket_cookie_name()
+// basket_cookie_name()

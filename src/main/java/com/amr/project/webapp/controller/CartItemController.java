@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/cart-item")
+@RequestMapping("")
 public class CartItemController {
 
-    @GetMapping("")
+    @GetMapping("/basket")
     public String getItem(){
         return "shopPage/home-shop-page";
     }
