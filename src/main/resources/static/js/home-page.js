@@ -1,3 +1,4 @@
+//получить популярные товары
 function popular_item(){
     fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
@@ -15,6 +16,8 @@ function popular_item(){
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
+popular_item();
+//получить популярные магазины
 function popular_shops(){
     fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
@@ -31,7 +34,30 @@ function popular_shops(){
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
-popular_item();
 popular_shops();
+
+//получить name cookies
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+//прибавить количество товара
+function basket_plus_click(){
+    $(document).on("click", ".basket-plus-div", function (e) {
+        let id = e.target.id
+        let cookie_value = getCookie(id)
+        if (cookie_value !== undefined) {
+            let value = Number(cookie_value) + 1;
+            document.cookie = id + "=" + value + "; path=/";
+        } else {
+            document.cookie = id + "=" + 1  + "; path=/";
+        }
+    })
+}
+basket_plus_click();
+
 
 

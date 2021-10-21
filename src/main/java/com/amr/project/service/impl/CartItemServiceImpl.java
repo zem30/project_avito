@@ -53,7 +53,7 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
 
     @Override
     public CartItem getAllItem(CartItem cartItem){
-        List<Long> list = cartItem.getItems().stream().map(item -> item.getId()).collect(Collectors.toList());
+        List<Long> list = cartItem.getItems().stream().map(item -> item.getId()).sorted().collect(Collectors.toList());
         List<Item> itemsList = new ArrayList<>();
         for (Long id : list){
             itemsList.add(itemRepository.findById(id).orElse(null));

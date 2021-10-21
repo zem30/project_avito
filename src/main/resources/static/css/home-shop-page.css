@@ -14,7 +14,19 @@
 .item-div{
     display:inline-block;
 }
-
 .basket-div img{
     width: 150px;
+}
+.basket-div{
+    border: solid 1px #dbdbdb;
+    border-radius: 5px;
+    padding: 10px;
+    margin: 10px;
+    text-align: left
+}
+.basket-img-div{
+    display:inline-block;
+}
+.basket-text-div{
+    display:inline-block;
 }

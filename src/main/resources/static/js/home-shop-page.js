@@ -1,4 +1,6 @@
+//получить pathname url
 const pathname = document.location.pathname;
+//получить все товары этого магазина
 function shop_items(){
     fetch("http://localhost:8888/shop_api" + pathname)
         .then(res => res.json())
@@ -23,15 +25,16 @@ function shop_items(){
             document.querySelector(".home-shop-left-body").innerHTML = logo;
         })
 }
-
+//получить страницу товара
 function item_present(){
     fetch("http://localhost:8888/shop" + pathname)
         .then(res => res.json())
         .then(item => {
             let item_present = `<div>
                                 <h3>name: ${item.name}</h3>
-                                <h3>count: ${item.count}</h3>
+                                <h3>price: ${item.price}</h3>
                                 <h3>shopName: ${item.shopName}</h3>
+                                <button type="button" class="btn btn-primary basket-plus-div" id="${item.id}">В корзину</button>
                                 </div>`;
             let item_img = ``;
             item.images.forEach((i) => {
@@ -42,17 +45,9 @@ function item_present(){
             document.querySelector(".home-shop-right-body").innerHTML = item_img + item_present;
         })
 }
-
-function basket_home_page(){
-        let text1 = `<h3>Hello</h3>`
-        let text2 = `<h3>Basket</h3>`
-        document.querySelector(".home-shop-left-body").innerHTML = text1;
-        document.querySelector(".home-shop-right-body").innerHTML = text2;
-}
-
+//определить с какого контроллера зашли на страницу
 function shop_or_item(){
     if (pathname.indexOf("basket") > -1) {
-        //basket_home_page();
         basket_cookie_name();
     } else if (pathname.indexOf("shop") > -1) {
         shop_items();
