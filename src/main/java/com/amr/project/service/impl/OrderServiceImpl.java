@@ -13,6 +13,7 @@ import com.amr.project.model.enums.Status;
 import com.amr.project.service.abstracts.OrderService;
 import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.util.TrackedEmailOrder;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,7 +29,7 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
     private final TrackedEmailOrder trackedEmailOrder;
     private ItemMapper itemMapper;
 
-    public OrderServiceImpl(ReadWriteDao<Order, Long> dao,
+    public OrderServiceImpl(@Qualifier("userPageOrderDaoImpl") ReadWriteDao<Order, Long> dao,
                             OrderDao orderDao,
                             EmailSenderService emailSenderService,
                             TrackedEmailOrder trackedEmailOrder) {

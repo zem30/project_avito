@@ -5,7 +5,6 @@ import com.amr.project.dao.abstracts.UserPageOrderDao;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.entity.Order;
 import com.amr.project.service.abstracts.UserPageOrderService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,13 +14,10 @@ import java.util.List;
 @Transactional
 public class UserPageOrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implements UserPageOrderService {
 
-    private UserPageOrderDao userPageOrderDao;
-    private OrderMapper orderMapper;
+    private final UserPageOrderDao userPageOrderDao;
+    private final OrderMapper orderMapper;
 
-    @Autowired
-    public UserPageOrderServiceImpl(UserPageOrderDao userPageOrderDao,
-                                    OrderMapper orderMapper) {
-        super(userPageOrderDao);
+    public UserPageOrderServiceImpl(UserPageOrderDao userPageOrderDao, OrderMapper orderMapper) {
         this.userPageOrderDao = userPageOrderDao;
         this.orderMapper = orderMapper;
     }
