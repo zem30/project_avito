@@ -5,9 +5,11 @@ import com.amr.project.model.entity.Item;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
+import java.util.Collection;
+import java.util.List;
 
 
-    @Mapper(componentModel = "spring", uses = {
+@Mapper(componentModel = "spring", uses = {
             ImageMapper.class,
             ReviewMapper.class})
     public interface ItemMapper {
@@ -19,4 +21,6 @@ import org.mapstruct.Mapping;
     @Mapping(source = "shopId", target = "shop.id")
     @Mapping(source = "shopName", target = "shop.name")
     Item dtoToItem(ItemDto itemDto);
-}
+
+        Collection<Item> toItems(List<ItemDto> items);
+    }
