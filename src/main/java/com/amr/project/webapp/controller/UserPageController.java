@@ -28,6 +28,20 @@ public class UserPageController {
     private final UserMapper userMapper;
 
     @ApiOperation(value = "Получение пользователя по ID")
+    @GetMapping(value = "/user", produces = "image/png")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Пользователь найден по ID"),
+            @ApiResponse(code = 404, message = "Пользователь не найден по ID")
+    })
+    public String getUserPage1(Model model) {
+        User user = userService.getAuthorized();
+        UserDto userDto = userMapper.userToDto(user);
+        System.err.println(userDto);
+        model.addAttribute("user", userDto);
+        return "UserPage";
+    }
+
+    @ApiOperation(value = "Получение пользователя по ID")
     @GetMapping(value = "/user/{id}", produces = "image/png")
     @ApiResponses(value = {
             @ApiResponse(code = 200, message = "Пользователь найден по ID"),

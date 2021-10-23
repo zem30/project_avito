@@ -17,4 +17,6 @@ public interface UserService extends ReadWriteService<User, Long> {
     @Override
     void persist(User user);
 
+    User getAuthorized();
+
 }

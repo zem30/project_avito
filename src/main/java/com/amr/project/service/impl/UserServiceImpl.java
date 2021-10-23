@@ -8,6 +8,8 @@ import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.service.email.EmailVerificationService;
 import com.amr.project.util.TrackedEmailUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -83,6 +85,14 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Override
     public List<User> findByRole(String role) throws NoResultException {
         return userDao.findByRole(role);
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public User getAuthorized() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user;
     }
 
 }

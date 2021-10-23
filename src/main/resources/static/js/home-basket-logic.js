@@ -119,3 +119,10 @@ function basket_minus_click(){
     })
 }
 basket_minus_click();
+
+function click_basket(){
+    $(document).on("click", ".basket-btn", function (){
+        basket_cookie_name();
+    })
+}
+click_basket();
