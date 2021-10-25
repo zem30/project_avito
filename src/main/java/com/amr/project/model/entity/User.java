@@ -100,11 +100,11 @@ public class User implements UserDetails {
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
     private List<Coupon> coupons;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_cart",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id")})
-    private List<CartItem> cart;
+//    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+//    @JoinTable(name = "user_cart",
+//            joinColumns = {@JoinColumn(name = "user_id")},
+//            inverseJoinColumns = {@JoinColumn(name = "cart_id")})
+//    private List<CartItem> cart;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")
@@ -130,6 +130,9 @@ public class User implements UserDetails {
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
     private List<Discount> discounts;
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Cart cart;
 
     public User(String email, String username, String password) {
         this.email = email;
