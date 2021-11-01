@@ -1,6 +1,9 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.converter.UserMapper;
 import com.amr.project.dao.abstracts.UserDao;
+import com.amr.project.inserttestdata.repository.ItemRepository;
+import com.amr.project.inserttestdata.repository.UserRepository;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
@@ -27,14 +30,16 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     private final EmailVerificationService verificationService;
     private final TrackedEmailUser trackedEmailUser;
     private final EmailSenderService emailSenderService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService) {
+    public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService, ItemRepository itemRepository, UserRepository userRepository, UserMapper userMapper) {
         super(userDao);
         this.userDao = userDao;
         this.emailSenderService = emailSenderService;
         this.trackedEmailUser = trackedEmailUser;
         this.verificationService = verificationService;
+        this.userRepository = userRepository;
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -95,4 +100,10 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         return user;
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public User getUserId(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        return user;
+    }
 }

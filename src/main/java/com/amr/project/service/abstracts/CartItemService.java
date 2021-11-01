@@ -2,6 +2,7 @@ package com.amr.project.service.abstracts;
 
 import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
+import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
 
 import java.util.List;
@@ -14,5 +15,11 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
     List<CartItem> getAllByUser(User user);
 
-    CartItem getAllItem(CartItem cartItem);
+    List<Item> getAllItem(User user);
+
+    void plusCartItem(Long id);
+
+    void minusCartItem(Long id);
+
+    List<CartItem> getCartItemByUserAuthorized();
 }

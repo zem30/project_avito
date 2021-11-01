@@ -69,4 +69,11 @@ public class UserPageController {
         return "/shopOwner/shop_add_discount";
     }
 
+    @GetMapping("/user-cart-page")
+    public String getAllCartItem(Model model){
+        UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        model.addAttribute(userDto);
+        return "/user-cart-page";
+    }
+
 }

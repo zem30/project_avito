@@ -1,4 +1,4 @@
-//получить name cookies
+//получить value cookie
 function getCookie(name) {
     let matches = document.cookie.match(new RegExp(
         "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
@@ -17,7 +17,7 @@ function basket_data(url, data, method){
         .then(basket_item => {
             let count_price = 0;
             let basket = ``;
-            basket_item.items.forEach((i) => {
+            basket_item.forEach((i) => {
                 let unit = getCookie(i.id + "")
                 count_price += Number(i.price * unit)
                 basket += `<div class="basket-div">
@@ -56,11 +56,9 @@ function basket_cookie_name(){
             id : cookie_name[i]
         }
     }
-    console.log(x);
-    console.log(x[0].id);
     if (Number(x[0].id) > 0){
         let data = {
-            items : x
+            cartItems : x
         }
         basket_data("http://localhost:8888/api/cart-item",JSON.stringify(data),"POST");
     } else {

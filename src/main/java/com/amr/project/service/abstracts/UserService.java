@@ -1,5 +1,6 @@
 package com.amr.project.service.abstracts;
 
+import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
 
 import javax.persistence.NoResultException;
@@ -19,4 +20,5 @@ public interface UserService extends ReadWriteService<User, Long> {
 
     User getAuthorized();
 
+    User getUserId(Long id);
 }
