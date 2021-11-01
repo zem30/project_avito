@@ -49,7 +49,7 @@ function sendRequestForShops() {
         </div>`
 
                 })
-            document.querySelector('#cardsPopularShops').innerHTML = temp;
+            document.querySelector(".shop-container").innerHTML = temp;
         });
 
     })
@@ -87,7 +87,7 @@ function sendRequestForItems(url, body) {
                         `;
                 })
 
-            document.querySelector('#cardsPopularItems').innerHTML = temp;
+            document.querySelector(".item-container").innerHTML = temp;
         });
 
     })
