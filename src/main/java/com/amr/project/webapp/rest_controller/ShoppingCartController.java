@@ -48,14 +48,11 @@ public class ShoppingCartController {
     @ApiOperation(value = "Сохраняет на сервере полученную корзину пользователя, переданного через Principal")
     @PostMapping("/loadLocalShoppingCartToServer")
     public ResponseEntity<Void> loadLocalShoppingCartToServer(@RequestBody Set<CartItemDto> localCart, Principal principal) {
-        if (principal != null && userService.findByUsername(principal.getName()).getCart().size() == 0) {
+        if (principal != null) {
             localCart.forEach(cartItemDto -> {
                 CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
                 cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
                 cartItem.setUser(userService.findByUsername(principal.getName()));
-                List<CartItem> cart = cartItem.getUser().getCart();
-                cart.add(cartItem);
-                cartItem.getUser().setCart(cart);
                 cartItemService.persist(cartItem);
             });
         } else {
@@ -71,14 +68,6 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
-                return ResponseEntity.badRequest().build();
-            } else {
-                List<CartItem> cart = cartItem.getUser().getCart();
-                cart.add(cartItem);
-                cartItem.getUser().setCart(cart);
-                cartItemService.persist(cartItem);
-            }
         } else {
            return ResponseEntity.badRequest().build();
         }
@@ -92,13 +81,6 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
-                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId());
-                tmpCartItem.setQuantity(cartItem.getQuantity());
-                cartItemService.update(tmpCartItem);
-            } else {
-                return ResponseEntity.badRequest().build();
-            }
         } else {
             return ResponseEntity.badRequest().build();
         }
@@ -112,15 +94,6 @@ public class ShoppingCartController {
             CartItem cartItem = cartItemMapper.dtoToCartItem(cartItemDto);
             cartItem.setShop(shopService.getShop(shopMapper.dtoToShop(cartItemDto.getShopDto()).getName()));
             cartItem.setUser(userService.findByUsername(principal.getName()));
-            if (cartItemService.existByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId())) {
-                CartItem tmpCartItem = cartItemService.getByUserIdAndItemId(cartItem.getUser().getId(), cartItem.getItems().get(0).getId());
-                List<CartItem> cart = tmpCartItem.getUser().getCart();
-                cart.remove(tmpCartItem);
-                tmpCartItem.getUser().setCart(cart);
-                cartItemService.delete(tmpCartItem);
-            } else {
-                return ResponseEntity.badRequest().build();
-            }
         } else {
             return ResponseEntity.badRequest().build();
         }

@@ -252,8 +252,8 @@ public class DataInserting {
 //---------------------------------------------------------------Admin + Moderator
         User admin1 = User.builder()
                 .email("admin1@mail")
-                .username("A1")
-                .password(passwordEncoder.encode("p"))
+                .username("admin")
+                .password(passwordEncoder.encode("password"))
                 .activate(true)
                 .activationCode("admin1_activation_code")
                 .phone("admin1_phone")
@@ -266,7 +266,6 @@ public class DataInserting {
                 .birthday(null)
                 .images(adminImage)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -289,7 +288,6 @@ public class DataInserting {
                 .birthday(null)
                 .images(moderatorImage)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -315,7 +313,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1991, 1, 1))
                 .images(user1Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -338,7 +335,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1992, 2, 2))
                 .images(user2Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -361,7 +357,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1993, 3, 3))
                 .images(user3Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -384,7 +379,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1994, 4, 4))
                 .images(user4Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -407,7 +401,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1995, 5, 5))
                 .images(user5Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -430,7 +423,6 @@ public class DataInserting {
                 .birthday(new GregorianCalendar(1996, 6, 6))
                 .images(user6Image)
                 .coupons(null)
-                .cart(null)
                 .orders(null)
                 .reviews(null)
                 .shops(null)
@@ -644,38 +636,38 @@ public class DataInserting {
         Item item6_cart_item6 = itemRepository.findByName("item6");
 
         CartItem cartItem1 = CartItem.builder()
-                .items(List.of(item1_cart_item1))
+                .item(item1_cart_item1)
                 .shop(item1_cart_item1.getShop())
                 .user(user4_cartItem)
                 .quantity(2)
                 .build();
         CartItem cartItem2 = CartItem.builder()
-                .items(List.of(item2_cart_item2))
+                .item(item2_cart_item2)
                 .shop(item2_cart_item2.getShop())
                 .user(user4_cartItem)
                 .quantity(2)
                 .build();
         CartItem cartItem3 = CartItem.builder()
-                .items(List.of(item3_cart_item3))
+                .item(item3_cart_item3)
                 .shop(item3_cart_item3.getShop())
                 .user(user4_cartItem)
                 .quantity(2)
                 .build();
 
         CartItem cartItem4 = CartItem.builder()
-                .items(List.of(item4_cart_item4))
+                .item(item4_cart_item4)
                 .shop(item4_cart_item4.getShop())
                 .user(user5_cartItem)
                 .quantity(2)
                 .build();
         CartItem cartItem5 = CartItem.builder()
-                .items(List.of(item5_cart_item5))
+                .item(item5_cart_item5)
                 .shop(item5_cart_item5.getShop())
                 .user(user5_cartItem)
                 .quantity(2)
                 .build();
         CartItem cartItem6 = CartItem.builder()
-                .items(List.of(item6_cart_item6))
+                .item(item6_cart_item6)
                 .shop(item6_cart_item6.getShop())
                 .user(user5_cartItem)
                 .quantity(2)
@@ -689,8 +681,8 @@ public class DataInserting {
         cartItemRepository.save(cartItem5);
         cartItemRepository.save(cartItem6);
 
-        user4_cartItem.setCart(List.of(cartItem1, cartItem2, cartItem3));
-        user5_cartItem.setCart(List.of(cartItem4, cartItem5, cartItem6));
+        user4_cartItem.setCartItems(List.of(cartItem1, cartItem2, cartItem3));
+        user5_cartItem.setCartItems(List.of(cartItem4, cartItem5, cartItem6));
 
         userRepository.save(user4_cartItem);
         userRepository.save(user5_cartItem);

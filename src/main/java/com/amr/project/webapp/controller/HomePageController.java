@@ -23,6 +23,7 @@ import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -30,6 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
+@RequestMapping("/")
 @RequiredArgsConstructor
 @Api(tags = {"API для работы c главной страницей и получение списков предметов в корзине, категории товаров, преметов и магазинов"})
 public class HomePageController {
@@ -43,7 +45,12 @@ public class HomePageController {
     private final ShopService shopService;
     private final ShopMapper shopMapper;
 
-    @RequestMapping("/")
+    @GetMapping("/home")
+    public String discountPage() {
+        return "home-page";
+    }
+
+    @RequestMapping("")
     @ApiOperation(value = "получение списков получение списков предметов в корзине, категории товаров, преметов и магазинов")
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Списки главной страницы получены")})
     public String homePage(Model model) {

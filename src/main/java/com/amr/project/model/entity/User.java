@@ -101,10 +101,10 @@ public class User implements UserDetails {
     private List<Coupon> coupons;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_cart",
+    @JoinTable(name = "user_cartItems",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "cart_id")})
-    private List<CartItem> cart;
+    private List<CartItem> cartItems;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinTable(name = "user_orders")

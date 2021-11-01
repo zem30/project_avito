@@ -1,21 +1,24 @@
-const popular_item = () => {
+//получить популярные товары
+function popular_item(){
     fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
             let logs = ``;
             items.forEach((i) => {
                 logs += `<div class="item-div">
-        <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
-        <h6>${i.name}</h6>
-        <h6>${i.price}</h6>
-        <p>${i.description}</p>
-        <button type="button" class="btn btn-primary basket-add" id="${i.id}">В корзину</button>
-        </div>`;
+                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
+                         <h6>${i.name}</h6>
+                         <h6>${i.price}</h6>
+                         <p>${i.description}</p>
+                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
+                         </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-const popular_shops = () => {
+popular_item();
+//получить популярные магазины
+function popular_shops(){
     fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
         .then(shops => {
@@ -31,7 +34,51 @@ const popular_shops = () => {
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
-popular_item();
 popular_shops();
+
+//получить name cookies
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+
+//прибавить количество товара
+function basket_plus_click(){
+    $(document).on("click", ".basket-plus-div", function (e) {
+        let id = e.target.id
+        let cookie_value = getCookie(id)
+        if (cookie_value !== undefined) {
+            let value = Number(cookie_value) + 1;
+            document.cookie = id + "=" + value + "; path=/";
+        } else {
+            document.cookie = id + "=" + 1  + "; path=/";
+        }
+    })
+}
+basket_plus_click();
+
+//form-login
+
+function login_btn_click(){
+    $(document).on("click", ".login-btn", function (){
+        $(".login-form").show();
+    })
+}
+login_btn_click();
+
+function close_btn_click(){
+    $(document).on("click", ".btn-close", function (){
+        $(".login-form").hide();
+    })
+    $(document).on("click", ".login-form", function (e){
+        if($(e.target).hasClass("login-form")){
+            $(".login-form").hide();
+        }
+    })
+}
+close_btn_click();
+
 
 

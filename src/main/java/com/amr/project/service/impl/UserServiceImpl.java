@@ -1,6 +1,9 @@
 package com.amr.project.service.impl;
 
+import com.amr.project.converter.UserMapper;
 import com.amr.project.dao.abstracts.UserDao;
+import com.amr.project.inserttestdata.repository.ItemRepository;
+import com.amr.project.inserttestdata.repository.UserRepository;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
@@ -8,6 +11,8 @@ import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.service.email.EmailVerificationService;
 import com.amr.project.util.TrackedEmailUser;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -25,14 +30,16 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     private final EmailVerificationService verificationService;
     private final TrackedEmailUser trackedEmailUser;
     private final EmailSenderService emailSenderService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService) {
+    public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService, ItemRepository itemRepository, UserRepository userRepository, UserMapper userMapper) {
         super(userDao);
         this.userDao = userDao;
         this.emailSenderService = emailSenderService;
         this.trackedEmailUser = trackedEmailUser;
         this.verificationService = verificationService;
+        this.userRepository = userRepository;
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -85,4 +92,18 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         return userDao.findByRole(role);
     }
 
+    @Override
+    @SuppressWarnings("unchecked")
+    public User getAuthorized() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = (User) authentication.getPrincipal();
+        return user;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public User getUserId(Long id){
+        User user = userRepository.findById(id).orElse(null);
+        return user;
+    }
 }
