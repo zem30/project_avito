@@ -30,3 +30,25 @@
 .basket-text-div{
     display:inline-block;
 }
+
+.login-form{
+    background: rgba(0,0,0,0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: none;
+    overflow: auto;
+    max-height: 100vh;
+    width: 100%;
+}
+.login-content{
+    padding: 10px;
+    width: 400px;
+    height: 400px;
+    max-width: 800px;
+    max-height: 800px;
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}

@@ -59,26 +59,5 @@ function basket_plus_click(){
 }
 basket_plus_click();
 
-//form-login
-
-function login_btn_click(){
-    $(document).on("click", ".login-btn", function (){
-        $(".login-form").show();
-    })
-}
-login_btn_click();
-
-function close_btn_click(){
-    $(document).on("click", ".btn-close", function (){
-        $(".login-form").hide();
-    })
-    $(document).on("click", ".login-form", function (e){
-        if($(e.target).hasClass("login-form")){
-            $(".login-form").hide();
-        }
-    })
-}
-close_btn_click();
-
 
 

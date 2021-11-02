@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
 <html xmlns:th="http://thymeleaf.org">
 <head>
     <!-- Required meta tags -->
@@ -42,7 +42,15 @@
                 <button type="button" class="btn btn-outline-primary basket-btn">Корзина</button>
             </div>
             <div class="col-2 div-header-right-two" style="text-align: right; padding: 0px 10px">
-                <button type="button" class="btn btn-outline-primary">Войти</button>
+                <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
+                        data-toggle="modal" data-target="#staticBackdrop">Войти
+                </button>
+                <form method="get" action="/logout" class="btn_danger_out">
+                    <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
+                    </button>
+                </form>
+                <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                          sec:authentication="principal.username"></span></h5>
             </div>
         </div>
     </div>
@@ -53,6 +61,9 @@
         <div class="col-2 home-shop-left-body " style="background: #91a2bd"></div>
         <div class="col-10 home-shop-right-body" style="background: #e3e3e3"></div>
     </div>
+</div>
+<div class="container-fluid vh-100 login-form">
+    <div class="login-content"></div>
 </div>
 
 
@@ -65,6 +76,7 @@
 <script type="text/javascript" src="../js/home-basket-logic.js"></script>
 <script type="text/javascript" src="../js/home-basket-page.js"></script>
 <script src="../js/home-shop-page.js"></script>
+<script src="/js/registration.js"></script>
 
 </body>
 </html>
