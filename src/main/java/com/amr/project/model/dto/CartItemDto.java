@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 public class CartItemDto {
     private Long id;
-    private List<ItemDto> itemDto;
+    private ItemDto itemDto;
     private ShopDto shopDto;
     private int quantity;
 }

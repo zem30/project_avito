@@ -54,7 +54,7 @@ public class Item {
     private Shop shop;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "items")
+    @OneToMany(mappedBy = "item")
     private List<CartItem> cartItems;
 
     private boolean isModerated;

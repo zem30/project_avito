@@ -13,7 +13,34 @@
 </head>
 
 <body>
-
+<div class="jumbotron jumbotron-fluid">
+    <div class="nav_panel">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="/">Shop24</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarNavAltMarkup"
+                        aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                    <div class="navbar-nav">
+                        <a class="nav-link " aria-current="page" href="#">Избранное</a>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                              sec:authentication="principal.username"></span></h5>
+                    <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
+                            data-toggle="modal" data-target="#staticBackdrop">Войти
+                    </button>
+                    <form method="get" action="/logout" class="btn_danger_out">
+                        <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </nav>
 
 <!-- Modal Sign In-->
 <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
@@ -29,82 +56,82 @@
             </div>
 
 
-            <div class="modal-body">
-                <form method="post" action="/index">
-                    <div class="mb-3">
-                        <label for="SignInUsername" class="form-label">Имя пользователя</label>
-                        <input type="text" placeholder="Username" class="form-control"
-                               id="SignInUsername" name="username">
-                        <div id="emailHelp" class="form-text"></div>
+                    <div class="modal-body">
+                        <form method="post" action="/index">
+                            <div class="mb-3">
+                                <label for="SignInUsername" class="form-label">Имя пользователя</label>
+                                <input type="text" placeholder="Username" class="form-control"
+                                       id="SignInUsername" name="username">
+                                <div id="emailHelp" class="form-text"></div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="SignInPassword" class="form-label">Пароль</label>
+                                <input type="password" placeholder="Password" class="form-control"
+                                       id="SignInPassword" name="password">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" id="flexCheckDefault"
+                                           name="remember-me">
+                                    <label class="form-check-label" for="flexCheckDefault">
+                                        Запомнить пароль
+                                    </label>
+                                </div>
+                                <div class="button-in">
+                                    <button type="submit" class="btn btn-warning">Войти</button>
+                                </div>
+                            </div>
+                        </form>
                     </div>
-                    <div class="mb-3">
-                        <label for="SignInPassword" class="form-label">Пароль</label>
-                        <input type="password" placeholder="Password" class="form-control"
-                               id="SignInPassword" name="password">
-                        <div class="form-check">
-                            <input class="form-check-input" type="checkbox" id="flexCheckDefault"
-                                   name="remember-me">
-                            <label class="form-check-label" for="flexCheckDefault">
-                                Запомнить пароль
-                            </label>
-                        </div>
-                        <div class="button-in">
-                            <button type="submit" class="btn btn-warning">Войти</button>
-                        </div>
+                    <div class="modal-footer">
+                        <a id="registrationButtonModal" class="input-button" href="#">Зарегистрироваться</a>
                     </div>
-                </form>
-            </div>
-            <div class="modal-footer">
-                <a id="registrationButtonModal" class="input-button" href="#">Зарегистрироваться</a>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
-<!--    Modal Sign In  -->
+        <!--    Modal Sign In  -->
 
 
-<!--    Modal Basket-->
+        <!--    Modal Basket-->
 
-<div class="modal fade" id="staticBackdropBasket" data-backdrop="static" data-keyboard="false"
-     tabindex="-1"
-     aria-labelledby="staticBackdropLabelBasket" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h6 class="modal-title" id="staticBackdropLabelBasket">Список ваших товаров:</h6>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <table>
-                    <thead>
-                    <tr>
-                        <td>Наименование товара</td>
-                        <td>&nbsp;</td>
-                        <td colspan="3">Количество</td>
-                        <td>&nbsp;</td>
-                        <td>Цена</td>
-                        <td>&nbsp;</td>
-                        <td>Сумма</td>
-                        <td>&nbsp;</td>
-                        <td></td>
-                    </tr>
-                    </thead>
-                    <tbody id="cartItemsList">
+        <div class="modal fade" id="staticBackdropBasket" data-backdrop="static" data-keyboard="false"
+             tabindex="-1"
+             aria-labelledby="staticBackdropLabelBasket" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h6 class="modal-title" id="staticBackdropLabelBasket">Список ваших товаров:</h6>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table>
+                            <thead>
+                            <tr>
+                                <td>Наименование товара</td>
+                                <td>&nbsp;</td>
+                                <td colspan="3">Количество</td>
+                                <td>&nbsp;</td>
+                                <td>Цена</td>
+                                <td>&nbsp;</td>
+                                <td>Сумма</td>
+                                <td>&nbsp;</td>
+                                <td></td>
+                            </tr>
+                            </thead>
+                            <tbody id="cartItemsList">
 
-                    </tbody>
-                </table>
+                            </tbody>
+                        </table>
 
-            </div>
-            <div class="modal-footer">
-                <span class="user-tag" sec:authorize="isAnonymous()"> Для оформления заказа необходимо зарегистрироваться и выполнить вход в систему</span>
-                <button type="button" sec:authorize="isAuthenticated()" class="btn btn-success" data-dismiss="modal">Оформить заказ</button>
+                    </div>
+                    <div class="modal-footer">
+                        <span class="user-tag" sec:authorize="isAnonymous()"> Для оформления заказа необходимо зарегистрироваться и выполнить вход в систему</span>
+                        <button type="button" sec:authorize="isAuthenticated()" class="btn btn-success" data-dismiss="modal">Оформить заказ</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
 
 <!--    Modal Favorite-->
 
@@ -142,21 +169,35 @@
 
 <!--    Modal Basket-->
 
-<div class="top_search">
-    <!-- Пример отдельной кнопки danger -->
-    <div class="btn-group">
-        <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
-                aria-expanded="false">Каталог</button>
-        <ul id="categoryItems" class="dropdown-menu">
-        </ul>
-    </div>
-    <div class="search">
-        <form class="d-flex">
-            <input class="form-control me-2" type="search" placeholder="Введите название товара" aria-label="Sea">
-            <button class="btn btn-outline-success" type="submit">Поиск</button>
-        </form>
-    </div>
-    <div class="favorite" sec:authorize="isAuthenticated()">
+
+        <div class="container">
+            <h1 class="display-4">Shops 24</h1>
+            <p class="lead">Товары свободные от наценок</p>
+        </div>
+        <div class="top">
+            <!--        блок над окном поиска, пустой отступ        -->
+        </div>
+        <div class="top_search">
+            <div class="search">
+                <!-- Пример отдельной кнопки danger -->
+                <div class="btn-group">
+                    <button type="button" class="btn btn-warning dropdown-toggle" data-toggle="dropdown"
+                            aria-expanded="false">
+                        Каталог товаров
+                    </button>
+                    <ul id="categoryItems" class="dropdown-menu">
+
+                    </ul>
+                </div>
+            </div>
+
+            <form class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Sea">
+                <button class="btn btn-outline-success" type="submit">Поиск</button>
+            </form>
+
+
+            <div class="favorite" sec:authorize="isAuthenticated()">
         <form action="#">
             <button type="button" class="btn btn-outline-warning" data-toggle="modal"
                     data-target="#staticBackdropFavorite">Избранное
@@ -164,152 +205,30 @@
         </form>
     </div>
     <div class="basket">
-        <form action="#">
-            <button type="button" class="btn btn-outline-warning" data-toggle="modal"
-                    data-target="#staticBackdropBasket">Корзина
-            </button>
-        </form>
-    </div>
-    <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
-            data-toggle="modal" data-target="#staticBackdrop">Войти
-    </button>
-    <form method="get" action="/logout" class="btn_danger_out">
-        <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
-        </button>
-    </form>
-</div>
+                <form action="#">
+                    <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                            data-target="#staticBackdropBasket">Корзина
+                    </button>
+                </form>
+            </div>
 
-
-<!-- Список товаров -->
-<div class="section">
-    <div class="container2">
-        <h1>Популярные товары</h1>
-
-        <li style="width: 350px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="300" height="340" alt="" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000" draggable="false"></a> </figure>
-                <div class="details"> <span class="price"><small>Цена</small>$188</span>
-                    <h4 class="box-title">Заголовок карточки<small>Описание</small></h4>
-                    <div class="feedback">
-
-                        <p class="description">Описание товара</p>
-                        <div class="action"> <a class="button btn-small" href="#">В карточку</a> <a class="button btn-small yellow popup-map" href="#" >В корзину</a> </div>
-                    </div>
-            </article>
-        </li>
-        <li style="width: 350px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="300" height="340" alt="" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000" draggable="false"></a> </figure>
-                <div class="details"> <span class="price"><small>Цена</small>$322</span>
-                    <h4 class="box-title">Заголовок карточки<small>Название</small></h4>
-                    <div class="feedback">
-
-                        <p class="description">Описание товара</p>
-                        <div class="action"> <a class="button btn-small" href="#">В карточу</a> <a class="button btn-small yellow popup-map" href="#" >В корзину</a> </div>
-                    </div>
-            </article>
-        </li>
-        <li style="width: 350px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="300" height="340" alt="" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000" draggable="false"></a> </figure>
-                <div class="details"> <span class="price"><small>Цена</small>$170</span>
-                    <h4 class="box-title">Заголовок карточки<small>Название</small></h4>
-                    <div class="feedback">
-
-                        <p class="description">Описание товара</p>
-                        <div class="action"> <a class="button btn-small" href="#">В карточу</a> <a class="button btn-small yellow popup-map" href="#" >В корзину</a> </div>
-                    </div>
-            </article>
-        </li>
-        <li style="width: 350px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="300" height="340" alt="" src="https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/iphone-13-pro-family-hero?wid=940&hei=1112&fmt=png-alpha&.v=1631220221000" draggable="false"></a> </figure>
-                <div class="details"> <span class="price"> <small>Цена</small> $360 </span>
-                    <h4 class="box-title">Заголовок карточки<small>Название</small></h4>
-                    <div class="feedback">
-
-                        <p class="description">Описание товара</p>
-                        <div class="action"> <a class="button btn-small" href="#">В карточку</a> <a class="button btn-small yellow popup-map" href="#">В корзину</a> </div>
-                    </div>
-            </article>
-        </li>
+        </div>
     </div>
 </div>
-</div>
 
-<!-- Список магазинов -->
-<div class="section">
-    <div class="container2">
-        <h1>Подборка популярных магазинов</h1>
 
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
 
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
+<div id="cartItems" class="popular">
+    <h3>Популярные товары</h3>
+    <div id="cardsPopularItems">
 
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
-
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
-
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
-
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
-
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
-
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
-
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
-
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
-
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
-        <li style="width: 250px; float: left; display: block;">
-            <article class="box">
-                <figure> <a href="#" class="hover-effect popup-gallery"><img width="215" height="215" alt="" src="https://static.mvideo.ru/media/Promotions/Promo_Page/2021/March/aydentika/images/mlogo_04.svg" draggable="false"></a> </figure>
-
-                <h4 class="box-title">Название магазина<small>Краткое описание</small></h4>
-                <div class="feedback">
-
-                    <div class="action"> <a class="button btn-small" href="#">Перейти</a></div>
-                </div>
-            </article>
-        </li>
     </div>
-</div>
+
+
+    <h3>Популярные магазины</h3>
+    <div id="cardsPopularShops">
+
+    </div>
 </div>
 
 <!--модульное окно для регистрации пользователя -->

@@ -19,7 +19,7 @@
                 <a th:href="@{/user/{id}/userlist (id=${user.id})}" class="heading">Список покупателей</a>
                 <a href="" class="heading">Еще...</a></h4>
             <div class="btn_danger_out">
-                <button class="btn btn-outline-danger ">Sign Out</button>
+                <a href="/logout"><button class="btn btn-outline-danger ">Sign Out</button></a>
             </div>
         </div>
     </nav>
@@ -52,7 +52,7 @@
             </div>
             <hr/>
             <div class="links">
-                <h5><a href="#">Корзина</a></h5>
+                <h5><a th:href="@{/user-cart-page}">Корзина</a></h5>
                 <h5><a href="#">История заказов</a></h5>
                 <h5><a href="#">Проданные товары</a></h5>
             </div>

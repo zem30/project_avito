@@ -2,6 +2,7 @@ package com.amr.project.model.dto;
 
 
 
+import com.amr.project.model.entity.CartItem;
 import lombok.*;
 
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class UserDto {
     private Calendar birthday;
     private List<OrderDto> orders = new ArrayList<>();
     private List<ShopDto> shops = new ArrayList<>();
+    private List<CartItemDto> cartItems = new ArrayList<>();
 
 
 

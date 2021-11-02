@@ -9,11 +9,11 @@ import org.mapstruct.Mapping;
         ItemMapper.class, ShopMapper.class})
 public interface CartItemMapper {
 
-    @Mapping(source = "items", target = "itemDto")
+    @Mapping(source = "item", target = "itemDto")
     @Mapping(source = "shop", target = "shopDto")
     CartItemDto cartItemToDto(CartItem cartItem);
 
-    @Mapping(source = "itemDto", target = "items")
+    @Mapping(source = "itemDto", target = "item")
     @Mapping(source = "shopDto", target = "shop")
     CartItem dtoToCartItem(CartItemDto cartItemDto);
 }

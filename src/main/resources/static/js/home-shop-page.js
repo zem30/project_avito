@@ -1,6 +1,8 @@
+//получить pathname url
 const pathname = document.location.pathname;
-const shop_items = () => {
-    fetch("http://localhost:8888/shop_api"+pathname)
+//получить все товары этого магазина
+function shop_items(){
+    fetch("http://localhost:8888/shop_api" + pathname)
         .then(res => res.json())
         .then(shop => {
             let logo = `<div class="shop-div">
@@ -16,22 +18,23 @@ const shop_items = () => {
         <h6>${i.name}</h6>
         <h6>${i.price}</h6>
         <p>${i.description}</p>
-        <button type="button" class="btn btn-primary basket-add" id="${i.id}">В корзину</button>
+        <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
         </div>`
             })
             document.querySelector(".home-shop-right-body").innerHTML = text + items;
             document.querySelector(".home-shop-left-body").innerHTML = logo;
-            })
+        })
 }
-
-const item_present = () => {
-    fetch("http://localhost:8888/shop"+pathname)
+//получить страницу товара
+function item_present(){
+    fetch("http://localhost:8888/shop" + pathname)
         .then(res => res.json())
         .then(item => {
             let item_present = `<div>
                                 <h3>name: ${item.name}</h3>
-                                <h3>count: ${item.count}</h3>
+                                <h3>price: ${item.price}</h3>
                                 <h3>shopName: ${item.shopName}</h3>
+                                <button type="button" class="btn btn-primary basket-plus-div" id="${item.id}">В корзину</button>
                                 </div>`;
             let item_img = ``;
             item.images.forEach((i) => {
@@ -42,12 +45,13 @@ const item_present = () => {
             document.querySelector(".home-shop-right-body").innerHTML = item_img + item_present;
         })
 }
-
-const shop_or_item = () => {
-    if(pathname.indexOf("shop") > -1){
+//определить с какого контроллера зашли на страницу
+function shop_or_item(){
+    if (pathname.indexOf("basket") > -1) {
+        basket_cookie_name();
+    } else if (pathname.indexOf("shop") > -1) {
         shop_items();
-    }
-    if (pathname.indexOf("item") > -1){
+    } else if (pathname.indexOf("item") > -1) {
         item_present();
     }
 }

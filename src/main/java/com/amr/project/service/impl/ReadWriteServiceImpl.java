@@ -11,11 +11,14 @@ import java.util.List;
 @Service
 public abstract class ReadWriteServiceImpl<T, K> implements ReadWriteService<T, K> {
 
-    private final ReadWriteDao<T, K> dao;
+    private ReadWriteDao<T, K> dao;
 
     @Autowired
     protected ReadWriteServiceImpl(ReadWriteDao<T, K> dao) {
         this.dao = dao;
+    }
+
+    protected ReadWriteServiceImpl() {
     }
 
     @Override

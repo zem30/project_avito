@@ -69,19 +69,17 @@ public class ItemRestController {
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
 
-//    @GetMapping("item/{id}")
-//    public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
-//        Item item = itemService.getByKey(id);
-//        return ResponseEntity.ok().body(itemConverter.itemToDto(item));
-//    }
-
-    //8888
     @GetMapping("item/{id}")
-    public ItemDto getItem(@PathVariable("id") long id){
-        ItemDto itemDto = itemService.getItemDtoId(id);
-        return itemDto;
+    public ResponseEntity<ItemDto> getItem(@PathVariable @NonNull Long id) {
+        Item item = itemService.getByKey(id);
+        return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
-    //8888
+
+//    @GetMapping("item/{id}")
+//    public ItemDto getItem(@PathVariable("id") long id){
+//        ItemDto itemDto = itemService.getItemDtoId(id);
+//        return itemDto;
+//    }
     @GetMapping("/items")
     public List<ItemDto> getAllItems(){
         List<ItemDto> itemDtoList = itemService.getAllItemsRatingSort();
