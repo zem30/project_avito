@@ -1,11 +1,8 @@
 package com.amr.project.model.entity;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 

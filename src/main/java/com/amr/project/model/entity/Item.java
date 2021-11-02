@@ -1,10 +1,7 @@
 package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.persistence.CascadeType;
@@ -30,6 +27,7 @@ import java.util.List;
 @AllArgsConstructor
 @ApiIgnore
 @Builder
+@ToString(exclude = "cartItems")
 public class Item {
 
     @Id
