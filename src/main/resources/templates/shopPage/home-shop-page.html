@@ -49,8 +49,8 @@
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
                 </form>
-                <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></span></h5>
+                <h5><a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
             </div>
         </div>
     </div>

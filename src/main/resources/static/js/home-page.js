@@ -73,6 +73,7 @@ function findItems() {
             })
     });
 }
+
 findItems();
 
 
@@ -98,6 +99,7 @@ function basket_plus_click() {
         }
     })
 }
+
 basket_plus_click();
 
 
