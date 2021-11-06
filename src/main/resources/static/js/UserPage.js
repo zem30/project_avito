@@ -8,7 +8,7 @@ const userService = {
         method: 'GET',
         headers: userService.head
     }),
-    getUserItems: async (id) => await fetch('/getUserOrders/' + id, {
+    getUserSalesItems: async (id) => await fetch('/getUserSalesItems/' + id, {
         method: 'GET',
         headers: userService.head
     })
@@ -23,10 +23,10 @@ $(document).ready(function () {
 
 async function fillUserItemTable() {
     let id = $('.user-id').val()
-    let responce = await userService.getUserItems(id)
+    let response = await userService.getUserSalesItems(id)
     let items
-    if (responce.ok) {
-        items = await responce.json().then(result => result)
+    if (response.ok) {
+        items = await response.json().then(result => result)
         console.log(items)
         userOrdersTableFill(items)
     }

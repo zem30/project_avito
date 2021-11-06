@@ -2,7 +2,7 @@ function userItems() {
     let id = $('.user-id').val();
     console.log(id)
     let temp = "";
-    fetch(`/getUserOrders/${id}`)
+    fetch(`/getUserSalesItems/${id}`)
         .then(res => res.json())
         .then(items => {
             items.forEach((i) => {
