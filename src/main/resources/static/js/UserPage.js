@@ -4,12 +4,21 @@ const userService = {
         'Content-Type': 'application/json',
         'Referer': null
     },
+    getUser: async (id) => await fetch("getUser", {
+        method: 'GET',
+        headers: userService.head
+    }),
     getUserShops: async (id) => await fetch('/getUserShops/' + id, {
         method: 'GET',
         headers: userService.head
     }),
     getUserSalesItems: async (id) => await fetch('/getUserSalesItems/' + id, {
         method: 'GET',
+        headers: userService.head
+    }),
+    userNewShop: async (shop) => await fetch("/", {
+        method: 'POST',
+        body: JSON.stringify(shop),
         headers: userService.head
     })
 }
@@ -18,6 +27,7 @@ $(document).ready(function () {
     fillUsersShops();
     addImageToUser();
     fillUserItemTable();
+    userNewShop();
 })
 
 
@@ -51,7 +61,6 @@ function userOrdersTableFill(items) {
     itemsTable.append(rows)
 }
 
-const shopsAddModal = $('#shopsAddFormModal');
 async function fillUsersShops() {
     let newShopCard =
         `<div class="card shadow-sm " style="width: 15rem;height: 21rem">
@@ -62,8 +71,6 @@ async function fillUsersShops() {
                     <button type="button" id="btnShopAddFormModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopsAddFormModal">Регистрация</button>
                 </div>
         </div>`
-
-
 
     let id = $('.user-id').val()
     let response = await userService.getUserShops(id)
@@ -151,4 +158,32 @@ function arrayBufferToBase64(buffer) {
     }
     return window.btoa(binary);
 
+}
+
+function userNewShop() {
+    const shopsAddModal = $('#shopsAddFormModal');
+    $(shopsAddModal.find(":submit")).on('click', async () => {
+        let id = $('.user-id').val()
+        let user = await userService.getUser(id).then(res => res.json().then(user => user));
+        console.log(user)
+        let image = [{"id": 1, "url":"123", "picture": [1,2,3]}];
+        let txt = {"id": 1, "name": "Russia", "hibernateLazyInitializer": {}};
+        let shop = {
+            'name': shopsAddModal.find('#shopNameAdd').val(),
+            'email': shopsAddModal.find('#shopEmailAdd').val(),
+            'phone': shopsAddModal.find('#phoneNumberAdd').val(),
+            'description': shopsAddModal.find('#descriptionAdd').val(),
+            'location': txt,
+            'logo': image,
+            'count': shopsAddModal.find("#countAdd").val(),
+            'rating': shopsAddModal.find('#ratingAdd').val()
+            // 'user': user
+        }
+
+        const response = await userService.userNewShop(shop);
+        if(response.ok) {
+            fillUsersShops()
+            shopsAddModal.modal("hide");
+        }
+    })
 }

@@ -36,7 +36,7 @@ public class Address {
     @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 
-  //  @JsonIgnore
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY)
     private City city;
 

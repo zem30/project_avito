@@ -3,11 +3,15 @@ package com.amr.project.webapp.rest_controller.user_rest_controller;
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.OrderMapper;
 import com.amr.project.converter.ShopMapper;
+import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.Order;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,6 +24,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @AllArgsConstructor
 @RestController
@@ -27,9 +33,17 @@ import java.util.*;
 public class UserRestController {
 
     private final UserService userService;
+    private final ShopService shopService;
     private final ShopMapper shopMapper;
     private final ItemMapper itemMapper;
+    private final UserMapper userMapper;
 
+    @GetMapping("/getUser")
+    @ApiOperation(value = "Получение зарегистрированного пользователя")
+    public ResponseEntity<UserDto> getUser() {
+       UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        return ResponseEntity.ok(userDto);
+    }
 
     @PostMapping("/registration")
     @ApiOperation(value = "Валидация пользователя , поиск пользователя по ключевыйм полям в бд и дальнейшая регистрация ")
@@ -93,7 +107,29 @@ public class UserRestController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(orderDtos);
+    }
 
+    @PostMapping()
+    @ApiOperation(value = "Добавляет новый магазин юзера")
+    public ResponseEntity<?> userAddShop(@Valid @RequestBody Shop shop) {
+//        Map<String, Object> shopMap = new LinkedHashMap<>();
+//        Shop registeredShop = shopService.getShop(shop.getEmail());
+//        if (registeredShop != null) {
+//            shopMap.put("isExist", "Shop with this email exist");
+//            return ResponseEntity.badRequest().body(shopMap);
+//        }
+//        registeredShop = shopService.getShop(shop.getPhone());
+//        if (registeredShop != null) {
+//            shopMap.put("isExist", "Shop with this phone exist");
+//            return ResponseEntity.badRequest().body(shopMap);
+//        }
+//        registeredShop = shopService.getShop(shop.getName());
+//        if (registeredShop != null) {
+//            shopMap.put("isExist", "Shop with this name exist");
+//            return ResponseEntity.badRequest().body(shopMap);
+//        }
+        shopService.persist(shop);
+        return ResponseEntity.ok().build();
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -108,6 +144,5 @@ public class UserRestController {
         body.put("errors", errors);
         return ResponseEntity.badRequest().body(body);
     }
-
 
 }
