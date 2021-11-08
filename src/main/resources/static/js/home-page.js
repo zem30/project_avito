@@ -1,3 +1,14 @@
+// Отправить данные
+function send_data(url, data, method) {
+    const response = fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: data,
+    })
+}
+
 //получить популярные товары
 function popular_item(){
     fetch("http://localhost:8888/shop/items")
@@ -47,17 +58,40 @@ function getCookie(name) {
 //прибавить количество товара
 function basket_plus_click(){
     $(document).on("click", ".basket-plus-div", function (e) {
-        let id = e.target.id
-        let cookie_value = getCookie(id)
-        if (cookie_value !== undefined) {
-            let value = Number(cookie_value) + 1;
-            document.cookie = id + "=" + value + "; path=/";
+        let id = e.target.id;
+        let user_tag = document.getElementById("userTag");
+        if (user_tag === null) {
+            let cookie_value = getCookie(id + "basket")
+            if (cookie_value !== undefined) {
+                let value = Number(cookie_value) + 1;
+                document.cookie = id + "basket" + "=" + value + "; path=/";
+            } else {
+                document.cookie = id + "basket" + "=" + 1 + "; path=/";
+            }
         } else {
-            document.cookie = id + "=" + 1  + "; path=/";
+            let data = {}
+            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
         }
     })
 }
 basket_plus_click();
+
+//кнопка корзина
+function basket_button(){
+    let user_tag = document.getElementById("userTag");
+    let text = ``;
+    if (user_tag === null){
+        text = `<a href="/basket">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    } else {
+        text = `<a href="/user-cart-page">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    }
+    document.querySelector(".div-header-right-one").innerHTML = text
+}
+basket_button();
 
 
 

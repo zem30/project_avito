@@ -686,6 +686,28 @@ public class DataInserting {
 
         userRepository.save(user4_cartItem);
         userRepository.save(user5_cartItem);
+
+        cartItem1 = cartItemRepository.findById(1L).orElse(null);
+        cartItem2 = cartItemRepository.findById(2L).orElse(null);
+        cartItem3 = cartItemRepository.findById(3L).orElse(null);
+        cartItem4 = cartItemRepository.findById(4L).orElse(null);
+        cartItem5 = cartItemRepository.findById(5L).orElse(null);
+        cartItem6 = cartItemRepository.findById(6L).orElse(null);
+
+        item1_cart_item1.setCartItems(List.of(cartItem1));
+        item2_cart_item2.setCartItems(List.of(cartItem2));
+        item3_cart_item3.setCartItems(List.of(cartItem3));
+        item4_cart_item4.setCartItems(List.of(cartItem4));
+        item5_cart_item5.setCartItems(List.of(cartItem5));
+        item6_cart_item6.setCartItems(List.of(cartItem6));
+
+        itemRepository.save(item1_cart_item1);
+        itemRepository.save(item2_cart_item2);
+        itemRepository.save(item3_cart_item3);
+        itemRepository.save(item4_cart_item4);
+        itemRepository.save(item5_cart_item5);
+        itemRepository.save(item6_cart_item6);
+
 //---------------------------------------------------------------Favourite
         User user4_favorite = userRepository.findByEmail("user4@mail");
         User user5_favorite = userRepository.findByEmail("user5@mail");

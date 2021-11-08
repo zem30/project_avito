@@ -49,8 +49,8 @@
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
                 </form>
-                <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></span></h5>
+                <h5 class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                          sec:authentication="principal.username"></h5>
             </div>
         </div>
     </div>
@@ -74,7 +74,6 @@
         crossorigin="anonymous"></script>
 
 <script type="text/javascript" src="../js/home-basket-logic.js"></script>
-<script type="text/javascript" src="../js/home-basket-page.js"></script>
 <script src="../js/home-shop-page.js"></script>
 <script src="/js/registration.js"></script>
 

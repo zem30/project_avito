@@ -6,6 +6,7 @@ import com.amr.project.inserttestdata.repository.ItemRepository;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Mail;
+import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.util.TrackedEmailItem;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -80,18 +82,27 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
         Item item = itemRepository.findById(id).orElse(null);
         return item;
     }
-    //8888
+
     @Override
     public ItemDto getItemDtoId(long id) {
         ItemDto itemDto = itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
         return itemDto;
     }
 
-    //8888
     @Override
     public List<ItemDto> getAllItemsRatingSort(){
         List<Item> itemList = itemRepository.findAllByOrderByRatingDesc();
         List<ItemDto> itemDtoList = itemList.stream().map(item -> itemMapper.itemToDto(item)).collect(Collectors.toList());
         return itemDtoList;
+    }
+
+    @Override
+    public List<Item> getAllItem(User user) {
+        List<Long> list = user.getCartItems().stream().map(item -> item.getId()).sorted().collect(Collectors.toList());
+        List<Item> itemsList = new ArrayList<>();
+        for (Long id : list) {
+            itemsList.add(itemRepository.findById(id).orElse(null));
+        }
+        return itemsList;
     }
 }

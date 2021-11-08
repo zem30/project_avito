@@ -56,7 +56,7 @@ public class Item {
     private Shop shop;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "item")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CartItem> cartItems;
 
     private boolean isModerated;
