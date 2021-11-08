@@ -1,6 +1,8 @@
 package com.amr.project.converter;
 
+import com.amr.project.model.dto.DiscountDto;
 import com.amr.project.model.dto.OrderDto;
+import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -26,4 +28,6 @@ public interface OrderMapper {
     List<OrderDto> listOrderToDto(List<Order> orders);
 
     List<Order> listDtoToOrder(List<OrderDto> orderDtos);
+
+    OrderDto orderToDto(Order order);
 }

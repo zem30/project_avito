@@ -1,6 +1,5 @@
 <!doctype html>
-<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml">
-<html xmlns:th="http://thymeleaf.org">
+<html lang="en" xmlns:sec="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -30,10 +29,13 @@
                 </div>
             </div>
             <div class="col-4 div-header-center">
-                <form class="d-flex">
-                    <input class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-                    <button class="btn btn-warning" type="submit">Поиск</button>
-                </form>
+                <div class="input-group">
+                    <div class="form-outline">
+                        <input id="search-input" class="form-control me-2" type="search" placeholder="Поиск"
+                               aria-label="Search">
+                    </div>
+                    <button id="search-button" class="btn btn-warning" type="submit">Поиск</button>
+                </div>
             </div>
             <div class="col-2 div-header-right-one" style="padding: 0px 50px">
                 <a href="/basket">
@@ -41,15 +43,19 @@
                 </a>
             </div>
             <div class="col-2 div-header-right-two" style="text-align: right; padding: 0px 10px">
-                    <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
-                            data-toggle="modal" data-target="#staticBackdrop">Войти
+                <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
+                        data-toggle="modal" data-target="#staticBackdrop">Войти
+                </button>
+                <form method="get" action="/logout" class="btn_danger_out">
+                    <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
-                    <form method="get" action="/logout" class="btn_danger_out">
-                        <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
-                        </button>
-                    </form>
-                <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></span></h5>
+                </form>
+                <h5 sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                              sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('USER')">
+                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                          sec:authentication="principal.username"></a></h5>
             </div>
         </div>
     </div>
@@ -63,7 +69,6 @@
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
 </div>
-
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
 
