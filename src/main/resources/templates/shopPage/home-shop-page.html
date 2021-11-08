@@ -49,12 +49,17 @@
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
                 </form>
+<<<<<<< HEAD
+                <h5 class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                          sec:authentication="principal.username"></h5>
+=======
                 <h5 sec:authorize="hasAuthority('ADMIN')">
                     <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
                 <h5 sec:authorize="hasAuthority('USER')">
                     <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
+>>>>>>> master
             </div>
         </div>
     </div>
@@ -78,7 +83,6 @@
 
 <script type="text/javascript" src="../js/search.js"></script>
 <script type="text/javascript" src="../js/home-basket-logic.js"></script>
-<script type="text/javascript" src="../js/home-basket-page.js"></script>
 <script src="../js/home-shop-page.js"></script>
 <script src="/js/registration.js"></script>
 
