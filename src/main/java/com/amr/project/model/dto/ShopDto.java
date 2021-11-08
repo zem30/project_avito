@@ -1,6 +1,7 @@
 package com.amr.project.model.dto;
 
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 
 import javax.persistence.Column;
 import javax.validation.constraints.Email;
@@ -27,7 +28,7 @@ public class ShopDto {
     @Email(message = "Введите корректный email")
     private String email;
 
-    @Positive
+    @NotBlank()
     private String phone;
 
     @NotEmpty(message = "Введите описание магазина")
