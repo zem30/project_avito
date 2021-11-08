@@ -111,7 +111,7 @@ shopsAddModal.find(':submit').click(() => {
         'email': shopsAddModal.find('#shopEmailAdd').val(),
         'phone': shopsAddModal.find('#phoneNumberAdd').val(),
         'description': shopsAddModal.find('#descriptionAdd').val(),
-        //  'logo': shopsAddModal.find('#logoAdd').val(),
+         'logo': shopsAddModal.find('#logoAdd').val(),
         'rating': shopsAddModal.find('#ratingAdd').val(),
         'location': txt
     };

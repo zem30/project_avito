@@ -10,7 +10,7 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-function popular_item(){
+function popular_item() {
     fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
@@ -27,9 +27,11 @@ function popular_item(){
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
+
 popular_item();
+
 //получить популярные магазины
-function popular_shops(){
+function popular_shops() {
     fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
         .then(shops => {
@@ -45,7 +47,46 @@ function popular_shops(){
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
+
 popular_shops();
+
+//получение предметов по поиску
+function findItems() {
+    // получаем значение поиска
+    const searchInput = document.getElementById('search-input');
+    // обрабатываем нажатие кнопки поиска
+    $(document.getElementById('search-button')).on('click', function () {
+        console.log(searchInput.value)
+        fetch("http://localhost:8888/shop/items")
+            .then(res => res.json())
+            .then(items => {
+                let logs = ``;
+                let isEmpty = true;
+                items.forEach((i) => {
+                    if (i.name === searchInput.value || searchInput.value === '') {
+                        isEmpty = false;
+                        logs += `<div class="item-div">
+                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
+                         <h6>${i.name}</h6>
+                         <h6>${i.price}</h6>
+                         <p>${i.description}</p>
+                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
+                         </div>`;
+                    }
+                })
+
+                // Проверка что нету предметов
+                if (isEmpty) {
+                    logs += `<h4>Ничего не найдено</h4>`
+                }
+
+                document.querySelector('.item-container').innerHTML = logs;
+            })
+    });
+}
+
+findItems();
+
 
 //получить name cookies
 function getCookie(name) {
@@ -56,7 +97,7 @@ function getCookie(name) {
 }
 
 //прибавить количество товара
-function basket_plus_click(){
+function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", function (e) {
         let id = e.target.id;
         let user_tag = document.getElementById("userTag");
@@ -71,9 +112,20 @@ function basket_plus_click(){
         } else {
             let data = {}
             send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+            console.log(e.target.id)
+            let id = e.target.id
+            let cookie_value = getCookie(id)
+            if (cookie_value !== undefined) {
+                let value = Number(cookie_value) + 1;
+                document.cookie = id + "=" + value + "; path=/";
+            } else {
+                document.cookie = id + "=" + 1 + "; path=/";
+            }
         }
     })
 }
+
+
 basket_plus_click();
 
 //кнопка корзина

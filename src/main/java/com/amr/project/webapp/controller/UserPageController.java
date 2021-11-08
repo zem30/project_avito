@@ -76,4 +76,17 @@ public class UserPageController {
         return "/user-cart-page";
     }
 
+    @GetMapping("/user-item")
+    public String getUserItems(Model model){
+        UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        model.addAttribute("user",userDto);
+        return "user-item";
+    }
+
+    @GetMapping("/user-orders")
+    public String getUserOrders(Model model){
+        UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        model.addAttribute("user",userDto);
+        return "user-orders";
+    }
 }

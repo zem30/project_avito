@@ -1,9 +1,12 @@
 package com.amr.project.webapp.rest_controller.user_rest_controller;
 
 import com.amr.project.converter.ItemMapper;
+import com.amr.project.converter.OrderMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.entity.Order;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
@@ -65,9 +68,9 @@ public class UserRestController {
 
     }
 
-    @GetMapping("/getUserOrders/{id}")
+    @GetMapping("/getUserSalesItems/{id}")
     @ApiOperation(value = "Отдает список купленных товаров юзера с айди указанным в url")
-    public ResponseEntity<List<ItemDto>> getOrders(@PathVariable("id") Long id) {
+    public ResponseEntity<List<ItemDto>> getUserSalesItems(@PathVariable("id") Long id) {
         User user = userService.getByKey(id);
         List<ItemDto> itemDtos = new ArrayList<>();
         user.getOrders().stream().forEach(order -> order.getItems().stream().forEach(item -> itemDtos.add(itemMapper.itemToDto(item))));
@@ -75,6 +78,21 @@ public class UserRestController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(itemDtos);
+
+    }
+
+    @GetMapping("/getOrders/{id}")
+    @ApiOperation(value = "Отдает список заказов юзера с айди указанным в url")
+    public ResponseEntity<List<OrderDto>> getOrders(@PathVariable("id") Long id) {
+        User user = userService.getByKey(id);
+
+        List<OrderDto> orderDtos = new ArrayList<>();
+        user.getOrders().forEach(order -> orderDtos.add(OrderMapper.INSTANCE.orderToDto(order)));
+
+        if (orderDtos.size() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(orderDtos);
 
     }
 

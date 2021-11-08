@@ -29,8 +29,12 @@
                     </div>
                 </div>
                 <div class="d-flex">
-                    <h5><span class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                              sec:authentication="principal.username"></span></h5>
+                    <h5 sec:authorize="hasAuthority('ADMIN')">
+                        <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                           sec:authentication="principal.username"></a></h5>
+                    <h5 sec:authorize="hasAuthority('USER')">
+                        <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                           sec:authentication="principal.username"></a></h5>
                     <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
                             data-toggle="modal" data-target="#staticBackdrop">Войти
                     </button>
@@ -42,18 +46,18 @@
             </div>
         </nav>
 
-        <!-- Modal Sign In-->
-        <div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
-             aria-labelledby="staticBackdropLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <div class="image-header">
-                            <img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg"
-                                 alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
-                        </div>
-                        <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-                    </div>
+<!-- Modal Sign In-->
+<div class="modal fade" id="staticBackdrop" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="image-header">
+                    <img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg"
+                         alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
+                </div>
+                <!--                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+            </div>
 
 
                     <div class="modal-body">
@@ -133,7 +137,41 @@
             </div>
         </div>
 
-        <!--    Modal Basket-->
+<!--    Modal Favorite-->
+
+<div class="modal fade" id="staticBackdropFavorite" data-backdrop="static" data-keyboard="false"
+     tabindex="-1"
+     aria-labelledby="staticBackdropLabelFavorite" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h6 class="modal-title" id="staticBackdropLabelFavorite">Избранное:</h6>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <table>
+                    <thead>
+                    <tr>
+                        <td>Наименование товара</td>
+                        <td>&nbsp;</td>
+                        <td>Цена</td>
+                        <td>&nbsp;</td>
+                        <td></td>
+                    </tr>
+                    </thead>
+                    <tbody id="favoriteList">
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--    Modal Basket-->
 
 
         <div class="container">
@@ -163,7 +201,14 @@
             </form>
 
 
-            <div class="basket">
+            <div class="favorite" sec:authorize="isAuthenticated()">
+        <form action="#">
+            <button type="button" class="btn btn-outline-warning" data-toggle="modal"
+                    data-target="#staticBackdropFavorite">Избранное
+            </button>
+        </form>
+    </div>
+    <div class="basket">
                 <form action="#">
                     <button type="button" class="btn btn-outline-warning" data-toggle="modal"
                             data-target="#staticBackdropBasket">Корзина
@@ -282,6 +327,6 @@
 <script src="/js/admin.js"></script>
 <script src="/js/registration.js"></script>
 <script src="/js/cart.js"></script>
-
+<script src="/js/favorite.js"></script>
 </body>
 </html>
