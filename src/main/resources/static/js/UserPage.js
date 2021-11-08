@@ -8,26 +8,25 @@ const userService = {
         method: 'GET',
         headers: userService.head
     }),
-    getUserItems: async (id) => await fetch('/getUserOrders/' + id, {
+    getUserSalesItems: async (id) => await fetch('/getUserSalesItems/' + id, {
         method: 'GET',
         headers: userService.head
     })
 }
 $(document).ready(function () {
     console.log('ok')
-    fillUsersShops()
-    addImageToUser()
-    fillUserItemTable()
-
+    fillUsersShops();
+    addImageToUser();
+    fillUserItemTable();
 })
 
 
 async function fillUserItemTable() {
     let id = $('.user-id').val()
-    let responce = await userService.getUserItems(id)
+    let response = await userService.getUserSalesItems(id)
     let items
-    if (responce.ok) {
-        items = await responce.json().then(result => result)
+    if (response.ok) {
+        items = await response.json().then(result => result)
         console.log(items)
         userOrdersTableFill(items)
     }
@@ -52,17 +51,20 @@ function userOrdersTableFill(items) {
     itemsTable.append(rows)
 }
 
-
+const shopsAddModal = $('#shopsAddFormModal');
 async function fillUsersShops() {
     let newShopCard =
         `<div class="card shadow-sm " style="width: 15rem;height: 21rem">
                 <img src="https://sc02.alicdn.com/kf/HTB1qiaROCzqK1RjSZPxq6A4tVXaB/223383126/HTB1qiaROCzqK1RjSZPxq6A4tVXaB.jpg_.webp" class="card-img-top" height="200" >
-                <div class="card-body" >
+                <div class="card-body">
                    <div class="card-title"><h4>Новый магазин</h4></div>
                     <div class="card-text" style="margin-bottom: 10px">Зарегестрируйте новый магазин тут!</div>   
-                    <button type="submit" class="btn btn-primary">Регистрация</button>                     
+                    <button type="button" id="btnShopAddFormModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopsAddFormModal">Регистрация</button>
                 </div>
         </div>`
+
+
+
     let id = $('.user-id').val()
     let response = await userService.getUserShops(id)
     let shops
@@ -80,6 +82,9 @@ async function fillUsersShops() {
     }
     $('#user-shops').append(grid)
 }
+
+
+
 
 function makeShopsCards(shops) {
     console.log(shops)
