@@ -1,29 +1,31 @@
+//получить кнопку поиска
+let searchHomeShopButton = document.getElementById('searchHomeShopPageButton')
 //получить pathname url
 const pathname = document.location.pathname;
 //получить все товары этого магазина
 function shop_items(){
-    fetch("http://localhost:8888/shop_api" + pathname)
-        .then(res => res.json())
-        .then(shop => {
-            let logo = `<div class="shop-div">
+        fetch("http://localhost:8888/shop_api" + pathname)
+            .then(res => res.json())
+            .then(shop => {
+                let logo = `<div class="shop-div">
         <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
         <h3>${shop.name}</h3>
         <h3>${shop.location.name}</h3>
         </div>`;
-            let text = `<div><h3>Самые популярные товары</h3></div>`
-            let items = ``;
-            shop.items.forEach((i) => {
-                items += `<div class="item-div">
+                let text = `<div><h3>Самые популярные товары</h3></div>`
+                let items = ``;
+                shop.items.forEach((i) => {
+                    items += `<div class="item-div">
         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
         <h6>${i.name}</h6>
         <h6>${i.price}</h6>
         <p>${i.description}</p>
         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
         </div>`
+                })
+                document.querySelector(".home-shop-right-body").innerHTML = text + items;
+                document.querySelector(".home-shop-left-body").innerHTML = logo;
             })
-            document.querySelector(".home-shop-right-body").innerHTML = text + items;
-            document.querySelector(".home-shop-left-body").innerHTML = logo;
-        })
 }
 //получить страницу товара
 function item_present(){
@@ -45,12 +47,29 @@ function item_present(){
             document.querySelector(".home-shop-right-body").innerHTML = item_img + item_present;
         })
 }
+
+//получение предметов по поиску
+function findShopItems() {
+    // получаем значение поиска
+    const searchInput = document.getElementById('searchHomeShopPage');
+    // обрабатываем нажатие кнопки поиска;
+    $(searchHomeShopButton).on('click', function () {
+        console.log(searchInput.value)
+        fetch("http://localhost:8888/shop_api" + pathname)
+            .then(res => res.json())
+            .then(shop => {
+                document.querySelector('.home-shop-right-body').innerHTML = search(shop.items, searchInput);
+            });
+    });
+}
+
 //определить с какого контроллера зашли на страницу
-function shop_or_item(){
+function shop_or_item() {
     if (pathname.indexOf("basket") > -1) {
         basket_cookie_name();
     } else if (pathname.indexOf("shop") > -1) {
         shop_items();
+        findShopItems();
     } else if (pathname.indexOf("item") > -1) {
         item_present();
     }

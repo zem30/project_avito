@@ -42,34 +42,14 @@ popular_shops();
 //получение предметов по поиску
 function findItems() {
     // получаем значение поиска
-    const searchInput = document.getElementById('search-input');
+    const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('search-button')).on('click', function () {
+    $(document.getElementById('searchHomePageButton')).on('click', function () {
         console.log(searchInput.value)
         fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
-                let logs = ``;
-                let isEmpty = true;
-                items.forEach((i) => {
-                    if (i.name === searchInput.value || searchInput.value === '') {
-                        isEmpty = false;
-                        logs += `<div class="item-div">
-                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
-                         <h6>${i.name}</h6>
-                         <h6>${i.price}</h6>
-                         <p>${i.description}</p>
-                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
-                         </div>`;
-                    }
-                })
-
-                // Проверка что нету предметов
-                if (isEmpty) {
-                    logs += `<h4>Ничего не найдено</h4>`
-                }
-
-                document.querySelector('.item-container').innerHTML = logs;
+                document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
     });
 }
