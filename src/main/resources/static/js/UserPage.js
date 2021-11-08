@@ -4,21 +4,12 @@ const userService = {
         'Content-Type': 'application/json',
         'Referer': null
     },
-    getUser: async (id) => await fetch("getUser", {
-        method: 'GET',
-        headers: userService.head
-    }),
     getUserShops: async (id) => await fetch('/getUserShops/' + id, {
         method: 'GET',
         headers: userService.head
     }),
     getUserSalesItems: async (id) => await fetch('/getUserSalesItems/' + id, {
         method: 'GET',
-        headers: userService.head
-    }),
-    userNewShop: async (shop) => await fetch("/", {
-        method: 'POST',
-        body: JSON.stringify(shop),
         headers: userService.head
     })
 }
@@ -68,7 +59,7 @@ async function fillUsersShops() {
                 <div class="card-body">
                    <div class="card-title"><h4>Новый магазин</h4></div>
                     <div class="card-text" style="margin-bottom: 10px">Зарегестрируйте новый магазин тут!</div>   
-                    <button type="button" id="btnShopAddFormModal" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shopsAddFormModal">Регистрация</button>
+                    <button type="button" id="btnUserShopAddForm" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#userShopAddForm">Регистрация</button>
                 </div>
         </div>`
 
@@ -89,9 +80,6 @@ async function fillUsersShops() {
     }
     $('#user-shops').append(grid)
 }
-
-
-
 
 function makeShopsCards(shops) {
     console.log(shops)
@@ -161,29 +149,70 @@ function arrayBufferToBase64(buffer) {
 }
 
 function userNewShop() {
-    const shopsAddModal = $('#shopsAddFormModal');
+    const shopsAddModal = $('#userShopAddForm');
     $(shopsAddModal.find(":submit")).on('click', async () => {
-        let id = $('.user-id').val()
-        let user = await userService.getUser(id).then(res => res.json().then(user => user));
-        console.log(user)
-        let image = [{"id": 1, "url":"123", "picture": [1,2,3]}];
-        let txt = {"id": 1, "name": "Russia", "hibernateLazyInitializer": {}};
+        let imageInput = shopsAddModal.find('#logoAdd')[0].files[0]
+        console.log(imageInput)
+        let image
+        if (imageInput !== undefined) {
+            image = imageToBinary(imageInput)
+        }
+        let txt = {"id": 1, "name": "Russia", "hibernateLazyInitializer": {}}
+        console.log(image)
         let shop = {
             'name': shopsAddModal.find('#shopNameAdd').val(),
             'email': shopsAddModal.find('#shopEmailAdd').val(),
             'phone': shopsAddModal.find('#phoneNumberAdd').val(),
             'description': shopsAddModal.find('#descriptionAdd').val(),
             'location': txt,
-            'logo': image,
-            'count': shopsAddModal.find("#countAdd").val(),
-            'rating': shopsAddModal.find('#ratingAdd').val()
-            // 'user': user
+            'logo': [{
+                url: shopsAddModal.find('#logoAdd').val(),
+                picture: image,
+                isMain: true}],
+            'rating': 0
         }
+        console.log(shop)
 
-        const response = await userService.userNewShop(shop);
+        const response = await fetch("shop_api/", {
+            method: 'POST',
+            body: JSON.stringify(shop),
+            headers: userService.head
+        });
+        console.log(response)
         if(response.ok) {
-            fillUsersShops()
             shopsAddModal.modal("hide");
+        } else {
+            let body = await response.json();
+            let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="messageError">
+                            ${body.info}
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>`;
+            shopsAddModal.prepend(alert);
         }
     })
+}
+
+// convert image to byte array
+function imageToBinary(image) {
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+    reader.onloadend = function () {
+        let data = (reader.result).split(',')[1];
+        let binaryBlob = atob(data);
+        localStorage.setItem("image", binaryBlob)
+    }
+    let imageBase64 = localStorage.getItem("image")
+    return base64ToBinary(imageBase64)
+}
+
+function base64ToBinary(imageBase64) {
+    let bytes = [];
+    for (let i = 0; i < imageBase64.length; i++) {
+        bytes.push(
+            imageBase64.charCodeAt(i)
+        );
+    }
+    return bytes
 }

@@ -1,8 +1,13 @@
 package com.amr.project.model.entity;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 import org.springframework.web.multipart.MultipartFile;
+
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,9 +24,17 @@ public class Shop {
     private Long id;
 
     @Column(unique = true)
+    @NotBlank(message = "Введите имя магазина")
     private String name;
+
+    @NotBlank
+    @Email(message = "Введите корректный email")
     private String email;
+
+    @Positive
     private String phone;
+
+    @NotBlank(message = "Введите описание магазина")
     private String description;
 
     @OneToOne(fetch = FetchType.LAZY)
@@ -35,6 +48,7 @@ public class Shop {
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     private List<Review> reviews;
 
+    @NotBlank(message = "Выберите изображение")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> logo;
 

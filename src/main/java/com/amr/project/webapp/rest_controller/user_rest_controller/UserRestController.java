@@ -8,24 +8,19 @@ import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
-import com.amr.project.model.entity.Order;
-import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
-import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 @AllArgsConstructor
 @RestController
@@ -33,7 +28,6 @@ import java.util.stream.Stream;
 public class UserRestController {
 
     private final UserService userService;
-    private final ShopService shopService;
     private final ShopMapper shopMapper;
     private final ItemMapper itemMapper;
     private final UserMapper userMapper;
@@ -49,18 +43,18 @@ public class UserRestController {
     @ApiOperation(value = "Валидация пользователя , поиск пользователя по ключевыйм полям в бд и дальнейшая регистрация ")
     public ResponseEntity<?> registrationNewUser(@Valid @RequestBody User user) {
         Map<String, Object> body = new LinkedHashMap<>();
-        User registratedUser = userService.findByEmail(user.getEmail());
-        if (registratedUser != null) {
+        User registeredUser = userService.findByEmail(user.getEmail());
+        if (registeredUser != null) {
             body.put("isExist", "User with this email exist");
             return ResponseEntity.badRequest().body(body);
         }
-        registratedUser = userService.findByPhone(user.getPhone());
-        if (registratedUser != null) {
+        registeredUser = userService.findByPhone(user.getPhone());
+        if (registeredUser != null) {
             body.put("isExist", "User with this phone exist");
             return ResponseEntity.badRequest().body(body);
         }
-        registratedUser = userService.findByUsername(user.getUsername());
-        if (registratedUser != null) {
+        registeredUser = userService.findByUsername(user.getUsername());
+        if (registeredUser != null) {
             body.put("isExist", "User with this username exist");
             return ResponseEntity.badRequest().body(body);
         }
@@ -107,42 +101,6 @@ public class UserRestController {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(orderDtos);
-    }
-
-    @PostMapping()
-    @ApiOperation(value = "Добавляет новый магазин юзера")
-    public ResponseEntity<?> userAddShop(@Valid @RequestBody Shop shop) {
-//        Map<String, Object> shopMap = new LinkedHashMap<>();
-//        Shop registeredShop = shopService.getShop(shop.getEmail());
-//        if (registeredShop != null) {
-//            shopMap.put("isExist", "Shop with this email exist");
-//            return ResponseEntity.badRequest().body(shopMap);
-//        }
-//        registeredShop = shopService.getShop(shop.getPhone());
-//        if (registeredShop != null) {
-//            shopMap.put("isExist", "Shop with this phone exist");
-//            return ResponseEntity.badRequest().body(shopMap);
-//        }
-//        registeredShop = shopService.getShop(shop.getName());
-//        if (registeredShop != null) {
-//            shopMap.put("isExist", "Shop with this name exist");
-//            return ResponseEntity.badRequest().body(shopMap);
-//        }
-        shopService.persist(shop);
-        return ResponseEntity.ok().build();
-    }
-
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseBody
-    @ApiOperation(value = "Ловит исключения вызванные аннотацией @Valid при валидации юзера для регистрации")
-    public ResponseEntity<?> validationError(MethodArgumentNotValidException ex) {
-        BindingResult result = ex.getBindingResult();
-        final List<FieldError> fieldErrors = result.getFieldErrors();
-        Map<String, Object> body = new LinkedHashMap<>();
-        Map<String, String> errors = new HashMap<>();
-        fieldErrors.forEach(f -> errors.put(f.getField(), f.getDefaultMessage()));
-        body.put("errors", errors);
-        return ResponseEntity.badRequest().body(body);
     }
 
 }
