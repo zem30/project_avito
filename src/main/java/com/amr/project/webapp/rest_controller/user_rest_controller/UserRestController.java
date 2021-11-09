@@ -2,13 +2,17 @@ package com.amr.project.webapp.rest_controller.user_rest_controller;
 
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.ShopMapper;
+import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.ShopDto;
+import com.amr.project.model.dto.UserDto;
+import com.amr.project.model.dto.UserUpdateDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -91,5 +95,16 @@ public class UserRestController {
         return ResponseEntity.badRequest().body(body);
     }
 
+    @GetMapping("/getUser/{id}")
+    @ApiOperation(value = "Возвращает пользователя по id")
+    public ResponseEntity<UserUpdateDto> getUserById(@PathVariable long id) {
+        return new ResponseEntity<>(userService.getUserUpdateDtoById(id), HttpStatus.OK);
+    }
 
+    @PutMapping("/user")
+    public ResponseEntity<UserUpdateDto> updateUser(@RequestBody UserUpdateDto userUpdateDto) {
+        System.err.println("Controller: " + userUpdateDto);
+        userService.updateUserDto(userUpdateDto);
+        return new ResponseEntity<>(userUpdateDto, HttpStatus.OK);
+    }
 }

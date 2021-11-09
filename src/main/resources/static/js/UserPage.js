@@ -1,3 +1,4 @@
+const url = 'http://localhost:8888'
 const userService = {
     head: {
         'Accept': 'application/json',
@@ -59,8 +60,8 @@ async function fillUsersShops() {
                 <img src="https://sc02.alicdn.com/kf/HTB1qiaROCzqK1RjSZPxq6A4tVXaB/223383126/HTB1qiaROCzqK1RjSZPxq6A4tVXaB.jpg_.webp" class="card-img-top" height="200" >
                 <div class="card-body" >
                    <div class="card-title"><h4>Новый магазин</h4></div>
-                    <div class="card-text" style="margin-bottom: 10px">Зарегестрируйте новый магазин тут!</div>   
-                    <button type="submit" class="btn btn-primary">Регистрация</button>                     
+                    <div class="card-text" style="margin-bottom: 10px">Зарегестрируйте новый магазин тут!</div>
+                    <button type="submit" class="btn btn-primary">Регистрация</button>
                 </div>
         </div>`
     let id = $('.user-id').val()
@@ -91,7 +92,7 @@ function makeShopsCards(shops) {
                 <img src="data:image/png;base64,${shop.logo.picture}" class="card-img-top" height="200">
                 <div class="card-body" >
                     <div class="card-title"><h4>${shop.name}</h4></div>
-                    <div class="card-text" style="margin-bottom: 5px">Рейтинг магазина:${shop.rating}/10</div>                        
+                    <div class="card-text" style="margin-bottom: 5px">Рейтинг магазина:${shop.rating}/10</div>
                     <form action="/shop/${shop.id}">
                         <button type="submit" class="btn btn-primary">Страница магазина</button>
                       </form>
@@ -146,4 +147,81 @@ function arrayBufferToBase64(buffer) {
     }
     return window.btoa(binary);
 
+}
+
+//получаем пользователя и добавляем поля
+function getProfileForEdit(id) {
+    fetch(url + '/getUser/' + id)
+        .then(response => response.json())
+        .then(user => {
+            console.log(user)
+            let dob = new Date(user.birthday)
+            dob = dob.toISOString().substring(0, 10);
+            let gender = user.gender
+            document.getElementById('edit-id').value = user.id
+            document.getElementById('edit-name').value = user.firstName
+            document.getElementById('edit-surname').value = user.lastName
+            document.getElementById('edit-username').value = user.username
+            document.getElementById('edit-date').value = dob
+            document.getElementById('edit-email').value = user.email
+            document.getElementById('edit-phone').value = user.phone
+            document.getElementById(gender).checked = true
+            document.getElementById('edit-address-id').value = user.address.id
+            document.getElementById('edit-country').value = user.address.country
+            document.getElementById('edit-city').value = user.address.city
+            document.getElementById('edit-street').value = user.address.street
+            document.getElementById('edit-house').value = user.address.house
+            document.getElementById('edit-cityIndex').value = user.address.cityIndex
+        })
+        .catch(e => console.error(e))
+}
+//считываем все поля и отправляем
+function sendProfileForEdit() {
+    event.preventDefault();
+    let genderCheck = document.getElementsByClassName('form-check-input')
+    let gender;
+    for (let i = 0; i < genderCheck.length; i++) {
+        if (genderCheck[i].checked) {
+            gender = genderCheck[i].id
+            i = genderCheck.length
+        }
+    }
+    let address ={
+        id: $('#edit-address-id').val(),
+        country:  $('#edit-country').val(),
+        city: $('#edit-city').val(),
+        cityIndex: $('#edit-cityIndex').val(),
+        house: $('#edit-house').val(),
+        street: $('#edit-street').val()
+    }
+    let user = {
+        id: $('#edit-id').val(),
+        firstName: $('#edit-name').val(),
+        lastName: $('#edit-surname').val(),
+        birthday: $('#edit-date').val(),
+        email: $('#edit-email').val(),
+        username: $('#edit-username').val(),
+        password: $('#edit-password').val(),
+        phone: $('#edit-phone').val(),
+        gender: gender,
+        address: address,
+
+    }
+    console.log("отправка пользователя на сервер для обновления: " + JSON.stringify(user))
+    fetch(url + '/user', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user)
+    })
+        // .then(response => response.json())
+        .then(data => console.log(data))
+        .catch(err => console.error(err))
+    $('.btn-close').click();
+}
+//при нажатии на поле country очистка полей страны и города
+function clearField() {
+    document.getElementById('edit-country').value = null
+    document.getElementById('edit-city').value = null
 }

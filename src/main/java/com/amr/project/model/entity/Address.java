@@ -17,10 +17,11 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "address")
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+//@Getter
+//@Setter
 @Builder
 public class Address {
 
@@ -50,4 +51,15 @@ public class Address {
     @OneToOne(mappedBy = "address", cascade = {CascadeType.PERSIST})
     private User user;
 
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", cityIndex='" + cityIndex + '\'' +
+                ", country=" + country +
+                ", city=" + city +
+                ", street='" + street + '\'' +
+                ", house='" + house + '\'' +
+                '}';
+    }
 }
