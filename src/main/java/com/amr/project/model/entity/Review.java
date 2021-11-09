@@ -18,7 +18,6 @@ import javax.persistence.Table;
 import java.util.Date;
 
 @Entity
-@Table(name = "review")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -27,10 +26,8 @@ import java.util.Date;
 public class Review {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String dignity; //плюсы
     private String flaw; //минусы
     private String text;
@@ -38,24 +35,18 @@ public class Review {
     private Integer rating;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "item_review", joinColumns = @JoinColumn(name = "review_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
 
-    @Column
     private boolean isModerated;
-
-    @Column
     private boolean isModerateAccept;
-
-    @Column
     private String moderatedRejectReason;
 }
