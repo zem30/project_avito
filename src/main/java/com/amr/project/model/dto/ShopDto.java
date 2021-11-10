@@ -1,8 +1,6 @@
 package com.amr.project.model.dto;
 
 import lombok.*;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @NoArgsConstructor
@@ -27,5 +25,6 @@ public class ShopDto {
     private String moderatedRejectReason;
     private boolean isPretendentToBeDeleted;
     private List<ReviewDto> reviews;
+    private List<OrderDto> orders;
 
 }
