@@ -100,6 +100,7 @@ function getCookie(name) {
 function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", function (e) {
         let id = e.target.id;
+        console.log(id)
         let user_tag = document.getElementById("userTag");
         if (user_tag === null) {
             let cookie_value = getCookie(id + "basket")
@@ -112,20 +113,9 @@ function basket_plus_click() {
         } else {
             let data = {}
             send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
-            console.log(e.target.id)
-            let id = e.target.id
-            let cookie_value = getCookie(id)
-            if (cookie_value !== undefined) {
-                let value = Number(cookie_value) + 1;
-                document.cookie = id + "=" + value + "; path=/";
-            } else {
-                document.cookie = id + "=" + 1 + "; path=/";
-            }
         }
     })
 }
-
-
 basket_plus_click();
 
 //кнопка корзина

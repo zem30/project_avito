@@ -103,6 +103,7 @@ function basket_plus_click(){
     }
     $(document).on("click", ".basket-plus-div", function (e) {
         let id = e.target.id
+        console.log(id);
         let user_tag = document.getElementById("userTag");
         if (user_tag === null) {
             plus(id);
