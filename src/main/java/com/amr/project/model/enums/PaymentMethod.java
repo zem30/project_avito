@@ -4,6 +4,6 @@ public enum PaymentMethod {
 
 	COD,
 	CREDIT_CARD,
-	PAYING_SYSTEM,
+	PAYPAL,
 
 }
