@@ -72,7 +72,7 @@ public class ShopController {
         model.addAttribute("image", image);
         return "shopPage/shop_item_page";
     }
-    //8888
+
     @GetMapping("/shop/{id}")
     public String homeShopPage(@PathVariable("id") long id, Model model){
         model.addAttribute("shop", shopServiceImpl.getShopId(id));

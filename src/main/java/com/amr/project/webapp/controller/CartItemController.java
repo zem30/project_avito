@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CartItemController {
 
     @GetMapping("/basket")
-    public String getItem(){
+    public String getCartItem(){
         return "shopPage/home-shop-page";
     }
 }
