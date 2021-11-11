@@ -1,3 +1,14 @@
+// Отправить данные
+function send_data(url, data, method) {
+    const response = fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: data,
+    })
+}
+
 //получить популярные товары
 async function popular_item() {
     await fetch("http://localhost:8888/shop/items")
@@ -40,9 +51,10 @@ async function popular_shops() {
 //получение предметов по поиску
 async function findItems() {
     // получаем значение поиска
-    const searchInput = document.getElementById('search-input');
+    const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('search-button')).on('click', async function () {
+
+    $(document.getElementById('searchHomePageButton')).on('click', async function () {
         console.log(searchInput.value)
         await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
@@ -68,7 +80,7 @@ async function findItems() {
                     logs += `<h4>Ничего не найдено</h4>`
                 }
 
-                document.querySelector('.item-container').innerHTML = logs;
+                document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
     });
 }
@@ -100,8 +112,7 @@ async function start() {
     await popular_shops();
     await popular_item();
     await findItems();
+    await basket_plus_click();
 }
 
 start();
-
-

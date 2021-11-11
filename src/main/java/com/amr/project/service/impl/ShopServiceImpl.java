@@ -107,13 +107,13 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
     public List<Shop> getMostPopular(int quantity) {
         return shopDao.getMostPopular(quantity);
     }
-    //8888
+
     @Override
     public ShopDto getShopId(Long id){
         ShopDto shopDto = shopMapper.shopToDto(shopRepository.findById(id).orElse(null));
         return shopDto;
     }
-    //8888
+
     public List<ShopDto> getAllShopsRatingSort(){
         List<Shop> shopList = shopRepository.findAllByOrderByRatingDesc();
         List<ShopDto> shopDtoList = shopList.stream().map(shop -> shopMapper.shopToDto(shop)).collect(Collectors.toList());

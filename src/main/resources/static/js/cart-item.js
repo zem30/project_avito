@@ -1,3 +1,4 @@
+// Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
         method: method,
@@ -13,11 +14,9 @@ function getUserCartItems(){
     fetch("http://localhost:8888/api/cart-item/user")
         .then(res => res.json())
         .then(cart_items => {
-            console.log(cart_items)
             let cart = ``;
             let count_price = 0;
             cart_items.forEach((i) => {
-                console.log(i.quantity)
                 let unit = i.quantity
                 count_price += Number(i.item.price * unit)
                 cart += `<div class="basket-div">

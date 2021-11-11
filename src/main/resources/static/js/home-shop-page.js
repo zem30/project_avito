@@ -1,3 +1,5 @@
+//получить кнопку поиска
+let searchHomeShopButton = document.getElementById('searchHomeShopPageButton')
 //получить pathname url
 const pathname = document.location.pathname;
 
@@ -20,20 +22,20 @@ async function shop_items() {
         <h3>${shop.location.name}</h3>
         <div id="ratingShow"></div>
         </div>`;
-            let text = `<div><h3>Самые популярные товары</h3></div>`
-            let items = ``;
-            shop.items.forEach((i) => {
-                items += `<div class="item-div">
+                let text = `<div><h3>Самые популярные товары</h3></div>`
+                let items = ``;
+                shop.items.forEach((i) => {
+                    items += `<div class="item-div">
         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
         <h6>${i.name}</h6>
         <h6>${i.price}</h6>
         <p>${i.description}</p>
         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
         </div>`
+                })
+                document.querySelector(".home-shop-right-body").innerHTML = text + items;
+                document.querySelector(".home-shop-left-body").innerHTML = logo;
             })
-            document.querySelector(".home-shop-right-body").innerHTML = text + items;
-            document.querySelector(".home-shop-left-body").innerHTML = logo;
-        })
 }
 
 //получить страницу товара
@@ -63,6 +65,22 @@ async function item_present() {
         })
 }
 
+//получение предметов по поиску
+async function findShopItems() {
+    // получаем значение поиска
+    const searchInput = document.getElementById('searchHomeShopPage');
+    // обрабатываем нажатие кнопки поиска;
+    $(searchHomeShopButton).on('click', function () {
+        console.log(searchInput.value)
+        await fetch("http://localhost:8888/shop_api" + pathname)
+            .then(res => res.json())
+            .then(shop => {
+                document.querySelector('.home-shop-right-body').innerHTML = search(shop.items, searchInput);
+            });
+    });
+}
+
+
 //определить с какого контроллера зашли на страницу
 async function shop_or_item() {
     if (pathname.indexOf("basket") > -1) {
@@ -73,6 +91,7 @@ async function shop_or_item() {
         await getRatingHtml();
         await getRating(shopRating)
         await getShopReviews();
+        await findShopItems
     } else if (pathname.indexOf("item") > -1) {
         await item_present();
         await userItemReview();
@@ -81,5 +100,4 @@ async function shop_or_item() {
         await getItemReviews();
     }
 }
-
 shop_or_item();

@@ -4,6 +4,9 @@ import com.amr.project.dao.abstracts.CartItemDao;
 import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.User;
 import com.amr.project.util.QueryResultWrapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.Query;
@@ -39,5 +42,17 @@ public class CartItemDaoImpl extends ReadWriteDaoImpl<CartItem, Long> implements
         Query query = entityManager.createQuery("SELECT c FROM CartItem c JOIN User u ON u.id = c.user.id WHERE u.id = :userId");
         query.setParameter("userId", user.getId());
         return query.getResultList();
+    }
+
+
+    @Override
+    public void deleteCartItemById(Long id){
+        Query query1 = entityManager.createNativeQuery("delete from user_cart_items where cart_id = " + id);
+        Query query2 = entityManager.createNativeQuery("delete from item_cart_items where cart_items_id = " + id);
+        Query query3 = entityManager.createNativeQuery("delete from cart_item where id = " + id);
+
+        query1.executeUpdate();
+        query2.executeUpdate();
+        query3.executeUpdate();
     }
 }

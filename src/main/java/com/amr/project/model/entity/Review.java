@@ -49,8 +49,7 @@ public class Review {
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "item_review", joinColumns = @JoinColumn(name = "review_id"), inverseJoinColumns = @JoinColumn(name = "item_id"))
+    @ManyToOne(fetch = FetchType.LAZY)
     private Item item;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -58,11 +57,7 @@ public class Review {
 
     @Column
     private boolean isModerated;
-
-    @Column
     private boolean isModerateAccept;
-
-    @Column
     private String moderatedRejectReason;
 
     @JsonIgnore

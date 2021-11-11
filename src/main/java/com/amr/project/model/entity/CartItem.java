@@ -16,19 +16,20 @@ import java.math.RoundingMode;
 @AllArgsConstructor
 @Builder
 public class CartItem {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne (fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @ManyToOne (cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     private Item item;
 
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "shop_id")
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
 
@@ -41,6 +42,4 @@ public class CartItem {
                         .divide(BigDecimal.valueOf(100)))
                 .multiply(new BigDecimal(quantity)).setScale(2, RoundingMode.CEILING);
     }
-
-
 }

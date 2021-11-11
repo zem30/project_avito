@@ -8,24 +8,18 @@ import java.io.Serializable;
 
 
 @Entity
-@Table(name = "discount")
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Builder
 public class Discount {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @Column(name = "min_order")
     private Integer minOrder;
-
-    @Column(name = "percentage")
     private Integer percentage;
-
-    @Column(name = "fixed_discount")
     private Integer fixedDiscount;
 
     @JsonIgnore

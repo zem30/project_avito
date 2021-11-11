@@ -35,12 +35,11 @@
                 </div>
             </div>
             <div class="col-4 div-header-center">
-                <div class="input-group">
+                <div class="input-group d-flex" >
                     <div class="form-outline">
-                        <input id="search-input" class="form-control me-2" type="search" placeholder="Поиск"
-                               aria-label="Search">
+                    <input id="searchHomePageInput" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
                     </div>
-                    <button id="search-button" class="btn btn-warning" type="submit">Поиск</button>
+                    <button id="searchHomePageButton" class="btn btn-warning" type="submit">Поиск</button>
                 </div>
             </div>
             <div class="col-2 div-header-right-one" style="padding: 0px 50px">
@@ -48,7 +47,15 @@
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>
             </div>
-            <div class="col-2 div-header-right-two" style="text-align: right; padding: 0px 10px">
+            <div class="col-1 div-header-right-two">
+                <h5 sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('USER')">
+                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+            </div>
+            <div class="col-1 div-header-right-three" style="text-align: right; padding: 0px 10px">
                 <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
                         data-toggle="modal" data-target="#staticBackdrop">Войти
                 </button>
@@ -56,12 +63,6 @@
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
                 </form>
-                <h5 sec:authorize="hasAuthority('ADMIN')">
-                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
-                              sec:authentication="principal.username"></a></h5>
-                <h5 sec:authorize="hasAuthority('USER')">
-                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></a></h5>
             </div>
         </div>
     </div>
@@ -84,6 +85,7 @@
 
 <script type="text/javascript" src="js/Rating.js"></script>
 <script type="text/javascript" src="js/home-page.js"></script>
+<script type="text/javascript" src="js/search.js"></script>
 <script src="/js/registration.js"></script>
 
 
