@@ -222,3 +222,54 @@ function base64ToBinary(imageBase64) {
 
 
 
+// Отправить данные
+function send_data(url, data, method) {
+    const response = fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: data,
+    })
+}
+//получить value cookie
+function getCookie(name) {
+    let matches = document.cookie.match(new RegExp(
+        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
+    ));
+    return matches ? decodeURIComponent(matches[1]) : undefined;
+}
+//добавить куки корзины в БД юзера, и удалить их
+function addCookieCartItem() {
+    let cookie_split = document.cookie.split("; ")
+    let basket = [];
+    let cookie_data = [];
+    let cookie_name = [];
+    let cookie_value = [];
+    let count = 0;
+    for (let i = 0; i < cookie_split.length; i++) {
+        if (cookie_split[i].indexOf("basket") > -1) {
+            basket[count] = cookie_split[i];
+            count++;
+        }
+    }
+    for (let i = 0; i < basket.length; i++) {
+        let name_split = basket[i].split("basket=")
+        cookie_name[i] = name_split[0];
+        cookie_value[i] = getCookie(cookie_name[i] + "basket")
+        cookie_data[i] = {
+            id : cookie_name[i],
+            quantity : cookie_value[i]
+        }
+        document.cookie = cookie_name[i] + "basket" + "=" + 0 + "; path=/; max-age = 0"
+    }
+    console.log(cookie_name)
+    console.log(cookie_data)
+    if (cookie_data.length > 0) {
+        let data = {
+            cartItems: cookie_data
+        }
+        send_data("http://localhost:8888/api/cart-item/user", JSON.stringify(data), "POST");
+    }
+}
+addCookieCartItem();

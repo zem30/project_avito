@@ -12,4 +12,6 @@ public interface CartItemDao extends ReadWriteDao<CartItem, Long> {
     CartItem getByUserIdAndItemId(long userId, long itemId);
 
     List<CartItem> getAllByUser(User user);
+
+    void deleteCartItemById(Long id);
 }

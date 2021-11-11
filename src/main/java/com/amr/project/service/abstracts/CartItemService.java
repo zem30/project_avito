@@ -15,11 +15,13 @@ public interface CartItemService extends ReadWriteService<CartItem, Long> {
 
     List<CartItem> getAllByUser(User user);
 
-    List<Item> getAllItem(User user);
-
     void plusCartItem(Long id);
 
     void minusCartItem(Long id);
 
     List<CartItem> getCartItemByUserAuthorized();
+
+    void addItemToCart(Long id);
+
+    void addCookieToCartItem(User u);
 }

@@ -1,3 +1,14 @@
+// Отправить данные
+function send_data(url, data, method) {
+    const response = fetch(url, {
+        method: method,
+        headers: {
+            "Content-Type": "application/json;charset=utf-8"
+        },
+        body: data,
+    })
+}
+
 //получить популярные товары
 function popular_item() {
     fetch("http://localhost:8888/shop/items")
@@ -42,34 +53,14 @@ popular_shops();
 //получение предметов по поиску
 function findItems() {
     // получаем значение поиска
-    const searchInput = document.getElementById('search-input');
+    const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('search-button')).on('click', function () {
+    $(document.getElementById('searchHomePageButton')).on('click', function () {
         console.log(searchInput.value)
         fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
-                let logs = ``;
-                let isEmpty = true;
-                items.forEach((i) => {
-                    if (i.name === searchInput.value || searchInput.value === '') {
-                        isEmpty = false;
-                        logs += `<div class="item-div">
-                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
-                         <h6>${i.name}</h6>
-                         <h6>${i.price}</h6>
-                         <p>${i.description}</p>
-                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
-                         </div>`;
-                    }
-                })
-
-                // Проверка что нету предметов
-                if (isEmpty) {
-                    logs += `<h4>Ничего не найдено</h4>`
-                }
-
-                document.querySelector('.item-container').innerHTML = logs;
+                document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
     });
 }
@@ -88,19 +79,51 @@ function getCookie(name) {
 //прибавить количество товара
 function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", function (e) {
-        console.log(e.target.id)
-        let id = e.target.id
-        let cookie_value = getCookie(id)
-        if (cookie_value !== undefined) {
-            let value = Number(cookie_value) + 1;
-            document.cookie = id + "=" + value + "; path=/";
+        let id = e.target.id;
+        let user_tag = document.getElementById("userTag");
+        if (user_tag === null) {
+            let cookie_value = getCookie(id + "basket")
+            if (cookie_value !== undefined) {
+                let value = Number(cookie_value) + 1;
+                document.cookie = id + "basket" + "=" + value + "; path=/";
+            } else {
+                document.cookie = id + "basket" + "=" + 1 + "; path=/";
+            }
         } else {
-            document.cookie = id + "=" + 1 + "; path=/";
+            let data = {}
+            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+            console.log(e.target.id)
+            let id = e.target.id
+            let cookie_value = getCookie(id)
+            if (cookie_value !== undefined) {
+                let value = Number(cookie_value) + 1;
+                document.cookie = id + "=" + value + "; path=/";
+            } else {
+                document.cookie = id + "=" + 1 + "; path=/";
+            }
         }
     })
 }
 
+
 basket_plus_click();
+
+//кнопка корзина
+function basket_button(){
+    let user_tag = document.getElementById("userTag");
+    let text = ``;
+    if (user_tag === null){
+        text = `<a href="/basket">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    } else {
+        text = `<a href="/user-cart-page">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    }
+    document.querySelector(".div-header-right-one").innerHTML = text
+}
+basket_button();
 
 
 

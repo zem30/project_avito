@@ -6,7 +6,7 @@ function createTableRow(u) {
     let date = new Date(u.birthday);
     return `<tr id="user_table_row">
         <td>${u.id}</td>
-        <td><img src="data:image/png;base64,${u.images.picture}" width="80" height="80"></td>
+        <td><img src="data:image/png;base64,${u.images.picture}" width="80" height="80" alt=""></td>
         <td>${u.gender}</td>
         <td>${u.firstName}</td>
         <td>${u.lastName}</td>
@@ -14,7 +14,6 @@ function createTableRow(u) {
         <td>${u.phone}</td>
         <td>${u.email}</td>
         <td>${date.getDay() + " - " + date.getMonth() + " - " + date.getFullYear()}</td>
-
         <td>
         <a  href="/api/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
         </td>
@@ -23,9 +22,7 @@ function createTableRow(u) {
 
 function restartAllUser() {
     let UserTableBody = $("#user_table_body")
-
     UserTableBody.children().remove();
-
     fetch("/api/userlist/all")
         .then((response) => {
             response.json().then(
@@ -39,7 +36,7 @@ function restartAllUser() {
 }
 
 let userJs = null;
-document.addEventListener('click', function (event) {
+    $(document).on('click', 'a.btn' ,function (event) {
     event.preventDefault()
     if ($(event.target).hasClass('discBtn')) {
         let href = $(event.target).attr("href");

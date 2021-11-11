@@ -46,4 +46,6 @@ public class ShopDto {
     private String moderatedRejectReason;
     private boolean isPretendentToBeDeleted;
     private List<ReviewDto> reviews;
+    private List<OrderDto> orders;
+
 }
