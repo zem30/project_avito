@@ -1,6 +1,6 @@
 //получить популярные товары
-function popular_item() {
-    fetch("http://localhost:8888/shop/items")
+async function popular_item() {
+    await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
             let logs = ``;
@@ -10,6 +10,7 @@ function popular_item() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
+                         <p class="star">★ ${Math.round(i.rating,1)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
@@ -17,36 +18,33 @@ function popular_item() {
         })
 }
 
-popular_item();
-
 //получить популярные магазины
-function popular_shops() {
-    fetch("http://localhost:8888/shop_api/shops")
+async function popular_shops() {
+    await fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
-        .then(shops => {
+        .then(async shops => {
             let logs1 = ``;
             shops.forEach((s) => {
                 logs1 += `<div class="shop-div">
         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
         <h6>${s.name}</h6>
         <p>${s.description}</p>
+        <p class="star">★ ${Math.round(s.rating,1)}</p>
         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-        </div>`
+        </div>`;
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
 
-popular_shops();
-
 //получение предметов по поиску
-function findItems() {
+async function findItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('search-input');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('search-button')).on('click', function () {
+    $(document.getElementById('search-button')).on('click', async function () {
         console.log(searchInput.value)
-        fetch("http://localhost:8888/shop/items")
+        await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
                 let logs = ``;
@@ -59,6 +57,7 @@ function findItems() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
+                         
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
                     }
@@ -73,9 +72,6 @@ function findItems() {
             })
     });
 }
-
-findItems();
-
 
 //получить name cookies
 function getCookie(name) {
@@ -100,7 +96,11 @@ function basket_plus_click() {
     })
 }
 
-basket_plus_click();
+async function start() {
+    await popular_shops();
+    await popular_item();
+}
 
+start();
 
 

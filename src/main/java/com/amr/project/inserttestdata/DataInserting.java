@@ -787,6 +787,8 @@ public class DataInserting {
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .logo(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user4_item);
 
@@ -812,9 +814,11 @@ public class DataInserting {
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
                 .shop(null)
+                .logo(null)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user5_shop);
         review1_user5_shop.setItem(item_review1_user5);

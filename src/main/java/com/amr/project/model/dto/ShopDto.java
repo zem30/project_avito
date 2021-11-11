@@ -21,7 +21,7 @@ public class ShopDto {
     private Long id;
 
     @Column(unique = true)
-    @NotEmpty(message = "Введите имя магазина")
+    @NotBlank(message = "Введите имя магазина")
     private String name;
 
     @NotBlank
@@ -31,7 +31,7 @@ public class ShopDto {
     @NotBlank()
     private String phone;
 
-    @NotEmpty(message = "Введите описание магазина")
+    @NotBlank(message = "Введите описание магазина")
     private String description;
 
     private CountryDto location;

@@ -1,6 +1,7 @@
 package com.amr.project.exception;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 @AllArgsConstructor
+@Getter
 @Scope("prototype")
 public class ExceptionInfo {
     private String info;
