@@ -10,7 +10,7 @@ async function popular_item() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         <p class="star">★ ${Math.round(i.rating,1)}</p>
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
@@ -29,7 +29,7 @@ async function popular_shops() {
         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
         <h6>${s.name}</h6>
         <p>${s.description}</p>
-        <p class="star">★ ${Math.round(s.rating,1)}</p>
+        <p class="star">★ ${Math.round(s.rating,2)}</p>
         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
         </div>`;
             })
@@ -57,7 +57,7 @@ async function findItems() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
                     }
@@ -99,6 +99,7 @@ function basket_plus_click() {
 async function start() {
     await popular_shops();
     await popular_item();
+    await findItems();
 }
 
 start();
