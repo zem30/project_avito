@@ -11,10 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by Veilas on 11/8/2021.
@@ -31,8 +28,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         BindingResult result = ex.getBindingResult();
         final List<FieldError> fieldErrors = result.getFieldErrors();
         Map<String, Object> body = new LinkedHashMap<>();
-        Map<String, String> errors = new HashMap<>();
-        fieldErrors.forEach(f -> errors.put(f.getField(), f.getDefaultMessage()));
+        List<String> errors = new ArrayList<>();
+        fieldErrors.forEach(f -> errors.add(f.getDefaultMessage()));
         body.put("errors", errors);
         return ResponseEntity.badRequest().body(body);
     }

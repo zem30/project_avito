@@ -1,8 +1,11 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ShopMapper;
+import com.amr.project.inserttestdata.repository.ShopRepository;
+import com.amr.project.inserttestdata.repository.UserRepository;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
+import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.ApiOperation;
@@ -11,11 +14,11 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -29,6 +32,7 @@ public class ShopRestController {
     private final UserService userService;
     private final ShopService shopService;
     private final ShopMapper shopConverter;
+    private final UserRepository userRepository;
 
     @GetMapping("/{name}")
     public ResponseEntity<ShopDto> getShop(@PathVariable @NonNull String name) {
@@ -38,11 +42,15 @@ public class ShopRestController {
 
     @PostMapping("/")
     @ApiOperation(value = "Добавляет новый магазин")
-    public  ResponseEntity<ShopDto> addShop(@Valid @RequestBody ShopDto shopDto, Errors bindingResult){
-        System.out.println(bindingResult.hasErrors());
+    public ResponseEntity<ShopDto> addShop(@Valid @RequestBody ShopDto shopDto) {
         Shop shop = shopMapper.dtoToShop(shopDto);
-        shop.setUser(userService.getAuthorized());
+        User user = userService.getAuthorized();
+        shop.setUser(user);
+        List<Shop> shops = new ArrayList<>(user.getShops());
+        shops.add(shop);
+        user.setShops(shops);
         shopService.persist(shop);
+        userService.update(user);
         LOGGER.info("Магазин с id: " + shop.getId() + " успешно добавлен");
         return ResponseEntity.ok().build();
     }
