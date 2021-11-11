@@ -18,13 +18,13 @@ public interface UserService extends ReadWriteService<User, Long> {
 
     List<User> findByRole(String role) throws NoResultException;
 
-//    @Override
-//    void persist(User user);
-
-
     User getAuthorized();
 
     User getUserId(Long id);
+
     UserUpdateDto getUserUpdateDtoById(Long id);
+
     void updateUserDto(UserUpdateDto userUpdateDto);
+
+    int deactivateUser(long id);
 }

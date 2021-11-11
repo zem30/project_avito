@@ -204,8 +204,7 @@ function sendProfileForEdit() {
         password: $('#edit-password').val(),
         phone: $('#edit-phone').val(),
         gender: gender,
-        address: address,
-
+        address: address
     }
     console.log("отправка пользователя на сервер для обновления: " + JSON.stringify(user))
     fetch(url + '/user', {
@@ -219,6 +218,15 @@ function sendProfileForEdit() {
         .then(data => console.log(data))
         .catch(err => console.error(err))
     $('.btn-close').click();
+}
+// деактивирует пользователя
+function sendProfileForDeactivate() {
+    event.preventDefault();
+    let user_id = $('#edit-id').val();
+    fetch(url + '/user/' + user_id, {method: 'DELETE'})
+        .then(response => console.log(response.status, response.body))
+        .then(() => document.location.href = url + '/logout')
+        .catch(e => console.error(e))
 }
 //при нажатии на поле country очистка полей страны и города
 function clearField() {

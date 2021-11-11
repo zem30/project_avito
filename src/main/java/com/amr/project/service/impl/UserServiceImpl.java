@@ -146,27 +146,22 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         if (!(userUpdateDto.getPassword()=="")) {
             user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
         }
-        System.err.println("Service: " + user);
 
         Gender[] list = Gender.values();
         Gender sex = Arrays.stream(list).filter(g -> g.toString().equals(userUpdateDto.getGender())).findFirst().orElseThrow();
 
         Address address = user.getAddress();
         City city = address.getCity();
-        System.out.println("city: " + city);
         if(!city.getName().equals(userUpdateDto.getAddress().getCity())) {
             cityService.createAndSaveCity(userUpdateDto.getAddress().getCity(), userUpdateDto.getAddress().getCountry());
             city = cityService.getByName(userUpdateDto.getAddress().getCity());
-            System.out.println("new city: " + city);
         }
 
         Country country = address.getCountry();
-        System.out.println("country: " + country);
         if(!country.getName().equals(userUpdateDto.getAddress().getCountry())) {
             countryService.createAndSaveCountry(userUpdateDto.getAddress().getCountry(),
                     city);
             country = countryService.getByName(userUpdateDto.getAddress().getCountry());
-            System.out.println("new country: " + country);
         }
 
         address.setCityIndex(userUpdateDto.getAddress().getCityIndex());
@@ -185,8 +180,12 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         user.setGender(sex);
         user.setBirthday(userUpdateDto.getBirthday());
 
-        System.err.println("updated User: " + user);
-
         userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public int deactivateUser(long id) {
+        return userDao.deactivateUser(id);
     }
 }

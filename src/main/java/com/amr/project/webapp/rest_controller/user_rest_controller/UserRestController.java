@@ -103,8 +103,12 @@ public class UserRestController {
 
     @PutMapping("/user")
     public ResponseEntity<UserUpdateDto> updateUser(@RequestBody UserUpdateDto userUpdateDto) {
-        System.err.println("Controller: " + userUpdateDto);
-        userService.updateUserDto(userUpdateDto);
         return new ResponseEntity<>(userUpdateDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Integer> deactivateUser(@PathVariable long id) {
+        int idDeactivate = userService.deactivateUser(id);
+        return new ResponseEntity<>(idDeactivate, HttpStatus.ACCEPTED);
     }
 }
