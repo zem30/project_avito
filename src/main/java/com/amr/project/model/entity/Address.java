@@ -13,20 +13,16 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
-import javax.persistence.Table;
 
 @Entity
-@Table(name = "address")
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-//@Getter
-//@Setter
+@Getter
+@Setter
 @Builder
 public class Address {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -37,8 +33,7 @@ public class Address {
     @JoinColumn(name = "country_id",referencedColumnName = "id")
     private Country country;
 
-  //  @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private City city;
 
     @Column

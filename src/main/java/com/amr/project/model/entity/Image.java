@@ -32,6 +32,10 @@ public class Image {
     private User user;
 
     @JsonIgnore
+    @ManyToMany(mappedBy = "logo")
+    private List<Review> reviews;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "images")
     private List<Item> items;
 

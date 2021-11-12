@@ -447,7 +447,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(shop1Image))
                 .count(0)
-                .rating(1)
+                .rating(4.5)
                 .user(userRepository.findByEmail("user1@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -467,7 +467,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(shop2Image))
                 .count(0)
-                .rating(2)
+                .rating(0)
                 .user(userRepository.findByEmail("user2@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -477,6 +477,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
+        User user3_shop = userRepository.findByEmail("user3@mail");
         Shop shop3 = Shop.builder()
                 .name("shop3")
                 .email("shop3@mail")
@@ -487,7 +488,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(shop3Image))
                 .count(0)
-                .rating(3)
+                .rating(0)
                 .user(userRepository.findByEmail("user3@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -500,6 +501,12 @@ public class DataInserting {
         shopRepository.save(shop1);
         shopRepository.save(shop2);
         shopRepository.save(shop3);
+
+        Shop user3_shop_managed = shopRepository.findByUserId(user3_shop.getId());
+        user3_shop.setShops(List.of(user3_shop_managed));
+        userRepository.save(user3_shop); // создалась связь в таблицу user_shop
+
+
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("category1").build();
         Category category2 = Category.builder().name("category2").build();
@@ -522,7 +529,7 @@ public class DataInserting {
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
                 .count(100)
-                .rating(1.0)
+                .rating(4.0)
                 .description("item1_description")
                 .discount(0)
                 .shop(shop1)
@@ -538,7 +545,7 @@ public class DataInserting {
                 .images(List.of(item2Image1, item2Image2, item2Image3))
                 .reviews(null)
                 .count(200)
-                .rating(2.0)
+                .rating(5.0)
                 .description("item2_description")
                 .discount(0)
                 .shop(shop1)
@@ -554,7 +561,7 @@ public class DataInserting {
                 .images(List.of(item3Image1, item3Image2, item3Image3))
                 .reviews(null)
                 .count(300)
-                .rating(3.0)
+                .rating(0D)
                 .description("item3_description")
                 .discount(0)
                 .shop(shop1)
@@ -570,7 +577,7 @@ public class DataInserting {
                 .images(List.of(item4Image1, item4Image2, item4Image3))
                 .reviews(null)
                 .count(400)
-                .rating(4.0)
+                .rating(0D)
                 .description("item4_description")
                 .discount(0)
                 .shop(shop2)
@@ -586,7 +593,7 @@ public class DataInserting {
                 .images(List.of(item5Image1, item5Image2, item5Image3))
                 .reviews(null)
                 .count(500)
-                .rating(5.0)
+                .rating(0D)
                 .description("item5_description")
                 .discount(0)
                 .shop(shop2)
@@ -602,7 +609,7 @@ public class DataInserting {
                 .images(List.of(item6Image1, item6Image2, item6Image3))
                 .reviews(null)
                 .count(600)
-                .rating(6.0)
+                .rating(0D)
                 .description("item6_description")
                 .discount(0)
                 .shop(shop2)
@@ -686,6 +693,28 @@ public class DataInserting {
 
         userRepository.save(user4_cartItem);
         userRepository.save(user5_cartItem);
+
+        cartItem1 = cartItemRepository.findById(1L).orElse(null);
+        cartItem2 = cartItemRepository.findById(2L).orElse(null);
+        cartItem3 = cartItemRepository.findById(3L).orElse(null);
+        cartItem4 = cartItemRepository.findById(4L).orElse(null);
+        cartItem5 = cartItemRepository.findById(5L).orElse(null);
+        cartItem6 = cartItemRepository.findById(6L).orElse(null);
+
+        item1_cart_item1.setCartItems(List.of(cartItem1));
+        item2_cart_item2.setCartItems(List.of(cartItem2));
+        item3_cart_item3.setCartItems(List.of(cartItem3));
+        item4_cart_item4.setCartItems(List.of(cartItem4));
+        item5_cart_item5.setCartItems(List.of(cartItem5));
+        item6_cart_item6.setCartItems(List.of(cartItem6));
+
+        itemRepository.save(item1_cart_item1);
+        itemRepository.save(item2_cart_item2);
+        itemRepository.save(item3_cart_item3);
+        itemRepository.save(item4_cart_item4);
+        itemRepository.save(item5_cart_item5);
+        itemRepository.save(item6_cart_item6);
+
 //---------------------------------------------------------------Favourite
         User user4_favorite = userRepository.findByEmail("user4@mail");
         User user5_favorite = userRepository.findByEmail("user5@mail");
@@ -787,6 +816,8 @@ public class DataInserting {
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .logo(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user4_item);
 
@@ -812,9 +843,11 @@ public class DataInserting {
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
                 .shop(null)
+                .logo(null)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user5_shop);
         review1_user5_shop.setItem(item_review1_user5);

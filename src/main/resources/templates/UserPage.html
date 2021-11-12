@@ -59,8 +59,8 @@
             <hr/>
             <div class="links">
                 <h5><a th:href="@{/user-cart-page}">Корзина</a></h5>
-                <h5><a href="#">История заказов</a></h5>
-                <h5><a href="#">Проданные товары</a></h5>
+                <h5><a th:href="@{/user-orders}">История заказов</a></h5>
+                <h5><a th:href="@{/user-item}">Проданные товары</a></h5>
             </div>
         </div>
         <div class="col-10">
@@ -85,7 +85,6 @@
                 <div class="tab-content " id="pills-tabContent">
                     <div class="tab-pane fade show active " id="user-shops" role="tabpanel"
                          aria-labelledby="user-shops-tab">
-
                     </div>
 
                     <div class="tab-pane  items-table" id="pills-profile" role="tabpanel"
@@ -111,6 +110,7 @@
                             </div>
                         </div>
                     </div>
+                    <div th:replace="modal/userShopAddForm"/>
                 </div>
             </div>
         </div>

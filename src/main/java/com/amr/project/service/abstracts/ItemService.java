@@ -2,6 +2,7 @@ package com.amr.project.service.abstracts;
 
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.entity.Item;
+import com.amr.project.model.entity.User;
 
 import java.util.List;
 
@@ -20,4 +21,5 @@ public interface ItemService extends ReadWriteService<Item, Long> {
 
     List<ItemDto> getAllItemsRatingSort();
 
+    List<Item> getAllItem(User user);
 }
