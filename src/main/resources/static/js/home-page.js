@@ -47,7 +47,6 @@ function popular_shops() {
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
-
 popular_shops();
 
 //получение предметов по поиску
@@ -64,9 +63,7 @@ function findItems() {
             })
     });
 }
-
 findItems();
-
 
 //получить name cookies
 function getCookie(name) {
@@ -80,7 +77,6 @@ function getCookie(name) {
 function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", function (e) {
         let id = e.target.id;
-        console.log(id)
         let user_tag = document.getElementById("userTag");
         if (user_tag === null) {
             let cookie_value = getCookie(id + "basket")

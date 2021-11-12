@@ -44,10 +44,9 @@ public class CartItemDaoImpl extends ReadWriteDaoImpl<CartItem, Long> implements
         return query.getResultList();
     }
 
-
     @Override
     public void deleteCartItemById(Long id){
-        Query query1 = entityManager.createNativeQuery("delete from user_cart_items where cart_id = " + id);
+        Query query1 = entityManager.createNativeQuery("delete from user_cart_items where cart_items_id = " + id);
         Query query2 = entityManager.createNativeQuery("delete from item_cart_items where cart_items_id = " + id);
         Query query3 = entityManager.createNativeQuery("delete from cart_item where id = " + id);
 
