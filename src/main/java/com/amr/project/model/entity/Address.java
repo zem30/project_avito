@@ -33,6 +33,7 @@ public class Address {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Country country;
 
+//    @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private City city;
 

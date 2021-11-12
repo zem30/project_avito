@@ -100,7 +100,7 @@ class UserRestControllerTest extends AbstractApiTest {
             .isPretendentToBeDeleted(false)
             .moderatedRejectReason("no reason")
             .name("test_shop")
-            .phone("test_phone")
+//            .phone("test_phone")
             .rating(5.5)
             .items(new ArrayList<>())
             .reviews(new ArrayList<>())
