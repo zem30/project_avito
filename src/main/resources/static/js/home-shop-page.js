@@ -70,7 +70,7 @@ async function findShopItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('searchHomeShopPage');
     // обрабатываем нажатие кнопки поиска;
-    $(searchHomeShopButton).on('click', function () {
+    $(searchHomeShopButton).on('click', async function () {
         console.log(searchInput.value)
         await fetch("http://localhost:8888/shop_api" + pathname)
             .then(res => res.json())
