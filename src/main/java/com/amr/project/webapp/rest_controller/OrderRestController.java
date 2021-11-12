@@ -39,8 +39,9 @@ public class OrderRestController {
 
     @GetMapping("/{orderId}")
     public ResponseEntity<OrderDto> getOrder(@PathVariable("orderId") Long orderId) {
+        Order order = orderService.getByKey(orderId);
         LOGGER.info("Получили заказ с id" + orderId.toString());
-        return new ResponseEntity(orderId,HttpStatus.OK);
+        return ResponseEntity.ok().body(orderMapper.orderToDto(order));
     }
 
     @PostMapping
