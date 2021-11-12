@@ -21,7 +21,7 @@ public class ShopDto {
     private Long id;
 
     @Column(unique = true)
-    @NotEmpty(message = "Введите имя магазина")
+    @NotBlank(message = "Введите имя магазина")
     private String name;
 
     @NotBlank
@@ -31,12 +31,13 @@ public class ShopDto {
     @Length(min = 11, max = 12, message = "Длина номера должна быть 11 либо 12 сиволов")
     private String phone;
 
-    @NotEmpty(message = "Введите описание магазина")
+    @NotBlank(message = "Введите описание магазина")
     private String description;
 
     private CountryDto location;
     private List<ItemDto> items;
 
+    @NotEmpty(message = "Выберите изображение")
     private List<ImageDto> logo;
 
     private double rating;
@@ -47,5 +48,4 @@ public class ShopDto {
     private boolean isPretendentToBeDeleted;
     private List<ReviewDto> reviews;
     private List<OrderDto> orders;
-
 }
