@@ -26,11 +26,6 @@ async function getRating(ratingVal) {
         }
 
         function setRatingActiveWidth(index = ratingValue) {
-            if (index > 5) {
-                index = 5;
-            } else if (index < 1) {
-                index = 1;
-            }
             const ratingActiveWidth = index / 0.05;
             ratingActive.style.width = `${ratingActiveWidth}%`;
         }
