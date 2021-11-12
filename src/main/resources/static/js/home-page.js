@@ -117,10 +117,10 @@ function basket_plus_click() {
 basket_plus_click();
 
 //кнопка корзина
-function basket_button(){
+function basket_button() {
     let user_tag = document.getElementById("userTag");
     let text = ``;
-    if (user_tag === null){
+    if (user_tag === null) {
         text = `<a href="/basket">
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
@@ -129,7 +129,9 @@ function basket_button(){
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
     }
-    document.querySelector(".div-header-right-one").innerHTML = text
+    document.querySelector(".div-header-right-one").innerHTML = text;
+}
+basket_button();
 
 async function start() {
     await popular_shops();
@@ -137,5 +139,4 @@ async function start() {
     await findItems();
     await basket_plus_click();
 }
-
-start();
+start()
