@@ -28,6 +28,7 @@ async function popular_item() {
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
+popular_item();
 
 //получить популярные магазины
 async function popular_shops() {
@@ -47,6 +48,7 @@ async function popular_shops() {
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
+popular_shops();
 
 //получение предметов по поиску
 async function findItems() {
@@ -84,6 +86,7 @@ async function findItems() {
             })
     });
 }
+findItems();
 
 //получить name cookies
 function getCookie(name) {
@@ -96,23 +99,39 @@ function getCookie(name) {
 //прибавить количество товара
 function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", function (e) {
-        console.log(e.target.id)
-        let id = e.target.id
-        let cookie_value = getCookie(id)
-        if (cookie_value !== undefined) {
-            let value = Number(cookie_value) + 1;
-            document.cookie = id + "=" + value + "; path=/";
+        let id = e.target.id;
+        let user_tag = document.getElementById("userTag");
+        if (user_tag === null) {
+            let cookie_value = getCookie(id + "basket")
+            if (cookie_value !== undefined) {
+                let value = Number(cookie_value) + 1;
+                document.cookie = id + "basket" + "=" + value + "; path=/";
+            } else {
+                document.cookie = id + "basket" + "=" + 1 + "; path=/";
+            }
         } else {
-            document.cookie = id + "=" + 1 + "; path=/";
+            let data = {}
+            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
         }
     })
 }
+basket_plus_click();
 
-async function start() {
-    await popular_shops();
-    await popular_item();
-    await findItems();
-    await basket_plus_click();
+//кнопка корзина
+function basket_button() {
+    let user_tag = document.getElementById("userTag");
+    let text = ``;
+    if (user_tag === null) {
+        text = `<a href="/basket">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    } else {
+        text = `<a href="/user-cart-page">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>`
+    }
+    document.querySelector(".div-header-right-one").innerHTML = text;
 }
+basket_button();
 
-start();
+
