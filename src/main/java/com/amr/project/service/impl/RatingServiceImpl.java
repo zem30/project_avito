@@ -31,14 +31,18 @@ public class RatingServiceImpl implements RatingService {
         int count = 0;
         // Считываем рейтинг со всех отзывов для товара или магазина
         for (Review r : reviewService.getAll()) {
-            if (review.getItem() != null &&
+            if (review.getItem() != null && r.getItem() != null &&
                     r.getItem().getName().equals(review.getItem().getName())) {
                 count++;
-                rating += r.getRating();
-            } else if (review.getShop() != null &&
+                if (r.getRating() != null) {
+                    rating += r.getRating();
+                }
+            } else if (review.getShop() != null && r.getShop() != null &&
                     r.getShop().getName().equals(review.getShop().getName())) {
                 count++;
-                rating += r.getRating();
+                if (r.getRating() != null) {
+                    rating += r.getRating();
+                }
             }
         }
         rating = rating / count;

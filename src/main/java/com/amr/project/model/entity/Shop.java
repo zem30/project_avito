@@ -2,11 +2,13 @@ package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Positive;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +33,7 @@ public class Shop {
     @Email(message = "Введите корректный email")
     private String email;
 
-    @Positive
+    @Length(min = 11, max = 12, message = "Длина номера должна быть 11 либо 12 сиволов")
     private String phone;
 
     @NotBlank(message = "Введите описание магазина")
@@ -53,7 +55,7 @@ public class Shop {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Review> reviews;
 
-    @NotBlank(message = "Выберите изображение")
+    @NotEmpty(message = "Выберите изображение")
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Image> logo;
 

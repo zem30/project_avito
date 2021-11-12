@@ -2,12 +2,12 @@ package com.amr.project.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-import org.hibernate.validator.constraints.Length;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
 import java.util.Date;
 import java.util.List;
 
@@ -35,8 +35,8 @@ public class Review {
 
     private Date date;
 
-    @Positive()
-    @Length(min = 1, max = 5, message = "Поставьте оценку от 1 до 5")
+    @Min(value = 1, message = "Минимальная оценка 1")
+    @Max(value = 5, message = "Максимальная оценка 5")
     private Integer rating;
 
     @JsonIgnore

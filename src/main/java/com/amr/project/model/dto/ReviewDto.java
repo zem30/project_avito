@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.validator.constraints.Length;
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Positive;
+import java.util.Date;
 import java.util.List;
 
 @Getter
@@ -20,8 +21,8 @@ public class ReviewDto {
     @NotBlank(message = "Введите отзыв для товара")
     private String text;
 
-    @Positive()
-    @Length(min = 1, max = 5, message = "Поставьте оценку от 1 до 5")
+    @Min(value = 1, message = "Минимальная оценка 1")
+    @Max(value = 5, message = "Максимальная оценка 5")
     private int rating;
 
     @NotBlank(message = "Введите плюсы для товара")
@@ -30,6 +31,7 @@ public class ReviewDto {
     @NotBlank(message = "Введите минусы для товара")
     private String flaw; //минусы
 
+    private Date date;
     private List<ImageDto> logo;
     private Long userId;
     private String userFirstName;

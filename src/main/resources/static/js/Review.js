@@ -38,8 +38,8 @@ async function userItemReview() {
         } else {
             let body = await response.json();
             let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="messageError">
-                            ${body.info}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            ${body.errors}
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>`;
@@ -84,11 +84,9 @@ function userShopReview() {
             shop_or_item();
         } else {
             let body = await response.json();
-            console.log(body.info)
-            console.log(body)
             let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="messageError">
-                            ${body.info}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            ${body.errors}
+                            <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>`;
@@ -137,6 +135,8 @@ function getReview(review, name) {
         temp[i] = `
                             <tr>
                                 <td>${review[i].id}</td>
+                                <td>${review[i].userFirstName + " " + review[i].userLastName}</td>
+                                <td>${review[i].date.substr(0,10)}</td>
                                 <td>${review[i].text}</td>
                                 <td>${review[i].dignity}</td>
                                 <td>${review[i].flaw}</td>

@@ -28,7 +28,7 @@ public class ShopDto {
     @Email(message = "Введите корректный email")
     private String email;
 
-    @NotBlank()
+    @Length(min = 11, max = 12, message = "Длина номера должна быть 11 либо 12 сиволов")
     private String phone;
 
     @NotBlank(message = "Введите описание магазина")
@@ -37,7 +37,7 @@ public class ShopDto {
     private CountryDto location;
     private List<ItemDto> items;
 
-    @NotBlank(message = "Выберите изображение")
+    @NotEmpty(message = "Выберите изображение")
     private List<ImageDto> logo;
 
     private double rating;
