@@ -477,6 +477,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
+        User user3_shop = userRepository.findByEmail("user3@mail");
         Shop shop3 = Shop.builder()
                 .name("shop3")
                 .email("shop3@mail")
@@ -500,6 +501,12 @@ public class DataInserting {
         shopRepository.save(shop1);
         shopRepository.save(shop2);
         shopRepository.save(shop3);
+
+        Shop user3_shop_managed = shopRepository.findByUserId(user3_shop.getId());
+        user3_shop.setShops(List.of(user3_shop_managed));
+        userRepository.save(user3_shop); // создалась связь в таблицу user_shop
+
+
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("category1").build();
         Category category2 = Category.builder().name("category2").build();

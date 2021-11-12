@@ -66,9 +66,10 @@ public class UserRestController {
     @GetMapping("/getUserShops/{id}")
     @ApiOperation(value = "Отдает список магазинов юзера с айди указанным в url")
     public ResponseEntity<List<ShopDto>> getShops(@PathVariable("id") Long id) {
-        User user = userService.getByKey(id);
+        User user = userService.getUserId(id);
         List<ShopDto> shops = new ArrayList<>();
-        user.getShops().stream().forEach(shop -> shops.add(shopMapper.shopToDto(shop)));
+        user.getShops().forEach(shop -> shops.add(shopMapper.shopToDto(shop)));
+        System.out.println(shops.size());
         if (shops.size() < 1) {
             return ResponseEntity.badRequest().build();
         }
@@ -79,7 +80,7 @@ public class UserRestController {
     @GetMapping("/getUserSalesItems/{id}")
     @ApiOperation(value = "Отдает список купленных товаров юзера с айди указанным в url")
     public ResponseEntity<List<ItemDto>> getUserSalesItems(@PathVariable("id") Long id) {
-        User user = userService.getByKey(id);
+        User user = userService.getUserId(id);
         List<ItemDto> itemDtos = new ArrayList<>();
         user.getOrders().stream().forEach(order -> order.getItems().stream().forEach(item -> itemDtos.add(itemMapper.itemToDto(item))));
         if (itemDtos.size() == 0) {
