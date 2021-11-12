@@ -17,7 +17,7 @@ public class EmailSenderService {
 
     public String sendSimpleEmail(Mail mail) {
         SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom("jmentor06@gmail.com");
+        message.setFrom("katamentor06@gmail.com");
         message.setTo(mail.getTo());
         message.setText(mail.getMessage());
         message.setSubject(mail.getSubject());
@@ -30,7 +30,7 @@ public class EmailSenderService {
             MimeMessage message = mailSender.createMimeMessage();
             message.setSubject(mail.getSubject(), "UTF-8");
             MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(message, true, "UTF-8");
-            mimeMessageHelper.setFrom("jmentor06@gmail.com");
+            mimeMessageHelper.setFrom("katamentor06@gmail.com");
             mimeMessageHelper.setTo(mail.getTo());
             mimeMessageHelper.setText(mail.getMessage(), true);
             mailSender.send(message);

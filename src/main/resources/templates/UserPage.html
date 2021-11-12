@@ -14,12 +14,14 @@
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom ">
         <div class="container-fluid ">
             <h4><img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg" alt="" height="20" width="30">
-                <a href="/" class="heading">Магазины</a>
+                <a href="/" class="heading">На главную</a>
                 <a href="" class="heading">Товары</a>
                 <a th:href="@{/user/{id}/userlist (id=${user.id})}" class="heading">Список покупателей</a>
                 <a href="" class="heading">Еще...</a></h4>
             <div class="btn_danger_out">
-                <a href="/logout"><button class="btn btn-outline-danger ">Sign Out</button></a>
+                <a href="/logout">
+                    <button class="btn btn-outline-danger ">Sign Out</button>
+                </a>
             </div>
         </div>
     </nav>
@@ -32,6 +34,10 @@
             <img attr="" src="" height="150" width="150" id="avatar-image" class="avatar-image">
             <input type="hidden" th:value="${''+user.images.picture}" class="avatar-byte-array">
             <h4 th:text="*{username}">User Name</h4>
+            <button type="button" class="btn btn-primary" th:onclick="'getProfileForEdit(' + ${user.getId()} + ')'"
+                    data-bs-toggle="modal" data-bs-target="#modal-edit">
+                Редактировать данные
+            </button>
 
             <hr/>
             <div>
@@ -141,13 +147,109 @@
                             </div>
                         </div>
                     </div>
-
+                    <div th:replace="modal/userShopAddForm"/>
                 </div>
             </div>
         </div>
     </div>
 </div>
+<!--</div>-->
+
+<!--модальное окно для редактирования пользователя-->
+<div class="modal fade" id="modal-edit" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+     aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered ">
+        <div class="modal-content border-light border-3">
+            <div class="modal-header bg-secondary text-light">
+                <h5 class="modal-title" id="staticBackdropLabel">Редактировать
+                </h5>
+                <button type="button" class="btn-close bg-light" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form class="row g-3">
+                    <div class="col-md-6">
+                        <label for="edit-name" class="form-label">Имя</label>
+                        <input type="text" class="form-control" id="edit-name">
+                        <input type="hidden" class="form-control" id="edit-id">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-surname" class="form-label">Фамилия</label>
+                        <input type="text" class="form-control" id="edit-surname">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-date" class="form-label">Дата рождения</label>
+                        <input type="date" class="form-control" id="edit-date">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-email" class="form-label">Почта</label>
+                        <input type="email" class="form-control" id="edit-email">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="edit-username">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-password" class="form-label">Пароль</label>
+                        <input type="password" class="form-control" id="edit-password">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-phone" class="form-label">Телефон</label>
+                        <input type="tel" class="form-control" id="edit-phone" value="+7">
+                    </div>
+                    <div class="col-md-6" id="sex">
+                        <label for="checkBox" class="form-label">Пол</label><br>
+                        <div class="form-check" id="checkBox">
+                            <input class="form-check-input" type="radio" name="gender" id="MALE" value="MALE">
+                            <label class="form-check-label" for="MALE">
+                                Муж
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="FEMALE" value="FEMALE">
+                            <label class="form-check-label" for="FEMALE">
+                                Жен
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="gender" id="UNKNOWN" value="UNKNOWN">
+                            <label class="form-check-label" for="UNKNOWN">
+                                ...
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-country" class="form-label">Страна</label>
+                        <input type="text" class="form-control" id="edit-country" onclick="clearField()">
+                        <input type="hidden" class="form-control" id="edit-address-id">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-city" class="form-label">Город</label>
+                        <input type="text" class="form-control" id="edit-city">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-street" class="form-label">Улица</label>
+                        <input type="text" class="form-control" id="edit-street">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-house" class="form-label">Дом</label>
+                        <input type="text" class="form-control" id="edit-house">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="edit-cityIndex" class="form-label">Индекс</label>
+                        <input type="text" class="form-control" id="edit-cityIndex">
+                    </div>
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-outline-dark" onclick="sendProfileForEdit()">Изменить
+                        </button>
+                        <button type="submit" class="btn btn-outline-danger" onclick="sendProfileForDeactivate()">Удалить профиль
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
+
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
@@ -159,7 +261,7 @@
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
 <script src="/js/UserPage.js"></script>
-<link rel="stylesheet"  href="/css/UserPageStyle.css"/>
+<link rel="stylesheet" href="/css/UserPageStyle.css"/>
 </body>
 
 
