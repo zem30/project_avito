@@ -10,8 +10,8 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-function popular_item() {
-    fetch("http://localhost:8888/shop/items")
+async function popular_item() {
+    await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
             let logs = ``;
@@ -21,52 +21,72 @@ function popular_item() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-
 popular_item();
 
 //получить популярные магазины
-function popular_shops() {
-    fetch("http://localhost:8888/shop_api/shops")
+async function popular_shops() {
+    await fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
-        .then(shops => {
+        .then(async shops => {
             let logs1 = ``;
             shops.forEach((s) => {
                 logs1 += `<div class="shop-div">
         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
         <h6>${s.name}</h6>
         <p>${s.description}</p>
+        <p class="star">★ ${Math.round(s.rating,2)}</p>
         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-        </div>`
+        </div>`;
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
-
 popular_shops();
 
 //получение предметов по поиску
-function findItems() {
+async function findItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('searchHomePageButton')).on('click', function () {
+
+    $(document.getElementById('searchHomePageButton')).on('click', async function () {
         console.log(searchInput.value)
-        fetch("http://localhost:8888/shop/items")
+        await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
+                let logs = ``;
+                let isEmpty = true;
+                items.forEach((i) => {
+                    if (i.name === searchInput.value || searchInput.value === '') {
+                        isEmpty = false;
+                        logs += `<div class="item-div">
+                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
+                         <h6>${i.name}</h6>
+                         <h6>${i.price}</h6>
+                         <p>${i.description}</p>
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
+                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
+                         </div>`;
+                    }
+                })
+
+                // Проверка что нету предметов
+                if (isEmpty) {
+                    logs += `<h4>Ничего не найдено</h4>`
+                }
+
                 document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
     });
 }
-
 findItems();
-
 
 //получить name cookies
 function getCookie(name) {
@@ -92,27 +112,16 @@ function basket_plus_click() {
         } else {
             let data = {}
             send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
-            console.log(e.target.id)
-            let id = e.target.id
-            let cookie_value = getCookie(id)
-            if (cookie_value !== undefined) {
-                let value = Number(cookie_value) + 1;
-                document.cookie = id + "=" + value + "; path=/";
-            } else {
-                document.cookie = id + "=" + 1 + "; path=/";
-            }
         }
     })
 }
-
-
 basket_plus_click();
 
 //кнопка корзина
-function basket_button(){
+function basket_button() {
     let user_tag = document.getElementById("userTag");
     let text = ``;
-    if (user_tag === null){
+    if (user_tag === null) {
         text = `<a href="/basket">
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
@@ -121,9 +130,8 @@ function basket_button(){
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
     }
-    document.querySelector(".div-header-right-one").innerHTML = text
+    document.querySelector(".div-header-right-one").innerHTML = text;
 }
 basket_button();
-
 
 
