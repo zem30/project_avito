@@ -28,6 +28,7 @@ async function popular_item() {
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
+popular_item();
 
 //получить популярные магазины
 async function popular_shops() {
@@ -133,10 +134,4 @@ function basket_button() {
 }
 basket_button();
 
-async function start() {
-    await popular_shops();
-    await popular_item();
-    await findItems();
-    await basket_plus_click();
-}
-start()
+
