@@ -43,4 +43,10 @@ public class Image {
     @ManyToMany(mappedBy = "logo")
     private List<Shop> shops;
 
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                '}';
+    }
 }

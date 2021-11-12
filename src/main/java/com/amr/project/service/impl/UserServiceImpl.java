@@ -1,11 +1,18 @@
 package com.amr.project.service.impl;
 
 import com.amr.project.converter.UserMapper;
+import com.amr.project.converter.UserUpdateMapper;
 import com.amr.project.dao.abstracts.UserDao;
 import com.amr.project.inserttestdata.repository.ItemRepository;
 import com.amr.project.inserttestdata.repository.UserRepository;
-import com.amr.project.model.entity.Mail;
-import com.amr.project.model.entity.User;
+import com.amr.project.model.dto.ImageDto;
+import com.amr.project.model.dto.UserDto;
+import com.amr.project.model.dto.UserUpdateDto;
+import com.amr.project.model.entity.*;
+import com.amr.project.model.enums.Gender;
+import com.amr.project.service.abstracts.AddressService;
+import com.amr.project.service.abstracts.CityService;
+import com.amr.project.service.abstracts.CountryService;
 import com.amr.project.service.abstracts.UserService;
 import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.service.email.EmailVerificationService;
@@ -19,7 +26,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.List;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.ZoneId;
+import java.util.*;
 
 
 @Service
@@ -31,16 +41,35 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     private final TrackedEmailUser trackedEmailUser;
     private final EmailSenderService emailSenderService;
     private final UserRepository userRepository;
+    private final CityService cityService;
+    private final CountryService countryService;
+    private final AddressService addressService;
+    private final UserUpdateMapper userUpdateMapper;
 
     @Autowired
-    public UserServiceImpl(EmailSenderService emailSenderService, TrackedEmailUser trackedEmailUser, UserDao userDao, EmailVerificationService verificationService, ItemRepository itemRepository, UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(EmailSenderService emailSenderService,
+                           TrackedEmailUser trackedEmailUser,
+                           UserDao userDao,
+                           EmailVerificationService verificationService,
+                           ItemRepository itemRepository,
+                           UserRepository userRepository,
+//                           UserMapper userMapper,
+                           PasswordEncoder passwordEncoder,
+                           CityService cityService,
+                           CountryService countryService,
+                           AddressService addressService,
+                           UserUpdateMapper userUpdateMapper) {
         super(userDao);
         this.userDao = userDao;
         this.emailSenderService = emailSenderService;
         this.trackedEmailUser = trackedEmailUser;
         this.verificationService = verificationService;
         this.userRepository = userRepository;
-        passwordEncoder = new BCryptPasswordEncoder();
+        this.passwordEncoder = passwordEncoder;
+        this.cityService = cityService;
+        this.countryService = countryService;
+        this.addressService = addressService;
+        this.userUpdateMapper = userUpdateMapper;
     }
 
     @Override
@@ -72,11 +101,6 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Override
     @Transactional
     public void update(User user) {
-        if (user.getPassword() != null)
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        Mail mail = trackedEmailUser.trackedEmailUserUpdate(user, user.getPassword());
-        if (mail != null)
-            emailSenderService.sendSimpleEmail(mail);
         userDao.update(user);
     }
 
@@ -105,5 +129,63 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     public User getUserId(Long id){
         User user = userRepository.findById(id).orElse(null);
         return user;
+    }
+
+    @Override
+    public UserUpdateDto getUserUpdateDtoById(Long id) {
+        User user = userDao.getByKey(id);
+        UserUpdateDto userUpdateDto = userUpdateMapper.userToDto(user);
+        userUpdateDto.setPassword(null);
+        return userUpdateDto;
+    }
+
+    @Override
+    @Transactional
+    public void updateUserDto(UserUpdateDto userUpdateDto) {
+        User user = userDao.getByKey(userUpdateDto.getId());
+        if (!(userUpdateDto.getPassword()=="")) {
+            user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
+        }
+
+        Gender[] list = Gender.values();
+        Gender sex = Arrays.stream(list).filter(g -> g.toString().equals(userUpdateDto.getGender())).findFirst().orElseThrow();
+
+        Address address = user.getAddress();
+        City city = address.getCity();
+        if(!city.getName().equals(userUpdateDto.getAddress().getCity())) {
+            cityService.createAndSaveCity(userUpdateDto.getAddress().getCity(), userUpdateDto.getAddress().getCountry());
+            city = cityService.getByName(userUpdateDto.getAddress().getCity());
+        }
+
+        Country country = address.getCountry();
+        if(!country.getName().equals(userUpdateDto.getAddress().getCountry())) {
+            countryService.createAndSaveCountry(userUpdateDto.getAddress().getCountry(),
+                    city);
+            country = countryService.getByName(userUpdateDto.getAddress().getCountry());
+        }
+
+        address.setCityIndex(userUpdateDto.getAddress().getCityIndex());
+        address.setCountry(country);
+        address.setCity(city);
+        address.setStreet(userUpdateDto.getAddress().getStreet());
+        address.setHouse(userUpdateDto.getAddress().getHouse());
+
+        user.setEmail(userUpdateDto.getEmail());
+        user.setUsername(userUpdateDto.getUsername());
+        user.setUsername(userUpdateDto.getUsername());
+        user.setPhone(userUpdateDto.getPhone());
+        user.setFirstName(userUpdateDto.getFirstName());
+        user.setLastName(userUpdateDto.getLastName());
+        user.setAddress(address);
+        user.setGender(sex);
+        user.setBirthday(userUpdateDto.getBirthday());
+
+        userRepository.save(user);
+    }
+
+    @Override
+    @Transactional
+    public int deactivateUser(long id) {
+        return userDao.deactivateUser(id);
     }
 }

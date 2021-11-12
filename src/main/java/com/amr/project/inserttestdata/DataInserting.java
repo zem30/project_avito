@@ -89,11 +89,11 @@ public class DataInserting {
 //---------------------------------------------------------------Countries
         Country russia = Country.builder().name("Russia").cities(List.of(moscow, petersburg, novosibirsk)).build();
         Country ukraine = Country.builder().name("Ukraine").cities(List.of(kyiv, kharkiv, odessa)).build();
-        Country belorus = Country.builder().name("Belorus").cities(List.of(minsk, gomel, vitebsk)).build();
+        Country belarus = Country.builder().name("Belarus").cities(List.of(minsk, gomel, vitebsk)).build();
 
         countryRepository.save(russia);
         countryRepository.save(ukraine);
-        countryRepository.save(belorus);
+        countryRepository.save(belarus);
 //---------------------------------------------------------------Addresses
         Address address1 = Address.builder()
                 .cityIndex("123456")
@@ -483,7 +483,7 @@ public class DataInserting {
                 .email("shop3@mail")
                 .phone("shop3_phone")
                 .description("shop3_description")
-                .location(belorus)
+                .location(belarus)
                 .items(null)
                 .reviews(null)
                 .logo(List.of(shop3Image))
