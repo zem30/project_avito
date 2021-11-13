@@ -802,7 +802,7 @@ public class DataInserting {
 //---------------------------------------------------------------Reviews
         //Ревью user4 на товар item1
         User user4_review = userRepository.findByEmail("user4@mail");
-        Item item_review1_user4 = itemRepository.findByName("item1");
+        Item item_review1_user4 = itemRepository.findByName("item1item1");
         Shop shop_review1_user4 = shopRepository.findByName("shop1");
         Review review1_user4_item = Review.builder()
                 .dignity("dignity_review_user4")
