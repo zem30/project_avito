@@ -33,6 +33,7 @@ public class Shop {
     @Email(message = "Введите корректный email")
     private String email;
 
+
     @Length(min = 11, max = 12, message = "Длина номера должна быть 11 либо 12 сиволов")
     private String phone;
 
