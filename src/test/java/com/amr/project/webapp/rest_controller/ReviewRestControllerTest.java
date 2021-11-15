@@ -5,18 +5,23 @@ import com.amr.project.converter.ReviewMapper;
 import com.amr.project.model.dto.ReviewDto;
 import com.amr.project.model.entity.Review;
 import com.amr.project.service.abstracts.ReviewService;
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 
-import java.util.GregorianCalendar;
+import java.text.SimpleDateFormat;
 
+import static org.assertj.core.util.DateUtil.now;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+@DataJpaTest
 class ReviewRestControllerTest extends AbstractApiTest {
 
     private final static String ADD_REVIEW_FOR_ITEM_URL = "/api/review/item";
@@ -36,22 +41,25 @@ class ReviewRestControllerTest extends AbstractApiTest {
     }
 
     @Test
+    @WithMockUser(username = "user6_username")
+    @DataSet(cleanBefore = true, value = "datasets/Review.xml")
+    @ExpectedDataSet(value = "datasets/expected/reviewExpected.xml")
     void shouldBeAddReviewItem() throws Exception {
         ReviewDto reviewDto = ReviewDto.builder()
-                .dignity("dignity_review_user4")
-                .flaw("flaw_review_user4")
-                .text("text_review_user4")
-                .date(GregorianCalendar.getInstance().getTime())
+                .dignity("dignity_review_user6")
+                .flaw("flaw_review_user6")
+                .text("text_review_user6")
+                .date(new SimpleDateFormat("dd.MM.yyyy").parse("15.11.2021"))
                 .rating(4)
                 .itemName("item1")
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .logo(null)
+                .shopName(null)
                 .build();
         Review review = reviewMapper.dtoToReview(reviewDto);
-        mvc.perform(
-                        post(ADD_REVIEW_FOR_ITEM_URL)
+        mvc.perform(post(ADD_REVIEW_FOR_ITEM_URL)
                                 .content(asJsonString(review))
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .accept(MediaType.APPLICATION_JSON))
@@ -64,7 +72,7 @@ class ReviewRestControllerTest extends AbstractApiTest {
         ReviewDto reviewDto = ReviewDto.builder()
                 .dignity("dignity_review_user4")
                 .text("text_review_user4")
-                .date(GregorianCalendar.getInstance().getTime())
+                .date(now())
                 .rating(4)
                 .itemName("item1")
                 .isModerated(false)
@@ -88,7 +96,7 @@ class ReviewRestControllerTest extends AbstractApiTest {
                 .dignity("dignity_review_user4")
                 .flaw("flaw_review_user4")
                 .text("text_review_user4")
-                .date(GregorianCalendar.getInstance().getTime())
+                .date(now())
                 .rating(4)
                 .itemName("shop1")
                 .isModerated(false)
@@ -111,7 +119,7 @@ class ReviewRestControllerTest extends AbstractApiTest {
         ReviewDto reviewDto = ReviewDto.builder()
                 .flaw("flaw_review_user4")
                 .text("text_review_user4")
-                .date(GregorianCalendar.getInstance().getTime())
+                .date(now())
                 .rating(4)
                 .itemName("shop1")
                 .isModerated(false)

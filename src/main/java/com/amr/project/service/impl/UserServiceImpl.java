@@ -96,7 +96,7 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @SuppressWarnings("unchecked")
     public User getAuthorized() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        User user = userDao.findByUsername(authentication.getName());
+        User user = (User) authentication.getPrincipal();
         return user;
     }
 
