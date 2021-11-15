@@ -148,33 +148,34 @@ public class DataInserting {
         File user5_image =  ResourceUtils.getFile("classpath:static/images/users/user5_image.jpg");
         File user6_image =  ResourceUtils.getFile("classpath:static/images/users/user6_image.jpg");
 
-        File shop1_image =  ResourceUtils.getFile("classpath:static/images/shops/shop1_image.jpg");
-        File shop2_image =  ResourceUtils.getFile("classpath:static/images/shops/shop2_image.jpg");
-        File shop3_image =  ResourceUtils.getFile("classpath:static/images/shops/shop3_image.jpg");
+        File mi_image =  ResourceUtils.getFile("classpath:static/images/shops/mi.jpg");
+        File predator_image =  ResourceUtils.getFile("classpath:static/images/shops/predator.png");
+        File samsung_image =  ResourceUtils.getFile("classpath:static/images/shops/samsung.png");
 
-        File item1_image1 =  ResourceUtils.getFile("classpath:static/images/items/item1_image1.jpg");
-        File item1_image2 =  ResourceUtils.getFile("classpath:static/images/items/item1_image2.jpg");
-        File item1_image3 =  ResourceUtils.getFile("classpath:static/images/items/item1_image3.jpg");
+        File headphonesPart1 =  ResourceUtils.getFile("classpath:static/images/items/headphonesPart1.jpg");
+        File headphonesPart2 =  ResourceUtils.getFile("classpath:static/images/items/headphonesPart2.jpg");
+        File headphonesPart3 =  ResourceUtils.getFile("classpath:static/images/items/headphonesPart3.jpg");
 
-        File item2_image1 =  ResourceUtils.getFile("classpath:static/images/items/item2_image1.jpg");
-        File item2_image2 =  ResourceUtils.getFile("classpath:static/images/items/item2_image2.jpg");
-        File item2_image3 =  ResourceUtils.getFile("classpath:static/images/items/item2_image3.jpg");
+        File tablet1 =  ResourceUtils.getFile("classpath:static/images/items/tablet1.jpg");
+        File tablet2 =  ResourceUtils.getFile("classpath:static/images/items/tablet2.jpg");
+        File tablet3 =  ResourceUtils.getFile("classpath:static/images/items/tablet3.jpg");
 
-        File item3_image1 =  ResourceUtils.getFile("classpath:static/images/items/item3_image1.jpg");
-        File item3_image2 =  ResourceUtils.getFile("classpath:static/images/items/item3_image2.jpg");
-        File item3_image3 =  ResourceUtils.getFile("classpath:static/images/items/item3_image3.jpg");
+        File laptop1 =  ResourceUtils.getFile("classpath:static/images/items/laptop1.jpg");
+        File laptop2 =  ResourceUtils.getFile("classpath:static/images/items/laptop2.jpg");
+        File laptop3 =  ResourceUtils.getFile("classpath:static/images/items/laptop3.jpg");
 
-        File item4_image1 =  ResourceUtils.getFile("classpath:static/images/items/item4_image1.jpg");
-        File item4_image2 =  ResourceUtils.getFile("classpath:static/images/items/item4_image2.jpg");
-        File item4_image3 =  ResourceUtils.getFile("classpath:static/images/items/item4_image3.jpg");
+        File cleaner1 =  ResourceUtils.getFile("classpath:static/images/items/cleaner1.jpg");
+        File cleaner2 =  ResourceUtils.getFile("classpath:static/images/items/cleaner2.jpg");
+        File cleaner3 =  ResourceUtils.getFile("classpath:static/images/items/cleaner3.jpg");
 
-        File item5_image1 =  ResourceUtils.getFile("classpath:static/images/items/item5_image1.jpg");
-        File item5_image2 =  ResourceUtils.getFile("classpath:static/images/items/item5_image2.jpg");
-        File item5_image3 =  ResourceUtils.getFile("classpath:static/images/items/item5_image3.jpg");
+        File TV1 =  ResourceUtils.getFile("classpath:static/images/items/TV1.jpg");
+        File TV2 =  ResourceUtils.getFile("classpath:static/images/items/TV2.jpg");
+        File TV3 =  ResourceUtils.getFile("classpath:static/images/items/TV3.jpg");
 
-        File item6_image1 =  ResourceUtils.getFile("classpath:static/images/items/item6_image1.jpg");
-        File item6_image2 =  ResourceUtils.getFile("classpath:static/images/items/item6_image2.jpg");
-        File item6_image3 =  ResourceUtils.getFile("classpath:static/images/items/item6_image3.jpg");
+        File mouse1 =  ResourceUtils.getFile("classpath:static/images/items/mouse1.jpg");
+        File mouse2 =  ResourceUtils.getFile("classpath:static/images/items/mouse2.jpg");
+        File mouse3 =  ResourceUtils.getFile("classpath:static/images/items/mouse3.jpg");
+
 
         byte[] array_admin_image = Files.readAllBytes(admin_image.toPath());
         byte[] array_moderator_image = Files.readAllBytes(moderator_image.toPath());
@@ -185,33 +186,34 @@ public class DataInserting {
         byte[] array_user5_image = Files.readAllBytes(user5_image.toPath());
         byte[] array_user6_image = Files.readAllBytes(user6_image.toPath());
 
-        byte[] array_shop1_image = Files.readAllBytes(shop1_image.toPath());
-        byte[] array_shop2_image = Files.readAllBytes(shop2_image.toPath());
-        byte[] array_shop3_image = Files.readAllBytes(shop3_image.toPath());
+        byte[] array_mi_image = Files.readAllBytes(mi_image.toPath());
+        byte[] array_predator_image = Files.readAllBytes(predator_image.toPath());
+        byte[] array_samsung_image = Files.readAllBytes(samsung_image.toPath());
 
-        byte[] array_item1_image1 = Files.readAllBytes(item1_image1.toPath());
-        byte[] array_item1_image2 = Files.readAllBytes(item1_image2.toPath());
-        byte[] array_item1_image3 = Files.readAllBytes(item1_image3.toPath());
+        byte[] array_headphonesPart1 = Files.readAllBytes(headphonesPart1.toPath());
+        byte[] array_headphonesPart2 = Files.readAllBytes(headphonesPart2.toPath());
+        byte[] array_headphonesPart3 = Files.readAllBytes(headphonesPart3.toPath());
 
-        byte[] array_item2_image1 = Files.readAllBytes(item2_image1.toPath());
-        byte[] array_item2_image2 = Files.readAllBytes(item2_image2.toPath());
-        byte[] array_item2_image3 = Files.readAllBytes(item2_image3.toPath());
+        byte[] array_tablet1 = Files.readAllBytes(tablet1.toPath());
+        byte[] array_tablet2 = Files.readAllBytes(tablet2.toPath());
+        byte[] array_tablet3 = Files.readAllBytes(tablet3.toPath());
 
-        byte[] array_item3_image1 = Files.readAllBytes(item3_image1.toPath());
-        byte[] array_item3_image2 = Files.readAllBytes(item3_image2.toPath());
-        byte[] array_item3_image3 = Files.readAllBytes(item3_image3.toPath());
+        byte[] array_laptop1 = Files.readAllBytes(laptop1.toPath());
+        byte[] array_laptop2 = Files.readAllBytes(laptop2.toPath());
+        byte[] array_laptop3 = Files.readAllBytes(laptop3.toPath());
 
-        byte[] array_item4_image1 = Files.readAllBytes(item4_image1.toPath());
-        byte[] array_item4_image2 = Files.readAllBytes(item4_image2.toPath());
-        byte[] array_item4_image3 = Files.readAllBytes(item4_image3.toPath());
+        byte[] array_cleaner1 = Files.readAllBytes(cleaner1.toPath());
+        byte[] array_cleaner2 = Files.readAllBytes(cleaner2.toPath());
+        byte[] array_cleaner3 = Files.readAllBytes(cleaner3.toPath());
 
-        byte[] array_item5_image1 = Files.readAllBytes(item5_image1.toPath());
-        byte[] array_item5_image2 = Files.readAllBytes(item5_image2.toPath());
-        byte[] array_item5_image3 = Files.readAllBytes(item5_image3.toPath());
+        byte[] array_TV1 = Files.readAllBytes(TV1.toPath());
+        byte[] array_TV2 = Files.readAllBytes(TV2.toPath());
+        byte[] array_TV3 = Files.readAllBytes(TV3.toPath());
 
-        byte[] array_item6_image1 = Files.readAllBytes(item6_image1.toPath());
-        byte[] array_item6_image2 = Files.readAllBytes(item6_image2.toPath());
-        byte[] array_item6_image3 = Files.readAllBytes(item6_image3.toPath());
+        byte[] array_mouse1 = Files.readAllBytes(mouse1.toPath());
+        byte[] array_mouse2 = Files.readAllBytes(mouse2.toPath());
+        byte[] array_mouse3 = Files.readAllBytes(mouse3.toPath());
+
 
         Image adminImage = Image.builder().picture(array_admin_image).isMain(true).build();
         Image moderatorImage = Image.builder().picture(array_moderator_image).isMain(true).build();
@@ -222,33 +224,33 @@ public class DataInserting {
         Image user5Image = Image.builder().picture(array_user5_image).isMain(true).build();
         Image user6Image = Image.builder().picture(array_user6_image).isMain(true).build();
 
-        Image shop1Image = Image.builder().picture(array_shop1_image).isMain(true).build();
-        Image shop2Image = Image.builder().picture(array_shop2_image).isMain(true).build();
-        Image shop3Image = Image.builder().picture(array_shop3_image).isMain(true).build();
+        Image miLogo = Image.builder().picture(array_mi_image).isMain(true).build();
+        Image predatorLogo = Image.builder().picture(array_predator_image).isMain(true).build();
+        Image samsungLogo = Image.builder().picture(array_samsung_image).isMain(true).build();
 
-        Image item1Image1 = Image.builder().picture(array_item1_image1).isMain(true).build();
-        Image item1Image2 = Image.builder().picture(array_item1_image2).isMain(false).build();
-        Image item1Image3 = Image.builder().picture(array_item1_image3).isMain(false).build();
+        Image item1Image1 = Image.builder().picture(array_headphonesPart1).isMain(true).build();
+        Image item1Image2 = Image.builder().picture(array_headphonesPart2).isMain(false).build();
+        Image item1Image3 = Image.builder().picture(array_headphonesPart3).isMain(false).build();
 
-        Image item2Image1 = Image.builder().picture(array_item2_image1).isMain(true).build();
-        Image item2Image2 = Image.builder().picture(array_item2_image2).isMain(false).build();
-        Image item2Image3 = Image.builder().picture(array_item2_image3).isMain(false).build();
+        Image item2Image1 = Image.builder().picture(array_cleaner1).isMain(true).build();
+        Image item2Image2 = Image.builder().picture(array_cleaner2).isMain(false).build();
+        Image item2Image3 = Image.builder().picture(array_cleaner3).isMain(false).build();
 
-        Image item3Image1 = Image.builder().picture(array_item3_image1).isMain(true).build();
-        Image item3Image2 = Image.builder().picture(array_item3_image2).isMain(false).build();
-        Image item3Image3 = Image.builder().picture(array_item3_image3).isMain(false).build();
+        Image item3Image1 = Image.builder().picture(array_tablet1).isMain(true).build();
+        Image item3Image2 = Image.builder().picture(array_tablet2).isMain(false).build();
+        Image item3Image3 = Image.builder().picture(array_tablet3).isMain(false).build();
 
-        Image item4Image1 = Image.builder().picture(array_item4_image1).isMain(true).build();
-        Image item4Image2 = Image.builder().picture(array_item4_image2).isMain(false).build();
-        Image item4Image3 = Image.builder().picture(array_item4_image3).isMain(false).build();
+        Image item4Image1 = Image.builder().picture(array_TV1).isMain(true).build();
+        Image item4Image2 = Image.builder().picture(array_TV2).isMain(false).build();
+        Image item4Image3 = Image.builder().picture(array_TV3).isMain(false).build();
 
-        Image item5Image1 = Image.builder().picture(array_item5_image1).isMain(true).build();
-        Image item5Image2 = Image.builder().picture(array_item5_image2).isMain(false).build();
-        Image item5Image3 = Image.builder().picture(array_item5_image3).isMain(false).build();
+        Image item5Image1 = Image.builder().picture(array_mouse1).isMain(true).build();
+        Image item5Image2 = Image.builder().picture(array_mouse2).isMain(false).build();
+        Image item5Image3 = Image.builder().picture(array_mouse3).isMain(false).build();
 
-        Image item6Image1 = Image.builder().picture(array_item6_image1).isMain(true).build();
-        Image item6Image2 = Image.builder().picture(array_item6_image2).isMain(false).build();
-        Image item6Image3 = Image.builder().picture(array_item6_image3).isMain(false).build();
+        Image item6Image1 = Image.builder().picture(array_laptop1).isMain(true).build();
+        Image item6Image2 = Image.builder().picture(array_laptop2).isMain(false).build();
+        Image item6Image3 = Image.builder().picture(array_laptop3).isMain(false).build();
 //---------------------------------------------------------------Admin + Moderator
         User admin1 = User.builder()
                 .email("admin1@mail")
@@ -437,17 +439,17 @@ public class DataInserting {
         userRepository.save(user5);
         userRepository.save(user6);
 //---------------------------------------------------------------Shops
-        Shop shop1 = Shop.builder()
-                .name("shop1")
-                .email("shop1@mail")
-                .phone("shop1_phone")
-                .description("shop1_description")
+        Shop mi = Shop.builder()
+                .name("mi")
+                .email("mi@mail")
+                .phone("magazinPhone")
+                .description("©2016-2021")
                 .location(russia)
                 .items(null)
                 .reviews(null)
-                .logo(List.of(shop1Image))
+                .logo(List.of(miLogo))
                 .count(0)
-                .rating(4.5)
+                .rating(1)
                 .user(userRepository.findByEmail("user1@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -457,17 +459,17 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
-        Shop shop2 = Shop.builder()
-                .name("shop2")
-                .email("shop2@mail")
-                .phone("shop2_phone")
-                .description("shop2_description")
+        Shop samsung = Shop.builder()
+                .name("samsung")
+                .email("samsung@mail")
+                .phone("magazinPhone")
+                .description("©1995-2021")
                 .location(ukraine)
                 .items(null)
                 .reviews(null)
-                .logo(List.of(shop2Image))
+                .logo(List.of(samsungLogo))
                 .count(0)
-                .rating(0)
+                .rating(2)
                 .user(userRepository.findByEmail("user2@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -478,17 +480,17 @@ public class DataInserting {
                 .isPretendentToBeDeleted(false)
                 .build();
         User user3_shop = userRepository.findByEmail("user3@mail");
-        Shop shop3 = Shop.builder()
-                .name("shop3")
-                .email("shop3@mail")
-                .phone("shop3_phone")
-                .description("shop3_description")
+        Shop predator = Shop.builder()
+                .name("predator")
+                .email("predator@mail")
+                .phone("magazinPhone")
+                .description("©2010-2021")
                 .location(belarus)
                 .items(null)
                 .reviews(null)
-                .logo(List.of(shop3Image))
+                .logo(List.of(predatorLogo))
                 .count(0)
-                .rating(0)
+                .rating(3)
                 .user(userRepository.findByEmail("user3@mail"))
                 .discounts(null)
                 .isModerated(false)
@@ -498,121 +500,120 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
-        shopRepository.save(shop1);
-        shopRepository.save(shop2);
-        shopRepository.save(shop3);
+        shopRepository.save(mi);
+        shopRepository.save(samsung);
+        shopRepository.save(predator);
 
         Shop user3_shop_managed = shopRepository.findByUserId(user3_shop.getId());
         user3_shop.setShops(List.of(user3_shop_managed));
         userRepository.save(user3_shop); // создалась связь в таблицу user_shop
 
-
 //---------------------------------------------------------------Categories
-        Category category1 = Category.builder().name("category1").build();
-        Category category2 = Category.builder().name("category2").build();
-        Category category3 = Category.builder().name("category3").build();
-        Category category4 = Category.builder().name("category4").build();
-        Category category5 = Category.builder().name("category5").build();
-        Category category6 = Category.builder().name("category6").build();
+        Category category1 = Category.builder().name("headphones").build();
+        Category hardware = Category.builder().name("hardware").build();
+        Category tablets = Category.builder().name("tablets").build();
+        Category vacuumCleaners = Category.builder().name("vacuumCleaners").build();
+        Category TV = Category.builder().name("TV").build();
+        Category laptop = Category.builder().name("laptop").build();
 
         categoryRepository.save(category1);
-        categoryRepository.save(category2);
-        categoryRepository.save(category3);
-        categoryRepository.save(category4);
-        categoryRepository.save(category5);
-        categoryRepository.save(category6);
+        categoryRepository.save(hardware);
+        categoryRepository.save(tablets);
+        categoryRepository.save(vacuumCleaners);
+        categoryRepository.save(TV);
+        categoryRepository.save(laptop);
 //---------------------------------------------------------------Items
         Item item1 = Item.builder()
-                .name("item1")
-                .price(new BigDecimal("111111"))
-                .categories(List.of(categoryRepository.findByName("category1")))
+                .name("True Wireless Beats Studio")
+                .price(new BigDecimal("13990"))
+                .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
                 .count(100)
-                .rating(4.0)
-                .description("item1_description")
+                .rating(1.0)
+                .description("Система активного подавления шума")
                 .discount(0)
-                .shop(shop1)
+                .shop(mi)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
         Item item2 = Item.builder()
-                .name("item2")
-                .price(new BigDecimal("222222"))
-                .categories(List.of(categoryRepository.findByName("category1"), categoryRepository.findByName("category2")))
+                .name("Mi Robot Vacuum-Mop")
+                .price(new BigDecimal("16999"))
+                .categories(List.of(categoryRepository.findByName("vacuumCleaners")))
                 .images(List.of(item2Image1, item2Image2, item2Image3))
                 .reviews(null)
                 .count(200)
-                .rating(5.0)
-                .description("item2_description")
+                .rating(2.0)
+                .description("Количество режимов работы - 4")
                 .discount(0)
-                .shop(shop1)
+                .shop(mi)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
         Item item3 = Item.builder()
-                .name("item3")
-                .price(new BigDecimal("333333"))
-                .categories(List.of(categoryRepository.findByName("category1"), categoryRepository.findByName("category2"), categoryRepository.findByName("category3")))
+                .name("Samsung Galaxy Tab A 8.0")
+                .price(new BigDecimal("11999"))
+                .categories(List.of(categoryRepository.findByName("tablets")))
                 .images(List.of(item3Image1, item3Image2, item3Image3))
                 .reviews(null)
                 .count(300)
-                .rating(0D)
-                .description("item3_description")
+                .rating(3.0)
+                .description("RAM - 2гб, ROM - 32гб")
                 .discount(0)
-                .shop(shop1)
+                .shop(samsung)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
         Item item4 = Item.builder()
-                .name("item4")
-                .price(new BigDecimal("444444"))
-                .categories(List.of(categoryRepository.findByName("category4")))
+                .name("Samsung TV QE50Q67AAU")
+                .price(new BigDecimal("66999"))
+                .categories(List.of(categoryRepository.findByName("TV")))
                 .images(List.of(item4Image1, item4Image2, item4Image3))
                 .reviews(null)
                 .count(400)
-                .rating(0D)
-                .description("item4_description")
+                .rating(4.0)
+                .description("Экран - 50/3840x2160 Пикс")
                 .discount(0)
-                .shop(shop2)
+                .shop(samsung)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
         Item item5 = Item.builder()
-                .name("item5")
-                .price(new BigDecimal("555555"))
-                .categories(List.of(categoryRepository.findByName("category4"), categoryRepository.findByName("category5")))
+                .name("Mouse Logitech M190")
+                .price(new BigDecimal("999"))
+                .categories(List.of(categoryRepository.findByName("hardware")))
                 .images(List.of(item5Image1, item5Image2, item5Image3))
                 .reviews(null)
                 .count(500)
-                .rating(0D)
-                .description("item5_description")
+                .rating(5.0)
+                .description("Тип мыши - оптическая")
                 .discount(0)
-                .shop(shop2)
+                .shop(predator)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
         Item item6 = Item.builder()
-                .name("item6")
-                .price(new BigDecimal("666666"))
-                .categories(List.of(categoryRepository.findByName("category4"), categoryRepository.findByName("category5"), categoryRepository.findByName("category6")))
+                .name("Acer Nitro 5 AN515-55-50LX")
+                .price(new BigDecimal("98999"))
+                .categories(List.of(categoryRepository.findByName("laptop")))
                 .images(List.of(item6Image1, item6Image2, item6Image3))
                 .reviews(null)
                 .count(600)
-                .rating(0D)
-                .description("item6_description")
+                .rating(6.0)
+                .description("Процессор Intel Core i510300H")
                 .discount(0)
-                .shop(shop2)
+                .shop(predator)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
@@ -626,21 +627,23 @@ public class DataInserting {
         itemRepository.save(item5);
         itemRepository.save(item6);
 //---------------------------------------------------------------Shop_Items
-        shop1.setItems(List.of(item1, item2, item3));
-        shop2.setItems(List.of(item4, item5, item6));
+        mi.setItems(List.of(item1, item2));
+        samsung.setItems(List.of(item3, item4));
+        predator.setItems(List.of(item5, item6));
 
-        shopRepository.save(shop1);
-        shopRepository.save(shop2);
+        shopRepository.save(mi);
+        shopRepository.save(samsung);
+        shopRepository.save(predator);
 //---------------------------------------------------------------CartItem
         User user4_cartItem = userRepository.findByEmail("user4@mail");
         User user5_cartItem = userRepository.findByEmail("user5@mail");
 
-        Item item1_cart_item1 = itemRepository.findByName("item1");
-        Item item2_cart_item2 = itemRepository.findByName("item2");
-        Item item3_cart_item3 = itemRepository.findByName("item3");
-        Item item4_cart_item4 = itemRepository.findByName("item4");
-        Item item5_cart_item5 = itemRepository.findByName("item5");
-        Item item6_cart_item6 = itemRepository.findByName("item6");
+        Item item1_cart_item1 = itemRepository.findByName("True Wireless Beats Studio");
+        Item item2_cart_item2 = itemRepository.findByName("Mi Robot Vacuum-Mop");
+        Item item3_cart_item3 = itemRepository.findByName("Samsung Galaxy Tab A 8.0");
+        Item item4_cart_item4 = itemRepository.findByName("Samsung TV QE50Q67AAU");
+        Item item5_cart_item5 = itemRepository.findByName("Mouse Logitech M190");
+        Item item6_cart_item6 = itemRepository.findByName("Acer Nitro 5 AN515-55-50LX");
 
         CartItem cartItem1 = CartItem.builder()
                 .item(item1_cart_item1)
@@ -722,17 +725,17 @@ public class DataInserting {
 
         Favorite favorite_user4 = Favorite.builder()
                 .items(List.of(item1))
-                .shops(List.of(shop1))
+                .shops(List.of(mi))
                 .user(user4_favorite)
                 .build();
         Favorite favorite_user5 = Favorite.builder()
                 .items(List.of(item1, item4))
-                .shops(List.of(shop1, shop2))
+                .shops(List.of(mi, samsung))
                 .user(user5_favorite)
                 .build();
         Favorite favorite_user6 = Favorite.builder()
                 .items(List.of(item1, item2, item6))
-                .shops(List.of(shop1, shop2))
+                .shops(List.of(mi, samsung))
                 .user(user6_favorite)
                 .build();
 
@@ -750,23 +753,23 @@ public class DataInserting {
         userRepository.save(user6_favorite);
 //---------------------------------------------------------------Orders
         User user4_order = userRepository.findByEmail("user4@mail");
-        Item user4_order_item1 = itemRepository.findByName("item1");
-        Item user4_order_item2 = itemRepository.findByName("item2");
+        Item user4_order_item1 = itemRepository.findByName("True Wireless Beats Studio");
+        Item user4_order_item2 = itemRepository.findByName("Mi Robot Vacuum-Mop");
 
         User user5_order = userRepository.findByEmail("user5@mail");
-        Item user5_order_item1 = itemRepository.findByName("item3");
-        Item user5_order_item2 = itemRepository.findByName("item4");
+        Item user5_order_item1 = itemRepository.findByName("Samsung Galaxy Tab A 8.0");
+        Item user5_order_item2 = itemRepository.findByName("Samsung TV QE50Q67AAU");
 
         User user6_order = userRepository.findByEmail("user6@mail");
-        Item user6_order_item1 = itemRepository.findByName("item5");
-        Item user6_order_item2 = itemRepository.findByName("item6");
+        Item user6_order_item1 = itemRepository.findByName("Mouse Logitech M190");
+        Item user6_order_item2 = itemRepository.findByName("Acer Nitro 5 AN515-55-50LX");
 
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
                 .status(Status.START)
                 .address(user4_order.getAddress())
-                .total(itemRepository.findByName("item1").getPrice().add(itemRepository.findByName("item2").getPrice()))
+                .total(itemRepository.findByName("True Wireless Beats Studio").getPrice().add(itemRepository.findByName("Mi Robot Vacuum-Mop").getPrice()))
                 .user(user4_order)
                 .buyerName(user4_order.getUsername())
                 .buyerPhone(user4_order.getPhone())
@@ -832,8 +835,8 @@ public class DataInserting {
 
         //Ревью user5 на магазин shop1
         User user5_review = userRepository.findByEmail("user5@mail");
-        Item item_review1_user5 = itemRepository.findByName("item2");
-        Shop shop_review1_user5 = shopRepository.findByName("shop1");
+        Item item_review1_user5 = itemRepository.findByName("Mi Robot Vacuum-Mop");
+        Shop shop_review1_user5 = shopRepository.findByName("mi");
         Review review1_user5_shop = Review.builder()
                 .dignity("dignity_review_user5")
                 .flaw("flaw_review_user5")
@@ -925,7 +928,7 @@ public class DataInserting {
         chatRepository.save(chat2);
 //---------------------------------------------------------------Discounts
         //Discount2
-        Shop shop1_discount1 = shopRepository.findByName("shop1");
+        Shop shop1_discount1 = shopRepository.findByName("mi");
         User user4_discount1 = userRepository.findByEmail("user4@mail");
 
         Discount discount1 = Discount.builder()
@@ -944,7 +947,7 @@ public class DataInserting {
         shopRepository.save(shop1_discount1);
 
         //Discount2
-        Shop shop2_discount1 = shopRepository.findByName("shop2");
+        Shop shop2_discount1 = shopRepository.findByName("samsung");
         User user5_discount1 = userRepository.findByEmail("user5@mail");
 
         Discount discount2 = Discount.builder()
