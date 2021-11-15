@@ -1,80 +1,135 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.AbstractApiTest;
-import com.amr.project.inserttestdata.repository.ShopRepository;
-import com.amr.project.model.entity.Country;
-import com.amr.project.model.entity.Image;
+import com.amr.project.converter.ShopMapper;
+import com.amr.project.model.dto.CountryDto;
+import com.amr.project.model.dto.ImageDto;
+import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
-import com.amr.project.model.entity.User;
-import com.amr.project.model.enums.Gender;
-import com.github.database.rider.core.api.dataset.ExpectedDataSet;
-import org.assertj.core.util.Arrays;
+import com.amr.project.service.abstracts.ShopService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ResourceUtils;
 
-import java.util.ArrayList;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 /**
  * Created by Veilas on 11/8/2021.
  * Class: ShopRestControllerTest.java
  */
-
-@AutoConfigureMockMvc
+@Transactional
 public class ShopRestControllerTest extends AbstractApiTest {
 
-    private final static String REGISTRATION_URL = "/shop_api";
+    private final static String REGISTRATION_URL = "/shop_api/";
+    private final static String GET_ALL_URL = "/shop_api/shops";
+    private final static String GET_SHOP_BY_ID_URL = "/shop_api/shop/1";
+    private final static String GET_SHOP_BY_NAME_URL = "/shop_api/shop1";
+
+    private ShopMapper shopMapper;
+    private ShopService shopService;
 
     @Autowired
-    ShopRepository shopRepository;
-
-    @Autowired
-    ShopRestController shopRestController;
-
-    List<Image> list = new ArrayList<>();
-
-    private Shop defaultShop = Shop.builder().name("first_name_test")
-            .email("last_name_test")
-            .phone("username_test")
-            .description("email_test@mail.ru")
-            .user(new User())
-            .logo(list)
-            .location(new Country(1L,"Russia", new ArrayList<>())).build();
-
-    private Shop shopWrongFields1 = Shop.builder().name("first_name_test")
-            .email("last_name_test")
-            .phone("username_test")
-            .description("email_test@mail.ru")
-            .user(new User())
-            .location(new Country(1L,"Russia", new ArrayList<>())).build();
+    public ShopRestControllerTest(ShopMapper shopMapper, ShopService shopService) {
+        this.shopMapper = shopMapper;
+        this.shopService = shopService;
+    }
 
 
     @Test
-    @ExpectedDataSet(value = "datasets/user/expected/ExpectedUserXml.xml")
+    void getAllShopsTest() throws Exception {
+        mvc.perform(get(GET_ALL_URL))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getShopByIdTest() throws Exception {
+        mvc.perform(get(GET_SHOP_BY_ID_URL))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void getShopByNameTest() throws Exception {
+        mvc.perform(get(GET_SHOP_BY_NAME_URL))
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @WithMockUser(username = "user6_username")
     void registrationNewShop_then200Status() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post(REGISTRATION_URL)
-                        .content(asJsonString(defaultShop))
+        Shop shop = shopMapper.dtoToShop(shopDto());
+
+        mvc.perform(post(REGISTRATION_URL)
+                        .content(asJsonString(shop))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)).andDo(print())
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
                 .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
     @Test
+    @WithMockUser(username = "user1_username")
     void registrationNewShop_WrongValidation_then400Status() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.post(REGISTRATION_URL)
-                        .content(asJsonString(shopWrongFields1))
+        Shop shopWrong = shopMapper.dtoToShop(shopDtoWrong());
+
+        mvc.perform(post(REGISTRATION_URL)
+                        .content(asJsonString(shopWrong))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)).andDo(print())
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError())
-                .andExpect(MockMvcResultMatchers.content().json("{'errors':{'phone':'phone number must be at least 11 characters'}}"));
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+    }
+
+
+    public ShopDto shopDto() throws IOException {
+        ShopDto shopDto = ShopDto.builder()
+                .logo(List.of(getImageDto()))
+                .name("shop_test")
+                .description("desc_test")
+                .phone("88855535355")
+                .email("mail@test.r")
+                .rating(0)
+                .username("user6_username")
+                .location(CountryDto.builder().id(1L).name("Russia").build())
+                .build();
+        return shopDto;
+    }
+
+    public ShopDto shopDtoWrong() throws IOException {
+        ShopDto shopDto = ShopDto.builder()
+                .logo(List.of(getImageDto()))
+                .name("shop_test")
+                .description("desc_test")
+                .phone("0")
+                .email("mail@test.r")
+                .rating(0)
+                .username("user6_username")
+                .location(CountryDto.builder().id(1L).name("Russia").build())
+                .build();
+        return shopDto;
+    }
+
+    private ImageDto getImageDto() throws IOException {
+        File shop1_image = ResourceUtils.getFile("classpath:static/images/shops/shop1_image.jpg");
+        byte[] array_shop1_image = Files.readAllBytes(shop1_image.toPath());
+        ImageDto shop1Image = ImageDto.builder().picture(array_shop1_image).build();
+        return shop1Image;
     }
 }
