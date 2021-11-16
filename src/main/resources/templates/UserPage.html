@@ -61,7 +61,7 @@
                 <h5><a th:href="@{/user-cart-page}">Корзина</a></h5>
                 <h5><a th:href="@{/user-orders}">История заказов</a></h5>
                 <h5><a th:href="@{/user-item}">Проданные товары</a></h5>
-                <h5 style="color: #fdbf2f;"><a data-bs-toggle="modal" data-bs-target="#discount"> Мои скидки </a></h5>
+                <h5 style="color: #fdbf2f; cursor: pointer;"><a data-bs-toggle="modal" data-bs-target="#discount"> Мои скидки </a></h5>
             </div>
         </div>
         <!-- Modal -->
@@ -76,15 +76,13 @@
                         <table class="table">
                             <thead>
                             <tr>
-                                <th>Id</th>
-                                <th>Percentage</th>
-                                <th>Fixed Discount</th>
-                                <th>Shop</th>
+                                <th>Скидка, %</th>
+                                <th>Фиксированная скидка</th>
+                                <th>Магазин</th>
                             </tr>
                             </thead>
                             <tbody>
                             <tr th:each="disc : ${discount}">
-                                <td th:text="${disc.getId()}"></td>
                                 <td th:text="${disc.getPercentage()}"></td>
                                 <td th:text="${disc.getFixedDiscount()}"></td>
                                 <td th:text="${disc.getShop().getName()}"></td>
@@ -94,7 +92,7 @@
                     </div>
                     <!-- END BODY -->
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                     </div>
                 </div>
             </div>
