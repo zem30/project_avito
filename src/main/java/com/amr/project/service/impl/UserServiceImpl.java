@@ -10,6 +10,7 @@ import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.dto.UserUpdateDto;
 import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.Gender;
+import com.amr.project.model.enums.Status;
 import com.amr.project.service.abstracts.AddressService;
 import com.amr.project.service.abstracts.CityService;
 import com.amr.project.service.abstracts.CountryService;
@@ -115,6 +116,17 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     public List<User> findByRole(String role) throws NoResultException {
         return userDao.findByRole(role);
     }
+
+    @Override
+    public List<User> findByStatusOrder(Status status) {
+        return userDao.findByStatusOrder(status);
+    }
+
+    @Override
+    public List<User> findByStatusOrderAndShopOwnerUser(Status status, User user) {
+        return userDao.findByStatusOrderAndShopOwnerUser(status, user);
+    }
+
 
     @Override
     @SuppressWarnings("unchecked")
