@@ -13,5 +13,6 @@ public interface UserDao extends ReadWriteDao<User, Long> {
 
     List<User> findByRole(String role) throws NoResultException;
 
+    int deactivateUser(long id);
 }
 

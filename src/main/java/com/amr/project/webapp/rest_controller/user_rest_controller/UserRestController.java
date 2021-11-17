@@ -8,19 +8,19 @@ import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.dto.UserDto;
+import com.amr.project.model.dto.UserUpdateDto;
+import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.User;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @AllArgsConstructor
 @RestController
@@ -103,5 +103,21 @@ public class UserRestController {
         }
         return ResponseEntity.ok(orderDtos);
     }
+    @GetMapping("/getUser/{id}")
+    @ApiOperation(value = "Возвращает пользователя по id")
+    public ResponseEntity<UserUpdateDto> getUserById(@PathVariable long id) {
+        return new ResponseEntity<>(userService.getUserUpdateDtoById(id), HttpStatus.OK);
+    }
 
+    @PutMapping("/user")
+    public ResponseEntity<UserUpdateDto> updateUser(@RequestBody UserUpdateDto userUpdateDto) {
+        userService.updateUserDto(userUpdateDto);
+        return new ResponseEntity<>(userUpdateDto, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/user/{id}")
+    public ResponseEntity<Integer> deactivateUser(@PathVariable long id) {
+        int idDeactivate = userService.deactivateUser(id);
+        return new ResponseEntity<>(idDeactivate, HttpStatus.ACCEPTED);
+    }
 }

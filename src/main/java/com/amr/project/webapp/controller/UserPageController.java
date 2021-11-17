@@ -38,6 +38,7 @@ public class UserPageController {
         UserDto userDto = userMapper.userToDto(user);
         System.err.println(userDto);
         model.addAttribute("user", userDto);
+        model.addAttribute("discount", user.getDiscounts());
         return "UserPage";
     }
 

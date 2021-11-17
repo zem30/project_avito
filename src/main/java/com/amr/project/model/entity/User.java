@@ -135,4 +135,32 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", email='" + email + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", activate=" + activate +
+                ", activationCode='" + activationCode + '\'' +
+                ", phone='" + phone + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", age=" + age +
+                ", address=" + address +
+                ", roles=" + roles +
+                ", gender=" + gender +
+                ", birthday=" + birthday +
+                ", images=" + images +
+                ", coupons=" + coupons +
+                ", cartItems=" + cartItems +
+                ", orders=" + orders +
+                ", reviews=" + reviews +
+                ", shops=" + shops +
+                ", favorite=" + favorite +
+                ", discounts=" + discounts +
+                '}';
+    }
 }

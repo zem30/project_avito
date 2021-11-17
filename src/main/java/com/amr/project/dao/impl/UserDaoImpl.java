@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -46,5 +47,13 @@ public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao
                 "select u from User u join u.roles r where r.name=:role", User.class);
         query.setParameter("role", role);
         return query.getResultList();
+    }
+
+    @Override
+    public int deactivateUser(long id) {
+        Query query = entityManager.createQuery(
+                "update User set activate = false where id =:id")
+                .setParameter("id", id);
+       return query.executeUpdate();
     }
 }
