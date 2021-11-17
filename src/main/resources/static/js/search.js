@@ -1,6 +1,7 @@
 function search(items, searchInput) {
     console.log(searchInput.value)
     let logs = ``;
+
     let isEmpty = true;
     items.forEach((i) => {
         if (i.name === searchInput.value || searchInput.value === '') {

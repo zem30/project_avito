@@ -4,16 +4,14 @@ import com.amr.project.AbstractApiTest;
 import com.amr.project.converter.ReviewMapper;
 import com.amr.project.model.dto.ReviewDto;
 import com.amr.project.model.entity.Review;
+import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ReviewService;
 import com.github.database.rider.core.api.dataset.DataSet;
 import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-
-import java.text.SimpleDateFormat;
 
 import static org.assertj.core.util.DateUtil.now;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -21,7 +19,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-@DataJpaTest
+
 class ReviewRestControllerTest extends AbstractApiTest {
 
     private final static String ADD_REVIEW_FOR_ITEM_URL = "/api/review/item";
@@ -33,52 +31,80 @@ class ReviewRestControllerTest extends AbstractApiTest {
 
     private final ReviewService reviewService;
     private final ReviewMapper reviewMapper;
+    private final ItemService itemService;
+
 
     @Autowired
-    public ReviewRestControllerTest(ReviewService reviewService, ReviewMapper reviewMapper) {
+    public ReviewRestControllerTest(ReviewService reviewService, ReviewMapper reviewMapper, ItemService itemService) {
         this.reviewService = reviewService;
         this.reviewMapper = reviewMapper;
+        this.itemService = itemService;
     }
 
     @Test
     @WithMockUser(username = "user6_username")
-    @DataSet(cleanBefore = true, value = "datasets/Review.xml")
-    @ExpectedDataSet(value = "datasets/expected/reviewExpected.xml")
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
+    @ExpectedDataSet(value = "datasets/expected/review/reviewItemExpected.xml")
     void shouldBeAddReviewItem() throws Exception {
         ReviewDto reviewDto = ReviewDto.builder()
                 .dignity("dignity_review_user6")
+                .date(now())
                 .flaw("flaw_review_user6")
                 .text("text_review_user6")
-                .date(new SimpleDateFormat("dd.MM.yyyy").parse("15.11.2021"))
                 .rating(4)
                 .itemName("item1")
-                .isModerated(false)
-                .isModerateAccept(false)
-                .moderatedRejectReason(null)
-                .logo(null)
-                .shopName(null)
                 .build();
         Review review = reviewMapper.dtoToReview(reviewDto);
         mvc.perform(post(ADD_REVIEW_FOR_ITEM_URL)
-                                .content(asJsonString(review))
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON))
+                        .content(asJsonString(review))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+
+    @Test
+    @WithMockUser(username = "user6_username")
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
+    @ExpectedDataSet(value = "datasets/expected/review/reviewShopExpected.xml")
+    void shouldBeAddReviewShop() throws Exception {
+        ReviewDto reviewDto = ReviewDto.builder()
+                .dignity("dignity_review_user6")
+                .date(now())
+                .flaw("flaw_review_user6")
+                .text("text_review_user6")
+                .rating(4)
+                .shopName("shop1")
+                .build();
+        Review review = reviewMapper.dtoToReview(reviewDto);
+        mvc.perform(post(ADD_REVIEW_FOR_SHOP_URL)
+                        .content(asJsonString(review))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
+    @WithMockUser(username = "user6_username")
     void notShouldBeAddReviewItem() throws Exception {
         ReviewDto reviewDto = ReviewDto.builder()
-                .dignity("dignity_review_user4")
-                .text("text_review_user4")
+                .dignity("dignity_review_user6")
                 .date(now())
+                .text("text_review_user6")
                 .rating(4)
                 .itemName("item1")
-                .isModerated(false)
-                .isModerateAccept(false)
-                .moderatedRejectReason(null)
-                .logo(null)
                 .build();
         Review review = reviewMapper.dtoToReview(reviewDto);
         mvc.perform(
@@ -90,54 +116,35 @@ class ReviewRestControllerTest extends AbstractApiTest {
                 .andExpect(status().isBadRequest());
     }
 
-    @Test
-    void shouldBeAddReviewShop() throws Exception {
-        ReviewDto reviewDto = ReviewDto.builder()
-                .dignity("dignity_review_user4")
-                .flaw("flaw_review_user4")
-                .text("text_review_user4")
-                .date(now())
-                .rating(4)
-                .itemName("shop1")
-                .isModerated(false)
-                .isModerateAccept(false)
-                .moderatedRejectReason(null)
-                .logo(null)
-                .build();
-        Review review = reviewMapper.dtoToReview(reviewDto);
-        mvc.perform(
-                        post(ADD_REVIEW_FOR_SHOP_URL)
-                                .content(asJsonString(review))
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON))
-                .andDo(print())
-                .andExpect(status().isOk());
-    }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
+    @WithMockUser(username = "user6_username")
     void notShouldBeAddReviewShop() throws Exception {
         ReviewDto reviewDto = ReviewDto.builder()
-                .flaw("flaw_review_user4")
-                .text("text_review_user4")
                 .date(now())
+                .flaw("flaw_review_user6")
+                .text("text_review_user6")
                 .rating(4)
-                .itemName("shop1")
-                .isModerated(false)
-                .isModerateAccept(false)
-                .moderatedRejectReason(null)
-                .logo(null)
+                .shopName("shop1")
                 .build();
         Review review = reviewMapper.dtoToReview(reviewDto);
-        mvc.perform(
-                        post(ADD_REVIEW_FOR_SHOP_URL)
-                                .content(asJsonString(review))
-                                .contentType(MediaType.APPLICATION_JSON)
-                                .accept(MediaType.APPLICATION_JSON))
+        mvc.perform(post(ADD_REVIEW_FOR_SHOP_URL)
+                        .content(asJsonString(review))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isBadRequest());
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml", "datasets/expected/review/reviewOneExpected.xml",},
+            cleanBefore = true, useSequenceFiltering = false)
     void shouldBeGetReviewById() throws Exception {
         mvc.perform(get(GET_REVIEW_BY_ID_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -146,6 +153,11 @@ class ReviewRestControllerTest extends AbstractApiTest {
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/shop/Shop.xml", "datasets/Item.xml",
+            "datasets/Favorite.xml", "datasets/review/ReviewShops.xml",},
+            cleanBefore = true, useSequenceFiltering = false)
     void shouldBeGetAllReviewItems() throws Exception {
         mvc.perform(get(GET_ALL_ITEMS_REVIEW_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -154,6 +166,11 @@ class ReviewRestControllerTest extends AbstractApiTest {
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml", "datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml", "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/shop/Shop.xml", "datasets/Item.xml",
+            "datasets/Favorite.xml", "datasets/review/ReviewShops.xml",},
+            cleanBefore = true, useSequenceFiltering = false)
     void shouldBeGetAllReviewShops() throws Exception {
         mvc.perform(get(GET_ALL_SHOPS_REVIEW_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))

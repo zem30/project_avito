@@ -15,7 +15,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = {ProjectApplication.class})
-@DataJpaTest
 @AutoConfigureMockMvc
 @DBRider
 @DBUnit(allowEmptyFields = true)

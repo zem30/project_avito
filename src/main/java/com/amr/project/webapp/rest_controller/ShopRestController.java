@@ -14,12 +14,16 @@ import lombok.NonNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/shop_api")
@@ -28,11 +32,10 @@ import java.util.List;
 public class ShopRestController {
 
     private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-    private final ShopMapper shopMapper;
     private final UserService userService;
+    private final ShopMapper shopMapper;
     private final ShopService shopService;
     private final ShopMapper shopConverter;
-    private final UserRepository userRepository;
 
     @GetMapping("/{name}")
     public ResponseEntity<ShopDto> getShop(@PathVariable @NonNull String name) {
@@ -42,9 +45,9 @@ public class ShopRestController {
 
     @PostMapping("/")
     @ApiOperation(value = "Добавляет новый магазин")
-    public ResponseEntity<ShopDto> addShop(@Valid @RequestBody ShopDto shopDto) {
+    public ResponseEntity<ShopDto> addShop(Principal principal, @Valid @RequestBody ShopDto shopDto) {
         Shop shop = shopMapper.dtoToShop(shopDto);
-        User user = userService.getAuthorized();
+        User user = userService.findByUsername(principal.getName());
         shop.setUser(user);
         List<Shop> shops = new ArrayList<>(user.getShops());
         shops.add(shop);
