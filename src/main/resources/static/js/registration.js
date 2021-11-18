@@ -138,32 +138,36 @@ close_btn_click();
 
 // проверка на аутентификацию
 function sendLogin() {
-    event.preventDefault()
     let user = {
         username: $('#SignInUsername').val(),
         password: $('#SignInPassword').val()
     }
-    fetch(url + '/login', {
-        method: 'POST',
-        body: JSON.stringify(user),
-        headers: {
-            'Content-Type': 'application/json'
-        }
-    })
-        .then(response => {
-            console.log(response)
-            if (response.status >= 200 && response.status < 300) {
-                window.location.replace(response.url)
-            } else {
-                document.getElementById('ifError').innerText = `О нет, чувак, логин или пароль введены неверно (или еще что-то пошло не так). Вот код статуса ответа: ${response.status}, разбирайся.`
-                $('#ifError').show()
+    if (user.username === "" || user.password === "") {
+        $('#ifError').hide()
+        $('#ifEmpty').show()
+    } else {
+        fetch(url + '/login', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
             }
         })
-        .catch(e => {
-            document.getElementById('ifError').innerText = "А это окно говорит, что что-то посерьезней случилось. Консоль почитай."
-            $('#ifError').show()
-            console.error(e)
-        })
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    window.location.replace(response.url)
+                } else {
+                    document.getElementById('ifError').innerText = `О нет, чувак, логин или пароль введены неверно (или еще что-то пошло не так). Вот код статуса ответа: ${response.status}, разбирайся.`
+                    $('#ifEmpty').hide()
+                    $('#ifError').show()
+                }
+            })
+            .catch(e => {
+                document.getElementById('ifError').innerText = "А это окно говорит, что что-то посерьезней случилось. Консоль почитай."
+                $('#ifError').show()
+                console.error(e)
+            })
+    }
 }
 
 //form login
@@ -181,18 +185,20 @@ let form_login = `<div class="modal-dialog">
                         </div>
                         <div class="alert alert-danger" role="alert" style="display: none" id="ifError">
                             Введены неправильные данные!
-                        </div>          
+                        </div>
+                        <div class="alert alert-warning" role="alert" style="display: none" id="ifEmpty">
+                            Не не не, заполняем поля, пожалуйста!
+                        </div>
                         <div class="modal-body">
-                            <form>
                                 <div class="mb-3">
                                     <label for="SignInUsername" class="form-label">Имя пользователя</label>
                                     <input type="text" placeholder="Username" class="form-control"
-                                           id="SignInUsername" name="username" required>
+                                           id="SignInUsername" name="username">
                                 </div>
                                 <div class="mb-3">
                                     <label for="SignInPassword" class="form-label">Пароль</label>
                                     <input type="password" placeholder="Password" class="form-control"
-                                           id="SignInPassword" name="password" required>
+                                           id="SignInPassword" name="password">
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                                name="remember-me">
@@ -204,7 +210,6 @@ let form_login = `<div class="modal-dialog">
                                         <button type="submit" class="btn btn-warning" onclick="sendLogin()">Войти</button>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                         <div class="modal-footer">
                             <a id="registrationButtonModal" class="input-button-registration" href="#">Зарегистрироваться</a>
