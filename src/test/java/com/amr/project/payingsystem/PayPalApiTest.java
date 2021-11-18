@@ -2,10 +2,14 @@ package com.amr.project.payingsystem;
 
 import com.amr.project.webapp.paypalsettings.PayPalOrderResponse;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.*;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * User: Hajimurad Suleymanov
@@ -18,6 +22,8 @@ import java.util.List;
  */
 
 public class PayPalApiTest {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PayPalApiTest.class);
 
     private static final String BASE_URL = "https://api.sandbox.paypal.com";
     private static final String GET_ORDER_API = "/v2/checkout/orders/";
@@ -41,9 +47,8 @@ public class PayPalApiTest {
                 requestURL, HttpMethod.GET, request, PayPalOrderResponse.class);
         PayPalOrderResponse orderResponse = response.getBody();
 
-        assert orderResponse != null;
-        System.out.println("Order ID: " + orderResponse.getId());
-        System.out.println("Validated: " + orderResponse.validate(orderId));
-
+        assertNotNull(orderResponse);
+        LOGGER.info("Order ID: " + orderResponse.getId());
+        LOGGER.info("Validated: " + orderResponse.validate(orderId));
     }
 }

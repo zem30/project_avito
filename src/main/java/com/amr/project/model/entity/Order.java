@@ -18,6 +18,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class Order {
 
     @Id
