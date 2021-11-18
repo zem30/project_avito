@@ -38,6 +38,11 @@
                     <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
                             data-toggle="modal" data-target="#staticBackdrop">Войти
                     </button>
+                    </form>
+                    <form method="get" action="/newAdvert" class="btn_advert">
+                        <button sec:authorize="isAuthenticated()" class="btn btn-outline-primary" type="submit">Новое объявление
+                        </button>
+                    </form>
                     <form method="get" action="/logout" class="btn_danger_out">
                         <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                         </button>
