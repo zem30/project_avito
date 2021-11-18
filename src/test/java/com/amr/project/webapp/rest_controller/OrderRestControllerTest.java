@@ -16,7 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @AutoConfigureMockMvc
 @SpringBootTest
-@DataSet(cleanBefore = true, value = "dataset/Orders.xml")
+@DataSet(cleanBefore = true, value = "datasets/Orders.xml")
 public class OrderRestControllerTest {
 
     @Autowired
