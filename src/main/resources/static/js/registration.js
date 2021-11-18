@@ -1,3 +1,4 @@
+const url = 'http://localhost:8888'
 const userService = {
     head: {
         'Accept': 'application/json',
@@ -110,6 +111,8 @@ function login_btn_click(){
 }
 login_btn_click();
 
+
+
 //form-registration
 function registration_click(){
     $(document).on("click", ".input-button-registration", function (){
@@ -133,6 +136,36 @@ function close_btn_click(){
 }
 close_btn_click();
 
+// проверка на аутентификацию
+function sendLogin() {
+    event.preventDefault()
+    let user = {
+        username: $('#SignInUsername').val(),
+        password: $('#SignInPassword').val()
+    }
+    fetch(url + '/login', {
+        method: 'POST',
+        body: JSON.stringify(user),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    })
+        .then(response => {
+            console.log(response)
+            if (response.status >= 200 && response.status < 300) {
+                window.location.replace(response.url)
+            } else {
+                document.getElementById('ifError').innerText = `О нет, чувак, логин или пароль введены неверно (или еще что-то пошло не так). Вот код статуса ответа: ${response.status}, разбирайся.`
+                $('#ifError').show()
+            }
+        })
+        .catch(e => {
+            document.getElementById('ifError').innerText = "А это окно говорит, что что-то посерьезней случилось. Консоль почитай."
+            $('#ifError').show()
+            console.error(e)
+        })
+}
+
 //form login
 // language=HTML
 let form_login = `<div class="modal-dialog">
@@ -146,19 +179,20 @@ let form_login = `<div class="modal-dialog">
                                        alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
                               </div>
                         </div>
-          
+                        <div class="alert alert-danger" role="alert" style="display: none" id="ifError">
+                            Введены неправильные данные!
+                        </div>          
                         <div class="modal-body">
-                            <form method="post" action="/index">
+                            <form>
                                 <div class="mb-3">
                                     <label for="SignInUsername" class="form-label">Имя пользователя</label>
                                     <input type="text" placeholder="Username" class="form-control"
-                                           id="SignInUsername" name="username">
-                                    <div id="emailHelp" class="form-text"></div>
+                                           id="SignInUsername" name="username" required>
                                 </div>
                                 <div class="mb-3">
                                     <label for="SignInPassword" class="form-label">Пароль</label>
                                     <input type="password" placeholder="Password" class="form-control"
-                                           id="SignInPassword" name="password">
+                                           id="SignInPassword" name="password" required>
                                     <div class="form-check">
                                         <input class="form-check-input" type="checkbox" id="flexCheckDefault"
                                                name="remember-me">
@@ -167,7 +201,7 @@ let form_login = `<div class="modal-dialog">
                                         </label>
                                     </div>
                                     <div class="button-in">
-                                        <button type="submit" class="btn btn-warning">Войти</button>
+                                        <button type="submit" class="btn btn-warning" onclick="sendLogin()">Войти</button>
                                     </div>
                                 </div>
                             </form>

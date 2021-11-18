@@ -1,6 +1,7 @@
 package com.amr.project.webapp.security.config;
 
 import com.amr.project.webapp.handler.SuccessHandler;
+import com.amr.project.webapp.security.filter.CustomUsernamePasswordAuthenticationFilter;
 import com.amr.project.webapp.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -14,9 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
@@ -30,11 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomUsernamePasswordAuthenticationFilter customFilter = new CustomUsernamePasswordAuthenticationFilter();
+        customFilter.setAuthenticationManager(authenticationManager());
+        customFilter.setAuthenticationSuccessHandler(successHandler);
 
         http
                 .csrf().disable()
-                .formLogin().loginPage("/homepage").permitAll()
-                .loginProcessingUrl("/index")
+                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin().loginPage("/").permitAll()
+                .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .and()
                 .rememberMe().userDetailsService(userDetailsService)
