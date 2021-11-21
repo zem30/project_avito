@@ -109,6 +109,7 @@ function basket_plus_click(){
         } else {
             let data = {}
             send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+            alert('Добавлено в корзину')
         }
     })
     $(document).on("click", ".basket-plus-button", function (e) {
