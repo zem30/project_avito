@@ -21,4 +21,6 @@ public class AdvertDto {
     private String email;
     private List<CategoryDto>categories;
     private User user;
+    private String[] categoriesName;
+    private boolean isPretendentToBeDeleted;
 }

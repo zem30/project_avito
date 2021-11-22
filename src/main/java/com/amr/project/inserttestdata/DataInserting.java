@@ -53,6 +53,8 @@ public class DataInserting {
     private final CouponRepository couponRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final AdvertRepository advertRepository;
     @PostConstruct
     public void init() throws IOException {
 //---------------------------------------------------------------Roles
