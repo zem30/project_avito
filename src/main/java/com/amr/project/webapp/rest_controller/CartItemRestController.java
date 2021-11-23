@@ -25,14 +25,12 @@ public class CartItemRestController {
 
     @PostMapping("")
     public List<Item> getCartItems(@RequestBody User user){
-        List<Item> items = itemService.getAllItem(user);
-        return items;
+        return itemService.getAllItem(user);
     }
 
     @GetMapping("/user")
     public List<CartItem> getUserCartItem(){
-        List<CartItem> cartItemList = cartItemService.getCartItemByUserAuthorized();
-        return cartItemList;
+        return cartItemService.getCartItemByUserAuthorized();
     }
     @PostMapping("/user")
     public ResponseEntity addCookiesCartItem(@RequestBody User user){
