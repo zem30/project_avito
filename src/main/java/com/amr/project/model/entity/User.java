@@ -52,7 +52,7 @@ public class User implements UserDetails {
     @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id",referencedColumnName = "id")
     private Address address;
 
