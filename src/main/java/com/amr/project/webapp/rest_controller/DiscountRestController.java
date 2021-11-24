@@ -9,6 +9,7 @@ import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import com.amr.project.model.enums.Status;
 import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.impl.DiscountServiceImpl;
 import com.amr.project.service.impl.UserServiceImpl;
@@ -36,11 +37,30 @@ public class DiscountRestController {
     private final DiscountMapper discountMapper;
     private final ShopMapper shopMapper;
 
-
-    @ApiOperation(value = "Получаем всех пользователей с ролью \"Пользователь\" ")
+    @ApiOperation(value = "Получаем всех пользователей с ролью \"Пользователь\"")
     @GetMapping("/userlist/all")
     public ResponseEntity<List<UserDto>> findAllUsersWithRoleUser() {
         return ResponseEntity.ok(userService.findByRole("User")
+                .stream()
+                .map(userMapper::userToDto)
+                .collect(Collectors.toList()));
+    }
+
+    @ApiOperation(value = "Получаем всех пользователей с наличием хотя бы одной покупки")
+    @GetMapping("/userlist/allbuyers")
+    public ResponseEntity<List<UserDto>> findAllBuyers() {
+        return ResponseEntity.ok(userService.findByStatusOrder(Status.COMPLETE)
+                .stream()
+                .map(userMapper::userToDto)
+                .collect(Collectors.toList()));
+    }
+
+    @ApiOperation(value = "Получаем всех пользователей с наличием хотя бы одной покупки " +
+            "в магазинах пользователя c User.id = {id}")
+    @GetMapping("/userlist/{id}/allbuyers")
+    public ResponseEntity<List<UserDto>> findByStatusOrderAndShopOwnerUser(@PathVariable("id") long id) {
+        User user = userService.getUserId(id);
+        return ResponseEntity.ok(userService.findByStatusOrderAndShopOwnerUser(Status.COMPLETE, user)
                 .stream()
                 .map(userMapper::userToDto)
                 .collect(Collectors.toList()));

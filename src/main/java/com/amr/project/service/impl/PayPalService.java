@@ -11,6 +11,7 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Arrays;
+import java.util.List;
 
 /**
  * User: Hajimurad Suleymanov
@@ -23,7 +24,8 @@ public class PayPalService implements PaymentService {
 
     private SettingService settingService;
 
-    private static final String GET_ORDER_API = ".../orders/";
+    // Подробнее: https://developer.paypal.com/docs/api/orders/v2/
+    private static final String GET_ORDER_API = "v2/checkout/orders/";
 
     @Override
     public boolean validateOrder(String orderId) {
@@ -54,7 +56,7 @@ public class PayPalService implements PaymentService {
         String requestURL = baseURL + GET_ORDER_API + orderId;
 
         HttpHeaders headers = new HttpHeaders();
-        headers.setAccept(Arrays.asList(MediaType.APPLICATION_JSON));
+        headers.setAccept(List.of(MediaType.APPLICATION_JSON));
         headers.add("Accept-Language", "ru_RU");
         headers.setBasicAuth(clientId, clientSecret);
 

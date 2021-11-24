@@ -13,13 +13,13 @@ import java.util.List;
 @Api(tags = {"API для работы с панелью администратора"})
 public class AdminControllerRest {
 
-    private CategoryService categoryService;
-    private ShopService shopService;
-    private UserService userService;
-    private ItemService itemService;
-    private CityService cityService;
-    private CountryService countryService;
-    private AddressService addressService;
+    private final CategoryService categoryService;
+    private final ShopService shopService;
+    private final UserService userService;
+    private final ItemService itemService;
+    private final CityService cityService;
+    private final CountryService countryService;
+    private final AddressService addressService;
 
     @Autowired
     public AdminControllerRest(CategoryService categoryService, ShopService shopService, UserService userService,

@@ -1,7 +1,6 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ShopMapper;
-import com.amr.project.inserttestdata.repository.ShopRepository;
 import com.amr.project.inserttestdata.repository.UserRepository;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
@@ -58,18 +57,13 @@ public class ShopRestController {
         return ResponseEntity.ok().build();
     }
 
-    //8888
     @GetMapping("/shops")
     public List<ShopDto> getAllShop() {
-        List<ShopDto> shopDtoList = shopService.getAllShopsRatingSort();
-        return shopDtoList;
+        return shopService.getAllShopsRatingSort();
     }
 
-    //8888
     @GetMapping("/shop/{id}")
     public ShopDto shop(@PathVariable("id") long id) {
-        ShopDto shopDto = shopService.getShopId(id);
-        return shopDto;
+        return shopService.getShopId(id);
     }
-
 }

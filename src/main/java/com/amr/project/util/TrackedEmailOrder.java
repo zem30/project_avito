@@ -21,6 +21,7 @@ public class TrackedEmailOrder {
     }
 
     public Mail trackedEmailOrderUpdate(Order order) {
+
         Mail mail = new Mail();
         Order orderOriginal = trackedEmailService.getOrderDao().getByKey(order.getId());
         String message = "";

@@ -9,6 +9,7 @@ import com.amr.project.service.abstracts.SettingService;
 import com.amr.project.webapp.paypalsettings.CurrencySettingBag;
 import com.amr.project.webapp.paypalsettings.PaymentSettingBag;
 import org.springframework.stereotype.Service;
+
 import javax.transaction.Transactional;
 import java.util.List;
 
@@ -43,5 +44,11 @@ public class SettingServiceImpl implements SettingService {
     @Override
     public PaymentSettingBag getPaymentSettings() {
         List<Setting> settings = settingRepository.findByCategory(PaymentCategory.PAYMENT);
-        return new PaymentSettingBag(settings);    }
+        return new PaymentSettingBag(settings);
+    }
+
+    @Override
+    public void saveAll(Iterable<Setting> settings) {
+        settingRepository.saveAll(settings);
+    }
 }
