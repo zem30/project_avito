@@ -90,4 +90,11 @@ public class UserPageController {
         model.addAttribute("user",userDto);
         return "user-orders";
     }
+
+    @GetMapping("/user-reports")
+    public String getUserReports(Model model){
+        UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        model.addAttribute("user",userDto);
+        return "reports";
+    }
 }

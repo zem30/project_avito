@@ -1,7 +1,6 @@
 package com.amr.project.webapp.security.config;
 
 import com.amr.project.webapp.handler.SuccessHandler;
-import com.amr.project.webapp.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -20,7 +19,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
-
     private final SuccessHandler successHandler;
 
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessHandler successHandler) {
@@ -42,12 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
-//                .antMatchers("/", "/shop/item/**", "/registration", "/**",
-//                        "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
-//                .antMatchers("/admin/**").hasAuthority("ADMIN")
-//                .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
-//                .antMatchers("/js/**","/css/**").permitAll()
-//                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .and()
@@ -67,7 +59,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     @Override
-    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+    public void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 

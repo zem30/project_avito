@@ -20,7 +20,7 @@ public class TrackedEmailItem {
         Mail mail = new Mail();
 
         //Delete
-        if (item.isPretendentToBeDeleted() == true) {
+        if (item.isPretendentToBeDeleted()) {
             String message = "Товар удален: " + item.getName() + "в магазине " + item.getShop().getEmail();
             mail.setTo(item.getShop().getEmail());
             mail.setMessage(message);
@@ -47,7 +47,6 @@ public class TrackedEmailItem {
             message += "description на " + item.getDescription() + ". ";
 
         List<Category> categories = item.getCategories();
-
         List<Category> categoryOriginal = trackedEmailService.getItemDao().getByKey(item.getId()).getCategories();
 
         for (Category category : categories) {
@@ -64,7 +63,6 @@ public class TrackedEmailItem {
 
         mail.setTo(item.getShop().getEmail());
         mail.setMessage(message.length() > 17 ? message : null);
-
         return mail;
     }
 
