@@ -1,6 +1,8 @@
 package com.amr.project.webapp.security.config;
 
 import com.amr.project.webapp.handler.SuccessHandler;
+import com.amr.project.webapp.security.filter.CustomUsernamePasswordAuthenticationFilter;
+import com.amr.project.webapp.security.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
@@ -13,12 +15,14 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final UserDetailsService userDetailsService;
+
     private final SuccessHandler successHandler;
 
     public SecurityConfig(@Qualifier("userDetailsServiceImpl") UserDetailsService userDetailsService, SuccessHandler successHandler) {
@@ -28,11 +32,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        CustomUsernamePasswordAuthenticationFilter customFilter = new CustomUsernamePasswordAuthenticationFilter();
+        customFilter.setAuthenticationManager(authenticationManager());
+        customFilter.setAuthenticationSuccessHandler(successHandler);
 
         http
                 .csrf().disable()
-                .formLogin().loginPage("/homepage").permitAll()
-                .loginProcessingUrl("/index")
+                .addFilterBefore(customFilter, UsernamePasswordAuthenticationFilter.class)
+                .formLogin().loginPage("/").permitAll()
+                .loginProcessingUrl("/login")
                 .successHandler(successHandler)
                 .and()
                 .rememberMe().userDetailsService(userDetailsService)
@@ -40,6 +48,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**").permitAll()
+//                .antMatchers("/", "/shop/item/**", "/registration", "/**",
+//                        "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
+//                .antMatchers("/admin/**").hasAuthority("ADMIN")
+//                .antMatchers("/moderator/**").hasAnyAuthority("MODERATOR", "ADMIN")
+//                .antMatchers("/js/**","/css/**").permitAll()
+//                .anyRequest().authenticated()
                 .and()
                 .oauth2Login()
                 .and()
