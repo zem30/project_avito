@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -53,7 +52,7 @@ public class User implements UserDetails {
     @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id",referencedColumnName = "id")
     @ToString.Exclude
     private Address address;
@@ -110,12 +109,6 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<Discount> discounts;
 
-    public User(String email, String username, String password) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles;
@@ -146,32 +139,4 @@ public class User implements UserDetails {
         this.email = email;
         this.username = username;
     }
-
-//    @Override
-//    public String toString() {
-//        return "User{" +
-//                "id=" + id +
-//                ", email='" + email + '\'' +
-//                ", username='" + username + '\'' +
-//                ", password='" + password + '\'' +
-//                ", activate=" + activate +
-//                ", activationCode='" + activationCode + '\'' +
-//                ", phone='" + phone + '\'' +
-//                ", firstName='" + firstName + '\'' +
-//                ", lastName='" + lastName + '\'' +
-//                ", age=" + age +
-//                ", address=" + address +
-//                ", roles=" + roles +
-//                ", gender=" + gender +
-//                ", birthday=" + birthday +
-//                ", images=" + images +
-//                ", coupons=" + coupons +
-//                ", cartItems=" + cartItems +
-//                ", orders=" + orders +
-//                ", reviews=" + reviews +
-//                ", shops=" + shops +
-//                ", favorite=" + favorite +
-//                ", discounts=" + discounts +
-//                '}';
-//    }
 }

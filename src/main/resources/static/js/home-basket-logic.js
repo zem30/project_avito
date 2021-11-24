@@ -91,6 +91,7 @@ function basket_cookie_name(){
 
 }
 //прибавить количество товара
+let itemCount;
 function basket_plus_click(){
     const plus = (id) => {
         let cookie_value = getCookie(id + "basket")
@@ -101,14 +102,24 @@ function basket_plus_click(){
             document.cookie = id + "basket" + "=" + 1 + "; path=/";
         }
     }
-    $(document).on("click", ".basket-plus-div", function (e) {
+    $(document).on("click", ".basket-plus-div", async function (e) {
         let id = e.target.id
-        let user_tag = document.getElementById("userTag");
-        if (user_tag === null) {
-            plus(id);
+        await fetch("http://localhost:8888/shop/item/" + e.target.id)
+            .then(res => res.json())
+            .then(item => {
+                itemCount = item.count;
+            })
+        if (itemCount === 0 || itemCount === null) {
+            alert('Данного товара нет в наличии')
         } else {
-            let data = {}
-            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+            let user_tag = document.getElementById("userTag");
+            if (user_tag === null) {
+                plus(id);
+            } else {
+                let data = {}
+                send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+                alert('Добавлено в корзину')
+            }
         }
     })
     $(document).on("click", ".basket-plus-button", function (e) {

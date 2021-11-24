@@ -1,3 +1,4 @@
+let shopItems = "";
 // Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
@@ -57,34 +58,35 @@ async function findItems() {
     // обрабатываем нажатие кнопки поиска
 
     $(document.getElementById('searchHomePageButton')).on('click', async function () {
-        console.log(searchInput.value)
         await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
-                let logs = ``;
-                let isEmpty = true;
-                items.forEach((i) => {
-                    if (i.name === searchInput.value || searchInput.value === '') {
-                        isEmpty = false;
-                        logs += `<div class="item-div">
-                         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
-                         <h6>${i.name}</h6>
-                         <h6>${i.price}</h6>
-                         <p>${i.description}</p>
-                         <p class="star">★ ${Math.round(i.rating,2)}</p>
-                         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
-                         </div>`;
-                    }
-                })
-
-                // Проверка что нету предметов
-                if (isEmpty) {
-                    logs += `<h4>Ничего не найдено</h4>`
-                }
-
                 document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
+        await fetch("http://localhost:8888/shop_api/shops")
+            .then(res => res.json())
+            .then(async shops => {
+                let output = ``;
+                shops.forEach((s) => {
+                    s.items.forEach((item) => {
+                        shopItems += item.name.toLowerCase() + ",";
+                    })
+                    console.log(shopItems);
+                    if (shopItems.includes(searchInput.value.toLowerCase())) {
+                        output += `<div class="shop-div">
+                        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
+                        <h6>${s.name}</h6>
+                        <p>${s.description}</p>
+                        <p class="star">★ ${Math.round(s.rating, 2)}</p>
+                        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                        </div>`;
+                    }
+                    shopItems = "";
+                })
+                document.querySelector(".shop-container").innerHTML = output;
+            })
     });
+
 }
 findItems();
 
@@ -97,21 +99,32 @@ function getCookie(name) {
 }
 
 //прибавить количество товара
+let itemCount;
 function basket_plus_click() {
-    $(document).on("click", ".basket-plus-div", function (e) {
-        let id = e.target.id;
-        let user_tag = document.getElementById("userTag");
-        if (user_tag === null) {
-            let cookie_value = getCookie(id + "basket")
-            if (cookie_value !== undefined) {
-                let value = Number(cookie_value) + 1;
-                document.cookie = id + "basket" + "=" + value + "; path=/";
-            } else {
-                document.cookie = id + "basket" + "=" + 1 + "; path=/";
-            }
+    $(document).on("click", ".basket-plus-div", async function (e) {
+        await fetch("http://localhost:8888/shop/item/" + e.target.id)
+            .then(res => res.json())
+            .then(item => {
+                itemCount = item.count;
+            })
+        if (itemCount === 0 || itemCount === null){
+            alert('Данного товара нет в наличии')
         } else {
-            let data = {}
-            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+            let id = e.target.id;
+            let user_tag = document.getElementById("userTag");
+            if (user_tag === null) {
+                let cookie_value = getCookie(id + "basket")
+                if (cookie_value !== undefined) {
+                    let value = Number(cookie_value) + 1;
+                    document.cookie = id + "basket" + "=" + value + "; path=/";
+                } else {
+                    document.cookie = id + "basket" + "=" + 1 + "; path=/";
+                }
+            } else {
+                let data = {}
+                send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+                alert('Добавлено в корзину')
+            }
         }
     })
 }

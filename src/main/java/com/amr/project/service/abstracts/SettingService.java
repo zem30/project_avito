@@ -1,5 +1,6 @@
 package com.amr.project.service.abstracts;
 
+import com.amr.project.model.entity.Setting;
 import com.amr.project.webapp.paypalsettings.CurrencySettingBag;
 import com.amr.project.webapp.paypalsettings.PaymentSettingBag;
 
@@ -11,7 +12,8 @@ import com.amr.project.webapp.paypalsettings.PaymentSettingBag;
 
 public interface SettingService {
 
-    public CurrencySettingBag getCurrencySettings();
-    public String getCurrencyCode();
-    public PaymentSettingBag getPaymentSettings();
+     CurrencySettingBag getCurrencySettings();
+     String getCurrencyCode();
+     PaymentSettingBag getPaymentSettings();
+     void saveAll(Iterable<Setting> settings);
 }

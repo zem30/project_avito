@@ -176,6 +176,9 @@ public class DataInserting {
         File mouse2 =  ResourceUtils.getFile("classpath:static/images/items/mouse2.jpg");
         File mouse3 =  ResourceUtils.getFile("classpath:static/images/items/mouse3.jpg");
 
+        File hp1 =  ResourceUtils.getFile("classpath:static/images/items/hp1.jpg");
+        File hp2 =  ResourceUtils.getFile("classpath:static/images/items/hp2.jpg");
+        File hp3 =  ResourceUtils.getFile("classpath:static/images/items/hp3.jpg");
 
         byte[] array_admin_image = Files.readAllBytes(admin_image.toPath());
         byte[] array_moderator_image = Files.readAllBytes(moderator_image.toPath());
@@ -214,6 +217,9 @@ public class DataInserting {
         byte[] array_mouse2 = Files.readAllBytes(mouse2.toPath());
         byte[] array_mouse3 = Files.readAllBytes(mouse3.toPath());
 
+        byte[] array_hp1 = Files.readAllBytes(hp1.toPath());
+        byte[] array_hp2 = Files.readAllBytes(hp2.toPath());
+        byte[] array_hp3 = Files.readAllBytes(hp3.toPath());
 
         Image adminImage = Image.builder().picture(array_admin_image).isMain(true).build();
         Image moderatorImage = Image.builder().picture(array_moderator_image).isMain(true).build();
@@ -251,6 +257,10 @@ public class DataInserting {
         Image item6Image1 = Image.builder().picture(array_laptop1).isMain(true).build();
         Image item6Image2 = Image.builder().picture(array_laptop2).isMain(false).build();
         Image item6Image3 = Image.builder().picture(array_laptop3).isMain(false).build();
+
+        Image item7Image1 = Image.builder().picture(array_hp1).isMain(true).build();
+        Image item7Image2 = Image.builder().picture(array_hp2).isMain(false).build();
+        Image item7Image3 = Image.builder().picture(array_hp3).isMain(false).build();
 //---------------------------------------------------------------Admin + Moderator
         User admin1 = User.builder()
                 .email("admin1@mail")
@@ -610,8 +620,24 @@ public class DataInserting {
                 .images(List.of(item6Image1, item6Image2, item6Image3))
                 .reviews(null)
                 .count(600)
-                .rating(6.0)
+                .rating(5.0)
                 .description("Процессор Intel Core i510300H")
+                .discount(0)
+                .shop(predator)
+                .isModerated(false)
+                .isModerateAccept(false)
+                .moderatedRejectReason(null)
+                .isPretendentToBeDeleted(false)
+                .build();
+        Item item7 = Item.builder()
+                .name("HP 15s-eq2013ur 3B4T1EA")
+                .price(new BigDecimal("54999"))
+                .categories(List.of(categoryRepository.findByName("laptop")))
+                .images(List.of(item7Image1, item7Image2, item7Image3))
+                .reviews(null)
+                .count(0)
+                .rating(2.0)
+                .description("Процессор AMD Ryzen 5 5500U 2.1")
                 .discount(0)
                 .shop(predator)
                 .isModerated(false)
@@ -626,10 +652,11 @@ public class DataInserting {
         itemRepository.save(item4);
         itemRepository.save(item5);
         itemRepository.save(item6);
+        itemRepository.save(item7);
 //---------------------------------------------------------------Shop_Items
         mi.setItems(List.of(item1, item2));
         samsung.setItems(List.of(item3, item4));
-        predator.setItems(List.of(item5, item6));
+        predator.setItems(List.of(item5, item6, item7));
 
         shopRepository.save(mi);
         shopRepository.save(samsung);
@@ -767,6 +794,7 @@ public class DataInserting {
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
+                .itemCost(33333.00f)
                 .status(Status.START)
                 .address(user4_order.getAddress())
                 .total(itemRepository.findByName("True Wireless Beats Studio").getPrice().add(itemRepository.findByName("Mi Robot Vacuum-Mop").getPrice()))
@@ -777,6 +805,7 @@ public class DataInserting {
         Order order_user5 = Order.builder()
                 .items(List.of(user5_order_item1, user5_order_item2))
                 .date(GregorianCalendar.getInstance())
+                .itemCost(77777.00f)
                 .status(Status.START)
                 .address(user5_order.getAddress())
                 .total(user5_order_item1.getPrice().add(user5_order_item2.getPrice()))
@@ -787,6 +816,7 @@ public class DataInserting {
         Order order_user6 = Order.builder()
                 .items(List.of(user6_order_item1, user6_order_item2))
                 .date(GregorianCalendar.getInstance())
+                .itemCost(222221.00f)
                 .status(Status.START)
                 .address(user6_order.getAddress())
                 .total(user6_order_item1.getPrice().add(user6_order_item2.getPrice()))
