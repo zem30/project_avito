@@ -20,10 +20,15 @@ function createTableRow(u) {
     </tr>`;
 }
 
-function restartAllUser() {
-    let UserTableBody = $("#user_table_body")
+async function restartAllUser() {
+    let UserTableBody = $("#user_table_body");
     UserTableBody.children().remove();
-    fetch("/api/userlist/all")
+    let id;
+    await fetch("/getUser/")
+        .then(response => response.json())
+        .then(u => id = u.id)
+        .catch(e => console.error(e));
+    fetch("/api/userlist/" + id + "/allbuyers")
         .then((response) => {
             response.json().then(
                 data => data.forEach(function (item) {

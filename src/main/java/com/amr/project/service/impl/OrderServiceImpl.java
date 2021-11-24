@@ -41,6 +41,11 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
     }
 
     @Override
+    public Order getByKey(Long key) {
+        return super.getByKey(key);
+    }
+
+    @Override
     public void persist(Order order) {
         emailSenderService.sendSimpleEmail(trackedEmailOrder.trackedEmailOrderPersist(order));
         orderDao.persist(order);
@@ -140,7 +145,6 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
             order.setAddress(address);
         }
 
-        order.setTax(0.0f);
         order.setShippingCost(0.0f);
         order.setDeliverDate(checkOutInfo.getDeliverDate());
 

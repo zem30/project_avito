@@ -63,7 +63,7 @@ public class ItemRestController {
         item.setId(itemDto.getId());
         item.setShop(shopService.getShop(itemDto.getShopName()));
         item.setCategories(Arrays.stream(itemDto.getCategoriesName())
-                .map(category -> categoryService.getCategory(category))
+                .map(categoryService::getCategory)
                 .collect(Collectors.toList()));
         itemService.update(item);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
@@ -75,15 +75,9 @@ public class ItemRestController {
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
 
-//    @GetMapping("item/{id}")
-//    public ItemDto getItem(@PathVariable("id") long id){
-//        ItemDto itemDto = itemService.getItemDtoId(id);
-//        return itemDto;
-//    }
     @GetMapping("/items")
     public List<ItemDto> getAllItems(){
-        List<ItemDto> itemDtoList = itemService.getAllItemsRatingSort();
-        return itemDtoList;
+        return itemService.getAllItemsRatingSort();
     }
 }
 

@@ -17,13 +17,13 @@ async function shop_items() {
             shopRating = shop.rating
             shopName = shop.name;
             let logo = `<div class="shop-div">
-        <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
-        <h3>${shop.name}</h3>
-        <h3>${shop.location.name}</h3>
-        <div id="ratingShow"></div>
-        </div>`;
-                let text = `<div><h3>Самые популярные товары</h3></div>`
-                let items = ``;
+                <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
+                <h3>${shop.name}</h3>
+                <h3>${shop.location.name}</h3>
+                <div id="ratingShow"></div>
+                </div>`;
+            let text = `<div><h3>Самые популярные товары</h3></div>`
+            let items = ``;
                 shop.items.forEach((i) => {
                     items += `<div class="item-div">
         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
@@ -80,7 +80,6 @@ async function findShopItems() {
     });
 }
 
-
 //определить с какого контроллера зашли на страницу
 async function shop_or_item() {
     if (pathname.indexOf("basket") > -1) {
@@ -98,6 +97,51 @@ async function shop_or_item() {
         await getRatingHtml();
         await getRating(itemRating)
         await getItemReviews();
+        await findQuantityInShops();
     }
 }
 shop_or_item();
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+let tableBody;
+let tableHead = '<tr>';
+tableHead += '<th>Адрес</th>';
+tableHead += '<th>Наличие</th>';
+tableHead += '<th>Режим работы</th>';
+tableHead += '</tr>';
+
+async function findQuantityInShops(){
+    document.querySelector(".headForQuantity").innerHTML = '<h3>Наличие в магазинах</h3>';
+    document.querySelector(".quantity-table-head").innerHTML = tableHead;
+    await fetch("http://localhost:8888/shop_api/shops")
+        .then(res => res.json())
+        .then(shops => {
+            shops.forEach( (shop) => {
+                shop.items.forEach( (item) => {
+                    if (item.name === itemName){
+                        tableBody = '<tr>';
+                        tableBody += '<td>' + shop.location.name + '</td>';
+                        tableBody += '<td>' + paste(item.count) + '</td>';
+                        tableBody += '<td> Круглосуточно </td>';
+                        tableBody += '</tr>';
+                    }
+                    document.querySelector(".quantity-table-body").innerHTML = tableBody;
+                })
+            })
+        })
+}
+
+function paste(count){
+    if (count === 0) {
+        return 'не осталось';
+    } else if (count < 150) {
+        return  '<span title="мало"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    } else if (count > 150 && count < 450) {
+        return  '<span title="достаточно"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    } else {
+        return  '<span title="много"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    }
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

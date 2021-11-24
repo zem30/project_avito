@@ -7,7 +7,6 @@ import com.qiwi.billpayments.sdk.model.MoneyAmount;
 import com.qiwi.billpayments.sdk.model.in.CreateBillInfo;
 import com.qiwi.billpayments.sdk.model.in.Customer;
 import com.qiwi.billpayments.sdk.model.out.BillResponse;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
@@ -43,7 +42,7 @@ public class PaymentApi {
         }
         if (billResponse != null) {
             return billResponse.getPayUrl();
-        }else {
+        } else {
             return null;
         }
 

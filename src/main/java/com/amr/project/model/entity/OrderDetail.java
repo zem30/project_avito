@@ -2,9 +2,7 @@ package com.amr.project.model.entity;
 
 import lombok.*;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Data
@@ -28,5 +26,11 @@ public class OrderDetail {
     private String house;
     private String buyerName;
     private String buyerPhone;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Item item;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Order order;
 
 }

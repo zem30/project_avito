@@ -1,5 +1,6 @@
 package com.amr.project.model.entity;
 
+import com.amr.project.model.enums.PaymentMethod;
 import com.amr.project.model.enums.Status;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
@@ -17,6 +18,7 @@ import java.util.Date;
 @Setter
 @AllArgsConstructor
 @Builder
+@EqualsAndHashCode
 public class Order {
 
     @Id
@@ -25,6 +27,10 @@ public class Order {
 
     @Enumerated(EnumType.STRING)
     private Status status;
+
+    @Enumerated(EnumType.STRING)
+    private PaymentMethod paymentMethod;
+
     private BigDecimal total;
     private String buyerName;
     private String buyerPhone;
@@ -32,7 +38,6 @@ public class Order {
     private float shippingCost;
     private float itemCost;
     private float subtotal;
-    private float tax;
     private Date deliverDate;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)

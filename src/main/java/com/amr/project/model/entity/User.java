@@ -5,7 +5,6 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -20,6 +19,7 @@ import java.util.Set;
 @Getter
 @Setter
 @Builder
+@ToString
 public class User implements UserDetails {
 
     @Id
@@ -52,58 +52,62 @@ public class User implements UserDetails {
     @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id",referencedColumnName = "id")
+    @ToString.Exclude
     private Address address;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @ToString.Exclude
     private Set<Role> roles;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id",referencedColumnName = "id")
+    @ToString.Exclude
     private Image images;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_coupon",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
+    @ToString.Exclude
     private List<Coupon> coupons;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<CartItem> cartItems;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<Order> orders;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_review",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
+    @ToString.Exclude
     private List<Review> reviews;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
+    @ToString.Exclude
     private List<Shop> shops;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Favorite favorite;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(name = "user_discount",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
+    @ToString.Exclude
     private List<Discount> discounts;
-
-    public User(String email, String username, String password) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -130,37 +134,4 @@ public class User implements UserDetails {
         return activate;
     }
 
-    public User(Long id, String email, String username) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-    }
-
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", activate=" + activate +
-                ", activationCode='" + activationCode + '\'' +
-                ", phone='" + phone + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", age=" + age +
-                ", address=" + address +
-                ", roles=" + roles +
-                ", gender=" + gender +
-                ", birthday=" + birthday +
-                ", images=" + images +
-                ", coupons=" + coupons +
-                ", cartItems=" + cartItems +
-                ", orders=" + orders +
-                ", reviews=" + reviews +
-                ", shops=" + shops +
-                ", favorite=" + favorite +
-                ", discounts=" + discounts +
-                '}';
-    }
 }

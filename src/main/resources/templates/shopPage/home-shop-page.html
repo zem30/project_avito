@@ -75,8 +75,8 @@
         </div>
         <div class="col-10 home-shop-right-body" style="background: #e3e3e3">
         </div>
-        <div class="col-2 home-shop-left-body " style="background: #91a2bd">
-        </div>
+        <!-- For reviews -->
+        <div class="col-2 home-shop-left-body " style="background: #91a2bd"></div>
         <div class="col-10 home-shop-right-body reviews" style="background: #e3e3e3; padding-top: 10px">
             <div class="headReview">
                 <h3>
@@ -102,10 +102,22 @@
                     <tbody class="review-listing"></tbody>
                 </table>
             </div>
-            </div>
         </div>
-        <div th:replace="modal/userReviewAddForm"/>
+        <!-- For quantity -->
+        <div class="col-2 home-shop-left-body " style="background: #91a2bd"></div>
+        <div class="col-10 home-shop-right-body" style="background: #e3e3e3">
+            <!-- Start JS -->
+            <div class="headForQuantity"></div>
+            <div>
+                <table class="table table-striped">
+                    <thead class="quantity-table-head"></thead>
+                    <tbody class="quantity-table-body"></tbody>
+                </table>
+            </div>
+            <!-- End JS -->
+        </div>
     </div>
+    <div th:replace="modal/userReviewAddForm"/>
 </div>
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>

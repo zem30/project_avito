@@ -56,3 +56,9 @@
 .item-present.button {
     margin-left: 20px;
 }
+
+.imgForQuantity {
+    height: 35px;
+    width: 20px;
+    cursor: pointer;
+}
