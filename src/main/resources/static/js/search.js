@@ -1,5 +1,6 @@
 function search(items, searchInput) {
     let logs = ``;
+
     let isEmpty = true;
     items.forEach((i) => {
         if (i.name.toLowerCase().includes(searchInput.value.toLowerCase()) || searchInput.value === '') {

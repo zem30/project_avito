@@ -7,12 +7,14 @@ import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ShopService;
+import com.amr.project.service.abstracts.UserService;
+import com.github.database.rider.core.api.dataset.DataSet;
+import com.github.database.rider.core.api.dataset.ExpectedDataSet;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ResourceUtils;
 
 import java.io.File;
@@ -30,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Created by Veilas on 11/8/2021.
  * Class: ShopRestControllerTest.java
  */
-@Transactional
+
 public class ShopRestControllerTest extends AbstractApiTest {
 
     private final static String REGISTRATION_URL = "/shop_api/";
@@ -40,15 +42,20 @@ public class ShopRestControllerTest extends AbstractApiTest {
 
     private ShopMapper shopMapper;
     private ShopService shopService;
+    private UserService userService;
 
     @Autowired
-    public ShopRestControllerTest(ShopMapper shopMapper, ShopService shopService) {
+    public ShopRestControllerTest(ShopMapper shopMapper, ShopService shopService, UserService userService) {
         this.shopMapper = shopMapper;
         this.shopService = shopService;
+        this.userService = userService;
     }
 
-
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml","datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml",  "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml", "datasets/shop/Shop.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
     void getAllShopsTest() throws Exception {
         mvc.perform(get(GET_ALL_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -57,6 +64,10 @@ public class ShopRestControllerTest extends AbstractApiTest {
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml","datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml",  "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml", "datasets/shop/ShopOne.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
     void getShopByIdTest() throws Exception {
         mvc.perform(get(GET_SHOP_BY_ID_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -65,6 +76,10 @@ public class ShopRestControllerTest extends AbstractApiTest {
     }
 
     @Test
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml","datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml",  "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml", "datasets/shop/ShopOne.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
     void getShopByNameTest() throws Exception {
         mvc.perform(get(GET_SHOP_BY_NAME_URL))
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
@@ -74,9 +89,13 @@ public class ShopRestControllerTest extends AbstractApiTest {
 
     @Test
     @WithMockUser(username = "user6_username")
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml","datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml",  "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
+    @ExpectedDataSet(value = "datasets/expected/shopExpected.xml")
     void registrationNewShop_then200Status() throws Exception {
         Shop shop = shopMapper.dtoToShop(shopDto());
-
         mvc.perform(post(REGISTRATION_URL)
                         .content(asJsonString(shop))
                         .contentType(MediaType.APPLICATION_JSON)
@@ -87,6 +106,10 @@ public class ShopRestControllerTest extends AbstractApiTest {
 
     @Test
     @WithMockUser(username = "user1_username")
+    @DataSet(value = {"datasets/review/ReviewEmpty.xml","datasets/City.xml",
+            "datasets/Country.xml", "datasets/Address.xml",  "datasets/Image.xml",
+            "datasets/user/data/User.xml", "datasets/Favorite.xml"},
+            cleanBefore = true, useSequenceFiltering = false)
     void registrationNewShop_WrongValidation_then400Status() throws Exception {
         Shop shopWrong = shopMapper.dtoToShop(shopDtoWrong());
 
@@ -105,7 +128,7 @@ public class ShopRestControllerTest extends AbstractApiTest {
                 .description("desc_test")
                 .phone("88855535355")
                 .email("mail@test.r")
-                .rating(0)
+                .rating(1)
                 .username("user6_username")
                 .location(CountryDto.builder().id(1L).name("Russia").build())
                 .build();
@@ -119,7 +142,7 @@ public class ShopRestControllerTest extends AbstractApiTest {
                 .description("desc_test")
                 .phone("0")
                 .email("mail@test.r")
-                .rating(0)
+                .rating(1)
                 .username("user6_username")
                 .location(CountryDto.builder().id(1L).name("Russia").build())
                 .build();

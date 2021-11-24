@@ -11,8 +11,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.security.Principal;
 import java.sql.Date;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,10 +37,10 @@ public class ReviewRestController {
     private final RatingService ratingService;
 
     @PostMapping("/item")
-    public ResponseEntity<?> addReviewItem(@Valid @RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<?> addReviewItem(Principal principal, @Valid @RequestBody ReviewDto reviewDto) {
         Review review = reviewMapper.dtoToReview(reviewDto);
-        review.setDate(Date.valueOf(LocalDate.now()));
-        review.setUser(userService.getAuthorized());
+        review.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.of("Europe/Moscow")).toInstant()));
+        review.setUser(userService.findByUsername(principal.getName()));
         review.setItem(itemService.getItemName(reviewDto.getItemName()));
         review.setShop(null);
         List<Review> reviews = reviewService.getAll();
@@ -54,11 +56,11 @@ public class ReviewRestController {
     }
 
     @PostMapping("/shop")
-    public ResponseEntity<?> addReviewShop(@Valid @RequestBody ReviewDto reviewDto) {
+    public ResponseEntity<?> addReviewShop(Principal principal, @Valid @RequestBody ReviewDto reviewDto) {
         Review review = reviewMapper.dtoToReview(reviewDto);
-        review.setDate(Date.valueOf(LocalDate.now()));
+        review.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.of("Europe/Moscow")).toInstant()));
         review.setShop(shopService.getShop(reviewDto.getShopName()));
-        review.setUser(userService.getAuthorized());
+        review.setUser(userService.findByUsername(principal.getName()));
         review.setItem(null);
         List<Review> reviews = reviewService.getAll();
         for (Review r : reviews) {

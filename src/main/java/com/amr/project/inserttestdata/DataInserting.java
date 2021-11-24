@@ -11,10 +11,21 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
-import java.io.*;
+import java.io.File;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.util.*;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Set;
+
+import static java.time.LocalTime.now;
 
 @Component
 @AllArgsConstructor
@@ -53,8 +64,9 @@ public class DataInserting {
     private final CouponRepository couponRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+
     @PostConstruct
-    public void init() throws IOException {
+    public void init() throws IOException, ParseException {
 //---------------------------------------------------------------Roles
         Role roleAdmin = Role.builder().name("ADMIN").build();
         Role roleModerator = Role.builder().name("MODERATOR").build();
@@ -138,15 +150,43 @@ public class DataInserting {
                 .house("user6_street")
                 .build();
 //---------------------------------------------------------------Images
-        File admin_image =  ResourceUtils.getFile("classpath:static/images/users/admin_image.jpg");
-        File moderator_image =  ResourceUtils.getFile("classpath:static/images/users/moderator_image.jpg");
+        File admin_image = ResourceUtils.getFile("classpath:static/images/users/admin_image.jpg");
+        File moderator_image = ResourceUtils.getFile("classpath:static/images/users/moderator_image.jpg");
 
-        File user1_image =  ResourceUtils.getFile("classpath:static/images/users/user1_image.jpg");
-        File user2_image =  ResourceUtils.getFile("classpath:static/images/users/user2_image.jpg");
-        File user3_image =  ResourceUtils.getFile("classpath:static/images/users/user3_image.jpg");
-        File user4_image =  ResourceUtils.getFile("classpath:static/images/users/user4_image.jpg");
-        File user5_image =  ResourceUtils.getFile("classpath:static/images/users/user5_image.jpg");
-        File user6_image =  ResourceUtils.getFile("classpath:static/images/users/user6_image.jpg");
+        File user1_image = ResourceUtils.getFile("classpath:static/images/users/user1_image.jpg");
+        File user2_image = ResourceUtils.getFile("classpath:static/images/users/user2_image.jpg");
+        File user3_image = ResourceUtils.getFile("classpath:static/images/users/user3_image.jpg");
+        File user4_image = ResourceUtils.getFile("classpath:static/images/users/user4_image.jpg");
+        File user5_image = ResourceUtils.getFile("classpath:static/images/users/user5_image.jpg");
+        File user6_image = ResourceUtils.getFile("classpath:static/images/users/user6_image.jpg");
+
+        File shop1_image = ResourceUtils.getFile("classpath:static/images/shops/shop1_image.jpg");
+        File shop2_image = ResourceUtils.getFile("classpath:static/images/shops/shop2_image.jpg");
+        File shop3_image = ResourceUtils.getFile("classpath:static/images/shops/shop3_image.jpg");
+
+        File item1_image1 = ResourceUtils.getFile("classpath:static/images/items/item1_image1.jpg");
+        File item1_image2 = ResourceUtils.getFile("classpath:static/images/items/item1_image2.jpg");
+        File item1_image3 = ResourceUtils.getFile("classpath:static/images/items/item1_image3.jpg");
+
+        File item2_image1 = ResourceUtils.getFile("classpath:static/images/items/item2_image1.jpg");
+        File item2_image2 = ResourceUtils.getFile("classpath:static/images/items/item2_image2.jpg");
+        File item2_image3 = ResourceUtils.getFile("classpath:static/images/items/item2_image3.jpg");
+
+        File item3_image1 = ResourceUtils.getFile("classpath:static/images/items/item3_image1.jpg");
+        File item3_image2 = ResourceUtils.getFile("classpath:static/images/items/item3_image2.jpg");
+        File item3_image3 = ResourceUtils.getFile("classpath:static/images/items/item3_image3.jpg");
+
+        File item4_image1 = ResourceUtils.getFile("classpath:static/images/items/item4_image1.jpg");
+        File item4_image2 = ResourceUtils.getFile("classpath:static/images/items/item4_image2.jpg");
+        File item4_image3 = ResourceUtils.getFile("classpath:static/images/items/item4_image3.jpg");
+
+        File item5_image1 = ResourceUtils.getFile("classpath:static/images/items/item5_image1.jpg");
+        File item5_image2 = ResourceUtils.getFile("classpath:static/images/items/item5_image2.jpg");
+        File item5_image3 = ResourceUtils.getFile("classpath:static/images/items/item5_image3.jpg");
+
+        File item6_image1 = ResourceUtils.getFile("classpath:static/images/items/item6_image1.jpg");
+        File item6_image2 = ResourceUtils.getFile("classpath:static/images/items/item6_image2.jpg");
+        File item6_image3 = ResourceUtils.getFile("classpath:static/images/items/item6_image3.jpg");
 
         File mi_image =  ResourceUtils.getFile("classpath:static/images/shops/mi.jpg");
         File predator_image =  ResourceUtils.getFile("classpath:static/images/shops/predator.png");
@@ -841,7 +881,7 @@ public class DataInserting {
                 .dignity("dignity_review_user4")
                 .flaw("flaw_review_user4")
                 .text("text_review_user4")
-                .date(GregorianCalendar.getInstance().getTime())
+                .date(Date.from(LocalDate.now().atStartOfDay(ZoneId.of("Europe/Moscow")).toInstant()))
                 .rating(4)
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
@@ -871,7 +911,7 @@ public class DataInserting {
                 .dignity("dignity_review_user5")
                 .flaw("flaw_review_user5")
                 .text("text_review_user5")
-                .date(GregorianCalendar.getInstance().getTime())
+                .date(Date.from(LocalDate.now().atStartOfDay(ZoneId.of("Europe/Moscow")).toInstant()))
                 .rating(5)
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
