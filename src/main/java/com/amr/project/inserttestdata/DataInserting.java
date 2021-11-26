@@ -160,34 +160,6 @@ public class DataInserting {
         File user5_image = ResourceUtils.getFile("classpath:static/images/users/user5_image.jpg");
         File user6_image = ResourceUtils.getFile("classpath:static/images/users/user6_image.jpg");
 
-        File shop1_image = ResourceUtils.getFile("classpath:static/images/shops/shop1_image.jpg");
-        File shop2_image = ResourceUtils.getFile("classpath:static/images/shops/shop2_image.jpg");
-        File shop3_image = ResourceUtils.getFile("classpath:static/images/shops/shop3_image.jpg");
-
-        File item1_image1 = ResourceUtils.getFile("classpath:static/images/items/item1_image1.jpg");
-        File item1_image2 = ResourceUtils.getFile("classpath:static/images/items/item1_image2.jpg");
-        File item1_image3 = ResourceUtils.getFile("classpath:static/images/items/item1_image3.jpg");
-
-        File item2_image1 = ResourceUtils.getFile("classpath:static/images/items/item2_image1.jpg");
-        File item2_image2 = ResourceUtils.getFile("classpath:static/images/items/item2_image2.jpg");
-        File item2_image3 = ResourceUtils.getFile("classpath:static/images/items/item2_image3.jpg");
-
-        File item3_image1 = ResourceUtils.getFile("classpath:static/images/items/item3_image1.jpg");
-        File item3_image2 = ResourceUtils.getFile("classpath:static/images/items/item3_image2.jpg");
-        File item3_image3 = ResourceUtils.getFile("classpath:static/images/items/item3_image3.jpg");
-
-        File item4_image1 = ResourceUtils.getFile("classpath:static/images/items/item4_image1.jpg");
-        File item4_image2 = ResourceUtils.getFile("classpath:static/images/items/item4_image2.jpg");
-        File item4_image3 = ResourceUtils.getFile("classpath:static/images/items/item4_image3.jpg");
-
-        File item5_image1 = ResourceUtils.getFile("classpath:static/images/items/item5_image1.jpg");
-        File item5_image2 = ResourceUtils.getFile("classpath:static/images/items/item5_image2.jpg");
-        File item5_image3 = ResourceUtils.getFile("classpath:static/images/items/item5_image3.jpg");
-
-        File item6_image1 = ResourceUtils.getFile("classpath:static/images/items/item6_image1.jpg");
-        File item6_image2 = ResourceUtils.getFile("classpath:static/images/items/item6_image2.jpg");
-        File item6_image3 = ResourceUtils.getFile("classpath:static/images/items/item6_image3.jpg");
-
         File mi_image =  ResourceUtils.getFile("classpath:static/images/shops/mi.jpg");
         File predator_image =  ResourceUtils.getFile("classpath:static/images/shops/predator.png");
         File samsung_image =  ResourceUtils.getFile("classpath:static/images/shops/samsung.png");
@@ -579,7 +551,7 @@ public class DataInserting {
                 .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
-                .count(100)
+                .count(2)
                 .rating(1.0)
                 .description("Система активного подавления шума")
                 .discount(0)
