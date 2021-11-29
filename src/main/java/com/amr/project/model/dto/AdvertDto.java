@@ -23,4 +23,8 @@ public class AdvertDto {
     private User user;
     private String[] categoriesName;
     private boolean isPretendentToBeDeleted;
+    private boolean isModerated;
+    private boolean isModerateAccept;
+    private String moderatedRejectReason;
+    private List<ImageDto> images;
 }
