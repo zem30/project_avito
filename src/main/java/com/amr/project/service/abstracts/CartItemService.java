@@ -1,8 +1,6 @@
 package com.amr.project.service.abstracts;
 
-import com.amr.project.model.dto.CartItemDto;
 import com.amr.project.model.entity.CartItem;
-import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
 
 import java.util.List;
