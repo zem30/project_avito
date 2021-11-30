@@ -554,7 +554,7 @@ public class DataInserting {
                 .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
-                .count(100)
+                .count(2)
                 .rating(1.0)
                 .description("Система активного подавления шума")
                 .discount(0)

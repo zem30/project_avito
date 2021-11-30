@@ -14,9 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> implements CartItemService {
@@ -84,8 +82,7 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
     @Override
     public List<CartItem> getCartItemByUserAuthorized() {
         User user = userService.getUserId(userService.getAuthorized().getId());
-        List<CartItem> cartItems = user.getCartItems();
-        return cartItems;
+        return user.getCartItems();
     }
 
     @Override
@@ -105,12 +102,9 @@ public class CartItemServiceImpl extends ReadWriteServiceImpl<CartItem, Long> im
             userRepository.save(user);
             item.getCartItems().add(cartItem);
             itemRepository.save(item);
-        } else {
-            int quantity = cartItem.getQuantity();
-            cartItem.setQuantity(quantity + 1);
-            cartItemRepository.save(cartItem);
         }
     }
+
     @Override
     public void addCookieToCartItem(User u){
         User user = userRepository.findById(userService.getAuthorized().getId()).orElse(null);
