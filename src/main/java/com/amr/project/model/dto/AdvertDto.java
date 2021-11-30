@@ -13,6 +13,7 @@ import java.util.List;
 @Setter
 @EqualsAndHashCode
 @Builder
+@ToString
 public class AdvertDto {
     private Long id;
     private String name;
