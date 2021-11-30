@@ -221,8 +221,6 @@ function base64ToBinary(imageBase64) {
     return bytes
 }
 
-
-
 // Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
@@ -304,6 +302,8 @@ function getProfileForEdit(id) {
 //считываем все поля и отправляем
 function sendProfileForEdit() {
     event.preventDefault();
+    $('.alert').hide();
+    let isEmpty = false
     let genderCheck = document.getElementsByClassName('form-check-input')
     let gender;
     for (let i = 0; i < genderCheck.length; i++) {
@@ -312,13 +312,21 @@ function sendProfileForEdit() {
             i = genderCheck.length
         }
     }
-    let address ={
+    let address = {
         id: $('#edit-address-id').val(),
         country:  $('#edit-country').val(),
         city: $('#edit-city').val(),
         cityIndex: $('#edit-cityIndex').val(),
         house: $('#edit-house').val(),
         street: $('#edit-street').val()
+    }
+    console.log(address)
+    for (let key in address) {
+        if(address[key] === "") {
+            console.log(key)
+            $(`#if-${key}-empty`).show()
+            isEmpty = true
+        }
     }
     let user = {
         id: $('#edit-id').val(),
@@ -332,18 +340,22 @@ function sendProfileForEdit() {
         gender: gender,
         address: address
     }
-    console.log("отправка пользователя на сервер для обновления: " + JSON.stringify(user))
-    fetch(url + '/user', {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user)
-    })
-        // .then(response => response.json())
-        .then(data => console.log(data))
-        .catch(err => console.error(err))
-    $('.btn-close').click();
+    if(!isEmpty) {
+        console.log("отправка пользователя на сервер для обновления: " + JSON.stringify(user))
+
+        fetch(url + '/user', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(user)
+        })
+            // .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(err => console.error(err))
+        $('.btn-close').click();
+    }
+
 }
 // деактивирует пользователя
 function sendProfileForDeactivate() {

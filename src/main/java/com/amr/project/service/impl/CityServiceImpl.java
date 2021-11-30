@@ -8,6 +8,7 @@ import com.amr.project.service.abstracts.CityService;
 import com.amr.project.service.abstracts.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class CityServiceImpl extends ReadWriteServiceImpl<City,Long> implements CityService {
@@ -30,22 +31,34 @@ public class CityServiceImpl extends ReadWriteServiceImpl<City,Long> implements 
     }
 
     @Override
+    @Transactional
+    public void save(City city) {
+        cityRepository.save(city);
+    }
+
+    @Override
+    @Transactional
     public boolean createAndSaveCity(String city, String country) {
-        try {
-            City newCity = City.builder()
-                    .name(city)
-                    .build();
-            cityRepository.save(newCity);
-            Country c = countryService.getByName(country);
-            if (c != null) {
-                c.getCities().add(newCity);
-                countryService.persist(c);
+        if(!cityRepository.existsByName(city)){
+            try {
+                City newCity = City.builder()
+                        .name(city)
+                        .build();
+                cityRepository.save(newCity);
+                Country c = countryService.getByName(country);
+                if (c != null) {
+                    c.getCities().add(newCity);
+                    countryService.persist(c);
+                }
+                return true;
+            } catch (Exception e) {
+                System.out.format("Не удалось создать или сохранить город %s", city);
+                e.printStackTrace();
+                return false;
             }
+        } else {
             return true;
-        } catch (Exception e) {
-            System.out.format("Не удалось создать или сохранить город %s", city);
-            e.printStackTrace();
-            return false;
         }
+
     }
 }

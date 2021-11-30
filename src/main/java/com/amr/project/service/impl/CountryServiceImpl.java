@@ -7,6 +7,7 @@ import com.amr.project.model.entity.Country;
 import com.amr.project.service.abstracts.CountryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,20 +31,32 @@ public class CountryServiceImpl extends ReadWriteServiceImpl<Country,Long> imple
     }
 
     @Override
+    @Transactional
+    public void save(Country country) {
+        countryRepository.save(country);
+    }
+
+    @Override
+    @Transactional
     public boolean createAndSaveCountry(String name, City city) {
-        try{
-            List<City> c = new ArrayList<>();
-            c.add(city);
-            Country country = Country.builder()
-                    .name(name)
-                    .cities(c)
-                    .build();
-            countryRepository.save(country);
+        if(!countryRepository.existsByName(name)) {
+            try{
+                List<City> c = new ArrayList<>();
+                c.add(city);
+                Country country = Country.builder()
+                        .name(name)
+                        .cities(c)
+                        .build();
+                countryRepository.save(country);
+                return true;
+            } catch (Exception e) {
+                System.out.format("Не удалось создать или сохранить страну %s", name);
+                e.printStackTrace();
+                return false;
+            }
+        } else {
             return true;
-        } catch (Exception e) {
-            System.out.format("Не удалось создать или сохранить страну %s", name);
-            e.printStackTrace();
-            return false;
         }
+
     }
 }
