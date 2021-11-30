@@ -2,6 +2,7 @@ package com.amr.project.inserttestdata;
 
 import com.amr.project.inserttestdata.repository.*;
 import com.amr.project.model.entity.*;
+import com.amr.project.model.enums.CouponStatus;
 import com.amr.project.model.enums.Gender;
 import com.amr.project.model.enums.Status;
 import lombok.AllArgsConstructor;
@@ -140,14 +141,14 @@ public class DataInserting {
                 .country(countryRepository.findByName("Ukraine"))
                 .city(cityRepository.findByName("Kharkiv"))
                 .street("user5_street")
-                .house("user5_street")
+                .house("user5_house")
                 .build();
         Address address6 = Address.builder()
                 .cityIndex("123456")
                 .country(countryRepository.findByName("Ukraine"))
                 .city(cityRepository.findByName("Odessa"))
                 .street("user6_street")
-                .house("user6_street")
+                .house("user6_house")
                 .build();
 //---------------------------------------------------------------Images
         File admin_image = ResourceUtils.getFile("classpath:static/images/users/admin_image.jpg");
@@ -499,6 +500,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(miLogo))
                 .count(0)
+                .coupons(null)
                 .rating(1)
                 .user(userRepository.findByEmail("user1@mail"))
                 .discounts(null)
@@ -519,6 +521,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(samsungLogo))
                 .count(0)
+                .coupons(null)
                 .rating(2)
                 .user(userRepository.findByEmail("user2@mail"))
                 .discounts(null)
@@ -529,7 +532,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
-        User user3_shop = userRepository.findByEmail("user3@mail");
+
         Shop predator = Shop.builder()
                 .name("predator")
                 .email("predator@mail")
@@ -540,6 +543,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(predatorLogo))
                 .count(0)
+                .coupons(null)
                 .rating(3)
                 .user(userRepository.findByEmail("user3@mail"))
                 .discounts(null)
@@ -554,9 +558,8 @@ public class DataInserting {
         shopRepository.save(samsung);
         shopRepository.save(predator);
 
-        Shop user3_shop_managed = shopRepository.findByUserId(user3_shop.getId());
-        user3_shop.setShops(List.of(user3_shop_managed));
-        userRepository.save(user3_shop); // создалась связь в таблицу user_shop
+        user3.setShops(List.of(predator));
+        userRepository.save(user3); // создалась связь в таблицу user_shop
 
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("headphones").build();
@@ -1039,9 +1042,33 @@ public class DataInserting {
         User user5_coupons = userRepository.findByEmail("user5@mail");
         User user6_coupons = userRepository.findByEmail("user6@mail");
 
-        Coupon coupon1 = new Coupon();
-        Coupon coupon2 = new Coupon();
-        Coupon coupon3 = new Coupon();
+        Shop samsung_coupons = shopRepository.findByName("samsung");
+        Shop mi_coupons = shopRepository.findByName("mi");
+        Shop predator_coupons = shopRepository.findByName("predator");
+
+        Coupon coupon1 = Coupon.builder()
+                .shop(samsung_coupons)
+                .sum(70)
+                .start(new GregorianCalendar(2021, 11, 26))
+                .end(new GregorianCalendar(2021, 12, 26))
+                .status(CouponStatus.ACTUAL)
+                .build();
+
+        Coupon coupon2 = Coupon.builder()
+                .shop(mi_coupons)
+                .sum(70)
+                .start(new GregorianCalendar(2021, 11, 24))
+                .end(new GregorianCalendar(2021, 12, 24))
+                .status(CouponStatus.USED)
+                .build();
+
+        Coupon coupon3 = Coupon.builder()
+                .shop(predator_coupons)
+                .sum(70)
+                .start(new GregorianCalendar(2021, 11, 20))
+                .end(new GregorianCalendar(2021, 12, 20))
+                .status(CouponStatus.ACTUAL)
+                .build();
 
         couponRepository.save(coupon1);
         couponRepository.save(coupon2);
@@ -1054,6 +1081,15 @@ public class DataInserting {
         userRepository.save(user4_coupons);
         userRepository.save(user5_coupons);
         userRepository.save(user6_coupons);
+
+        samsung_coupons.setCoupons(List.of(coupon1));
+        mi_coupons.setCoupons(List.of(coupon2));
+        predator_coupons.setCoupons(List.of(coupon3));
+
+        shopRepository.save(samsung_coupons);
+        shopRepository.save(mi_coupons);
+        shopRepository.save(predator_coupons);
+
 //---------------------------------------------------------------Feedback
         Feedback feedback1 = Feedback.builder()
                 .full_text("full_text_feedback1")

@@ -134,9 +134,4 @@ public class User implements UserDetails {
         return activate;
     }
 
-    public User(Long id, String email, String username) {
-        this.id = id;
-        this.email = email;
-        this.username = username;
-    }
 }
