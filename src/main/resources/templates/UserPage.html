@@ -173,11 +173,17 @@
                     <div class="col-md-6">
                         <label for="edit-name" class="form-label">Имя</label>
                         <input type="text" class="form-control" id="edit-name">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-name-empty">
+                            Введите имя
+                        </div>
                         <input type="hidden" class="form-control" id="edit-id">
                     </div>
                     <div class="col-md-6">
                         <label for="edit-surname" class="form-label">Фамилия</label>
                         <input type="text" class="form-control" id="edit-surname">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-surname-empty">
+                            Введите фамилию
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="edit-date" class="form-label">Дата рождения</label>
@@ -189,7 +195,7 @@
                     </div>
                     <div class="col-md-6">
                         <label for="edit-username" class="form-label">Username</label>
-                        <input type="text" class="form-control" id="edit-username">
+                        <input readonly type="text" class="form-control" id="edit-username">
                     </div>
                     <div class="col-md-6">
                         <label for="edit-password" class="form-label">Пароль</label>
@@ -223,23 +229,38 @@
                     <div class="col-md-6">
                         <label for="edit-country" class="form-label">Страна</label>
                         <input type="text" class="form-control" id="edit-country" onclick="clearField()">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-country-empty">
+                            Введите страну
+                        </div>
                         <input type="hidden" class="form-control" id="edit-address-id">
                     </div>
                     <div class="col-md-6">
                         <label for="edit-city" class="form-label">Город</label>
                         <input type="text" class="form-control" id="edit-city">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-city-empty">
+                            Введите город
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="edit-street" class="form-label">Улица</label>
                         <input type="text" class="form-control" id="edit-street">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-street-empty">
+                            Введите улицу
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="edit-house" class="form-label">Дом</label>
                         <input type="text" class="form-control" id="edit-house">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-house-empty">
+                            Введите дом
+                        </div>
                     </div>
                     <div class="col-md-6">
                         <label for="edit-cityIndex" class="form-label">Индекс</label>
                         <input type="text" class="form-control" id="edit-cityIndex">
+                        <div class="alert alert-danger" role="alert" style="display: none" id="if-cityIndex-empty">
+                            Введите индекс
+                        </div>
                     </div>
                     <div class="col-12">
                         <button type="submit" class="btn btn-outline-dark" onclick="sendProfileForEdit()">Изменить
