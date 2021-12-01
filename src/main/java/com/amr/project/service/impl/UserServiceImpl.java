@@ -4,6 +4,7 @@ import com.amr.project.converter.UserMapper;
 import com.amr.project.converter.UserUpdateMapper;
 import com.amr.project.dao.abstracts.UserDao;
 import com.amr.project.inserttestdata.repository.ItemRepository;
+import com.amr.project.inserttestdata.repository.RoleRepository;
 import com.amr.project.inserttestdata.repository.UserRepository;
 import com.amr.project.model.dto.ImageDto;
 import com.amr.project.model.dto.UserDto;
@@ -46,6 +47,7 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     private final CountryService countryService;
     private final AddressService addressService;
     private final UserUpdateMapper userUpdateMapper;
+    private final RoleRepository roleRepository;
 
     @Autowired
     public UserServiceImpl(EmailSenderService emailSenderService,
@@ -59,7 +61,8 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
                            CityService cityService,
                            CountryService countryService,
                            AddressService addressService,
-                           UserUpdateMapper userUpdateMapper) {
+                           UserUpdateMapper userUpdateMapper,
+                           RoleRepository roleRepository) {
         super(userDao);
         this.userDao = userDao;
         this.emailSenderService = emailSenderService;
@@ -71,6 +74,7 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
         this.countryService = countryService;
         this.addressService = addressService;
         this.userUpdateMapper = userUpdateMapper;
+        this.roleRepository = roleRepository;
     }
 
     @Override
@@ -95,7 +99,19 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Transactional
     public void persist(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-        userDao.persist(user);
+        Role role = roleRepository.findByName("USER");
+        Set<Role> roleSet = new HashSet<>();
+        roleSet.add(role);
+        user.setRoles(roleSet);
+        Address address = Address.builder()
+                .cityIndex("default")
+                .country(countryService.getByName("Country"))
+                .city(cityService.getByName("City"))
+                .street("default")
+                .house("default")
+                .build();
+        user.setAddress(address);
+        userRepository.save(user);
         verificationService.sendVerificationEmail(user);
     }
 
@@ -138,7 +154,7 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
 
     @Override
     @SuppressWarnings("unchecked")
-    public User getUserId(Long id){
+    public User getUserId(Long id) {
         User user = userRepository.findById(id).orElse(null);
         return user;
     }
@@ -155,7 +171,7 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Transactional
     public void updateUserDto(UserUpdateDto userUpdateDto) {
         User user = userDao.getByKey(userUpdateDto.getId());
-        if (!(userUpdateDto.getPassword()=="")) {
+        if (!(userUpdateDto.getPassword() == "")) {
             user.setPassword(passwordEncoder.encode(userUpdateDto.getPassword()));
         }
 
@@ -164,21 +180,21 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
 
         Address address = user.getAddress();
         City city = address.getCity();
-        if(!city.getName().equals(userUpdateDto.getAddress().getCity())) {
+        if (!city.getName().equals(userUpdateDto.getAddress().getCity())) {
             cityService.createAndSaveCity(userUpdateDto.getAddress().getCity(), userUpdateDto.getAddress().getCountry());
             city = cityService.getByName(userUpdateDto.getAddress().getCity());
         }
 
         Country country = address.getCountry();
-        if(!country.getName().equals(userUpdateDto.getAddress().getCountry())) {
+        if (!country.getName().equals(userUpdateDto.getAddress().getCountry())) {
             countryService.createAndSaveCountry(userUpdateDto.getAddress().getCountry(),
                     city);
             country = countryService.getByName(userUpdateDto.getAddress().getCountry());
         }
 
         address.setCityIndex(userUpdateDto.getAddress().getCityIndex());
-        address.setCountry(country);
-        address.setCity(city);
+        address.setCountry(countryService.getByName(country.getName()));
+        address.setCity(cityService.getByName(city.getName()));
         address.setStreet(userUpdateDto.getAddress().getStreet());
         address.setHouse(userUpdateDto.getAddress().getHouse());
 

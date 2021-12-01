@@ -76,6 +76,8 @@ public class DataInserting {
         roleRepository.save(roleModerator);
         roleRepository.save(roleUser);
 //---------------------------------------------------------------Cities
+        City city = City.builder().name("City").build();
+
         City moscow = City.builder().name("Moscow").build();
         City petersburg = City.builder().name("Saint-Petersburg").build();
         City novosibirsk = City.builder().name("Novosibirsk").build();
@@ -87,6 +89,8 @@ public class DataInserting {
         City minsk = City.builder().name("Minsk").build();
         City gomel = City.builder().name("Gomel").build();
         City vitebsk = City.builder().name("Vitebsk").build();
+
+        cityRepository.save(city);
 
         cityRepository.save(moscow);
         cityRepository.save(petersburg);
@@ -100,10 +104,12 @@ public class DataInserting {
         cityRepository.save(gomel);
         cityRepository.save(vitebsk);
 //---------------------------------------------------------------Countries
+        Country country = Country.builder().name("Country").cities(List.of(city)).build();
         Country russia = Country.builder().name("Russia").cities(List.of(moscow, petersburg, novosibirsk)).build();
         Country ukraine = Country.builder().name("Ukraine").cities(List.of(kyiv, kharkiv, odessa)).build();
         Country belarus = Country.builder().name("Belarus").cities(List.of(minsk, gomel, vitebsk)).build();
 
+        countryRepository.save(country);
         countryRepository.save(russia);
         countryRepository.save(ukraine);
         countryRepository.save(belarus);
@@ -160,6 +166,34 @@ public class DataInserting {
         File user4_image = ResourceUtils.getFile("classpath:static/images/users/user4_image.jpg");
         File user5_image = ResourceUtils.getFile("classpath:static/images/users/user5_image.jpg");
         File user6_image = ResourceUtils.getFile("classpath:static/images/users/user6_image.jpg");
+
+        File shop1_image = ResourceUtils.getFile("classpath:static/images/shops/shop1_image.jpg");
+        File shop2_image = ResourceUtils.getFile("classpath:static/images/shops/shop2_image.jpg");
+        File shop3_image = ResourceUtils.getFile("classpath:static/images/shops/shop3_image.jpg");
+
+        File item1_image1 = ResourceUtils.getFile("classpath:static/images/items/item1_image1.jpg");
+        File item1_image2 = ResourceUtils.getFile("classpath:static/images/items/item1_image2.jpg");
+        File item1_image3 = ResourceUtils.getFile("classpath:static/images/items/item1_image3.jpg");
+
+        File item2_image1 = ResourceUtils.getFile("classpath:static/images/items/item2_image1.jpg");
+        File item2_image2 = ResourceUtils.getFile("classpath:static/images/items/item2_image2.jpg");
+        File item2_image3 = ResourceUtils.getFile("classpath:static/images/items/item2_image3.jpg");
+
+        File item3_image1 = ResourceUtils.getFile("classpath:static/images/items/item3_image1.jpg");
+        File item3_image2 = ResourceUtils.getFile("classpath:static/images/items/item3_image2.jpg");
+        File item3_image3 = ResourceUtils.getFile("classpath:static/images/items/item3_image3.jpg");
+
+        File item4_image1 = ResourceUtils.getFile("classpath:static/images/items/item4_image1.jpg");
+        File item4_image2 = ResourceUtils.getFile("classpath:static/images/items/item4_image2.jpg");
+        File item4_image3 = ResourceUtils.getFile("classpath:static/images/items/item4_image3.jpg");
+
+        File item5_image1 = ResourceUtils.getFile("classpath:static/images/items/item5_image1.jpg");
+        File item5_image2 = ResourceUtils.getFile("classpath:static/images/items/item5_image2.jpg");
+        File item5_image3 = ResourceUtils.getFile("classpath:static/images/items/item5_image3.jpg");
+
+        File item6_image1 = ResourceUtils.getFile("classpath:static/images/items/item6_image1.jpg");
+        File item6_image2 = ResourceUtils.getFile("classpath:static/images/items/item6_image2.jpg");
+        File item6_image3 = ResourceUtils.getFile("classpath:static/images/items/item6_image3.jpg");
 
         File mi_image =  ResourceUtils.getFile("classpath:static/images/shops/mi.jpg");
         File predator_image =  ResourceUtils.getFile("classpath:static/images/shops/predator.png");
@@ -554,7 +588,7 @@ public class DataInserting {
                 .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
-                .count(2)
+                .count(100)
                 .rating(1.0)
                 .description("Система активного подавления шума")
                 .discount(0)
