@@ -246,12 +246,6 @@ input[type="button"].button.yellow:hover {
     padding-left: 20px;
 }
 
-.search {
-    display: flex;
-    position: absolut;
-    left: 30%;
-}
-
 .btn-group {
     height:100%;
     margin-left: 30%;
@@ -311,6 +305,3 @@ input[type="button"].button.yellow:hover {
 .alert {
     margin-top: 5px;
 }
-
-
-
