@@ -16,6 +16,4 @@ public class AddressDto {
     private String house;
     private String city;
     private String country;
-
-
 }

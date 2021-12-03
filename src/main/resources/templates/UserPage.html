@@ -44,20 +44,20 @@
 
             <hr/>
             <div>
-                <input type="hidden" th:value="${user.getId()}" class="user-id">
-                <h5>Возвраст: <b th:text="*{age}">?</b>
+                <input type="hidden" th:value="${user.getId()}" id="user-id">
+                <h5>Возвраст: <b id="user-age" th:text="*{age}">?</b>
                 </h5>
-                <h5>Пол: <b th:text="*{gender}">?</b></h5>
-                <h5>Страна: <b
+                <h5>Пол: <b id="user-gender" th:text="*{gender}">?</b></h5>
+                <h5>Страна: <b id="user-country"
                         th:text="${user.getAddress() != null ? user.getAddress().getCountry():'no country'}">?</b>
                 </h5>
-                <h5>Город: <b
+                <h5>Город: <b id="user-city"
                         th:text="${ user.getAddress() != null? user.getAddress().getCity(): 'no city'}">?</b>
                 </h5>
-                <h5>Улица: <b th:text="${user.getAddress() != null? user.getAddress().getStreet(): 'no address'}">?</b>
+                <h5>Улица: <b id="user-street" th:text="${user.getAddress() != null? user.getAddress().getStreet(): 'no address'}">?</b>
                 </h5>
-                <h5>Почта: <b th:text="*{email}">?</b></h5>
-                <h5>Телефон: <b th:text="*{phone}">?</b></h5>
+                <h5>Почта: <b id="user-email" th:text="*{email}">?</b></h5>
+                <h5>Телефон: <b id="user-phone" th:text="*{phone}">?</b></h5>
             </div>
             <hr/>
             <div class="links">
