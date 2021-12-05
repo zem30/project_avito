@@ -74,5 +74,12 @@ public class ShopController {
         return "shopPage/home-shop-page";
     }
 
+    @ApiOperation(value = "Для управления магазином")
+    @GetMapping("/shop/control/{id}")
+    public String shopPageForActions(@PathVariable("id") long id, Model model) {
+        model.addAttribute("shop", shopServiceImpl.getShopId(id));
+
+        return "shopPage/shop_control";
+    }
 
 }

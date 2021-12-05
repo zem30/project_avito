@@ -132,7 +132,7 @@ async function findQuantityInShops(){
 
 function paste(count){
     if (count === 0) {
-        return 'не осталось';
+        return '<p style="color: red">нет в наличии</p>';
     } else if (count < 150) {
         return  '<span title="мало"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
     } else if (count > 150 && count < 450) {

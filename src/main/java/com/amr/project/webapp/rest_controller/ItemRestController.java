@@ -55,7 +55,7 @@ public class ItemRestController {
     }
 
     @ApiOperation(value = "Обновляет объект Item")
-    @PutMapping("item")
+    @PatchMapping("item")
     public ResponseEntity<ItemDto> updateItem(@RequestBody @NonNull ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
         if (itemDto.getId() == null || itemDto.getShopName() == null || itemDto.getCategoriesName() == null)

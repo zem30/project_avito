@@ -560,7 +560,7 @@ public class DataInserting {
                 .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
-                .count(100)
+                .count(2)
                 .rating(1.0)
                 .description("Система активного подавления шума")
                 .discount(0)
@@ -812,6 +812,10 @@ public class DataInserting {
         Item user6_order_item1 = itemRepository.findByName("Mouse Logitech M190");
         Item user6_order_item2 = itemRepository.findByName("Acer Nitro 5 AN515-55-50LX");
 
+        Shop shop_insert_order_user6 = shopRepository.findByName("predator");
+        Shop shop_insert_order_user4 = shopRepository.findByName("mi");
+        Shop shop_insert_order_user5 = shopRepository.findByName("samsung");
+
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
@@ -846,13 +850,33 @@ public class DataInserting {
                 .buyerPhone(user6_order.getPhone())
                 .build();
 
+        Order order_user7 = Order.builder()
+                .items(List.of(user6_order_item1, user6_order_item2))
+                .date(GregorianCalendar.getInstance())
+                .itemCost(222221.00f)
+                .status(Status.COMPLETE)
+                .address(user6_order.getAddress())
+                .total(user6_order_item1.getPrice().add(user6_order_item2.getPrice()))
+                .user(user6_order)
+                .buyerName(user6_order.getUsername())
+                .buyerPhone(user6_order.getPhone())
+                .build();
+
         user4_order.setOrders(List.of(order_user4));
         user5_order.setOrders(List.of(order_user5));
-        user6_order.setOrders(List.of(order_user6));
+        user6_order.setOrders(List.of(order_user6, order_user7));
+
+        shop_insert_order_user6.setOrders(List.of(order_user6, order_user7));
+        shop_insert_order_user4.setOrders(List.of(order_user4));
+        shop_insert_order_user5.setOrders(List.of(order_user5));
 
         userRepository.save(user4_order);
         userRepository.save(user5_order);
         userRepository.save(user6_order);
+
+        shopRepository.save(shop_insert_order_user6);
+        shopRepository.save(shop_insert_order_user5);
+        shopRepository.save(shop_insert_order_user4);
 //---------------------------------------------------------------Reviews
         //Ревью user4 на товар item1
         User user4_review = userRepository.findByEmail("user4@mail");
@@ -1027,24 +1051,32 @@ public class DataInserting {
         Coupon coupon1 = Coupon.builder()
                 .shop(samsung_coupons)
                 .sum(70)
-                .start(new GregorianCalendar(2021, 11, 26))
-                .end(new GregorianCalendar(2021, 12, 26))
+                .start(new GregorianCalendar(2021, 10, 26)) // в БД заносится на месяц вперед ?
+                .end(new GregorianCalendar(2021, 11, 26))
                 .status(CouponStatus.ACTUAL)
                 .build();
 
         Coupon coupon2 = Coupon.builder()
                 .shop(mi_coupons)
-                .sum(70)
-                .start(new GregorianCalendar(2021, 11, 24))
-                .end(new GregorianCalendar(2021, 12, 24))
+                .sum(80)
+                .start(new GregorianCalendar(2021, 10, 24))
+                .end(new GregorianCalendar(2021, 11, 24))
                 .status(CouponStatus.USED)
                 .build();
 
         Coupon coupon3 = Coupon.builder()
                 .shop(predator_coupons)
                 .sum(70)
-                .start(new GregorianCalendar(2021, 11, 20))
-                .end(new GregorianCalendar(2021, 12, 20))
+                .start(new GregorianCalendar(2021, 10, 20))
+                .end(new GregorianCalendar(2021, 11, 20))
+                .status(CouponStatus.ACTUAL)
+                .build();
+
+        Coupon coupon4 = Coupon.builder()
+                .shop(predator_coupons)
+                .sum(100)
+                .start(new GregorianCalendar(2021, 11, 4))
+                .end(new GregorianCalendar(2021, 12, 4))
                 .status(CouponStatus.ACTUAL)
                 .build();
 
@@ -1062,7 +1094,7 @@ public class DataInserting {
 
         samsung_coupons.setCoupons(List.of(coupon1));
         mi_coupons.setCoupons(List.of(coupon2));
-        predator_coupons.setCoupons(List.of(coupon3));
+        predator_coupons.setCoupons(List.of(coupon3, coupon4));
 
         shopRepository.save(samsung_coupons);
         shopRepository.save(mi_coupons);
