@@ -1,4 +1,5 @@
 let shopItems = "";
+
 // Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
@@ -22,13 +23,14 @@ async function popular_item() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         <p class="star">★ ${Math.round(i.rating,2)}</p>
+                         <p class="star">★ ${Math.round(i.rating, 2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
+
 popular_item();
 
 //получить популярные магазины
@@ -42,13 +44,14 @@ async function popular_shops() {
         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
         <h6>${s.name}</h6>
         <p>${s.description}</p>
-        <p class="star">★ ${Math.round(s.rating,2)}</p>
+        <p class="star">★ ${Math.round(s.rating, 2)}</p>
         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
         </div>`;
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
+
 popular_shops();
 
 //получение предметов по поиску
@@ -56,7 +59,6 @@ async function findItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-
     $(document.getElementById('searchHomePageButton')).on('click', async function () {
         await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
@@ -72,7 +74,6 @@ async function findItems() {
                         shopItems += item.name.toLowerCase() + ",";
                         console.log(s.items);
                     })
-
                     if (shopItems.includes(searchInput.value.toLowerCase())) {
                         output += `<div class="shop-div">
                         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
@@ -82,14 +83,13 @@ async function findItems() {
                         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
                         </div>`;
                     }
-                     shopItems = "";
+                    shopItems = "";
                 })
-
                 document.querySelector(".shop-container").innerHTML = output;
             })
     });
-
 }
+
 findItems();
 
 //получить name cookies
@@ -102,6 +102,7 @@ function getCookie(name) {
 
 //прибавить количество товара
 let itemCount;
+
 function basket_plus_click() {
     $(document).on("click", ".basket-plus-div", async function (e) {
         await fetch("http://localhost:8888/shop/item/" + e.target.id)
@@ -109,7 +110,7 @@ function basket_plus_click() {
             .then(item => {
                 itemCount = item.count;
             })
-        if (itemCount === 0 || itemCount === null){
+        if (itemCount === 0 || itemCount === null) {
             alert('Данного товара нет в наличии')
         } else {
             let id = e.target.id;
@@ -130,6 +131,7 @@ function basket_plus_click() {
         }
     })
 }
+
 basket_plus_click();
 
 //кнопка корзина
@@ -147,8 +149,8 @@ function basket_button() {
     }
     document.querySelector(".div-header-right-one").innerHTML = text;
 }
-basket_button();
 
+basket_button();
 
 // получение категорий в каталоге
 async function catalog() {
@@ -157,52 +159,53 @@ async function catalog() {
         .then(category => {
             let temp = ``;
             category.forEach((category) => {
-                    temp += `<li><a class="dropdown-item" href="javascript:somescript(${category.id})">${category.name}</a></li>`;
+                temp += `<li><a class="dropdown-item" href="javascript:getData(${category.id})">${category.name}</a></li>`;
             })
             document.querySelector('#catalog').innerHTML = temp;
         })
 }
+
 catalog()
 
-
-function somescript(id) {
-let itemId=[];
+function getData(id) {
+    let itemId = [];
     fetch(`shop/itemByCategory/${id}`)
         .then(res => res.json())
         .then(items => {
             let logs = ``;
             items.forEach((i) => {
-itemId.push(i.id)
+                itemId.push(i.id)
                 logs += `<div class="item-div">
                          <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         <p>${i.categories[0].name}</p> 
                          <p class="star">★ ${Math.round(i.rating, 2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
-            console.log(itemId)
         })
 
+    let shopsId = [];
     fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
-        .then( shops => {
+        .then(shops => {
             let output = ``;
             shops.forEach((s) => {
                 s.items.forEach((item) => {
-                  if (itemId.includes(item.id)) {
-
-                      output += `<div class="shop-div">
-                        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
-                        <h6>${s.name}</h6>
-                        <p>${s.description}</p>
-                        <p class="star">★ ${Math.round(s.rating, 2)}</p>
-                        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-                        </div>`;
-                  }
+                    if (itemId.includes(item.id)) {
+                        if (!shopsId.includes(s.id)) {
+                            shopsId.push(s.id);
+                            output += `<div class="shop-div">
+                           <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
+                           <h6>${s.name}</h6>
+                           <p>${s.description}</p>
+                           <p class="star">★ ${Math.round(s.rating, 2)}</p>
+                           <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                           </div>`;
+                        }
+                    }
                 })
             })
             document.querySelector(".shop-container").innerHTML = output;
