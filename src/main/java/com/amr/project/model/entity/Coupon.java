@@ -8,18 +8,14 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "coupon")
 @Data
 @AllArgsConstructor
 @ApiIgnore
+@NoArgsConstructor
 public class Coupon {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    public Coupon() {
-
-    }
 }

@@ -52,3 +52,13 @@
     left: 50%;
     transform: translate(-50%,-50%);
 }
+
+.item-present.button {
+    margin-left: 20px;
+}
+
+.imgForQuantity {
+    height: 35px;
+    width: 20px;
+    cursor: pointer;
+}

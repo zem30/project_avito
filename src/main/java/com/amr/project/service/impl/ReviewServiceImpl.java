@@ -41,9 +41,16 @@ public class ReviewServiceImpl extends ReadWriteServiceImpl<Review, Long> implem
     }
 
     @Override
+    public Review getReviewById(long id) {
+        return reviewDao.getByKey(id);
+    }
+
+    @Override
     @Transactional
     public void persist(Review review) {
-        emailSenderService.sendSimpleEmail(trackedEmailReview.trackedEmailReviewPersist(review));
+        if (review.getShop() != null) {
+            emailSenderService.sendSimpleEmail(trackedEmailReview.trackedEmailReviewPersist(review));
+        }
         reviewDao.persist(review);
 
     }

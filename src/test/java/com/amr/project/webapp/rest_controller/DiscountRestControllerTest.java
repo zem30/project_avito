@@ -22,7 +22,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
 
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/Discount.xml")
-    @ExpectedDataSet(value = "datasets/discount/expected/discountExpected.xml")
+    @ExpectedDataSet(value = "datasets/expected/discountExpected.xml")
     public void addDiscountTest() throws Exception {
 
         DiscountDto discount = DiscountDto.builder()
@@ -75,7 +75,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
 
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/Discount.xml")
-    @ExpectedDataSet(value = "datasets/discount/expected/shopExpected.xml")
+    @ExpectedDataSet(value = "datasets/expected/shopExpected.xml")
     void getShopByIdTest() throws Exception {
         String getShopByIdUrl = "/api/userlist/shop/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getShopByIdUrl, 1))
@@ -87,7 +87,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
 
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/Discount.xml")
-    @ExpectedDataSet(value = "datasets/discount/expected/userExpected.xml")
+    @ExpectedDataSet(value = "datasets/expected/userExpected.xml")
     void getUserByIdTest() throws Exception {
         String getUserByIdUrl = "/api/userlist/{id}";
         mvc.perform(MockMvcRequestBuilders.get(getUserByIdUrl, 1))
@@ -99,7 +99,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
 
     @Test
     @DataSet(cleanBefore = true, value = "datasets/discount/UserList.xml")
-    @ExpectedDataSet(value = "datasets/discount/expected/UserList.xml")
+    @ExpectedDataSet(value = "datasets/expected/UserList.xml")
     void findAllUsersWithRoleUserTest() throws Exception {
         String getUserWithRoleUser = "/api/userlist/all";
         mvc.perform(MockMvcRequestBuilders

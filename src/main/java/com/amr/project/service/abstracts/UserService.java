@@ -1,7 +1,8 @@
 package com.amr.project.service.abstracts;
 
-import com.amr.project.model.entity.CartItem;
+import com.amr.project.model.dto.UserUpdateDto;
 import com.amr.project.model.entity.User;
+import com.amr.project.model.enums.Status;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -15,10 +16,17 @@ public interface UserService extends ReadWriteService<User, Long> {
 
     List<User> findByRole(String role) throws NoResultException;
 
-    @Override
-    void persist(User user);
-
     User getAuthorized();
 
     User getUserId(Long id);
+
+    UserUpdateDto getUserUpdateDtoById(Long id);
+
+    void updateUserDto(UserUpdateDto userUpdateDto);
+
+    int deactivateUser(long id);
+
+    List<User> findByStatusOrder(Status status) throws NoResultException;
+
+    List<User> findByStatusOrderAndShopOwnerUser(Status status, User user);
 }

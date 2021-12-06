@@ -6,18 +6,18 @@ import com.amr.project.dao.abstracts.ReadWriteDao;
 import com.amr.project.dao.impl.OrderDaoImpl;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
-import com.amr.project.model.entity.Mail;
-import com.amr.project.model.entity.Order;
-import com.amr.project.model.entity.User;
+import com.amr.project.model.entity.*;
+import com.amr.project.model.enums.PaymentMethod;
 import com.amr.project.model.enums.Status;
 import com.amr.project.service.abstracts.OrderService;
 import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.util.TrackedEmailOrder;
+import com.amr.project.webapp.paypalsettings.CheckOutInfo;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.math.BigDecimal;
+import java.util.Calendar;
 import java.util.List;
 
 @Service
@@ -38,6 +38,11 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
         this.emailSenderService = emailSenderService;
         this.trackedEmailOrder = trackedEmailOrder;
         this.itemMapper = itemMapper;
+    }
+
+    @Override
+    public Order getByKey(Long key) {
+        return super.getByKey(key);
     }
 
     @Override
@@ -114,6 +119,48 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
                 .get();
 
         order.setTotal(total);
+        super.persist(order);
+        return order;
+    }
+
+    /**
+     * Метод размещения заказа с учетом платежной системы
+     * TODO: реализовать с учетом возможной пошлины, стоимости доставки, отслеживания статуса
+     */
+
+    @Override
+    public Order createOrder(List<ItemDto> items, User user, PaymentMethod paymentMethod,
+                             CheckOutInfo checkOutInfo, Address address) {
+
+        Order order = new Order();
+
+        order.setItems(itemMapper.toItems(items));
+        order.setUser(user);
+        order.setBuyerName(user.getFirstName());
+        order.setBuyerPhone(user.getPhone());
+
+        if (address == null) {
+            order.setAddress(user.getAddress());
+        } else {
+            order.setAddress(address);
+        }
+
+        order.setShippingCost(0.0f);
+        order.setDeliverDate(checkOutInfo.getDeliverDate());
+
+        BigDecimal total = items.stream()
+                .map(i -> i.getPrice())
+                .reduce((s1, s2) -> s1.add(s2))
+                .get();
+
+        if (paymentMethod.equals(PaymentMethod.PAYPAL)) {
+            order.setStatus(Status.PAID);
+        } else {
+            order.setStatus(Status.START);
+        }
+
+        order.setTotal(total);
+        order.setDate(Calendar.getInstance());
         super.persist(order);
         return order;
     }

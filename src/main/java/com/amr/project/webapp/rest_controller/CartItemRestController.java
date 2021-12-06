@@ -8,6 +8,7 @@ import com.amr.project.service.abstracts.ItemService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.util.List;
 
 @RestController
@@ -24,36 +25,35 @@ public class CartItemRestController {
     }
 
     @PostMapping("")
-    public List<Item> getCartItems(@RequestBody User user){
-        List<Item> items = itemService.getAllItem(user);
-        return items;
+    public List<Item> getCartItems(@RequestBody User user) {
+        return itemService.getAllItem(user);
     }
 
     @GetMapping("/user")
-    public List<CartItem> getUserCartItem(){
-        List<CartItem> cartItemList = cartItemService.getCartItemByUserAuthorized();
-        return cartItemList;
+    public List<CartItem> getUserCartItem() {
+        return cartItemService.getCartItemByUserAuthorized();
     }
+
     @PostMapping("/user")
-    public ResponseEntity addCookiesCartItem(@RequestBody User user){
+    public ResponseEntity addCookiesCartItem(@RequestBody User user) {
         cartItemService.addCookieToCartItem(user);
-        return  new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/plus/{id}")
-    public ResponseEntity plusCartItem(@PathVariable("id") Long id){
+    public ResponseEntity plusCartItem(@PathVariable("id") Long id) {
         cartItemService.plusCartItem(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PutMapping("/minus/{id}")
-    public ResponseEntity minusCartItem(@PathVariable("id") Long id){
+    public ResponseEntity minusCartItem(@PathVariable("id") Long id) {
         cartItemService.minusCartItem(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/add/item/{id}")
-    public ResponseEntity addItemToCart(@PathVariable("id") Long id){
+    public ResponseEntity addItemToCart(@PathVariable("id") Long id) {
         cartItemService.addItemToCart(id);
         return new ResponseEntity(HttpStatus.OK);
     }

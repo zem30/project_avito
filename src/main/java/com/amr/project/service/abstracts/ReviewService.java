@@ -6,4 +6,5 @@ import java.util.List;
 public interface ReviewService extends ReadWriteService<Review, Long> {
     List<Review> getUnmoderatedReviews();
     List<Review> getModeratedReviews();
+    Review getReviewById(long id);
 }

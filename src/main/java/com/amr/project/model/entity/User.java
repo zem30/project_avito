@@ -5,20 +5,7 @@ import lombok.*;
 import org.hibernate.validator.constraints.Length;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import java.util.Calendar;
@@ -27,18 +14,24 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
+@ToString
 public class User implements UserDetails {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String firstName;
+    private String lastName;
+    private int age;
+    private boolean activate;
+    private String activationCode;
+    private Gender gender;
+    private Calendar birthday;
 
     @Column(unique = true)
     @NotBlank
@@ -55,55 +48,36 @@ public class User implements UserDetails {
     @Length(min = 6, message = "пароль должен быть не менее 6 символов")
     private String password;
 
-    private boolean activate;
-
-    @Column(name = "activation_code")
-    private String activationCode;
-
     @Column(unique = true)
     @Length(min = 11, message = "phone number must be at least 11 characters")
     private String phone;
 
-    @Column(name = "first_name")
-    private String firstName;
-
-    @Column(name = "last_name")
-    private String lastName;
-
-    @Column(name = "age")
-    private int age;
-
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "address_id",referencedColumnName = "id")
+    @ToString.Exclude
     private Address address;
 
     @ManyToMany(fetch = FetchType.LAZY, targetEntity = Role.class, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_role",
             joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id")}
-            )
+            inverseJoinColumns = {@JoinColumn(name = "role_id")})
+    @ToString.Exclude
     private Set<Role> roles;
-
-    @Column(name = "gender")
-    private Gender gender;
-
-    @Column(name = "birthday")
-    private Calendar birthday;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id",referencedColumnName = "id")
+    @ToString.Exclude
     private Image images;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(name = "user_coupon",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "coupon_id")})
+    @ToString.Exclude
     private List<Coupon> coupons;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_cartItems",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "cart_id")})
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<CartItem> cartItems;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
@@ -113,35 +87,33 @@ public class User implements UserDetails {
     private List<Advert> adverts;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_orders")
+    @ToString.Exclude
     private List<Order> orders;
 
     @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_review",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "review_id")})
+    @ToString.Exclude
     private List<Review> reviews;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_shop",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "shop_id")})
+    @ToString.Exclude
     private List<Shop> shops;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Favorite favorite;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinTable(name = "user_discount",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
+    @ToString.Exclude
     private List<Discount> discounts;
-
-    public User(String email, String username, String password) {
-        this.email = email;
-        this.username = username;
-        this.password = password;
-    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

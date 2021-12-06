@@ -14,8 +14,8 @@
 <body>
 <header>
     <div class="container-fluid div-header">
-        <div class="row" style="padding: 10px 0px;">
-            <div class="col-3 div-header-left" style="text-align: right; padding: 0px 50px">
+        <div class="row" style="padding: 10px 0;">
+            <div class="col-2 div-header-left" style="text-align: right; padding: 0 50px">
                 <div class="dropdown">
                     <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
@@ -28,60 +28,52 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-4 div-header-center">
+            <div class="col-6 div-header-center">
                 <div class="input-group d-flex" >
-                    <div class="form-outline">
-                    <input id="searchHomePageInput" class="form-control me-2" type="search" placeholder="Поиск" aria-label="Search">
-                    </div>
+
+                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск" aria-label="Search">
                     <button id="searchHomePageButton" class="btn btn-warning" type="submit">Поиск</button>
                 </div>
             </div>
+
+
+
+            <div class="col-2 div-header-right-two">
+                <h5  sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
+                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('USER')" style="text-align: center">
+                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+            </div>
+
             <div class="col-1 div-header-right-one">
                 <a href="/basket">
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>
             </div>
-            <div class="col-2 div-header-right-one">
-                <a href="/newAdvert">
-                    <button type="button" class="btn btn-outline-warning ">Новое объявление</button>
-                </a>
-            </div>
 
-            <div class="col-2 div-header-right-two" style="text-align: right; padding: 0px 10px">
+            <div class="col-1 div-header-right-three">
                 <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
                         data-toggle="modal" data-target="#staticBackdrop">Войти
                 </button>
                 <form method="get" action="/logout" class="btn_danger_out">
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
-
-                    <form method="get" action="/logout" class="btn_danger_out">
-                        <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
-                        </button>
-                    </form>
-                <h5 class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></h5>
-
                 </form>
-                <h5 sec:authorize="hasAuthority('ADMIN')">
-                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
-                              sec:authentication="principal.username"></a></h5>
-                <h5 sec:authorize="hasAuthority('USER')">
-                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></a></h5>
-
             </div>
         </div>
     </div>
 </header>
 
-<div style="padding: 0% 15%"><h3>Подборка популярных товаров</h3></div>
+<div class="pt-2 ps-3"><h3>Подборка популярных товаров</h3></div>
 <div class="container-fluid item-container"></div>
-<div style="padding: 0% 15%"><h3>Подборка популярных магазинов</h3></div>
+<div class="ps-3"><h3>Подборка популярных магазинов</h3></div>
 <div class="container-fluid shop-container"></div>
 
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
+<!--     registration.js -->
 </div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
@@ -90,6 +82,7 @@
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
 
+<script type="text/javascript" src="js/Rating.js"></script>
 <script type="text/javascript" src="js/home-page.js"></script>
 <script type="text/javascript" src="js/search.js"></script>
 <script src="/js/registration.js"></script>

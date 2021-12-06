@@ -20,7 +20,6 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
-@Table(name = "city")
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
@@ -29,7 +28,6 @@ import java.util.List;
 public class City {
 
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -47,6 +45,6 @@ public class City {
     @ManyToOne(fetch = FetchType.LAZY)
     private Country country;
 
-    @OneToMany(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<Address> addresses;
 }

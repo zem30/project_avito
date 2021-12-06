@@ -1,3 +1,4 @@
+const url = 'http://localhost:8888'
 const userService = {
     head: {
         'Accept': 'application/json',
@@ -10,7 +11,6 @@ const userService = {
         body: JSON.stringify(user)
     }),
 }
-$(document).ready(function () {
 
     $('#registrationButtonModal').on('click', function () {
         $('#staticBackdrop').slideUp()
@@ -20,34 +20,37 @@ $(document).ready(function () {
         $('.registrationForm').slideUp()
         $('#staticBackdrop').slideDown()
     })
-    $('.registrationButton').on('click', async function (event) {
-        let imageInput = $('.avatarImage')[0].files[0]
-        let image
-        if (imageInput !== undefined) {
-            image = imageToBinary(imageInput)
+
+function sendRegistration() {
+    let genderCheck = document.getElementsByClassName('form-check-input')
+    let gender;
+    for (let i = 0; i < genderCheck.length; i++) {
+        if (genderCheck[i].checked) {
+            gender = genderCheck[i].value
+            i = genderCheck.length
         }
-        let user = {
-            email: $('.registrationForm .email').val(),
-            username: $('.registrationForm .username').val(),
-            password: $('.registrationForm .password').val(),
-            phone: $('.registrationForm .phone').val(),
-            firstName: $('.registrationForm .firstName').val(),
-            lastName: $('.registrationForm .lastName').val(),
-            gender: $('.registrationForm input[name="gender"]:checked').val(),
-            age: $('.registrationForm .age').val(),
-            birthday: $('.registrationForm .birthday').val(),
-            images: {
-                picture: image,
-                isMain: true
-            }
+    }
+    let imageInput = $('#reg-avatar')[0].files[0]
+    let image
+    if (imageInput !== undefined) {
+        image = imageToBinary(imageInput)
+    }
+    let user = {
+        email: $('#reg-email').val(),
+        username: $('#reg-username').val(),
+        password: $('#reg-password').val(),
+        phone: $('#reg-phoneNumber').val(),
+        firstName: $('#reg-firstName').val(),
+        lastName: $('#reg-lastName').val(),
+        gender: gender,
+        birthday: $('#reg-birthday').val(),
+        images: {
+            picture: image,
+            isMain: true
         }
-        console.log(user)
-        userVerification(user)
-    })
-
-
-})
-
+    }
+    userVerification(user)
+}
 //check user to exists in BD and validation user fields
 async function userVerification(user) {
     $('.alert').hide("slide")
@@ -56,7 +59,6 @@ async function userVerification(user) {
         $('#successfulRegistration').show('slide')
     } else {
         let responseBody = await response.json().then(result => result)
-        console.log(responseBody)
         if (responseBody.isExist !== undefined) {
             let massage = responseBody.isExist;
             let alert = $('#isExistAlert')
@@ -65,15 +67,12 @@ async function userVerification(user) {
             alert.show('slide')
         } else {
             responseBody = responseBody.errors
-            for (let i in user) {
-                let inputAlert = $('#' + i.toString() + 'Alert')
-                if (responseBody[i] !== undefined) {
-                    let alertMassage = `<small> ${responseBody[i]} </small>`
-                    inputAlert.empty()
-                    inputAlert.append(alertMassage)
-                    inputAlert.show('slide')
-                }
+            let alert = $('#isErrors')
+            alert.empty()
+            for(let i in responseBody) {
+                alert.append(responseBody[i] + '; ')
             }
+            alert.show('slide')
         }
     }
 }
@@ -133,8 +132,41 @@ function close_btn_click(){
 }
 close_btn_click();
 
+// проверка на аутентификацию
+function sendLogin() {
+    let user = {
+        username: $('#SignInUsername').val(),
+        password: $('#SignInPassword').val()
+    }
+    if (user.username === "" || user.password === "") {
+        $('#ifError').hide()
+        $('#ifEmpty').show()
+    } else {
+        fetch(url + '/login', {
+            method: 'POST',
+            body: JSON.stringify(user),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+            .then(response => {
+                if (response.status >= 200 && response.status < 300) {
+                    window.location.replace(response.url)
+                } else {
+                    document.getElementById('ifError').innerText = `О нет, чувак, логин или пароль введены неверно (или еще что-то пошло не так). Вот код статуса ответа: ${response.status}, разбирайся.`
+                    $('#ifEmpty').hide()
+                    $('#ifError').show()
+                }
+            })
+            .catch(e => {
+                document.getElementById('ifError').innerText = "А это окно говорит, что что-то посерьезней случилось. Консоль почитай."
+                $('#ifError').show()
+                console.error(e)
+            })
+    }
+}
+
 //form login
-// language=HTML
 let form_login = `<div class="modal-dialog">
                     <div class="modal-content">
                         <div style="text-align: right">
@@ -146,14 +178,17 @@ let form_login = `<div class="modal-dialog">
                                        alt="https://d2u3dcdbebyaiu.cloudfront.net/uploads/atch_img/172/69ae45600772983179fe0d89b3f3cc1b_crop.jpeg">
                               </div>
                         </div>
-          
+                        <div class="alert alert-danger" role="alert" style="display: none" id="ifError">
+                            Введены неправильные данные!
+                        </div>
+                        <div class="alert alert-warning" role="alert" style="display: none" id="ifEmpty">
+                            Не не не, заполняем поля, пожалуйста!
+                        </div>
                         <div class="modal-body">
-                            <form method="post" action="/index">
                                 <div class="mb-3">
                                     <label for="SignInUsername" class="form-label">Имя пользователя</label>
                                     <input type="text" placeholder="Username" class="form-control"
                                            id="SignInUsername" name="username">
-                                    <div id="emailHelp" class="form-text"></div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="SignInPassword" class="form-label">Пароль</label>
@@ -167,13 +202,12 @@ let form_login = `<div class="modal-dialog">
                                         </label>
                                     </div>
                                     <div class="button-in">
-                                        <button type="submit" class="btn btn-warning">Войти</button>
+                                        <button type="submit" class="btn btn-warning" onclick="sendLogin()">Войти</button>
                                     </div>
                                 </div>
-                            </form>
                         </div>
                         <div class="modal-footer">
-                            <a id="registrationButtonModal" class="input-button-registration" href="#">Зарегистрироваться</a>
+                            <a id="registrationButtonModal" class="input-button-registration">Зарегистрироваться</a>
                         </div>
                     </div>
                   </div>`
@@ -181,42 +215,42 @@ let form_login = `<div class="modal-dialog">
 //form registration
 let form_registration = `<!--<div class="modal registrationForm">-->
 <!--    <div class=" mx-auto col-lg-4">-->
-        <form class="p-4 p-md-5 border rounded-3 bg-light" id="newUserForm">
+        <form class="p-4 p-md-5 border rounded-3 bg-light" id="registrationForm">
             <div style="text-align: right">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="form-floating my-3" id="email">
-                <input type="email" class="form-control email" name="email">
+                <input type="email" class="form-control email" name="email" id="reg-email">
                 <label for="email">Email address</label>
                 <div class="alert alert-danger collapse" role="alert" id="emailAlert">
                 </div>
             </div>
             <div class="form-floating mb-3" id="username">
-                <input class="form-control username" name="username">
+                <input class="form-control username" name="username" id="reg-username">
                 <label for="username">User Name</label>
                 <div class="alert alert-danger collapse" role="alert" id="usernameAlert">
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input class="form-control firstName" id="firstName" name="firstName">
+                <input class="form-control firstName" name="firstName" id="reg-firstName">
                 <label for="firstName">First Name</label>
                 <div class="alert alert-danger collapse" role="alert" id="firstNameAlert">
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input class="form-control lastName" id="lastName" name="lastName">
+                <input class="form-control lastName" name="lastName" id="reg-lastName">
                 <label for="lastName">Last Name</label>
                 <div class="alert alert-danger collapse" role="alert" id="lastNameAlert">
                 </div>
             </div>
             <div class="form-floating mb-3">
-                <input type="password" class="form-control password" id="password" name="password">
+                <input type="password" class="form-control password" name="password" id="reg-password">
                 <label for="password">Password</label>
                 <div class="alert alert-danger collapse" role="alert" id="passwordAlert">
                 </div>
             </div>
             <div class="form-floating mb-2">
-                <input type="tel" class="form-control phone" id="phone" value="+7" name="phoneNumber">
+                <input type="tel" class="form-control phone" value="+7" name="phoneNumber" id="reg-phoneNumber">
                 <label for="phone">Phone Number</label>
                 <div class="alert alert-danger collapse" role="alert" id="phoneAlert">
                 </div>
@@ -238,34 +272,28 @@ let form_registration = `<!--<div class="modal registrationForm">-->
                            value="UNKNOWN">
                     <label class="form-check-label" for="UNKNOWN">Other</label>
                 </div>
-            </div>
-            <div class="form-floating mb-2">
-                <input type="number" class="form-control age" id="age" name="age">
-                <label for="age">Age</label>
-                <div class="alert alert-danger collapse" role="alert" id="ageAlert">
-                </div>
-            </div>
-
+            </div>            
             <div class="form-floating mb-3">
-                <input type="date" class="form-control birthday" id="birthday" name="birthday">
+                <input type="date" class="form-control birthday" name="birthday" id="reg-birthday">
                 <label for="birthday">Date of birth:</label>
                 <div class="alert alert-danger collapse" role="alert" id="birthdayAlert">
                 </div>
             </div>
             <div class="mb-3">
                 <label for="avatar" class="form-label">User avatar</label>
-                <input class="form-control avatarImage" accept="image/*" type="file" id="avatar" name="avatar">
+                <input class="form-control avatarImage" accept="image/*" type="file" name="avatar" id="reg-avatar">
             </div>
-            <button class="w-100 btn btn-lg btn-warning registrationButton" type="button" id="registrationButton"
-                    onclick="">
+            <button class="w-100 btn btn-lg btn-warning registrationButton" type="button" id="registrationButton" name="registrationButton"
+                    onclick="sendRegistration()">
                 Регистрация
             </button>
             <div class="alert alert-danger collapse" role="alert" id="isExistAlert">
             </div>
-            <div class="alert alert-success collapse" role="alert" id="successfulRegistration">
-                User have been registered
+            <div class="alert alert-danger collapse" role="alert" id="isErrors">
             </div>
-
+            <div class="alert alert-success collapse" role="alert" id="successfulRegistration">
+                Заявка подана, для активации аккаунта мы отправили ссылку на Вашу почту.
+            </div>
         </form>
 <!--    </div>-->
 <!--</div>-->`

@@ -17,7 +17,9 @@
     <div class="container-fluid div-header">
         <div class="row" style="padding: 10px 0px;">
             <div class="col-2 div-header-left-one">
-                <a href="/"><button class="btn btn-primary" type="submit">На главную</button></a>
+                <a href="/">
+                    <button class="btn btn-primary" type="submit">На главную</button>
+                </a>
             </div>
             <div class="col-2 div-header-left-two" style="text-align: right; padding: 0px 50px">
                 <div class="dropdown">
@@ -41,7 +43,15 @@
             <div class="col-2 div-header-right-one" style="padding: 0px 50px">
                 <button type="button" class="btn btn-outline-primary basket-btn">Корзина</button>
             </div>
-            <div class="col-2 div-header-right-two" style="text-align: right; padding: 0px 10px">
+            <div class="col-1 div-header-right-two">
+                <h5 sec:authorize="hasAuthority('ADMIN')">
+                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('USER')">
+                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+            </div>
+            <div class="col-1 div-header-right-three" style="text-align: right; padding: 0px 10px">
                 <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
                         data-toggle="modal" data-target="#staticBackdrop">Войти
                 </button>
@@ -49,27 +59,65 @@
                     <button sec:authorize="isAuthenticated()" class="btn btn-outline-danger" type="submit">Выйти
                     </button>
                 </form>
-<<<<<<< HEAD
-                <h5 class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                          sec:authentication="principal.username"></h5>
-=======
-                <h5 sec:authorize="hasAuthority('ADMIN')">
-                    <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
-                       sec:authentication="principal.username"></a></h5>
-                <h5 sec:authorize="hasAuthority('USER')">
-                    <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
-                       sec:authentication="principal.username"></a></h5>
->>>>>>> master
             </div>
         </div>
     </div>
 </header>
 
+<div sec:authorize="isAnonymous()" class="alert alert-warning alert-dismissible fade show m-0" role="alert">
+    Для оформления заказа Вам необходимо войти или зарегистрироваться
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
 <div class="container-fluid vh-100 home-shop-container">
     <div class="row">
+        <div class="col-2 home-shop-left-body " style="background: #91a2bd">
+        </div>
+        <div class="col-10 home-shop-right-body" style="background: #e3e3e3">
+        </div>
+        <!-- For reviews -->
         <div class="col-2 home-shop-left-body " style="background: #91a2bd"></div>
-        <div class="col-10 home-shop-right-body" style="background: #e3e3e3"></div>
+        <div class="col-10 home-shop-right-body reviews" style="background: #e3e3e3; padding-top: 10px">
+            <div class="headReview">
+                <h3>
+                    Все отзывы
+                </h3>
+                <button sec:authorize="isAuthenticated()" type="button" style="margin-top: 5px" id="btnUserShopReviewAddForm"
+                        class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userReviewAddForm">Оставить отзыв</button>
+            </div>
+            <div class="review-listingTable">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Id отзыва</th>
+                        <th>Автор</th>
+                        <th>Дата отзыва</th>
+                        <th>Описание</th>
+                        <th>Плюсы</th>
+                        <th>Минусы</th>
+                        <th>Рейтинг</th>
+                        <th>Изображение</th>
+                    </tr>
+                    </thead>
+                    <tbody class="review-listing"></tbody>
+                </table>
+            </div>
+        </div>
+        <!-- For quantity -->
+        <div class="col-2 home-shop-left-body " style="background: #91a2bd"></div>
+        <div class="col-10 home-shop-right-body" style="background: #e3e3e3">
+            <!-- Start JS -->
+            <div class="headForQuantity"></div>
+            <div>
+                <table class="table table-striped">
+                    <thead class="quantity-table-head"></thead>
+                    <tbody class="quantity-table-body"></tbody>
+                </table>
+            </div>
+            <!-- End JS -->
+        </div>
     </div>
+    <div th:replace="modal/userReviewAddForm"/>
 </div>
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
@@ -81,6 +129,8 @@
         integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj"
         crossorigin="anonymous"></script>
 
+<script src="../js/Review.js"></script>
+<script src="../js/Rating.js"></script>
 <script type="text/javascript" src="../js/search.js"></script>
 <script type="text/javascript" src="../js/home-basket-logic.js"></script>
 <script src="../js/home-shop-page.js"></script>

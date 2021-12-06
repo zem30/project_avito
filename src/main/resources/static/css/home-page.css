@@ -4,12 +4,18 @@
 .item-div img{
     width: 150px;
 }
+.img-thumbnail {
+    border: 0  ;
+    margin: 0 auto;
+    display: inline-block;
+    max-width: 100%;
+    height: auto;
+}
 .item-div{
     border: solid 1px #dbdbdb;
     border-radius: 5px;
     padding: 10px;
     margin: 10px;
-    text-align: left
 }
 .item-div{
     display:inline-block;
@@ -19,13 +25,13 @@
 }
 .shop-div img{
     width: 100px;
+    height: 70px;
 }
 .shop-div{
     border: solid 1px #dbdbdb;
     border-radius: 5px;
     padding: 10px;
     margin: 10px;
-    text-align: left;
 }
 .shop-div{
     display: inline-block;

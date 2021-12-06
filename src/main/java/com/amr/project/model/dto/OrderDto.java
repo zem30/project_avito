@@ -1,16 +1,12 @@
 package com.amr.project.model.dto;
-
 import com.amr.project.model.entity.Address;
-import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.Status;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
-
-import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -29,4 +25,9 @@ public class OrderDto {
     private String buyerName;
     private String buyerPhone;
     private Collection<ItemDto> items;
+    private float shippingCost;
+    private float itemCost;
+    private float subtotal;
+    private float tax;
+    private Date deliverDate;
 }

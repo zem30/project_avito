@@ -12,16 +12,14 @@ public class TrackedEmailReview {
     public Mail trackedEmailReviewPersist(Review review) {
         Mail mail = new Mail();
         mail.setTo(review.getShop().getEmail());
-        mail.setMessage("В магазине: " + review.getShop().getName() + "был оставлен отзыв к товару "
-                + review.getItem().getName());
+        mail.setMessage("Магазину был оставлен отзыв: " + review.getShop().getName());
         return mail;
     }
 
     public Mail trackedEmailReviewDelete(Review review) {
         Mail mail = new Mail();
         mail.setTo(review.getShop().getEmail());
-        mail.setMessage("Отзыв в  магазине: " + review.getShop().getName() + "к товару " +
-                review.getItem().getName() + "был удален" + review.getText());
+        mail.setMessage("Магазину был оставлен отзыв: " + review.getShop().getName());
         return mail;
     }
 

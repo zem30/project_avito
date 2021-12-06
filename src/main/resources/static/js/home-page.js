@@ -1,3 +1,4 @@
+let shopItems = "";
 // Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
@@ -10,8 +11,8 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-function popular_item() {
-    fetch("http://localhost:8888/shop/items")
+async function popular_item() {
+    await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
             let logs = ``;
@@ -21,52 +22,73 @@ function popular_item() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-
 popular_item();
 
 //получить популярные магазины
-function popular_shops() {
-    fetch("http://localhost:8888/shop_api/shops")
+async function popular_shops() {
+    await fetch("http://localhost:8888/shop_api/shops")
         .then(res => res.json())
-        .then(shops => {
+        .then(async shops => {
             let logs1 = ``;
             shops.forEach((s) => {
                 logs1 += `<div class="shop-div">
         <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
         <h6>${s.name}</h6>
         <p>${s.description}</p>
+        <p class="star">★ ${Math.round(s.rating,2)}</p>
         <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-        </div>`
+        </div>`;
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
 }
-
 popular_shops();
 
 //получение предметов по поиску
-function findItems() {
+async function findItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('searchHomePageInput');
     // обрабатываем нажатие кнопки поиска
-    $(document.getElementById('searchHomePageButton')).on('click', function () {
-        console.log(searchInput.value)
-        fetch("http://localhost:8888/shop/items")
+
+    $(document.getElementById('searchHomePageButton')).on('click', async function () {
+        await fetch("http://localhost:8888/shop/items")
             .then(res => res.json())
             .then(items => {
                 document.querySelector('.item-container').innerHTML = search(items, searchInput);
             })
+        await fetch("http://localhost:8888/shop_api/shops")
+            .then(res => res.json())
+            .then(async shops => {
+                let output = ``;
+                shops.forEach((s) => {
+                    s.items.forEach((item) => {
+                        shopItems += item.name.toLowerCase() + ",";
+                    })
+                    console.log(shopItems);
+                    if (shopItems.includes(searchInput.value.toLowerCase())) {
+                        output += `<div class="shop-div">
+                        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
+                        <h6>${s.name}</h6>
+                        <p>${s.description}</p>
+                        <p class="star">★ ${Math.round(s.rating, 2)}</p>
+                        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                        </div>`;
+                    }
+                    shopItems = "";
+                })
+                document.querySelector(".shop-container").innerHTML = output;
+            })
     });
+
 }
-
 findItems();
-
 
 //получить name cookies
 function getCookie(name) {
@@ -77,42 +99,42 @@ function getCookie(name) {
 }
 
 //прибавить количество товара
+let itemCount;
 function basket_plus_click() {
-    $(document).on("click", ".basket-plus-div", function (e) {
-        let id = e.target.id;
-        let user_tag = document.getElementById("userTag");
-        if (user_tag === null) {
-            let cookie_value = getCookie(id + "basket")
-            if (cookie_value !== undefined) {
-                let value = Number(cookie_value) + 1;
-                document.cookie = id + "basket" + "=" + value + "; path=/";
-            } else {
-                document.cookie = id + "basket" + "=" + 1 + "; path=/";
-            }
+    $(document).on("click", ".basket-plus-div", async function (e) {
+        await fetch("http://localhost:8888/shop/item/" + e.target.id)
+            .then(res => res.json())
+            .then(item => {
+                itemCount = item.count;
+            })
+        if (itemCount === 0 || itemCount === null){
+            alert('Данного товара нет в наличии')
         } else {
-            let data = {}
-            send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
-            console.log(e.target.id)
-            let id = e.target.id
-            let cookie_value = getCookie(id)
-            if (cookie_value !== undefined) {
-                let value = Number(cookie_value) + 1;
-                document.cookie = id + "=" + value + "; path=/";
+            let id = e.target.id;
+            let user_tag = document.getElementById("userTag");
+            if (user_tag === null) {
+                let cookie_value = getCookie(id + "basket")
+                if (cookie_value !== undefined) {
+                    let value = Number(cookie_value) + 1;
+                    document.cookie = id + "basket" + "=" + value + "; path=/";
+                } else {
+                    document.cookie = id + "basket" + "=" + 1 + "; path=/";
+                }
             } else {
-                document.cookie = id + "=" + 1 + "; path=/";
+                let data = {}
+                send_data("http://localhost:8888/api/cart-item/add/item/" + id, data, "POST");
+                alert('Добавлено в корзину')
             }
         }
     })
 }
-
-
 basket_plus_click();
 
 //кнопка корзина
-function basket_button(){
+function basket_button() {
     let user_tag = document.getElementById("userTag");
     let text = ``;
-    if (user_tag === null){
+    if (user_tag === null) {
         text = `<a href="/basket">
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
@@ -121,9 +143,8 @@ function basket_button(){
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>`
     }
-    document.querySelector(".div-header-right-one").innerHTML = text
+    document.querySelector(".div-header-right-one").innerHTML = text;
 }
 basket_button();
-
 
 

@@ -8,6 +8,7 @@ import lombok.*;
 @Setter
 @EqualsAndHashCode
 @Builder
+@ToString
 public class AddressDto {
     private Long id;
     private String cityIndex;
@@ -15,6 +16,4 @@ public class AddressDto {
     private String house;
     private String city;
     private String country;
-
-
 }

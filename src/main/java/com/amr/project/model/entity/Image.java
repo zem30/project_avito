@@ -32,6 +32,10 @@ public class Image {
     private User user;
 
     @JsonIgnore
+    @ManyToMany(mappedBy = "logo")
+    private List<Review> reviews;
+
+    @JsonIgnore
     @ManyToMany(mappedBy = "images")
     private List<Item> items;
 
@@ -43,4 +47,10 @@ public class Image {
     @ManyToMany(mappedBy = "images")
     private List<Advert> adverts;
 
+    @Override
+    public String toString() {
+        return "Image{" +
+                "id=" + id +
+                '}';
+    }
 }

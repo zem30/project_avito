@@ -2,18 +2,28 @@
 let searchHomeShopButton = document.getElementById('searchHomeShopPageButton')
 //получить pathname url
 const pathname = document.location.pathname;
+
+//получить названия и рейтинг
+let shopName = ""
+let itemName = ""
+let itemRating = ""
+let shopRating = ""
+
 //получить все товары этого магазина
-function shop_items(){
-        fetch("http://localhost:8888/shop_api" + pathname)
-            .then(res => res.json())
-            .then(shop => {
-                let logo = `<div class="shop-div">
-        <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
-        <h3>${shop.name}</h3>
-        <h3>${shop.location.name}</h3>
-        </div>`;
-                let text = `<div><h3>Самые популярные товары</h3></div>`
-                let items = ``;
+async function shop_items() {
+    await fetch("http://localhost:8888/shop_api" + pathname)
+        .then(res => res.json())
+        .then(shop => {
+            shopRating = shop.rating
+            shopName = shop.name;
+            let logo = `<div class="shop-div">
+                <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
+                <h3>${shop.name}</h3>
+                <h3>${shop.location.name}</h3>
+                <div id="ratingShow"></div>
+                </div>`;
+            let text = `<div><h3>Самые популярные товары</h3></div>`
+            let items = ``;
                 shop.items.forEach((i) => {
                     items += `<div class="item-div">
         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
@@ -27,17 +37,24 @@ function shop_items(){
                 document.querySelector(".home-shop-left-body").innerHTML = logo;
             })
 }
+
 //получить страницу товара
-function item_present(){
-    fetch("http://localhost:8888/shop" + pathname)
+async function item_present() {
+    await fetch("http://localhost:8888/shop" + pathname)
         .then(res => res.json())
         .then(item => {
-            let item_present = `<div>
-                                <h3>name: ${item.name}</h3>
-                                <h3>price: ${item.price}</h3>
-                                <h3>shopName: ${item.shopName}</h3>
-                                <button type="button" class="btn btn-primary basket-plus-div" id="${item.id}">В корзину</button>
-                                </div>`;
+            itemRating = item.rating
+            itemName = item.name
+            let item_present = `
+                                <div class="item-present">
+                                    <h3>name: ${item.name}</h3>
+                                    <h3>price: ${item.price}</h3>
+                                    <h3>shopName: ${item.shopName}</h3>
+                                    <div id="ratingShow"></div>
+                                    <button type="button" class="btn btn-primary basket-plus-div" id="${item.id}">В корзину</button>
+                                    </div>
+                              
+                                 `;
             let item_img = ``;
             item.images.forEach((i) => {
                 item_img += `<div class="item-div">
@@ -49,13 +66,13 @@ function item_present(){
 }
 
 //получение предметов по поиску
-function findShopItems() {
+async function findShopItems() {
     // получаем значение поиска
     const searchInput = document.getElementById('searchHomeShopPage');
     // обрабатываем нажатие кнопки поиска;
-    $(searchHomeShopButton).on('click', function () {
+    $(searchHomeShopButton).on('click', async function () {
         console.log(searchInput.value)
-        fetch("http://localhost:8888/shop_api" + pathname)
+        await fetch("http://localhost:8888/shop_api" + pathname)
             .then(res => res.json())
             .then(shop => {
                 document.querySelector('.home-shop-right-body').innerHTML = search(shop.items, searchInput);
@@ -64,19 +81,67 @@ function findShopItems() {
 }
 
 //определить с какого контроллера зашли на страницу
-function shop_or_item() {
+async function shop_or_item() {
     if (pathname.indexOf("basket") > -1) {
         basket_cookie_name();
     } else if (pathname.indexOf("shop") > -1) {
-        shop_items();
-        findShopItems();
+        await shop_items();
+        await userShopReview()
+        await getRatingHtml();
+        await getRating(shopRating)
+        await getShopReviews();
+        await findShopItems
     } else if (pathname.indexOf("item") > -1) {
-        item_present();
+        await item_present();
+        await userItemReview();
+        await getRatingHtml();
+        await getRating(itemRating)
+        await getItemReviews();
+        await findQuantityInShops();
     }
 }
 shop_or_item();
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+let tableBody;
+let tableHead = '<tr>';
+tableHead += '<th>Адрес</th>';
+tableHead += '<th>Наличие</th>';
+tableHead += '<th>Режим работы</th>';
+tableHead += '</tr>';
 
+async function findQuantityInShops(){
+    document.querySelector(".headForQuantity").innerHTML = '<h3>Наличие в магазинах</h3>';
+    document.querySelector(".quantity-table-head").innerHTML = tableHead;
+    await fetch("http://localhost:8888/shop_api/shops")
+        .then(res => res.json())
+        .then(shops => {
+            shops.forEach( (shop) => {
+                shop.items.forEach( (item) => {
+                    if (item.name === itemName){
+                        tableBody = '<tr>';
+                        tableBody += '<td>' + shop.location.name + '</td>';
+                        tableBody += '<td>' + paste(item.count) + '</td>';
+                        tableBody += '<td> Круглосуточно </td>';
+                        tableBody += '</tr>';
+                    }
+                    document.querySelector(".quantity-table-body").innerHTML = tableBody;
+                })
+            })
+        })
+}
 
-
-
-
+function paste(count){
+    if (count === 0) {
+        return 'не осталось';
+    } else if (count < 150) {
+        return  '<span title="мало"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    } else if (count > 150 && count < 450) {
+        return  '<span title="достаточно"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    } else {
+        return  '<span title="много"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity">' +
+            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/Svg_example1.svg/1920px-Svg_example1.svg.png" class="imgForQuantity"></span>';
+    }
+}
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

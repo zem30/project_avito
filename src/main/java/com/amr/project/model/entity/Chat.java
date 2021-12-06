@@ -13,6 +13,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @Builder
+@NoArgsConstructor
 public class Chat {
     @Id
     @Column(name = "id")
@@ -30,9 +31,5 @@ public class Chat {
     public Chat(List<User> members) {
         this.members = members;
         this.hash = members.stream().map(User::getId).map(Object::hashCode).mapToLong(e -> e).sum();
-    }
-
-    public Chat() {
-
     }
 }

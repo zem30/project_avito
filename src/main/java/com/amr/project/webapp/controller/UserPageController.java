@@ -38,6 +38,7 @@ public class UserPageController {
         UserDto userDto = userMapper.userToDto(user);
         System.err.println(userDto);
         model.addAttribute("user", userDto);
+        model.addAttribute("discount", user.getDiscounts());
         return "UserPage";
     }
 
@@ -88,5 +89,12 @@ public class UserPageController {
         UserDto userDto = userMapper.userToDto(userService.getAuthorized());
         model.addAttribute("user",userDto);
         return "user-orders";
+    }
+
+    @GetMapping("/user-reports")
+    public String getUserReports(Model model){
+        UserDto userDto = userMapper.userToDto(userService.getAuthorized());
+        model.addAttribute("user",userDto);
+        return "reports";
     }
 }

@@ -3,7 +3,6 @@ package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ShopDto;
-import com.amr.project.service.abstracts.ShopService;
 import com.amr.project.service.impl.ShopServiceImpl;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;

@@ -12,13 +12,16 @@
 <div class="nav_panel ">
     <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom ">
         <div class="container-fluid ">
-            <h4><img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg" alt="" height="20" width="30">
+            <h4><a href="/"><img src="https://covr.org/wp-content/uploads/Amazon-swoop-145x100.jpg" alt="rollback"
+                                 height="20" width="30"></a>
                 <a href="/" class="heading">Магазины</a>
-                <a href="" class="heading">Товары</a>
+                <a href="/" class="heading">Товары</a>
                 <a th:href="@{/user/{id}/userlist (id=${user.id})}" class="heading">Список покупателей</a>
                 <a href="" class="heading">Еще...</a></h4>
             <div class="btn_danger_out">
-                <button class="btn btn-outline-danger ">Sign Out</button>
+                <a href="/logout">
+                    <button class="btn btn-outline-danger ">Sign Out</button>
+                </a>
             </div>
         </div>
     </nav>
