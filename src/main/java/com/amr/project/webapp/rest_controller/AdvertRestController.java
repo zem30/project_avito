@@ -5,6 +5,7 @@ import com.amr.project.converter.AdvertMapper;
 import com.amr.project.model.dto.AdvertDto;
 import com.amr.project.model.entity.Advert;
 
+import com.amr.project.model.entity.CartItem;
 import com.amr.project.service.abstracts.AdvertService;
 import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.abstracts.UserService;
@@ -12,8 +13,10 @@ import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
+import java.security.Principal;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,17 +34,14 @@ public class AdvertRestController {
 
     @ApiOperation(value = "Добавление объявления пользователя")
     @PostMapping("/advert/new")
-    public ResponseEntity<?> addAdvert(@RequestBody AdvertDto advertDto){
-        System.out.println(advertDto);
+    public ResponseEntity<?> addAdvert(@RequestBody AdvertDto advertDto, Principal principal ){
         Advert advert = advertMapper.dtoToAdvert(advertDto);
         if (advertDto.getName() == null)
             return ResponseEntity.badRequest().body("empty advert");
+            advert.setUser(userService.findByUsername(principal.getName()));
 
-//        advert.setCategories(Arrays.stream(advertDto.getCategoriesName())
-//                .map(categoryService::getCategory)
-//                .collect(Collectors.toList()));
-//        advert.setUser(userService.findByUsername(advertDto.getUser().getUsername()));
         advertService.persist(advert);
+
         return ResponseEntity.ok().build();
     }
 

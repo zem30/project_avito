@@ -1,6 +1,6 @@
 package com.amr.project.model.dto;
 
-import com.amr.project.model.entity.Category;
+
 import com.amr.project.model.entity.User;
 import lombok.*;
 
@@ -20,7 +20,7 @@ public class AdvertDto {
     private String description;
     private int price;
     private String email;
-    private List<CategoryDto>categories;
+    private List<CategoryDto>  categories;
     private User user;
     private String[] categoriesName;
     private boolean isPretendentToBeDeleted;

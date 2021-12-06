@@ -56,15 +56,10 @@ public class AdvertServiceImpl extends ReadWriteServiceImpl<Advert, Long> implem
         return advert;
     }
 
-//    @Override
-//    public List<Advert> getAllAdvert(User user) {
-//        List<Long> list = user.getAdverts().stream().map(advert -> advert.getId()).sorted().collect(Collectors.toList());
-//        List<Advert> advertList = new ArrayList<>();
-//        for (Long id : list) {
-//            advertList.add(advertRepository.findById(id).orElse(null));
-//        }
-//        return advertList;
-//    }
+    @Override
+    public List<Advert> getAllUser(User user) {
+        return advertDao.getAllUser(user);
+    }
 
 
     @Override

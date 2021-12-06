@@ -5,7 +5,7 @@ import com.amr.project.model.entity.Advert;
 import org.mapstruct.Mapper;
 
 
-@Mapper(componentModel = "spring" )
+@Mapper(componentModel = "spring", uses = ImageMapper.class)
 public interface AdvertMapper {
 
     AdvertDto advertToDto(Advert advert);

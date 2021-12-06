@@ -54,5 +54,11 @@ public class AdvertModeratorController {
         advertService.update(advert);
         return ResponseEntity.ok(advertMapper.advertToDto(advert));
     }
+    @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию товаров для счетчика")
+    @GetMapping("/getUnmoderatedAdvertsCount")
+    public ResponseEntity<Long> getUnmoderatedItemsCount() {
+        int size = advertService.getUnmoderatedAdvets().size();
+        return ResponseEntity.ok((long) size);
+    }
 
 }
