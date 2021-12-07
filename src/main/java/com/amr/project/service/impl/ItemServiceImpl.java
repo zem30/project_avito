@@ -105,7 +105,7 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     }
 
     @Override
-    public List<ItemDto> getItemByCategoryId(Long id) {
-        return itemDao.getItemByCategoryId(id).stream().map(itemMapper::itemToDto).collect(Collectors.toList());
+    public List<ItemDto> getItemsByCategoryId(Long id) {
+        return itemDao.getItemsByCategoryId(id).stream().map(itemMapper::itemToDto).collect(Collectors.toList());
     }
 }

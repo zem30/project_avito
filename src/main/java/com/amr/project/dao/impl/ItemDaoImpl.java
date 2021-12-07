@@ -40,7 +40,7 @@ public class ItemDaoImpl extends ReadWriteDaoImpl<Item, Long> implements ItemDao
     }
 
     @Override
-    public List<Item> getItemByCategoryId(Long id) {
+    public List<Item> getItemsByCategoryId(Long id) {
         TypedQuery<Item> query = entityManager.createQuery(
                 "select u from Item u join u.categories r where r.id=:id", Item.class);
         query.setParameter("id", id);

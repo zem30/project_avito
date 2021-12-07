@@ -23,5 +23,5 @@ public interface ItemService extends ReadWriteService<Item, Long> {
 
     List<Item> getAllItem(User user);
 
-    List<ItemDto> getItemByCategoryId(Long id);
+    List<ItemDto> getItemsByCategoryId(Long id);
 }

@@ -12,7 +12,7 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-async function popular_item() {
+async function popular_items() {
     await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
@@ -31,7 +31,7 @@ async function popular_item() {
         })
 }
 
-popular_item();
+popular_items();
 
 //получить популярные магазины
 async function popular_shops() {
@@ -161,20 +161,20 @@ async function catalog() {
             category.forEach((category) => {
                 temp += `<li><a class="dropdown-item" href="javascript:getData(${category.id})">${category.name}</a></li>`;
             })
-            document.querySelector('#catalog').innerHTML = temp;
+            document.querySelector('#catalog').innerHTML += temp;
         })
 }
 
 catalog()
 
 function getData(id) {
-    let itemId = [];
-    fetch(`shop/itemByCategory/${id}`)
+    let itemsId = [];
+    fetch(`shop/itemsByCategory/${id}`)
         .then(res => res.json())
         .then(items => {
             let logs = ``;
             items.forEach((i) => {
-                itemId.push(i.id)
+                itemsId.push(i.id)
                 logs += `<div class="item-div">
                          <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
                          <h6>${i.name}</h6>
@@ -194,7 +194,7 @@ function getData(id) {
             let output = ``;
             shops.forEach((s) => {
                 s.items.forEach((item) => {
-                    if (itemId.includes(item.id)) {
+                    if (itemsId.includes(item.id)) {
                         if (!shopsId.includes(s.id)) {
                             shopsId.push(s.id);
                             output += `<div class="shop-div">

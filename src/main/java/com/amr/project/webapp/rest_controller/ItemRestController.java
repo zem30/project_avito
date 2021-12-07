@@ -80,9 +80,9 @@ public class ItemRestController {
         return itemService.getAllItemsRatingSort();
     }
 
-    @GetMapping("itemByCategory/{id}")
-    public ResponseEntity<List<ItemDto>> getItemByCategory(@PathVariable @NonNull Long id) {
-        List<ItemDto> item = itemService.getItemByCategoryId(id);
-        return ResponseEntity.ok().body(item);
+    @GetMapping("itemsByCategory/{id}")
+    public ResponseEntity<List<ItemDto>> getItemsByCategory(@PathVariable @NonNull Long id) {
+        List<ItemDto> items = itemService.getItemsByCategoryId(id);
+        return ResponseEntity.ok().body(items);
     }
 }

@@ -13,5 +13,5 @@ public interface ItemDao extends ReadWriteDao<Item, Long> {
 
     List<Item> getMostPopular(int quantity);
 
-    List<Item> getItemByCategoryId(Long id);
+    List<Item> getItemsByCategoryId(Long id);
 }
