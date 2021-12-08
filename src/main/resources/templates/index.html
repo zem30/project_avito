@@ -35,6 +35,9 @@
                     <h5 sec:authorize="hasAuthority('USER')">
                         <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
                            sec:authentication="principal.username"></a></h5>
+                    <h5 sec:authorize="hasAuthority('MODERATOR')">
+                        <a href="/moderator" class="user-tag" id="moderatorTag" sec:authorize="isAuthenticated()"
+                           sec:authentication="principal.username"></a></h5>
                     <button sec:authorize="isAnonymous()" class="btn btn-outline-success"
                             data-toggle="modal" data-target="#staticBackdrop">Войти
                     </button>
