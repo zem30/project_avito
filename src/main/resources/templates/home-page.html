@@ -21,9 +21,10 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                         Каталог
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="catalog">
-                        <li><a class="dropdown-item" href="javascript:popular_items(),popular_shops()">all
-                            categories</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                        <li><a class="dropdown-item" href="#">Action</a></li>
+                        <li><a class="dropdown-item" href="#">Another action</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                     </ul>
                 </div>
             </div>
@@ -42,11 +43,13 @@
                     <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
             </div>
+
             <div class="col-1 div-header-right-one">
-                <a href="/user-cart-item">
+                <a href="/basket">
                     <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
                 </a>
             </div>
+
             <div class="col-1 div-header-right-three">
                 <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
                         data-toggle="modal" data-target="#staticBackdrop">Войти
@@ -64,6 +67,7 @@
 <div class="container-fluid item-container"></div>
 <div class="ps-3"><h3>Подборка популярных магазинов</h3></div>
 <div class="container-fluid shop-container"></div>
+
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
     <!--     registration.js -->
