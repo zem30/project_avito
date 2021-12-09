@@ -29,18 +29,21 @@
                 </div>
             </div>
             <div class="col-6 div-header-center">
-                <div class="input-group d-flex" >
+                <div class="input-group d-flex">
 
-                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск" aria-label="Search">
+                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск"
+                           aria-label="Search">
                     <button id="searchHomePageButton" class="btn btn-warning" type="submit">Поиск</button>
                 </div>
             </div>
 
 
-
             <div class="col-2 div-header-right-two">
-                <h5  sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
+                <h5 sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
                     <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('MODERATOR')" style="text-align: center">
+                    <a href="/moderator" class="user-tag" id="moderatorTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
                 <h5 sec:authorize="hasAuthority('USER')" style="text-align: center">
                     <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
@@ -73,7 +76,7 @@
 
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
-<!--     registration.js -->
+    <!--     registration.js -->
 </div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
