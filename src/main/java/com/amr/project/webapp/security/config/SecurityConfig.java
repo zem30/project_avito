@@ -47,7 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .key("$2a$12$77RCxpN39Xd9K4y1jsSGSObeEZ/glP9YkwzRFCiMSJxqrbcXz9mS6")
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/moderator/**").access("hasAnyAuthority('ADMIN, MODERATOR')")
+                .antMatchers("/admin/**").access("hasAnyAuthority('ADMIN')")
 //                .antMatchers("/", "/shop/item/**", "/registration", "/**",
 //                        "/registrationConfirm", "/shoppingCart/**", "/homepage/**", "/shop_api/**").permitAll()
 //                .antMatchers("/admin/**").hasAuthority("ADMIN")

@@ -261,6 +261,10 @@ input[type="button"].button.yellow:hover {
     margin-left: 10px;
 }
 
+.btn_advert {
+    margin-left: 15px;
+}
+
 .display-4 {
     padding-top: 10px;
 }

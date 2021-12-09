@@ -64,7 +64,8 @@ public class DataInserting {
     private final CouponRepository couponRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
-
+    @Autowired
+    private final AdvertRepository advertRepository;
     @PostConstruct
     public void init() throws IOException, ParseException {
 //---------------------------------------------------------------Roles
@@ -531,11 +532,6 @@ public class DataInserting {
         shopRepository.save(mi);
         shopRepository.save(samsung);
         shopRepository.save(predator);
-
-        Shop user3_shop_managed = shopRepository.findByUserId(user3_shop.getId());
-        user3_shop.setShops(List.of(user3_shop_managed));
-        userRepository.save(user3_shop); // создалась связь в таблицу user_shop
-
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("headphones").build();
         Category hardware = Category.builder().name("hardware").build();
@@ -812,7 +808,6 @@ public class DataInserting {
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(33333.00f)
                 .status(Status.START)
                 .address(user4_order.getAddress())
                 .total(itemRepository.findByName("True Wireless Beats Studio").getPrice().add(itemRepository.findByName("Mi Robot Vacuum-Mop").getPrice()))
@@ -823,7 +818,6 @@ public class DataInserting {
         Order order_user5 = Order.builder()
                 .items(List.of(user5_order_item1, user5_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(77777.00f)
                 .status(Status.START)
                 .address(user5_order.getAddress())
                 .total(user5_order_item1.getPrice().add(user5_order_item2.getPrice()))
@@ -834,7 +828,6 @@ public class DataInserting {
         Order order_user6 = Order.builder()
                 .items(List.of(user6_order_item1, user6_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(222221.00f)
                 .status(Status.START)
                 .address(user6_order.getAddress())
                 .total(user6_order_item1.getPrice().add(user6_order_item2.getPrice()))
@@ -867,8 +860,6 @@ public class DataInserting {
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
-                .logo(null)
-                .file(null)
                 .build();
         reviewRepository.save(review1_user4_item);
 
@@ -894,11 +885,9 @@ public class DataInserting {
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
                 .shop(null)
-                .logo(null)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
-                .file(null)
                 .build();
         reviewRepository.save(review1_user5_shop);
         review1_user5_shop.setItem(item_review1_user5);
