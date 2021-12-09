@@ -273,6 +273,23 @@ function addCookieCartItem() {
 }
 addCookieCartItem();
 
+function getUser() {
+    const id = $('#user-id').val()
+    fetch(url + '/getUser/' + id)
+        .then(response => response.json())
+        .then(user => {
+            let dob = new Date(user.birthday)
+            let now = new Date()
+            document.getElementById('user-age').innerText = Math.floor((now - dob) / 31557600000)
+            document.getElementById('user-gender').innerText = user.gender
+            document.getElementById('user-country').innerText = user.address.country
+            document.getElementById('user-city').innerText = user.address.city
+            document.getElementById('user-street').innerText = user.address.street
+            document.getElementById('user-email').innerText = user.email
+            document.getElementById('user-phone').innerText = user.phone
+        })
+}
+
 //получаем пользователя и добавляем поля
 function getProfileForEdit(id) {
     fetch(url + '/getUser/' + id)
@@ -352,6 +369,7 @@ function sendProfileForEdit() {
         })
             // .then(response => response.json())
             .then(data => console.log(data))
+            .then(getUser)
             .catch(err => console.error(err))
         $('.btn-close').click();
     }

@@ -43,6 +43,10 @@ public class Image {
     @ManyToMany(mappedBy = "logo")
     private List<Shop> shops;
 
+    @JsonIgnore
+    @ManyToMany(mappedBy = "images")
+    private List<Advert> adverts;
+
     @Override
     public String toString() {
         return "Image{" +
