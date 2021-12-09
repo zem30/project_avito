@@ -29,6 +29,7 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
         this.emailSenderService = emailSenderService;
     }
 
+
     @Transactional
     public Category getCategory(String nameCategory) {
         return categoryDao.getCategory(nameCategory);

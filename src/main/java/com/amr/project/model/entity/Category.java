@@ -32,4 +32,9 @@ public class Category {
     )
     private List<Item> items;
 
+    @JsonIgnore
+    @ManyToMany(fetch = FetchType.LAZY , cascade = CascadeType.REFRESH)
+    @JoinTable(name = "category_advert")
+    private List<Advert> adverts;
+
 }

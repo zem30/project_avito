@@ -15,15 +15,10 @@
 <body>
 <header>
     <div class="container-fluid div-header">
-        <div class="row" style="padding: 10px 0px;">
-            <div class="col-2 div-header-left-one">
-                <a href="/">
-                    <button class="btn btn-primary" type="submit">На главную</button>
-                </a>
-            </div>
-            <div class="col-2 div-header-left-two" style="text-align: right; padding: 0px 50px">
+        <div class="row" style="padding: 10px 0;">
+            <div class="col-2 div-header-left" style="text-align: right; padding: 0 50px">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1"
+                    <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownMenuButton1"
                             data-bs-toggle="dropdown" aria-expanded="false">
                         Каталог
                     </button>
@@ -34,24 +29,35 @@
                     </ul>
                 </div>
             </div>
-            <div class="col-4 div-header-center d-flex">
-                    <div class="form-outline">
-                    <input class="form-control me-2" type="search" id="searchHomeShopPage" placeholder="Поиск" aria-label="Search">
-                    </div>
-                    <button class="btn btn-primary" id="searchHomeShopPageButton" type="submit">Поиск</button>
+            <div class="col-6 div-header-center">
+                <div class="input-group d-flex">
+
+                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск"
+                           aria-label="Search">
+                    <button id="searchHomePageButton" class="btn btn-warning" type="submit">Поиск</button>
+                </div>
             </div>
-            <div class="col-2 div-header-right-one" style="padding: 0px 50px">
-                <button type="button" class="btn btn-outline-primary basket-btn">Корзина</button>
-            </div>
-            <div class="col-1 div-header-right-two">
-                <h5 sec:authorize="hasAuthority('ADMIN')">
+
+
+            <div class="col-2 div-header-right-two">
+                <h5 sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
                     <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
-                <h5 sec:authorize="hasAuthority('USER')">
+                <h5 sec:authorize="hasAuthority('MODERATOR')" style="text-align: center">
+                    <a href="/moderator" class="user-tag" id="moderatorTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('USER')" style="text-align: center">
                     <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
             </div>
-            <div class="col-1 div-header-right-three" style="text-align: right; padding: 0px 10px">
+
+            <div class="col-1 div-header-right-one">
+                <a href="/basket">
+                    <button type="button" class="btn btn-outline-warning basket-btn">Корзина</button>
+                </a>
+            </div>
+
+            <div class="col-1 div-header-right-three">
                 <button sec:authorize="isAnonymous()" class="btn btn-outline-success login-btn"
                         data-toggle="modal" data-target="#staticBackdrop">Войти
                 </button>
@@ -82,8 +88,11 @@
                 <h3>
                     Все отзывы
                 </h3>
-                <button sec:authorize="isAuthenticated()" type="button" style="margin-top: 5px" id="btnUserShopReviewAddForm"
-                        class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userReviewAddForm">Оставить отзыв</button>
+                <button sec:authorize="isAuthenticated()" type="button" style="margin-top: 5px"
+                        id="btnUserShopReviewAddForm"
+                        class="btn btn-success" data-bs-toggle="modal" data-bs-target="#userReviewAddForm">Оставить
+                    отзыв
+                </button>
             </div>
             <div class="review-listingTable">
                 <table class="table table-striped">
