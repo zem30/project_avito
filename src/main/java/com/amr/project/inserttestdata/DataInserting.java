@@ -489,6 +489,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
+
         Shop samsung = Shop.builder()
                 .name("samsung")
                 .email("samsung@mail")
@@ -536,8 +537,10 @@ public class DataInserting {
         shopRepository.save(samsung);
         shopRepository.save(predator);
 
-        user3.setShops(List.of(predator));
+        user1.setShops(List.of(mi));
+        user3.setShops(List.of(predator, samsung));
         userRepository.save(user3); // создалась связь в таблицу user_shop
+        userRepository.save(user1);
 
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("headphones").build();
@@ -850,13 +853,13 @@ public class DataInserting {
                 .buyerPhone(user6_order.getPhone())
                 .build();
 
-        Order order_user7 = Order.builder()
-                .items(List.of(user6_order_item1, user6_order_item2))
+        Order order2_user6 = Order.builder()
+                .items(List.of(user6_order_item1))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(222221.00f)
+                .itemCost(999.00f)
                 .status(Status.COMPLETE)
                 .address(user6_order.getAddress())
-                .total(user6_order_item1.getPrice().add(user6_order_item2.getPrice()))
+                .total(user6_order_item1.getPrice())
                 .user(user6_order)
                 .buyerName(user6_order.getUsername())
                 .buyerPhone(user6_order.getPhone())
@@ -864,9 +867,9 @@ public class DataInserting {
 
         user4_order.setOrders(List.of(order_user4));
         user5_order.setOrders(List.of(order_user5));
-        user6_order.setOrders(List.of(order_user6, order_user7));
+        user6_order.setOrders(List.of(order_user6, order2_user6));
 
-        shop_insert_order_user6.setOrders(List.of(order_user6, order_user7));
+        shop_insert_order_user6.setOrders(List.of(order_user6, order2_user6));
         shop_insert_order_user4.setOrders(List.of(order_user4));
         shop_insert_order_user5.setOrders(List.of(order_user5));
 
@@ -1050,7 +1053,7 @@ public class DataInserting {
 
         Coupon coupon1 = Coupon.builder()
                 .shop(samsung_coupons)
-                .sum(70)
+                .sum(75)
                 .start(new GregorianCalendar(2021, 10, 26)) // в БД заносится на месяц вперед ?
                 .end(new GregorianCalendar(2021, 11, 26))
                 .status(CouponStatus.ACTUAL)
@@ -1123,3 +1126,4 @@ public class DataInserting {
         answerFromModeratorRepository.save(answerFromModerator2);
     }
 }
+//-------------------------------------------------------------------------------------

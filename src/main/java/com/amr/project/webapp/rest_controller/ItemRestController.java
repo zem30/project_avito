@@ -1,8 +1,14 @@
 package com.amr.project.webapp.rest_controller;
 
+import com.amr.project.converter.CategoryMapper;
 import com.amr.project.converter.ItemMapper;
+import com.amr.project.converter.ShopMapper;
+import com.amr.project.inserttestdata.repository.ShopRepository;
+import com.amr.project.model.dto.CategoryDto;
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Item;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.abstracts.ItemService;
 import com.amr.project.service.abstracts.ShopService;
@@ -14,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -27,6 +34,7 @@ import java.util.stream.Collectors;
 public class ItemRestController {
 
     private final CategoryService categoryService;
+    private final CategoryMapper categoryMapper;
     private final ShopService shopService;
     private final ItemService itemService;
     private final ItemMapper itemConverter;
@@ -35,11 +43,18 @@ public class ItemRestController {
     @PostMapping("item")
     public ResponseEntity<?> addItem(@RequestBody ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
-        if (itemDto.getShopName() == null || itemDto.getCategoriesName() == null)
+        if (itemDto.getShopName() == null || itemDto.getCategoriesName() == null) {
             return ResponseEntity.badRequest().body("empty shop");
-//        item.setCategories(Arrays.stream(itemDto.getCategoriesName()).map(category -> categoryService.getCategory(category)).collect(Collectors.toList()));
+        }
+        item.setCategories(List.of(categoryService.getCategory(itemDto.getCategoriesName())));
         item.setShop(shopService.getShop(itemDto.getShopName()));
         itemService.persist(item);
+
+//        Shop shop = shopService.getShop(itemDto.getShopName());
+//        List<Item> itemList = new ArrayList<>(shop.getItems());
+//        itemList.add(item);
+//        shop.setItems(itemList);
+//        shopService.update(shop);
         return ResponseEntity.ok().build();
     }
 
@@ -55,16 +70,15 @@ public class ItemRestController {
     }
 
     @ApiOperation(value = "Обновляет объект Item")
-    @PatchMapping("item")
-    public ResponseEntity<ItemDto> updateItem(@RequestBody @NonNull ItemDto itemDto) {
+    @PutMapping("item")
+    public ResponseEntity<?> updateItem(@RequestBody @NonNull ItemDto itemDto) {
         Item item = itemConverter.dtoToItem(itemDto);
-        if (itemDto.getId() == null || itemDto.getShopName() == null || itemDto.getCategoriesName() == null)
-            return ResponseEntity.badRequest().build();
+        if (itemDto.getId() == null || itemDto.getShopName() == null || itemDto.getCategoriesName() == null) {
+            return ResponseEntity.badRequest().body("empty item");
+        }
         item.setId(itemDto.getId());
         item.setShop(shopService.getShop(itemDto.getShopName()));
-        item.setCategories(Arrays.stream(itemDto.getCategoriesName())
-                .map(categoryService::getCategory)
-                .collect(Collectors.toList()));
+        item.setCategories(List.of(categoryService.getCategory(itemDto.getCategoriesName())));
         itemService.update(item);
         return ResponseEntity.ok().body(itemConverter.itemToDto(item));
     }
@@ -78,6 +92,12 @@ public class ItemRestController {
     @GetMapping("/items")
     public List<ItemDto> getAllItems(){
         return itemService.getAllItemsRatingSort();
+    }
+
+    @GetMapping("/items/category/names")
+    public ResponseEntity <List<CategoryDto>> getCategoriesName(){
+        return ResponseEntity.ok().body(categoryService.getAll().stream()
+                .map(categoryMapper::categoryToDto).collect(Collectors.toList()));
     }
 }
 

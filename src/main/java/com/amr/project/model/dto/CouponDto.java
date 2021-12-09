@@ -22,4 +22,6 @@ public class CouponDto {
     private CouponStatus status;
 
     private Integer sum;
+
+    private Long shopId;
 }

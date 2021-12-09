@@ -1,7 +1,6 @@
 const pathname = document.location.pathname; // shop/control/?
-let shopName;
-let shopId;
-const key = 20212.895;
+const key = 11;
+let shopDto;
 //----------------------------------------------------------------------------------------------------------------------
 function getNormalDate(date){
     return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear();
@@ -11,23 +10,26 @@ async function userShops() {
     await fetch("http://localhost:8888/shop_api/shop/" + pathname.charAt(14))
         .then(res => res.json())
         .then(shop => {
-            shopName = shop.name;
-            shopId = shop.id;
+            // save shopDto for data of itemsDto
+            shopDto = shop;
             // shop logo -----------------------------------------------------------------------------------------------
             let logo;
             logo = `<div class="shop-div">
                         <img src="data:image/png;base64,${shop.logo[0].picture}" class="img-thumbnail">
                         <ul>
-                            <h3><li>${shop.name}</li></h3>
-                            <h3><li>${shop.location.name}</li></h3>
+                            <h3><li>Название: ${shop.name}</li></h3>
+                            <h3><li>Местонахождение: ${shop.location.name}</li></h3>
+                            <h3><li>Рейтинг: ★ ${Math.round(shop.rating, 2)}</li></h3>
+                            <h3><li>mail: ${shop.email}</li></h3>
+                            <h3><li>Phone: ${shop.phone}</li></h3>
                         </ul>
                     </div>`;
             // shop items ----------------------------------------------------------------------------------------------
             let anotherItems = ``;
-            let activeItem1 = ``;
+            let activeItem = ``;
             shop.items.forEach((i) => {
-                if (activeItem1 === ``) {
-                    activeItem1 +=  `<div class="carousel-item active">
+                if (activeItem === ``) {
+                    activeItem +=  `<div class="carousel-item active">
                                         <img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail">
                                         <div class="carousel-caption d-none d-md-block">
                                          <h6 style="color: black">${i.name}</h6>
@@ -48,7 +50,6 @@ async function userShops() {
             })
             // shop orders ---------------------------------------------------------------------------------------------
             let myClients = ``;
-            let i = 0;
             let order_items = ``;
             shop.orders.forEach((order) => {
                 console.log(order)
@@ -70,17 +71,16 @@ async function userShops() {
                     myClients +=`<th><input type="button" class="btn btn-info" data-id="${order.user}" value="дать купон" data-toggle="modal" disabled data-target="#addCoupon"></th>
                             </tr>`;
                 }
-                i++;
                 order_items = ``;
             })
             // end -----------------------------------------------------------------------------------------------------
-            document.querySelector(".carousel-inner").innerHTML = activeItem1 + anotherItems;
+            document.querySelector(".carousel-inner").innerHTML = activeItem + anotherItems;
             document.querySelector(".shop-info").innerHTML = logo;
             document.querySelector(".buyerTable").innerHTML = myClients;
         })
     // for modal coupons -----------------------------------------------------------------------------------------------
     let shopActiveCoupons = ``;
-    await fetch("http://localhost:8888/api/coupon/" + shopName)
+    await fetch("http://localhost:8888/api/coupon/" + shopDto.name)
         .then(res => res.json())
         .then((couponList) => {
             let now = new Date();
@@ -97,7 +97,6 @@ async function userShops() {
                                         <th>
                                             <div class="form-check">
                                               <input class="form-check-input" type="checkbox" value="${coupon.id}" id="flexCheckDefault">
-                                              <label class="form-check-label" for="flexCheckDefault"></label>
                                             </div>
                                         </th>
                                       </tr>`;
@@ -120,15 +119,15 @@ $(document).on('click', '.edit-btn', function () {
     fetch("/shop/item/" + $(this).attr('id'), {method: "GET", dataType: 'json',})
         .then((res) => {
             res.json().then((item) => {
+                console.log(item);
                 $('#editId').val(item.id);
                 $('#editName').val(item.name);
                 $('#editCount').val(item.count);
                 $('#editPrice').val(item.price);
                 $('#editDescription').val(item.description);
                 $('#editRating').val(item.rating);
-                $('#editShopName').val(shopName);
+                $('#editShopName').val(shopDto.name);
                 $('#editCategoriesName').val(item.categories[0].name);
-                $('#editCategories').val(item.categories);
                 arrForEditImages = item.images
             })
         })
@@ -136,7 +135,7 @@ $(document).on('click', '.edit-btn', function () {
 $('#update').on('click', (event) => {
     event.preventDefault()
     fetch('http://localhost:8888/shop/item', {
-        method: 'PATCH',
+        method: 'PUT',
         body: JSON.stringify({
             id: $('#editId').val(),
             name: $('#editName').val(),
@@ -146,56 +145,87 @@ $('#update').on('click', (event) => {
             rating: $('#editRating').val(),
             shopName: $('#editShopName').val(),
             categoriesName: $('#editCategoriesName').val(),
-            categories: $('#editCategories').val(),
-            isModerateAccept: false,
-            isModerated: false,
-            isPretendentToBeDeleted: false,
-            moderatedRejectReason: "",
-            reviews: null,
-            shopId: shopId,
+            shopId: shopDto.id,
             images : arrForEditImages
         }),
         headers: { "Content-Type": "application/json; charset=utf-8" }
     }).then((res) => {
+        alert("Item has been updated successfully");
         console.log(res);
     })
 });
 //----------------------------------------------------------------------------------------------------------------------
-// let arrImage = []
-// let categories = []
-// $("#addItem").on('click', () => {
-//     categories.push(document.getElementById("categories"));
-//     arrImage.push(document.getElementById("inpFile"));
-//     $.ajax({
-//         url: 'http://localhost:8088/shop/item',
-//         method: 'POST',
-//         dataType: 'json',
-//         contentType: 'application/json; charset=utf-8',
-//         data: JSON.stringify({
-//             name: $('#name').val(),
-//             price: $('#price').val(),
-//             description: $('#description').val(),
-//             count: $('#count').val(),
-//             reviews: [],
-//             rating: 5,
-//             discount: {},
-//             shopId: shopId,
-//             shopName: shopName,
-//             isModerated: false,
-//             isModerateAccept: false,
-//             moderatedRejectReason: null,
-//             isPretendentToBeDeleted: false,
-//             categories: categories,
-//             images: arrImage
-//         }),
-//         success: function () {
-//             console.log("success");
-//         },
-//         error: function () {
-//             alert('error add-item');
-//         }
-//     });
-//     // const { myForm } = document.forms;
-//     // myForm.reset();
-// });
+$("#addItem").on('click', () => {
+    let form_data = new FormData();
+    form_data.append("image", document.getElementById("image").files[0])
+    let array = []
+    array.push(form_data);
+    let options = document.querySelector('#selectedCategories').options
+    let categoryNameFromSelect;
+    for (let i = 0; i < options.length; i++) {
+        if (options[i].selected) {
+            categoryNameFromSelect = options[i].value
+        }
+    }
+    fetch('http://localhost:8888/shop/item', {
+       method: 'POST',
+        body: JSON.stringify({
+            name: $('#name').val(),
+            price: $('#price').val(),
+            description: $('#description').val(),
+            count: $('#count').val(),
+            rating: $('#rating').val(),
+            shopId: shopDto.id,
+            shopName: shopDto.name,
+            images: array,
+            categoriesName: categoryNameFromSelect
+        }),
+        headers: {"Content-Type": "application/json; charset=utf-8"}
+    }).then(res => {
+        console.log(res);
+    })
+    const { myForm } = document.forms;
+    myForm.reset();
+    userShops();
+});
 //----------------------------------------------------------------------------------------------------------------------
+// for add item panel (select)
+async function getSelectCategories() {
+    await fetch("http://localhost:8888/shop/items/category/names")
+        .then(res => res.json())
+        .then(data => {
+            let head = `<p style="color: black">Choose Category name</p>`
+            let mySelect = `<select id="selectedCategories" multiple required size="${data.length}">`
+            data.forEach((category) => {
+                mySelect += `<option value="${category.name}">${category.name}</option>`
+            })
+            mySelect += `</select>`
+            document.querySelector('.forSelectCategoryNames').innerHTML = head + mySelect;
+        })
+}
+getSelectCategories();
+//----------------------------------------------------------------------------------------------------------------------
+// for coupon panel
+async function updateToOverdue(id){
+    await fetch("http://localhost:8888/api/coupon/update/overdue/" + id)
+        .then(res => {
+            console.log(res);
+        })
+}
+$("#addNewCoupon").on('click', () => {
+    fetch("http://localhost:8888/api/coupon/addCoupon", {
+        method: 'POST',
+        body: JSON.stringify({
+            shopId: shopDto.id,
+            start: new Date(),
+            end: new Date($('#end').val()),
+            sum: $('#sum').val()
+        }),
+        headers: {"Content-Type": "application/json; charset=utf-8"}
+    }).then(res => {
+        console.log(res);
+    })
+    const { myCouponForm } = document.forms;
+    myCouponForm.reset();
+    userShops();
+});

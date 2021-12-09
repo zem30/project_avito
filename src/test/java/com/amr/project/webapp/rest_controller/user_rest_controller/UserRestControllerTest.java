@@ -89,7 +89,7 @@ class UserRestControllerTest extends AbstractApiTest {
             .images(new ArrayList<>())
             .categories(new ArrayList<>())
             .reviews(new ArrayList<>())
-            .categoriesName(new String[0])
+            .categoriesName("")
             .build();
 
     private ShopDto expectedShop = ShopDto.builder().id(1l)

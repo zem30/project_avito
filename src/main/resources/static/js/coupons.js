@@ -1,4 +1,4 @@
-let key = 20212.895;
+let key = 11;
 function createCard(coupon){
     let card = `<div class="card text-dark bg-light mb-3 text-center">`;
         card += `<div class="card-header"><h5>${coupon.id * key}</h5></div>`;
@@ -12,7 +12,6 @@ function createCard(coupon){
     return card;
 }
 //----------------------------------------------------------------------------------------------------------------------
-let count = 0;
 async function showCoupons(){
     let actual = "";
     let overdue = "";
@@ -26,10 +25,8 @@ async function showCoupons(){
                 all += createCard(user.coupons[i]);
                 if (user.coupons[i].status === "ACTUAL") {
                     let date = new Date(user.coupons[i].end)
-                    if (now === date && count === 0) {
+                    if (now === date || now.getDay() > date.getDay() && now.getMonth() > date.getMonth()) {
                         updateToOverdue(user.coupons[i].id)
-                        count++;
-                        showCoupons();
                     } else {
                         actual += createCard(user.coupons[i]);
                     }
@@ -49,9 +46,8 @@ showCoupons();
 //----------------------------------------------------------------------------------------------------------------------
 async function updateToOverdue(id){
     await fetch("http://localhost:8888/api/coupon/update/overdue/" + id)
-        .then(res => res.json())
         .then(res => {
-            console.log(res);
+            console.log(res)
         })
 }
 function getNormalDate(date){

@@ -56,7 +56,8 @@
                         <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Магазин</button>
                         <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Товары</button>
                         <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Добавить товар</button>
-                        <button class="nav-link" id="MyBuyers" data-bs-toggle="pill" data-bs-target="#listBuyers" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Список покупателей</button>
+                        <button class="nav-link" id="MyBuyers" data-bs-toggle="pill" data-bs-target="#listBuyers" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Заказы</button>
+                        <button class="nav-link" id="CreateCoupon" data-bs-toggle="pill" data-bs-target="#listCoupon" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Создать купон</button>
                     </div>
                 </div>
                 <div class="col-10 bg-light vh-1000" style="background-color: #f5f5f5; padding: 20px 30px">
@@ -105,7 +106,6 @@
                                                         <label for="editCategoriesName">Categories name</label><br>
                                                         <input type="text" name="categoriesName" id="editCategoriesName" disabled/><br><br>
                                                         <!-- hidden -->
-                                                        <input type="hidden" name="categories" id="editCategories"/>
                                                         <input type="hidden" name="shopName" id="editShopName" />
                                                     </div>
                                                 </form>
@@ -113,7 +113,7 @@
                                         </div> <!-- end BODY-->
                                         <div class="modal-footer">  <!--FOOTER-->
                                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                            <button type="submit" id="update" class="btn btn-primary">Edit</button>
+                                            <button type="submit" id="update" class="btn btn-primary" data-dismiss="modal">Edit</button>
                                         </div>  <!-- end FOOTER -->
                                     </div>
                                 </div>
@@ -135,11 +135,14 @@
                                     <label for="count">Count</label><br>
                                     <input type="number" id="count"/><br/>
                                     <br>
-                                    <label for="categories">Categories</label><br>
-                                    <input id="categories"/><br/>
+                                    <label for="rating">Rating</label><br>
+                                    <input type="number" id="rating"/>
+                                    <br/>
+                                    <div class="forSelectCategoryNames"></div>
                                     <br>
-                                    <label for="inpFile">Image</label><br>
-                                    <input type="file" id="inpFile"><br>
+                                    <label for="image">Image</label><br>
+                                    <input type="file" id="image" name="image">
+                                    <br>
                                     <button type="button" id="addItem" class="btn btn-md btn-success my-3">Add new Item</button>
                                 </div>
                             </form>
@@ -193,6 +196,18 @@
                                 </div>
                             </div>
                         </div>
+                        <!-- Создать купон -->
+                        <div class="tab-pane fade" id="listCoupon" role="tabpanel" aria-labelledby="CreateCoupon">
+                            <form class="add-new-coupon" id="myCouponForm">
+                                <div class="form-group">
+                                    <label for="end">Срок: ДО:</label><br>
+                                    <input type="date" id="end"/><br/>
+                                    <label for="sum">На сумму</label><br>
+                                    <input type="number" id="sum"/><br/>
+                                    <button type="button" id="addNewCoupon" class="btn btn-md btn-success my-3">Add new coupon</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
                 <div class="container-fluid vh-100 login-form">
@@ -207,5 +222,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     <script src="/js/shop-control.js"></script>
     <script src="/js/registration.js"></script>
+    <script>
+
+    </script>
 </body>
 </html>

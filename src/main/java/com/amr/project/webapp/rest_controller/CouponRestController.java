@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 @RestController
@@ -30,6 +31,8 @@ public class CouponRestController {
         if (couponDto.getSum() == null && couponDto.getShop() == null) {
             return ResponseEntity.badRequest().build();
         }
+        couponDto.setStatus(CouponStatus.ACTUAL);
+        couponDto.setShop(shopService.getShopId(couponDto.getShopId()));
         Coupon coupon = couponMapper.couponDtoToCoupon(couponDto);
         couponService.persist(coupon);
         return ResponseEntity.ok().build();
