@@ -4,6 +4,7 @@ import com.amr.project.converter.ShopMapper;
 import com.amr.project.model.dto.ShopDto;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.service.abstracts.ShopService;
+import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,12 +20,13 @@ import java.util.stream.Collectors;
 public class ShopModeratorController {
     private final ShopService shopService;
     private final ShopMapper shopMapper;
+    private final UserService userService;
 
     @Autowired
-    public ShopModeratorController(ShopService shopService, ShopMapper shopMapper) {
+    public ShopModeratorController(ShopService shopService, ShopMapper shopMapper, UserService userService) {
         this.shopService = shopService;
         this.shopMapper = shopMapper;
-
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Отправляет все магазины не прошедшие модерацию на фронт")
@@ -49,6 +51,7 @@ public class ShopModeratorController {
     @PutMapping("/editShop")
     public ResponseEntity<ShopDto> editItem(@RequestBody ShopDto shopDto) {
         Shop shop = shopMapper.dtoToShop(shopDto);
+        shop.setUser(userService.findByUsername(shopDto.getUsername()));
         shopService.update(shop);
         return ResponseEntity.ok(shopMapper.shopToDto(shop));
     }
