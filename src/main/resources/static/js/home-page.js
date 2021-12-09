@@ -38,13 +38,15 @@ async function popular_shops() {
         .then(async shops => {
             let logs1 = ``;
             shops.forEach((s) => {
-                logs1 += `<div class="shop-div">
-        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
-        <h6>${s.name}</h6>
-        <p>${s.description}</p>
-        <p class="star">★ ${Math.round(s.rating,2)}</p>
-        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-        </div>`;
+                if (s.moderateAccept) {
+                    logs1 += `<div class="shop-div">
+                        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
+                        <h6>${s.name}</h6>
+                        <p>${s.description}</p>
+                        <p class="star">★ ${Math.round(s.rating, 2)}</p>
+                        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                    </div>`;
+                }
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
