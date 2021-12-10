@@ -38,4 +38,12 @@ public class ItemDaoImpl extends ReadWriteDaoImpl<Item, Long> implements ItemDao
         Query query = entityManager.createQuery("Select i from Item as i order by i.rating desc");
         return query.getResultList().size() > quantity ? query.getResultList().subList(0, quantity) : query.getResultList();
     }
+
+    @Override
+    public List<Item> getItemsByCategoryId(Long id) {
+        TypedQuery<Item> query = entityManager.createQuery(
+                "select u from Item u join u.categories r where r.id=:id", Item.class);
+        query.setParameter("id", id);
+        return query.getResultList();
+    }
 }

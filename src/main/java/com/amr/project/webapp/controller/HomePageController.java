@@ -74,7 +74,7 @@ public class HomePageController {
         shop.forEach(s -> shopDto.add(shopMapper.shopToDto(s)));
         model.addAttribute("cardsPopularShops", shopDto);
 
-        return "index";
+        return "home-page";
     }
 
     @RequestMapping("/allCategories")
