@@ -76,8 +76,13 @@ public class ItemRestController {
     }
 
     @GetMapping("/items")
-    public List<ItemDto> getAllItems(){
+    public List<ItemDto> getAllItems() {
         return itemService.getAllItemsRatingSort();
     }
-}
 
+    @GetMapping("itemsByCategory/{id}")
+    public ResponseEntity<List<ItemDto>> getItemsByCategory(@PathVariable @NonNull Long id) {
+        List<ItemDto> items = itemService.getItemsByCategoryId(id);
+        return ResponseEntity.ok().body(items);
+    }
+}

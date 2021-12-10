@@ -4,6 +4,7 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.ItemDao;
 import com.amr.project.inserttestdata.repository.ItemRepository;
 import com.amr.project.model.dto.ItemDto;
+import com.amr.project.model.entity.CartItem;
 import com.amr.project.model.entity.Item;
 import com.amr.project.model.entity.Mail;
 import com.amr.project.model.entity.User;
@@ -79,30 +80,32 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
 
     @Override
     public Item getItemId(long id) {
-        Item item = itemRepository.findById(id).orElse(null);
-        return item;
+        return itemRepository.findById(id).orElse(null);
     }
 
     @Override
     public ItemDto getItemDtoId(long id) {
-        ItemDto itemDto = itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
-        return itemDto;
+        return itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
     }
 
     @Override
-    public List<ItemDto> getAllItemsRatingSort(){
+    public List<ItemDto> getAllItemsRatingSort() {
         List<Item> itemList = itemRepository.findAllByOrderByRatingDesc();
-        List<ItemDto> itemDtoList = itemList.stream().map(item -> itemMapper.itemToDto(item)).collect(Collectors.toList());
-        return itemDtoList;
+        return itemList.stream().map(itemMapper::itemToDto).collect(Collectors.toList());
     }
 
     @Override
     public List<Item> getAllItem(User user) {
-        List<Long> list = user.getCartItems().stream().map(item -> item.getId()).sorted().collect(Collectors.toList());
+        List<Long> list = user.getCartItems().stream().map(CartItem::getId).sorted().collect(Collectors.toList());
         List<Item> itemsList = new ArrayList<>();
         for (Long id : list) {
             itemsList.add(itemRepository.findById(id).orElse(null));
         }
         return itemsList;
+    }
+
+    @Override
+    public List<ItemDto> getItemsByCategoryId(Long id) {
+        return itemDao.getItemsByCategoryId(id).stream().map(itemMapper::itemToDto).collect(Collectors.toList());
     }
 }
