@@ -1,5 +1,4 @@
 let shopItems = "";
-
 // Отправить данные
 function send_data(url, data, method) {
     const response = fetch(url, {
@@ -12,7 +11,7 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-async function popular_items() {
+async function popular_item() {
     await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
@@ -23,15 +22,14 @@ async function popular_items() {
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         <p class="star">★ ${Math.round(i.rating, 2)}</p>
+                         <p class="star">★ ${Math.round(i.rating,2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
             })
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-
-popular_items();
+popular_item();
 
 //получить популярные магазины
 async function popular_shops() {
@@ -40,13 +38,15 @@ async function popular_shops() {
         .then(async shops => {
             let logs1 = ``;
             shops.forEach((s) => {
-                logs1 += `<div class="shop-div">
-        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
-        <h6>${s.name}</h6>
-        <p>${s.description}</p>
-        <p class="star">★ ${Math.round(s.rating, 2)}</p>
-        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
-        </div>`;
+                if (s.moderateAccept) {
+                    logs1 += `<div class="shop-div">
+                        <a href="/shop/${s.id}"><img src="data:image/png;base64,${s.logo[0].picture}" class="img-thumbnail"></a>
+                        <h6>${s.name}</h6>
+                        <p>${s.description}</p>
+                        <p class="star">★ ${Math.round(s.rating, 2)}</p>
+                        <a href="/shop/${s.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                    </div>`;
+                }
             })
             document.querySelector(".shop-container").innerHTML = logs1;
         })
