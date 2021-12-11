@@ -99,5 +99,11 @@ public class ItemRestController {
         return ResponseEntity.ok().body(categoryService.getAll().stream()
                 .map(categoryMapper::categoryToDto).collect(Collectors.toList()));
     }
+
+    @GetMapping("itemsByCategory/{id}")
+    public ResponseEntity<List<ItemDto>> getItemsByCategory(@PathVariable @NonNull Long id) {
+        List<ItemDto> items = itemService.getItemsByCategoryId(id);
+        return ResponseEntity.ok().body(items);
+    }
 }
 
