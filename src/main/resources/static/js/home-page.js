@@ -11,7 +11,7 @@ function send_data(url, data, method) {
 }
 
 //получить популярные товары
-async function popular_item() {
+async function popular_items() {
     await fetch("http://localhost:8888/shop/items")
         .then(res => res.json())
         .then(items => {
@@ -29,7 +29,7 @@ async function popular_item() {
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
-popular_item();
+popular_items();
 
 //получить популярные магазины
 async function popular_shops() {

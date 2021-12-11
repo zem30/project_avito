@@ -1,7 +1,7 @@
 let key = 11;
 function createCard(coupon){
     let card = `<div class="card text-dark bg-light mb-3 text-center">`;
-        card += `<div class="card-header"><h5>${coupon.id * key}</h5></div>`;
+        card += `<div class="card-header"><h5>#${coupon.id * key}</h5></div>`;
         card += `<div class="card-body">`;
         card += `<div class="card-text">`;
         card += `<p><strong>Срок действия - До: </strong>` + getNormalDate(new Date(coupon.end)) + `</p>`;
@@ -25,11 +25,14 @@ async function showCoupons(){
                 all += createCard(user.coupons[i]);
                 if (user.coupons[i].status === "ACTUAL") {
                     let date = new Date(user.coupons[i].end)
-                    if (now === date || now.getDay() > date.getDay() && now.getMonth() > date.getMonth()) {
-                        updateToOverdue(user.coupons[i].id)
-                    } else {
-                        actual += createCard(user.coupons[i]);
+                    if (now.getFullYear() >= date.getFullYear()) {
+                        if(now.getMonth() >= date.getMonth()) {
+                            if(now.getDay() > date.getDay()) {
+                                updateToOverdue(user.coupons[i].id)
+                            }
+                        }
                     }
+                actual += createCard(user.coupons[i]);
                 } else if (user.coupons[i].status === "USED") {
                     used += createCard(user.coupons[i]);
                 } else if (user.coupons[i].status === "OVERDUE") {

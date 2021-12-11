@@ -7,10 +7,9 @@ function getNormalDate(date){
 }
 //----------------------------------------------------------------------------------------------------------------------
 async function userShops() {
-    await fetch("http://localhost:8888/shop_api/shop/" + pathname.charAt(14))
+    await fetch("http://localhost:8888/shop_api/shop/" + pathname.substring("/shop/control/".length, pathname.length))
         .then(res => res.json())
         .then(shop => {
-            // save shopDto for data of itemsDto
             shopDto = shop;
             // shop logo -----------------------------------------------------------------------------------------------
             let logo;
@@ -64,13 +63,6 @@ async function userShops() {
                                 <th>${order.total}</th>
                                 <th>${order.status}</th>
                                 `;
-                if (order.status !== "COMPLETE") {
-                    myClients +=`<th><input type="button" class="btn btn-info" data-id="${order.user}" value="дать купон" data-toggle="modal"  data-target="#addCoupon"></th>
-                            </tr>`;
-                } else {
-                    myClients +=`<th><input type="button" class="btn btn-info" data-id="${order.user}" value="дать купон" data-toggle="modal" disabled data-target="#addCoupon"></th>
-                            </tr>`;
-                }
                 order_items = ``;
             })
             // end -----------------------------------------------------------------------------------------------------
@@ -86,8 +78,12 @@ async function userShops() {
             let now = new Date();
             couponList.forEach((coupon) => {
                 let date = new Date(coupon.end);
-                if (now === date) {
-                    updateToOverdue(coupon.id);
+                if (now.getFullYear() >= date.getFullYear()) {
+                    if(now.getMonth() >= date.getMonth()) {
+                        if(now.getDay() > date.getDay()) {
+                            updateToOverdue(coupon.id)
+                        }
+                    }
                 }
                 shopActiveCoupons += `<tr>
                                         <th>${coupon.id * key}</th>
@@ -95,13 +91,11 @@ async function userShops() {
                                         <th>${coupon.status}</th>
                                         <th>${coupon.sum}</th>
                                         <th>
-                                            <div class="form-check">
-                                              <input class="form-check-input" type="checkbox" value="${coupon.id}" id="flexCheckDefault">
-                                            </div>
+                                            <input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#useCouponModal" value="Отправить купон">
                                         </th>
                                       </tr>`;
             })
-            document.querySelector(".coupon-table-for-users").innerHTML = shopActiveCoupons;
+            document.querySelector(".coupon-table-in-shop-panel").innerHTML = shopActiveCoupons;
         })
 }
 userShops();
@@ -150,16 +144,23 @@ $('#update').on('click', (event) => {
         }),
         headers: { "Content-Type": "application/json; charset=utf-8" }
     }).then((res) => {
-        alert("Item has been updated successfully");
+        alert("Item`s been updated successfully");
         console.log(res);
     })
 });
 //----------------------------------------------------------------------------------------------------------------------
 $("#addItem").on('click', () => {
-    let form_data = new FormData();
-    form_data.append("image", document.getElementById("image").files[0])
-    let array = []
-    array.push(form_data);
+    let input = $('#imageInput')[0].files[0]
+    let image
+    if (input !== undefined) {
+        image = imageToBinary(input)
+    }
+    let images = []
+    let img = {
+        picture: image
+    }
+    images.push(img)
+
     let options = document.querySelector('#selectedCategories').options
     let categoryNameFromSelect;
     for (let i = 0; i < options.length; i++) {
@@ -168,7 +169,7 @@ $("#addItem").on('click', () => {
         }
     }
     fetch('http://localhost:8888/shop/item', {
-       method: 'POST',
+        method: 'POST',
         body: JSON.stringify({
             name: $('#name').val(),
             price: $('#price').val(),
@@ -177,18 +178,18 @@ $("#addItem").on('click', () => {
             rating: $('#rating').val(),
             shopId: shopDto.id,
             shopName: shopDto.name,
-            images: array,
+            images: images,
             categoriesName: categoryNameFromSelect
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     }).then(res => {
-        console.log(res);
+        console.log(res)
+        alert("Item`s been added")
     })
     const { myForm } = document.forms;
     myForm.reset();
     userShops();
 });
-//----------------------------------------------------------------------------------------------------------------------
 // for add item panel (select)
 async function getSelectCategories() {
     await fetch("http://localhost:8888/shop/items/category/names")
@@ -203,7 +204,7 @@ async function getSelectCategories() {
             document.querySelector('.forSelectCategoryNames').innerHTML = head + mySelect;
         })
 }
-getSelectCategories();
+getSelectCategories()
 //----------------------------------------------------------------------------------------------------------------------
 // for coupon panel
 async function updateToOverdue(id){
@@ -226,6 +227,7 @@ $("#addNewCoupon").on('click', () => {
         console.log(res);
     })
     const { myCouponForm } = document.forms;
-    myCouponForm.reset();
-    userShops();
+    myCouponForm.reset()
+    userShops()
 });
+//----------------------------------------------------------------------------------------------------------------------

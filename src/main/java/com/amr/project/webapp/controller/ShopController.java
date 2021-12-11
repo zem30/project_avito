@@ -78,7 +78,6 @@ public class ShopController {
     @GetMapping("/shop/control/{id}")
     public String shopPageForActions(@PathVariable("id") long id, Model model) {
         model.addAttribute("shop", shopServiceImpl.getShopId(id));
-
         return "shopPage/shop_control";
     }
 
