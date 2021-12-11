@@ -21,23 +21,21 @@
                             data-bs-toggle="dropdown" aria-expanded="false">
                         Каталог
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><a class="dropdown-item" href="#">Action</a></li>
-                        <li><a class="dropdown-item" href="#">Another action</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="catalog">
+                        <li><a class="dropdown-item" href="javascript:popular_items(),popular_shops()">all
+                            categories</a></li>
                     </ul>
                 </div>
             </div>
             <div class="col-6 div-header-center">
-                <div class="input-group d-flex" >
-
-                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск" aria-label="Search">
+                <div class="input-group d-flex">
+                    <input id="searchHomePageInput" class="form-control" type="search" placeholder="Поиск"
+                           aria-label="Search">
                     <button id="searchHomePageButton" class="btn btn-warning" type="submit">Поиск</button>
                 </div>
             </div>
-
             <div class="col-2 div-header-right-two">
-                <h5  sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
+                <h5 sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
                     <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
                 <h5 sec:authorize="hasAuthority('USER')" style="text-align: center">
@@ -71,7 +69,7 @@
 
 <div class="container-fluid vh-100 login-form">
     <div class="login-content"></div>
-<!--     registration.js -->
+    <!--     registration.js -->
 </div>
 
 <script src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
