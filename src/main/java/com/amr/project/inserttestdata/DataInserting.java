@@ -65,6 +65,8 @@ public class DataInserting {
     private final CouponRepository couponRepository;
     @Autowired
     private final PasswordEncoder passwordEncoder;
+    @Autowired
+    private final AdvertRepository advertRepository;
 
     @PostConstruct
     public void init() throws IOException, ParseException {
@@ -822,7 +824,6 @@ public class DataInserting {
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(33333.00f)
                 .status(Status.START)
                 .address(user4_order.getAddress())
                 .total(itemRepository.findByName("True Wireless Beats Studio").getPrice().add(itemRepository.findByName("Mi Robot Vacuum-Mop").getPrice()))
@@ -830,10 +831,10 @@ public class DataInserting {
                 .buyerName(user4_order.getUsername())
                 .buyerPhone(user4_order.getPhone())
                 .build();
+
         Order order_user5 = Order.builder()
                 .items(List.of(user5_order_item1, user5_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(77777.00f)
                 .status(Status.START)
                 .address(user5_order.getAddress())
                 .total(user5_order_item1.getPrice().add(user5_order_item2.getPrice()))
@@ -841,10 +842,10 @@ public class DataInserting {
                 .buyerName(user5_order.getUsername())
                 .buyerPhone(user5_order.getPhone())
                 .build();
+
         Order order_user6 = Order.builder()
                 .items(List.of(user6_order_item1, user6_order_item2))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(222221.00f)
                 .status(Status.START)
                 .address(user6_order.getAddress())
                 .total(user6_order_item1.getPrice().add(user6_order_item2.getPrice()))
@@ -856,7 +857,6 @@ public class DataInserting {
         Order order2_user6 = Order.builder()
                 .items(List.of(user6_order_item1))
                 .date(GregorianCalendar.getInstance())
-                .itemCost(999.00f)
                 .status(Status.COMPLETE)
                 .address(user6_order.getAddress())
                 .total(user6_order_item1.getPrice())

@@ -81,7 +81,7 @@ async function userShops() {
                 if (now.getFullYear() >= date.getFullYear()) {
                     if(now.getMonth() >= date.getMonth()) {
                         if(now.getDay() > date.getDay()) {
-                            updateToOverdue(coupon.id)
+                            updateToOverdue(coupon)
                         }
                     }
                 }
@@ -90,8 +90,13 @@ async function userShops() {
                                         <th>${getNormalDate(date)}</th>
                                         <th>${coupon.status}</th>
                                         <th>${coupon.sum}</th>
-                                        <th>
-                                            <input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#useCouponModal" value="Отправить купон">
+                                        <th>`
+                if (coupon.status === "ACTUAL") {
+                    shopActiveCoupons += `<input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#useCouponModal" value="Отправить купон">`
+                } else {
+                    shopActiveCoupons += `<input type="button" class="btn btn-secondary" id="${coupon.id}" disabled value="Отправить купон">`
+                }
+                shopActiveCoupons += `
                                         </th>
                                       </tr>`;
             })
@@ -187,8 +192,8 @@ $("#addItem").on('click', () => {
         alert("Item`s been added")
     })
     const { myForm } = document.forms;
-    myForm.reset();
-    userShops();
+    myForm.reset()
+    userShops()
 });
 // for add item panel (select)
 async function getSelectCategories() {
@@ -207,11 +212,13 @@ async function getSelectCategories() {
 getSelectCategories()
 //----------------------------------------------------------------------------------------------------------------------
 // for coupon panel
-async function updateToOverdue(id){
-    await fetch("http://localhost:8888/api/coupon/update/overdue/" + id)
-        .then(res => {
-            console.log(res);
-        })
+async function updateToOverdue(coupon){
+    console.log(coupon)
+    await fetch('http://localhost:8888/api/coupon/update/overdue/' + coupon.id, {
+        method: 'PUT',
+        body: JSON.stringify(coupon),
+        headers: { "Content-Type": "application/json; charset=utf-8" }
+    }).then(res => {console.log(res)})
 }
 $("#addNewCoupon").on('click', () => {
     fetch("http://localhost:8888/api/coupon/addCoupon", {

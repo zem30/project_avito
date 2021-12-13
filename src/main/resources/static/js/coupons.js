@@ -28,7 +28,7 @@ async function showCoupons(){
                     if (now.getFullYear() >= date.getFullYear()) {
                         if(now.getMonth() >= date.getMonth()) {
                             if(now.getDay() > date.getDay()) {
-                                updateToOverdue(user.coupons[i].id)
+                                updateToOverdue(user.coupons[i])
                             }
                         }
                     }
@@ -47,11 +47,12 @@ async function showCoupons(){
 }
 showCoupons();
 //----------------------------------------------------------------------------------------------------------------------
-async function updateToOverdue(id){
-    await fetch("http://localhost:8888/api/coupon/update/overdue/" + id)
-        .then(res => {
-            console.log(res)
-        })
+async function updateToOverdue(coupon){
+    await fetch("http://localhost:8888/api/coupon/update/overdue" + coupon.id, {
+        method: 'PUT',
+        body: JSON.stringify(coupon),
+        headers: { "Content-Type": "application/json; charset=utf-8" }
+    }).then(res => {console.log(res)})
 }
 function getNormalDate(date){
     return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear();
