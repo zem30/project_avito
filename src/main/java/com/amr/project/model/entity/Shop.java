@@ -50,6 +50,9 @@ public class Shop {
     private List<Item> items;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    private List<Coupon> coupons;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<Order> orders;
 
     @JsonIgnore

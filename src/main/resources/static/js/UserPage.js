@@ -31,7 +31,7 @@ async function fillUserItemTable() {
     if (response.ok) {
         items = await response.json().then(result => result)
         console.log(items)
-        userOrdersTableFill(items)
+        await userOrdersTableFill(items)
     }
 }
 
@@ -93,7 +93,7 @@ async function makeShopsCards(shops) {
                 <div class="card-body" >
                     <div class="card-title"><h4>${shop.name}</h4></div>
                     <div class="card-text" style="margin-bottom: 5px">Рейтинг магазина:${shop.rating}/10</div>                        
-                    <form action="/shop/${shop.id}">
+                    <form action="/shop/control/${shop.id}">
                         <button type="submit" class="btn btn-primary">Страница магазина</button>
                       </form>
                 </div>

@@ -19,27 +19,20 @@ import java.util.List;
 public class ShopDto {
 
     private Long id;
-
     @Column(unique = true)
     @NotBlank(message = "Введите имя магазина")
     private String name;
-
     @NotBlank
     @Email(message = "Введите корректный email")
     private String email;
-
     @Length(min = 11, max = 12, message = "Длина номера должна быть 11 либо 12 сиволов")
     private String phone;
-
     @NotBlank(message = "Введите описание магазина")
     private String description;
-
     private CountryDto location;
     private List<ItemDto> items;
-
     @NotEmpty(message = "Выберите изображение")
     private List<ImageDto> logo;
-
     private double rating;
     private String username;
     private boolean isModerated;

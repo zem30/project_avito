@@ -2,6 +2,7 @@ package com.amr.project.inserttestdata;
 
 import com.amr.project.inserttestdata.repository.*;
 import com.amr.project.model.entity.*;
+import com.amr.project.model.enums.CouponStatus;
 import com.amr.project.model.enums.Gender;
 import com.amr.project.model.enums.Status;
 import lombok.AllArgsConstructor;
@@ -66,6 +67,7 @@ public class DataInserting {
     private final PasswordEncoder passwordEncoder;
     @Autowired
     private final AdvertRepository advertRepository;
+
     @PostConstruct
     public void init() throws IOException, ParseException {
 //---------------------------------------------------------------Roles
@@ -147,14 +149,14 @@ public class DataInserting {
                 .country(countryRepository.findByName("Ukraine"))
                 .city(cityRepository.findByName("Kharkiv"))
                 .street("user5_street")
-                .house("user5_street")
+                .house("user5_house")
                 .build();
         Address address6 = Address.builder()
                 .cityIndex("123456")
                 .country(countryRepository.findByName("Ukraine"))
                 .city(cityRepository.findByName("Odessa"))
                 .street("user6_street")
-                .house("user6_street")
+                .house("user6_house")
                 .build();
 //---------------------------------------------------------------Images
         File admin_image = ResourceUtils.getFile("classpath:static/images/users/admin_image.jpg");
@@ -478,6 +480,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(miLogo))
                 .count(0)
+                .coupons(null)
                 .rating(1)
                 .user(userRepository.findByEmail("user1@mail"))
                 .discounts(null)
@@ -488,6 +491,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
+
         Shop samsung = Shop.builder()
                 .name("samsung")
                 .email("samsung@mail")
@@ -498,6 +502,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(samsungLogo))
                 .count(0)
+                .coupons(null)
                 .rating(2)
                 .user(userRepository.findByEmail("user2@mail"))
                 .discounts(null)
@@ -508,7 +513,7 @@ public class DataInserting {
                 .file(null)
                 .isPretendentToBeDeleted(false)
                 .build();
-        User user3_shop = userRepository.findByEmail("user3@mail");
+
         Shop predator = Shop.builder()
                 .name("predator")
                 .email("predator@mail")
@@ -519,6 +524,7 @@ public class DataInserting {
                 .reviews(null)
                 .logo(List.of(predatorLogo))
                 .count(0)
+                .coupons(null)
                 .rating(3)
                 .user(userRepository.findByEmail("user3@mail"))
                 .discounts(null)
@@ -532,6 +538,12 @@ public class DataInserting {
         shopRepository.save(mi);
         shopRepository.save(samsung);
         shopRepository.save(predator);
+
+        user1.setShops(List.of(mi));
+        user3.setShops(List.of(predator, samsung));
+        userRepository.save(user3); // создалась связь в таблицу user_shop
+        userRepository.save(user1);
+
 //---------------------------------------------------------------Categories
         Category category1 = Category.builder().name("headphones").build();
         Category hardware = Category.builder().name("hardware").build();
@@ -553,7 +565,7 @@ public class DataInserting {
                 .categories(List.of(categoryRepository.findByName("headphones")))
                 .images(List.of(item1Image1, item1Image2, item1Image3))
                 .reviews(null)
-                .count(100)
+                .count(2)
                 .rating(1.0)
                 .description("Система активного подавления шума")
                 .discount(0)
@@ -805,6 +817,10 @@ public class DataInserting {
         Item user6_order_item1 = itemRepository.findByName("Mouse Logitech M190");
         Item user6_order_item2 = itemRepository.findByName("Acer Nitro 5 AN515-55-50LX");
 
+        Shop shop_insert_order_user6 = shopRepository.findByName("predator");
+        Shop shop_insert_order_user4 = shopRepository.findByName("mi");
+        Shop shop_insert_order_user5 = shopRepository.findByName("samsung");
+
         Order order_user4 = Order.builder()
                 .items(List.of(user4_order_item1, user4_order_item2))
                 .date(GregorianCalendar.getInstance())
@@ -815,6 +831,7 @@ public class DataInserting {
                 .buyerName(user4_order.getUsername())
                 .buyerPhone(user4_order.getPhone())
                 .build();
+
         Order order_user5 = Order.builder()
                 .items(List.of(user5_order_item1, user5_order_item2))
                 .date(GregorianCalendar.getInstance())
@@ -825,6 +842,7 @@ public class DataInserting {
                 .buyerName(user5_order.getUsername())
                 .buyerPhone(user5_order.getPhone())
                 .build();
+
         Order order_user6 = Order.builder()
                 .items(List.of(user6_order_item1, user6_order_item2))
                 .date(GregorianCalendar.getInstance())
@@ -836,13 +854,32 @@ public class DataInserting {
                 .buyerPhone(user6_order.getPhone())
                 .build();
 
+        Order order2_user6 = Order.builder()
+                .items(List.of(user6_order_item1))
+                .date(GregorianCalendar.getInstance())
+                .status(Status.COMPLETE)
+                .address(user6_order.getAddress())
+                .total(user6_order_item1.getPrice())
+                .user(user6_order)
+                .buyerName(user6_order.getUsername())
+                .buyerPhone(user6_order.getPhone())
+                .build();
+
         user4_order.setOrders(List.of(order_user4));
         user5_order.setOrders(List.of(order_user5));
-        user6_order.setOrders(List.of(order_user6));
+        user6_order.setOrders(List.of(order_user6, order2_user6));
+
+        shop_insert_order_user6.setOrders(List.of(order_user6, order2_user6));
+        shop_insert_order_user4.setOrders(List.of(order_user4));
+        shop_insert_order_user5.setOrders(List.of(order_user5));
 
         userRepository.save(user4_order);
         userRepository.save(user5_order);
         userRepository.save(user6_order);
+
+        shopRepository.save(shop_insert_order_user6);
+        shopRepository.save(shop_insert_order_user5);
+        shopRepository.save(shop_insert_order_user4);
 //---------------------------------------------------------------Reviews
         //Ревью user4 на товар item1
         User user4_review = userRepository.findByEmail("user4@mail");
@@ -860,6 +897,8 @@ public class DataInserting {
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .logo(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user4_item);
 
@@ -885,9 +924,11 @@ public class DataInserting {
                 .user(null) //detached entity passed to persist: com.amr.project.model.entity.User
                 .item(null)
                 .shop(null)
+                .logo(null)
                 .isModerated(false)
                 .isModerateAccept(false)
                 .moderatedRejectReason(null)
+                .file(null)
                 .build();
         reviewRepository.save(review1_user5_shop);
         review1_user5_shop.setItem(item_review1_user5);
@@ -1006,9 +1047,41 @@ public class DataInserting {
         User user5_coupons = userRepository.findByEmail("user5@mail");
         User user6_coupons = userRepository.findByEmail("user6@mail");
 
-        Coupon coupon1 = new Coupon();
-        Coupon coupon2 = new Coupon();
-        Coupon coupon3 = new Coupon();
+        Shop samsung_coupons = shopRepository.findByName("samsung");
+        Shop mi_coupons = shopRepository.findByName("mi");
+        Shop predator_coupons = shopRepository.findByName("predator");
+
+        Coupon coupon1 = Coupon.builder()
+                .shop(samsung_coupons)
+                .sum(75)
+                .start(new GregorianCalendar(2021, 10, 26)) // в БД заносится на месяц вперед ?
+                .end(new GregorianCalendar(2021, 11, 26))
+                .status(CouponStatus.ACTUAL)
+                .build();
+
+        Coupon coupon2 = Coupon.builder()
+                .shop(mi_coupons)
+                .sum(80)
+                .start(new GregorianCalendar(2021, 10, 24))
+                .end(new GregorianCalendar(2021, 11, 24))
+                .status(CouponStatus.USED)
+                .build();
+
+        Coupon coupon3 = Coupon.builder()
+                .shop(predator_coupons)
+                .sum(70)
+                .start(new GregorianCalendar(2021, 10, 20))
+                .end(new GregorianCalendar(2021, 11, 20))
+                .status(CouponStatus.ACTUAL)
+                .build();
+
+        Coupon coupon4 = Coupon.builder()
+                .shop(predator_coupons)
+                .sum(100)
+                .start(new GregorianCalendar(2021, 11, 4))
+                .end(new GregorianCalendar(2021, 12, 4))
+                .status(CouponStatus.ACTUAL)
+                .build();
 
         couponRepository.save(coupon1);
         couponRepository.save(coupon2);
@@ -1021,6 +1094,15 @@ public class DataInserting {
         userRepository.save(user4_coupons);
         userRepository.save(user5_coupons);
         userRepository.save(user6_coupons);
+
+        samsung_coupons.setCoupons(List.of(coupon1));
+        mi_coupons.setCoupons(List.of(coupon2));
+        predator_coupons.setCoupons(List.of(coupon3, coupon4));
+
+        shopRepository.save(samsung_coupons);
+        shopRepository.save(mi_coupons);
+        shopRepository.save(predator_coupons);
+
 //---------------------------------------------------------------Feedback
         Feedback feedback1 = Feedback.builder()
                 .full_text("full_text_feedback1")
@@ -1044,3 +1126,4 @@ public class DataInserting {
         answerFromModeratorRepository.save(answerFromModerator2);
     }
 }
+//-------------------------------------------------------------------------------------

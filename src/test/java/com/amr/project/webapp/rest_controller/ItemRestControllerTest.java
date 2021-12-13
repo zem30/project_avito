@@ -29,9 +29,9 @@ class ItemRestControllerTest extends AbstractApiTest {
     @ExpectedDataSet(value = "dataset/testApiItem/expected/TestItemPersist.xml")
     public void testItemPersist() throws Exception {
         ItemDto itemDto = ItemDto.builder().name("Test").shopName("Alibaba").description("Test")
-                .count(2).rating(0d).price(new BigDecimal(200)).categoriesName(new String[]{"Sport"}).build();
+                .count(2).rating(0d).price(new BigDecimal(200)).categoriesName("Sport").build();
         ItemDto itemDto2 = ItemDto.builder().name("Test").description("Test")
-                .count(2).rating(0d).price(new BigDecimal(200)).categoriesName(new String[]{"Sport"}).build();
+                .count(2).rating(0d).price(new BigDecimal(200)).categoriesName("Sport").build();
         ItemDto itemDto3 = ItemDto.builder().name("Test").shopName("Alibaba").description("Test")
                 .count(2).rating(0d).price(new BigDecimal(200)).build();
         mvc.perform(
@@ -76,7 +76,7 @@ class ItemRestControllerTest extends AbstractApiTest {
     public void testItemUpdate() throws Exception {
         ItemDto itemDto = itemMapper.itemToDto(itemService.getByKey(1l));
         itemDto.setShopName("Alibaba");
-        itemDto.setCategoriesName(new String[]{"Sport"});
+        itemDto.setCategoriesName("Sport");
         itemDto.setName("TestTest");
 
         ItemDto itemDto1 = itemMapper.itemToDto(itemService.getByKey(1l));

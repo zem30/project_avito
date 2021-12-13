@@ -79,22 +79,26 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     }
 
     @Override
+    @Transactional
     public Item getItemId(long id) {
         return itemRepository.findById(id).orElse(null);
     }
 
     @Override
+    @Transactional
     public ItemDto getItemDtoId(long id) {
         return itemMapper.itemToDto(itemRepository.findById(id).orElse(null));
     }
 
     @Override
+    @Transactional
     public List<ItemDto> getAllItemsRatingSort() {
         List<Item> itemList = itemRepository.findAllByOrderByRatingDesc();
         return itemList.stream().map(itemMapper::itemToDto).collect(Collectors.toList());
     }
 
     @Override
+    @Transactional
     public List<Item> getAllItem(User user) {
         List<Long> list = user.getCartItems().stream().map(CartItem::getId).sorted().collect(Collectors.toList());
         List<Item> itemsList = new ArrayList<>();
@@ -105,6 +109,7 @@ public class ItemServiceImpl extends ReadWriteServiceImpl<Item, Long> implements
     }
 
     @Override
+    @Transactional
     public List<ItemDto> getItemsByCategoryId(Long id) {
         return itemDao.getItemsByCategoryId(id).stream().map(itemMapper::itemToDto).collect(Collectors.toList());
     }

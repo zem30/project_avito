@@ -22,4 +22,7 @@ public interface ShopService extends ReadWriteService<Shop, Long> {
 
     @Override
     void persist(Shop shop);
+
+    @Override
+    void update(Shop shop);
 }

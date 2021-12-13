@@ -45,7 +45,7 @@
 
             <hr/>
             <div>
-                <input type="hidden" th:value="${user.getId()}" id="user-id">
+                <input type="hidden" th:value="${user.getId()}" id="user-id" class="user-id">
                 <h5>Возвраст: <b id="user-age" th:text="*{age}">?</b>
                 </h5>
                 <h5>Пол: <b id="user-gender" th:text="*{gender}">?</b></h5>
@@ -69,9 +69,12 @@
                 <h5 style="color: #fdbf2f; cursor: pointer;"><a data-bs-toggle="modal" data-bs-target="#discount"> Мои
                     скидки </a></h5>
                 <h5><a th:href="@{/user-reports}">Отчеты</a></h5>
+                <h5 style="color: #fdbf2f; cursor: pointer;"><a data-bs-toggle="modal" data-bs-target="#coupons">
+                    Мои купоны
+                </a></h5>
             </div>
         </div>
-        <!-- Modal -->
+        <!-- Modal For DISCOUNTS-->
         <div class="modal fade" id="discount" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -105,6 +108,59 @@
             </div>
         </div>
         <!-- END Modal -->
+        <!-- Modal For COUPONS-->
+        <div class="modal fade" id="coupons" tabindex="-1" aria-labelledby="exampleModal" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModal">Мои купоны</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Все купоны</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-actual-tab" data-bs-toggle="pill" data-bs-target="#pills-actual" type="button" role="tab" aria-controls="pills-actual" aria-selected="false">Действительные</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-used-tab" data-bs-toggle="pill" data-bs-target="#pills-used" type="button" role="tab" aria-controls="pills-used" aria-selected="false">Использованные</button>
+                            </li>
+                            <li class="nav-item" role="presentation">
+                                <button class="nav-link" id="pills-overdue-tab" data-bs-toggle="pill" data-bs-target="#pills-overdue" type="button" role="tab" aria-controls="pills-overdue" aria-selected="false">Просроченные</button>
+                            </li>
+                        </ul>
+                        <div class="tab-content" id="pills-tabContent">
+                            <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+                                <div class="allCoupons">
+                                    <!-- FOR JS  -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-actual" role="tabpanel" aria-labelledby="pills-actual-tab">
+                                <div class="actualCoupons">
+                                    <!-- FOR JS  -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-used" role="tabpanel" aria-labelledby="pills-used-tab">
+                                <div class="usedCoupons">
+                                    <!-- FOR JS  -->
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="pills-overdue" role="tabpanel" aria-labelledby="pills-overdue-tab">
+                                <div class="overdueCoupons">
+                                    <!-- FOR JS  -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- END Modal -->
         <div class="col-10">
             <div class="container user-navlinks">
                 <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
@@ -120,7 +176,6 @@
                                 aria-selected="false">Мои Заказы
                         </button>
                     </li>
-
                 </ul>
             </div>
             <div class="container container-content">
@@ -288,6 +343,7 @@
         integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/"
         crossorigin="anonymous"></script>
 <script src="/js/UserPage.js"></script>
+<script src="/js/coupons.js"></script>
 <link rel="stylesheet" href="/css/UserPageStyle.css"/>
 </body>
 

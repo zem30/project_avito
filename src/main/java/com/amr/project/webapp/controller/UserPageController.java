@@ -39,6 +39,7 @@ public class UserPageController {
         System.err.println(userDto);
         model.addAttribute("user", userDto);
         model.addAttribute("discount", user.getDiscounts());
+        model.addAttribute("coupons", user.getCoupons());
         return "UserPage";
     }
 
