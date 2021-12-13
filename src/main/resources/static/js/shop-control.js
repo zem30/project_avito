@@ -1,6 +1,7 @@
 const pathname = document.location.pathname; // shop/control/?
 const key = 11;
 let shopDto;
+let nullDate = new Date(null) // for if
 //----------------------------------------------------------------------------------------------------------------------
 function getNormalDate(date){
     return date.getDate() + "." + (date.getMonth()+1) + "." + date.getFullYear();
@@ -78,7 +79,9 @@ async function userShops() {
             let now = new Date();
             couponList.forEach((coupon) => {
                 let date = new Date(coupon.end);
-                if (now.getFullYear() >= date.getFullYear()) {
+                if (nullDate.getFullYear() === date.getFullYear()) {
+                    updateToOverdue(coupon)
+                } else if (now.getFullYear() >= date.getFullYear()) {
                     if(now.getMonth() >= date.getMonth()) {
                         if(now.getDay() > date.getDay()) {
                             updateToOverdue(coupon)
@@ -92,7 +95,7 @@ async function userShops() {
                                         <th>${coupon.sum}</th>
                                         <th>`
                 if (coupon.status === "ACTUAL") {
-                    shopActiveCoupons += `<input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#useCouponModal" value="Отправить купон">`
+                    shopActiveCoupons += `<input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#sendCouponModal" value="Отправить купон">`
                 } else {
                     shopActiveCoupons += `<input type="button" class="btn btn-secondary" id="${coupon.id}" disabled value="Отправить купон">`
                 }
@@ -190,10 +193,10 @@ $("#addItem").on('click', () => {
     }).then(res => {
         console.log(res)
         alert("Item`s been added")
+        userShops()
     })
     const { myForm } = document.forms;
     myForm.reset()
-    userShops()
 });
 // for add item panel (select)
 async function getSelectCategories() {

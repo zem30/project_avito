@@ -62,6 +62,7 @@ public class ShopServiceImpl extends ReadWriteServiceImpl<Shop, Long> implements
     }
 
     @Override
+    @Transactional
     public Shop getShop(String nameShop) {
         return shopDao.getShop(nameShop);
     }

@@ -679,14 +679,6 @@ public class DataInserting {
         itemRepository.save(item5);
         itemRepository.save(item6);
         itemRepository.save(item7);
-//---------------------------------------------------------------Shop_Items
-        mi.setItems(List.of(item1, item2));
-        samsung.setItems(List.of(item3, item4));
-        predator.setItems(List.of(item5, item6, item7));
-
-        shopRepository.save(mi);
-        shopRepository.save(samsung);
-        shopRepository.save(predator);
 //---------------------------------------------------------------CartItem
         User user4_cartItem = userRepository.findByEmail("user4@mail");
         User user5_cartItem = userRepository.findByEmail("user5@mail");
