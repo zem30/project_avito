@@ -3,7 +3,7 @@ package com.amr.project.service.impl;
 import com.amr.project.converter.ItemMapper;
 import com.amr.project.dao.abstracts.OrderDao;
 import com.amr.project.dao.abstracts.ReadWriteDao;
-import com.amr.project.dao.impl.OrderDaoImpl;
+import com.amr.project.inserttestdata.repository.OrderRepository;
 import com.amr.project.model.dto.ItemDto;
 import com.amr.project.model.dto.OrderDto;
 import com.amr.project.model.entity.*;
@@ -28,15 +28,17 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
     private final EmailSenderService emailSenderService;
     private final TrackedEmailOrder trackedEmailOrder;
     private ItemMapper itemMapper;
+    private final OrderRepository orderRepository;
 
     public OrderServiceImpl(@Qualifier("userPageOrderDaoImpl") ReadWriteDao<Order, Long> dao,
                             OrderDao orderDao,
                             EmailSenderService emailSenderService,
-                            TrackedEmailOrder trackedEmailOrder) {
+                            TrackedEmailOrder trackedEmailOrder, OrderRepository orderRepository) {
         super(dao);
         this.orderDao = orderDao;
         this.emailSenderService = emailSenderService;
         this.trackedEmailOrder = trackedEmailOrder;
+        this.orderRepository = orderRepository;
         this.itemMapper = itemMapper;
     }
 
@@ -164,4 +166,15 @@ public class OrderServiceImpl extends ReadWriteServiceImpl<Order, Long> implemen
         super.persist(order);
         return order;
     }
+
+    @Override
+    public List<Order> findAllByUserAndStatusAndShopId(Long userId, Status status, Long shopId) {
+        return orderRepository.findAllByUserAndStatusAndShopId(userId, status, shopId);
+    }
+
+    @Override
+    public List<Order> findAllByUserAndStatusAndItemId(Long userId, Status status, Long itemId) {
+        return orderRepository.findAllByUserAndStatusAndItemId(userId, status, itemId);
+    }
+
 }
