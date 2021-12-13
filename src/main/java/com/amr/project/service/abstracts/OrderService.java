@@ -6,6 +6,7 @@ import com.amr.project.model.entity.Address;
 import com.amr.project.model.entity.Order;
 import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.PaymentMethod;
+import com.amr.project.model.enums.Status;
 import com.amr.project.webapp.paypalsettings.CheckOutInfo;
 
 import java.util.List;
@@ -24,4 +25,9 @@ public interface OrderService extends ReadWriteService<Order, Long> {
 
     Order createOrder(List<ItemDto> items, User user, PaymentMethod paymentMethod,
                       CheckOutInfo checkOutInfo, Address address);
+
+    List<Order> findAllByUserAndStatusAndShopId(Long userId, Status status, Long shopId);
+
+    List<Order> findAllByUserAndStatusAndItemId(Long userId, Status status, Long itemId);
+
 }

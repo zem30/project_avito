@@ -145,3 +145,65 @@ function paste(count){
     }
 }
 //-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+async function getShop() {
+    try {
+        const response = await fetch('/shop_api' + pathname)
+        return await response.json()
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function getOrdersByShopId(userId, shopId) {
+    try {
+        const response = await fetch('/getUser/' + userId + '/getOrders/' + shopId + '/shop')
+        return await response.json()
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function getOrderByItemId(userId, itemId) {
+    try {
+        const response = await fetch('/getUser/' + userId + '/getOrders/' + itemId + '/item')
+        return await response.json()
+    } catch (e) {
+        console.error(e);
+    }
+}
+
+async function showBtnUserShopReviewAddForm() {
+    let isPageShop = pathname.indexOf('shop') !== -1
+    let isPageItem = pathname.indexOf('item') !== -1
+
+    await fetch("/getUser/")
+        .then(response => response.json())
+        .catch(e => console.error(e))
+        .then(async user => {
+            if (isPageShop) {
+                const shop = await getShop();
+                const userOrders = await getOrdersByShopId(user.id, shop.id)
+                isPageShop = Boolean(userOrders.length !== 0)
+            }
+
+            if (isPageItem) {
+                const itemId = pathname.replace('/item/', '')
+                const userOrder = await getOrderByItemId(user.id, itemId)
+                isPageItem = Boolean(userOrder.length !== 0)
+            }
+
+            if (isPageShop || isPageItem) {
+                document.querySelector('.headReview').innerHTML =
+                    `<button sec:authorize="isAuthenticated()" type="button" id="btnUserShopReviewAddForm"
+                            class="btn btn-success mt-1" data-bs-toggle="modal" data-bs-target="#userReviewAddForm">
+                            Оставить отзыв
+                        </button>`;
+            }
+        })
+}
+
+showBtnUserShopReviewAddForm()
+
+//-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
