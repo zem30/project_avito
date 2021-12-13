@@ -4,13 +4,10 @@ import com.amr.project.converter.ItemMapper;
 import com.amr.project.converter.OrderMapper;
 import com.amr.project.converter.ShopMapper;
 import com.amr.project.converter.UserMapper;
-import com.amr.project.model.dto.ItemDto;
-import com.amr.project.model.dto.OrderDto;
-import com.amr.project.model.dto.ShopDto;
-import com.amr.project.model.dto.UserDto;
-import com.amr.project.model.dto.UserUpdateDto;
-import com.amr.project.model.dto.UserDto;
+import com.amr.project.model.dto.*;
 import com.amr.project.model.entity.User;
+import com.amr.project.model.enums.Status;
+import com.amr.project.service.abstracts.OrderService;
 import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -20,7 +17,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @RestController
@@ -31,6 +32,7 @@ public class UserRestController {
     private final ShopMapper shopMapper;
     private final ItemMapper itemMapper;
     private final UserMapper userMapper;
+    private final OrderService orderService;
 
     @GetMapping("/getUser")
     @ApiOperation(value = "Получение зарегистрированного пользователя")
@@ -97,12 +99,38 @@ public class UserRestController {
 
         List<OrderDto> orderDtos = new ArrayList<>();
         user.getOrders().forEach(order -> orderDtos.add(OrderMapper.INSTANCE.orderToDto(order)));
-
         if (orderDtos.size() == 0) {
             return ResponseEntity.badRequest().build();
         }
         return ResponseEntity.ok(orderDtos);
     }
+
+    @GetMapping("/getUser/{id}/getOrders/{shopId}/shop")
+    @ApiOperation(value = "Список всех заказов пользователя со статусом 'COMPLETE' по id магазина")
+    public ResponseEntity<List<OrderDto>> getOrdersByShopId(@PathVariable("id") Long id,
+                                                            @PathVariable("shopId") Long shopId) {
+        List<OrderDto> ordersDto = orderService.findAllByUserAndStatusAndShopId(id, Status.COMPLETE, shopId)
+                .stream().map(OrderMapper.INSTANCE::orderToDto).collect(Collectors.toList());
+
+        if (ordersDto.size() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(ordersDto);
+    }
+
+    @GetMapping("/getUser/{id}/getOrders/{itemId}/item")
+    @ApiOperation(value = "Заказ пользователя со статусом 'COMPLETE' по id товара")
+    public ResponseEntity<List<OrderDto>> getOrdersByItemId(@PathVariable("id") Long id,
+                                                            @PathVariable("itemId") Long itemId) {
+        List<OrderDto> ordersDto = orderService.findAllByUserAndStatusAndItemId(id, Status.COMPLETE, itemId)
+                .stream().map(OrderMapper.INSTANCE::orderToDto).collect(Collectors.toList());
+
+        if (ordersDto.size() == 0) {
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok(ordersDto);
+    }
+
     @GetMapping("/getUser/{id}")
     @ApiOperation(value = "Возвращает пользователя по id")
     public ResponseEntity<UserUpdateDto> getUserById(@PathVariable long id) {
