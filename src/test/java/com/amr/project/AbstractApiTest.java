@@ -31,8 +31,7 @@ public abstract class AbstractApiTest {
 
     protected String asJsonString(final Object obj) {
         try {
-            final String jsonContent = mapper.writeValueAsString(obj);
-            return jsonContent;
+            return mapper.writeValueAsString(obj);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
