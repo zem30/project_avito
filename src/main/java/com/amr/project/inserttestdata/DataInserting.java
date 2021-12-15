@@ -877,7 +877,7 @@ public class DataInserting {
         userRepository.save(user5_order);
         userRepository.save(user6_order);
 
-        shopRepository.save(shop_insert_order_user6);
+//        shopRepository.save(shop_insert_order_user6);
         shopRepository.save(shop_insert_order_user5);
         shopRepository.save(shop_insert_order_user4);
 //---------------------------------------------------------------Reviews
