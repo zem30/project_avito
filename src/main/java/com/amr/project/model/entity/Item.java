@@ -53,10 +53,6 @@ public class Item {
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private Shop shop;
 
-//    @JsonIgnore
-//    @ManyToMany(mappedBy = "items")
-//    private List<Shop> shop;
-
     @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private List<CartItem> cartItems;

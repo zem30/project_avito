@@ -1,4 +1,5 @@
 let key = 11;
+let nullDate = new Date(null) // for if
 function createCard(coupon){
     let card = `<div class="card text-dark bg-light mb-3 text-center">`;
         card += `<div class="card-header"><h5>#${coupon.id * key}</h5></div>`;
@@ -22,22 +23,24 @@ async function showCoupons(){
         .then(user => {
             let now = new Date();
             for (let i = 0; i < user.coupons.length; i++) {
-                all += createCard(user.coupons[i]);
-                if (user.coupons[i].status === "ACTUAL") {
-                    let date = new Date(user.coupons[i].end)
-                    if (now.getFullYear() >= date.getFullYear()) {
+                 all += createCard(user.coupons[i]);
+                 if (user.coupons[i].status === "ACTUAL") {
+                     let date = new Date(user.coupons[i].end)
+                     if (nullDate.getFullYear() === user.coupons[i].end().getFullYear()){
+                         updateToOverdue(user.coupons[i])
+                     } else if (now.getFullYear() >= date.getFullYear()) {
                         if(now.getMonth() >= date.getMonth()) {
                             if(now.getDay() > date.getDay()) {
                                 updateToOverdue(user.coupons[i])
                             }
                         }
                     }
-                actual += createCard(user.coupons[i]);
-                } else if (user.coupons[i].status === "USED") {
-                    used += createCard(user.coupons[i]);
-                } else if (user.coupons[i].status === "OVERDUE") {
-                    overdue += createCard(user.coupons[i]);
-                }
+                 actual += createCard(user.coupons[i]);
+                 } else if (user.coupons[i].status === "USED") {
+                     used += createCard(user.coupons[i]);
+                 } else if (user.coupons[i].status === "OVERDUE") {
+                     overdue += createCard(user.coupons[i]);
+                 }
             }
             document.querySelector(".allCoupons").innerHTML = all;
             document.querySelector(".actualCoupons").innerHTML = actual;

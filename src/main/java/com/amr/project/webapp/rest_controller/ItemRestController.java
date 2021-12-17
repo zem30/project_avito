@@ -49,12 +49,6 @@ public class ItemRestController {
         item.setCategories(List.of(categoryService.getCategory(itemDto.getCategoriesName())));
         item.setShop(shopService.getShop(itemDto.getShopName()));
         itemService.persist(item);
-
-//        Shop shop = shopService.getShop(itemDto.getShopName());
-//        List<Item> itemList = new ArrayList<>(shop.getItems());
-//        itemList.add(item);
-//        shop.setItems(itemList);
-//        shopService.update(shop);
         return ResponseEntity.ok().build();
     }
 
