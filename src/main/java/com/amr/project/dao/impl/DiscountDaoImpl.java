@@ -4,6 +4,7 @@ import com.amr.project.dao.abstracts.DiscountDao;
 import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -35,11 +36,11 @@ public class DiscountDaoImpl extends ReadWriteDaoImpl<Discount, Long> implements
 
     @Override
     public Optional<Discount> findByAllFields(Integer minOrder, Integer percentage, Integer fixedDiscount, Shop shop) {
-        return Optional.ofNullable(entityManager.createQuery("select d from Discount d where d.minOrder = ?1 and d.percentage = ?2 and d.fixedDiscount = ?3 and d.shop = ?4", Discount.class)
+        return Optional.ofNullable(QueryResultWrapper.wrapGetSingleResult(entityManager.createQuery("select d from Discount d where d.minOrder = ?1 and d.percentage = ?2 and d.fixedDiscount = ?3 and d.shop = ?4", Discount.class)
                 .setParameter(1, minOrder)
                 .setParameter(2, percentage)
                 .setParameter(3, fixedDiscount)
-                .setParameter(4, shop).getSingleResult());
+                .setParameter(4, shop)));
 
     }
 
