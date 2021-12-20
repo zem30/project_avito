@@ -88,6 +88,12 @@ public class ReviewServiceImpl extends ReadWriteServiceImpl<Review, Long> implem
     public void delete(Review review) {
         emailSenderService.sendSimpleEmail(trackedEmailReview.trackedEmailReviewDelete(review));
         reviewDao.delete(review);
-
     }
+
+    @Override
+    @Transactional
+    public void deleteRev(Review review) {
+        reviewDao.delete(review);
+    }
+
 }

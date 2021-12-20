@@ -10,6 +10,7 @@ import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -58,7 +59,7 @@ public class ReviewModeratorController {
     }
 
     @ApiOperation(value = "Получает измененный отзыв из фронта и обновляет в базе данных")
-    @PutMapping("/editReview")
+    @PutMapping("/update") // ранее "/editReview"
     public ResponseEntity<ReviewDto> editReview(@RequestBody ReviewDto reviewDto) {
         if (reviewService.existsById(reviewDto.getId())) {
             Review review = reviewMapper.dtoToReview(reviewDto);

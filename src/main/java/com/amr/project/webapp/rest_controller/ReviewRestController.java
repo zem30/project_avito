@@ -5,7 +5,9 @@ import com.amr.project.exception.ExceptionInfo;
 import com.amr.project.model.dto.ReviewDto;
 import com.amr.project.model.entity.Review;
 import com.amr.project.service.abstracts.*;
+import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -74,11 +76,11 @@ public class ReviewRestController {
         return ResponseEntity.ok().build();
     }
 
-
     @GetMapping("/{id}")
-    public ResponseEntity<Review> getReviewItem(@PathVariable("id") long id) {
+    public ResponseEntity<ReviewDto> getReviewItem(@PathVariable("id") long id) {
         Review review = reviewService.getReviewById(id);
-        return ResponseEntity.ok(review);
+        ReviewDto reviewDto = reviewMapper.reviewToDto(review);
+        return ResponseEntity.ok(reviewDto);
     }
 
     @GetMapping("/items")
@@ -113,4 +115,24 @@ public class ReviewRestController {
         return reviews;
     }
 
+    @PutMapping("/update")
+    public ResponseEntity<ReviewDto> editReview(@RequestBody ReviewDto reviewDto) {
+        if (reviewService.existsById(reviewDto.getId())) {
+            Review review = reviewMapper.dtoToReview(reviewDto);
+            review.setUser(userService.getByKey(reviewDto.getUserId()));
+            review.setShop(shopService.getByKey(reviewDto.getShopId()));
+            review.setItem(itemService.getByKey(reviewDto.getItemId()));
+            reviewService.update(review);
+            return ResponseEntity.ok(reviewMapper.reviewToDto(review));
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @DeleteMapping("/deleteReview/{id}") //test
+    public ResponseEntity<Review> deleteReview(@PathVariable("id") Long id) {
+        Review review = reviewService.getReviewById(id);
+        review.setShop(null);
+        reviewService.deleteRev(review);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
