@@ -5,6 +5,7 @@ import java.util.List;
 public interface ReadWriteDao<T,K>{
      List<T> getAll();
      void persist(T obj);
+     T save(T obj);
      void update(T obj);
      void delete(T key);
      void deleteByKeyCascadeEnable(K key);

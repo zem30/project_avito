@@ -4,6 +4,7 @@ import java.util.List;
 
 public interface ReadWriteService<T, K> {
     void persist(T obj);
+    T saveD(T obj);
 
     void update(T obj);
 
