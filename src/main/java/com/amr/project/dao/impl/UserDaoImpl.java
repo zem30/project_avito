@@ -1,7 +1,7 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.UserDao;
-import com.amr.project.model.entity.Role;
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.Status;
 import com.amr.project.util.QueryResultWrapper;
@@ -73,5 +73,13 @@ public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao
                         "where o.status=:status and s.user=:user", User.class);
         query.setParameter("status", status).setParameter("user", user);
         return query.getResultList();
+    }
+
+    @Override
+    public List<User> findAllBuyersForShop(Shop shop) {
+        return entityManager.createQuery("select distinct u from User u left join u.orders o left join o.items i where i.shop = ?1 and o.status = ?2", User.class)
+                .setParameter(1, shop)
+                .setParameter(2, Status.COMPLETE)
+                .getResultList();
     }
 }

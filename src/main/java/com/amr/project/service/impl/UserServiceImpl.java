@@ -1,13 +1,10 @@
 package com.amr.project.service.impl;
 
-import com.amr.project.converter.UserMapper;
 import com.amr.project.converter.UserUpdateMapper;
 import com.amr.project.dao.abstracts.UserDao;
 import com.amr.project.inserttestdata.repository.ItemRepository;
 import com.amr.project.inserttestdata.repository.RoleRepository;
 import com.amr.project.inserttestdata.repository.UserRepository;
-import com.amr.project.model.dto.ImageDto;
-import com.amr.project.model.dto.UserDto;
 import com.amr.project.model.dto.UserUpdateDto;
 import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.Gender;
@@ -22,16 +19,15 @@ import com.amr.project.util.TrackedEmailUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.time.LocalDate;
-import java.time.Period;
-import java.time.ZoneId;
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -141,6 +137,11 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Override
     public List<User> findByStatusOrderAndShopOwnerUser(Status status, User user) {
         return userDao.findByStatusOrderAndShopOwnerUser(status, user);
+    }
+
+    @Override
+    public List<User> findAllBuyersForShop(Shop shop) {
+        return userDao.findAllBuyersForShop(shop);
     }
 
 

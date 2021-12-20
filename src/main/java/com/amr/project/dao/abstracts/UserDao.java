@@ -1,5 +1,6 @@
 package com.amr.project.dao.abstracts;
 
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.Status;
 
@@ -20,5 +21,7 @@ public interface UserDao extends ReadWriteDao<User, Long> {
     List<User> findByStatusOrder(Status status);
 
     List<User> findByStatusOrderAndShopOwnerUser(Status status, User user);
+
+    List<User> findAllBuyersForShop(Shop shop);
 }
 
