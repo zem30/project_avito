@@ -1,0 +1,36 @@
+<div class="modal fade" id="apply-discount-modal" tabindex="-1" aria-labelledby="apply-discount-label" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="apply-discount-label">Применить скидку</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+              <a class="nav-item nav-link active first" id="nav-home-tab" data-toggle="tab"
+                 href="#tab-clients-for-discount" role="tab" aria-controls="nav-home" aria-selected="true">Клиенты</a>
+              <a class="nav-item nav-link second" id="nav-profile-tab" data-toggle="tab"
+                 href="#tab-other-clients-for-discount" role="tab" aria-controls="nav-profile" aria-selected="false">Потенциальные клиенты</a>
+            </div>
+          </nav>
+          <div class="tab-content" id="nav-tabContent1">
+            <div class="tab-pane fade show active" id="tab-clients-for-discount" role="tabpanel"                 aria-labelledby="nav-home-tab">
+              <div class="form-group">
+                <select class="form-select" multiple id="clients"></select>
+              </div>
+            </div>
+            <div class="tab-pane fade" id="tab-other-clients-for-discount" role="tabpanel" aria-labelledby="nav-profile-tab">
+              <select class="form-select" multiple id="other-clients"></select>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+        <button type="submit" class="btn btn-primary btn-apply-discount" data-bs-dismiss="modal">Применить</button>
+      </div>
+    </div>
+  </div>
+</div>

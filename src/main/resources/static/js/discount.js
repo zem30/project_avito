@@ -1,96 +1,144 @@
-$(document).ready(function () {
-    restartAllUser();
-});
+const discountModal = document.getElementById('discount-modal')
+const applyDiscountModal = document.getElementById('apply-discount-modal')
 
-function createTableRow(u) {
-    let date = new Date(u.birthday);
-    return `<tr id="user_table_row">
-        <td>${u.id}</td>
-        <td><img src="data:image/png;base64,${u.images.picture}" width="80" height="80" alt=""></td>
-        <td>${u.gender}</td>
-        <td>${u.firstName}</td>
-        <td>${u.lastName}</td>
-        <td>${u.age}</td>
-        <td>${u.phone}</td>
-        <td>${u.email}</td>
-        <td>${date.getDay() + " - " + date.getMonth() + " - " + date.getFullYear()}</td>
-        <td>
-        <a  href="/api/userlist/${u.id}" class="btn btn-info discBtn" >Добавить скидку</a>
-        </td>
-    </tr>`;
-}
-
-async function restartAllUser() {
-    let UserTableBody = $("#user_table_body");
-    UserTableBody.children().remove();
-    let id;
-    await fetch("/getUser/")
-        .then(response => response.json())
-        .then(u => id = u.id)
-        .catch(e => console.error(e));
-    fetch("/api/userlist/" + id + "/allbuyers")
-        .then((response) => {
-            response.json().then(
-                data => data.forEach(function (item) {
-                    let TableRow = createTableRow(item);
-                    UserTableBody.append(TableRow);
-                }));
-        }).catch(error => {
-        console.log(error);
-    });
-}
-
-let userJs = null;
-    $(document).on('click', 'a.btn' ,function (event) {
-    event.preventDefault()
-    if ($(event.target).hasClass('discBtn')) {
-        let href = $(event.target).attr("href");
-        $(".discount #discountModal").modal();
-        userJs = fetch(href, {
-            method: 'GET'
-        }).then(function (response) {
-            response.json().then(function (user) {
-                userJs = user;
-            });
-        });
+const getResponse = response => response.json()
+const requestOptions = (action, data) => ({
+    method: action,
+    body: JSON.stringify(data),
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json; charset=UTF-8'
     }
+})
 
-    if ($(event.target).hasClass('discountButton')) {
-        if (!document.querySelector('.first').classList.contains('active')) {
-            $('#percentageDiscount').val('');
-        } else if (!document.querySelector('.second').classList.contains('active')) {
-            $('#fixedDiscount').val('');
+function setAttrSize(list, id) {
+    let size = (list.length < 20) ? list.length : 20
+    document.getElementById(id).setAttribute('size', size)
+}
+
+function renderDiscount(discount) {
+    const tbody = document.querySelector('.table-discounts').getElementsByTagName('TBODY')[0]
+    let output = ''
+    const tr = document.createElement('tr')
+    output += `
+             <td>${discount.minOrder}</td>
+             <td>${discount.percentage}</td>
+             <td>${discount.fixedDiscount}</td>
+             <td>
+             <button type="button" class="btn btn-md btn-success my-3" data-bs-toggle="modal" data-bs-target="#apply-discount-modal"
+              data-min-order=${discount.minOrder}
+              data-percentage=${discount.percentage} 
+              data-fixed-discount=${discount.fixedDiscount}
+              >Применить</button>
+              </td>`
+    tr.innerHTML = output
+    tbody.appendChild(tr)
+    return tr
+}
+
+
+function renderSelectUsers(user, id) {
+    const select = document.getElementById(id)
+    const option = document.createElement('option')
+    option.setAttribute('value', user.username)
+    option.innerHTML = user.username
+    select.appendChild(option)
+    return select
+}
+
+// GET
+async function getDiscounts() {
+    const shopId = window.location.pathname.replace('/shop/control/', '')
+    await fetch('/api/shop/' + shopId + '/discounts')
+        .then(getResponse)
+        .then(discounts => {
+            for (let discount of discounts) {
+                renderDiscount(discount)
+            }
+        })
+}
+
+// GET
+async function getBuyers() {
+    const shopId = window.location.pathname.replace('/shop/control/', '')
+    await fetch('/api/shop/' + shopId + '/buyers')
+        .then(getResponse)
+        .then(buyers => {
+            setAttrSize(buyers, 'other-clients')
+            for (let buyer of buyers) {
+                renderSelectUsers(buyer, 'other-clients')
+            }
+        })
+}
+
+getBuyers()
+
+// GET
+async function getUsers() {
+    const shopId = window.location.pathname.replace('/shop/control/', '')
+    await fetch('/api/userlist/all')
+        .then(getResponse)
+        .then(users => {
+            setAttrSize(users, 'clients')
+            for (let user of users) {
+                renderSelectUsers(user, 'clients')
+            }
+        })
+}
+
+getUsers()
+
+document.getElementById('btn-show-discounts-shop').onclick = async function () {
+    const tbody = document.querySelector('.table-discounts').getElementsByTagName('TBODY')[0]
+    tbody.replaceChildren()
+    await getDiscounts()
+}
+
+// POST
+discountModal.querySelector('.btn-add-discount').onclick = function () {
+
+    let discount = {
+        minOrder: discountModal.querySelector('#min-order-discount').value,
+        percentage: discountModal.querySelector('#percentage-discount').value,
+        fixedDiscount: discountModal.querySelector('#fixed-discount').value,
+        shopId: window.location.pathname.replace('/shop/control/', '')
+    }
+    fetch('/api/discounts', requestOptions('POST', discount))
+        .then(getResponse)
+        .then(discount => {
+            renderDiscount(discount)
+        })
+    discountModal.getElementsByTagName('form')[0].reset()
+}
+
+
+// POST
+document.querySelector('.table-discounts').onclick = function (e) {
+    let tds = e.target.closest('TR').getElementsByTagName('TD')
+
+    applyDiscountModal.querySelector('.btn-apply-discount').onclick = async function () {
+
+        let isTabClients = document.getElementById('tab-clients-for-discount').classList.contains('active')
+        let select = isTabClients ? '#clients' : '#other-clients'
+
+        const selected = applyDiscountModal.querySelector(select).querySelectorAll('option:checked')
+        const users = Array.from(selected).map(el => {
+            let user = {}
+            user.username = el.value
+            return user
+        })
+
+        let discount = {
+            minOrder: tds[0].innerHTML,
+            percentage: tds[1].innerHTML,
+            fixedDiscount: tds[2].innerHTML,
+            shopId: window.location.pathname.replace('/shop/control/', ''),
+            users: users
         }
-        let shopId = $('#chooseShop').val()[0];
 
-        fetch('/api/userlist/shop/' + shopId, {
-            method: 'GET'
-        }).then(function (response) {
-            response.json().then(function (shop) {
-                let discount = {
-                    user: userJs,
-                    shop: shop,
-                    minOrder: $('#minOderDiscount').val(),
-                    percentage: $('#percentageDiscount').val(),
-                    fixedDiscount: $('#fixedDiscount').val()
-                }
-                discountModalButton(discount)
-                // updateUser(discount);
-            });
-        });
+        await fetch('/api/discounts/users', requestOptions('POST', discount))
+            .then(() => {
+                applyDiscountModal.getElementsByTagName('form')[0].reset()
+            })
     }
-});
-
-function discountModalButton(discount) {
-    console.log(discount)
-    fetch("/api/userlist/addDiscount", {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json;charset=utf-8"
-        },
-        body: JSON.stringify(discount)
-    }).then(function () {
-        $('.discount #discountModal').modal('hide');
-        restartAllUser();
-    });
 }

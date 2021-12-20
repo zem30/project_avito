@@ -63,6 +63,7 @@
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Добавить товар</button>
                     <button class="nav-link" id="MyBuyers" data-bs-toggle="pill" data-bs-target="#listBuyers" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Заказы</button>
                     <button class="nav-link" id="myCoupons" data-bs-toggle="pill" data-bs-target="#listCoupons" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Купоны</button>
+                    <button class="nav-link" id="btn-show-discounts-shop" data-bs-toggle="pill" data-bs-target="#table-discounts" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Скидки</button>
                 </div>
             </div>
             <div class="col-10 bg-light vh-1000" style="background-color: #f5f5f5; padding: 20px 30px">
@@ -216,6 +217,35 @@
                             </div>
                         </div>
                     </div>
+<!-- Discounts :: source shopOwner/shop_add_discount.html -->
+                    <div class="tab-pane fade" id="table-discounts" role="tabpanel" aria-labelledby="table-discounts">
+                        <div class="tab-content">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Скидки</h3>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-md btn-success my-3" data-bs-toggle="modal" data-bs-target="#discount-modal">
+                                        Добавить скидку
+                                    </button>
+                                    <table class="table table-striped border table-discounts align-middle text-center">
+                                        <thead>
+                                        <tr>
+                                            <th>Мин. сумма заказа</th>
+                                            <th>В процентах</th>
+                                            <th>Фиксированная</th>
+                                            <th>Действие</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:replace="modal/shop-add-new-discount-form"/>
+                    <div th:replace="modal/shop-apply-discount-form"/>
                 </div>
                 <div class="container-fluid vh-100 login-form">
                     <div class="login-content"></div>
@@ -230,5 +260,6 @@
             integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     <script src="/js/shop-control.js"></script>
     <script src="/js/registration.js"></script>
+    <script src="/js/discount.js"></script>
 </body>
 </html>
