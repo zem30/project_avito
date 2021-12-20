@@ -5,6 +5,7 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.List;
 
 
 @Entity
@@ -27,7 +28,7 @@ public class Discount {
     private Shop shop;
 
     @JsonIgnore
-    @ManyToOne(fetch = FetchType.LAZY)
-    private User user;
+    @ManyToMany(fetch = FetchType.LAZY)
+    private List<User> user;
 
 }
