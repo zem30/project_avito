@@ -92,8 +92,8 @@ public class ReviewServiceImpl extends ReadWriteServiceImpl<Review, Long> implem
 
     @Override
     @Transactional
-    public void deleteRev(Review review) {
-        reviewDao.delete(review);
+    public void deleteRev(long id) {
+        reviewDao.deleteByKeyCascadeIgnore(id);
     }
 
 }

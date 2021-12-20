@@ -128,11 +128,9 @@ public class ReviewRestController {
         return ResponseEntity.badRequest().build();
     }
 
-    @DeleteMapping("/deleteReview/{id}") //test
-    public ResponseEntity<Review> deleteReview(@PathVariable("id") Long id) {
-        Review review = reviewService.getReviewById(id);
-        review.setShop(null);
-        reviewService.deleteRev(review);
+    @DeleteMapping("/deleteReview/{id}")
+    public ResponseEntity<Void> deleteReview(@PathVariable("id") Long id) {
+        reviewService.deleteRev(id);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
