@@ -52,7 +52,7 @@ async function userShops() {
             let myClients = ``;
             let order_items = ``;
             shop.orders.forEach((order) => {
-                console.log(order)
+                // console.log(order)
                 order.items.forEach((item) => {
                     order_items += `<img src="data:image/png;base64,${item.images[0].picture}" style="height: 100px; width: 100px">
                                    <h6 style="color: black">${item.name}</h6>`
@@ -216,12 +216,14 @@ getSelectCategories()
 //----------------------------------------------------------------------------------------------------------------------
 // for coupon panel
 async function updateToOverdue(coupon){
-    console.log(coupon)
+    // console.log(coupon)
     await fetch('http://localhost:8888/api/coupon/update/overdue/' + coupon.id, {
         method: 'PUT',
         body: JSON.stringify(coupon),
         headers: { "Content-Type": "application/json; charset=utf-8" }
-    }).then(res => {console.log(res)})
+    }).then(res => {
+        // console.log(res)
+    })
 }
 $("#addNewCoupon").on('click', () => {
     fetch("http://localhost:8888/api/coupon/addCoupon", {
@@ -234,7 +236,7 @@ $("#addNewCoupon").on('click', () => {
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     }).then(res => {
-        console.log(res);
+        // console.log(res);
     })
     const { myCouponForm } = document.forms;
     myCouponForm.reset()
