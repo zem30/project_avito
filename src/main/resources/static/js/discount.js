@@ -61,31 +61,49 @@ async function getDiscounts() {
 // GET
 async function getBuyers() {
     const shopId = window.location.pathname.replace('/shop/control/', '')
-    await fetch('/api/shop/' + shopId + '/buyers')
+    const response = await fetch('/api/shop/' + shopId + '/buyers')
         .then(getResponse)
         .then(buyers => {
-            setAttrSize(buyers, 'other-clients')
+            setAttrSize(buyers, 'clients')
             for (let buyer of buyers) {
-                renderSelectUsers(buyer, 'other-clients')
+                renderSelectUsers(buyer, 'clients')
             }
+            return buyers
         })
-}
 
+}
 getBuyers()
 
 // GET
 async function getUsers() {
     const shopId = window.location.pathname.replace('/shop/control/', '')
+
+    fetch('/api/shop/' + shopId + '/buyers')
+        .then(getResponse)
+        .then(b => buyers = b)
+
     await fetch('/api/userlist/all')
         .then(getResponse)
         .then(users => {
-            setAttrSize(users, 'clients')
-            for (let user of users) {
-                renderSelectUsers(user, 'clients')
+            setAttrSize(users, 'other-clients')
+
+            const props = ['username'];
+            const otherClients = users.filter(function (o1) {
+                return !buyers.some(function (o2) {
+                    return o1.id === o2.id;
+                });
+            }).map(function (o) {
+                return props.reduce(function (newo, name) {
+                    newo[name] = o[name];
+                    return newo;
+                }, {})
+            });
+
+            for (let user of otherClients) {
+                renderSelectUsers(user, 'other-clients')
             }
         })
 }
-
 getUsers()
 
 document.getElementById('btn-show-discounts-shop').onclick = async function () {
