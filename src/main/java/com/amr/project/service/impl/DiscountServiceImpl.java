@@ -57,4 +57,14 @@ public class DiscountServiceImpl extends ReadWriteServiceImpl<Discount, Long> im
         return discountMapper.discountToDiscountDto(list);
     }
 
+    @Override
+    public Optional<Discount> findByAllFields(Integer minOrder, Integer percentage, Integer fixedDiscount, Shop shop) {
+        return discountDao.findByAllFields(minOrder, percentage, fixedDiscount, shop);
+    }
+
+    @Override
+    public void applyDiscount(List<User> users, Discount discount) {
+        users.forEach(user -> user.setDiscounts(List.of(discount)));
+    }
+
 }

@@ -5,9 +5,8 @@ import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 public interface DiscountService extends ReadWriteService<Discount, Long> {
 
@@ -16,4 +15,9 @@ public interface DiscountService extends ReadWriteService<Discount, Long> {
     List<DiscountDto> findByShop(Shop shop);
 
     DiscountDto findByUserAndShop(Long userId, Long shopId);
+
+    Optional<Discount> findByAllFields(Integer minOrder, Integer percentage, Integer fixedDiscount, Shop shop);
+
+    void applyDiscount(List<User> users, Discount discount);
+
 }
