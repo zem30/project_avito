@@ -1006,7 +1006,7 @@ public class DataInserting {
                 .percentage(10)
                 .fixedDiscount(100)
                 .shop(shop1_discount1)
-                .user(user4_discount1)
+//                .user(user4_discount1)
                 .build();
         discountRepository.save(discount1);
 
@@ -1025,7 +1025,7 @@ public class DataInserting {
                 .percentage(20)
                 .fixedDiscount(200)
                 .shop(shop2_discount1)
-                .user(user5_discount1)
+//                .user(user5_discount1)
                 .build();
         discountRepository.save(discount2);
 

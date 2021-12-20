@@ -3,6 +3,9 @@ package com.amr.project.model.dto;
 
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -19,7 +22,7 @@ public class DiscountDto {
 
     private Integer fixedDiscount;
 
-    private ShopDto shop;
+    private Long shopId;
 
-    private UserDto user;
+    private List<UserDto> users = new ArrayList<>();
 }
