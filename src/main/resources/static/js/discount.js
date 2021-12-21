@@ -13,7 +13,7 @@ const requestOptions = (action, data) => ({
 
 function setAttrSize(list, id) {
     let size = (list.length < 20) ? list.length : 20
-    document.getElementById(id).setAttribute('size', size)
+    document.getElementById(id).setAttribute('size', size+1)
 }
 
 function renderDiscount(discount) {
@@ -59,23 +59,23 @@ async function getDiscounts() {
 }
 
 // GET
-async function getBuyers() {
+async function getBuyers(id) {
     const shopId = window.location.pathname.replace('/shop/control/', '')
     const response = await fetch('/api/shop/' + shopId + '/buyers')
         .then(getResponse)
         .then(buyers => {
-            setAttrSize(buyers, 'clients')
+            setAttrSize(buyers, id)
             for (let buyer of buyers) {
-                renderSelectUsers(buyer, 'clients')
+                renderSelectUsers(buyer, id)
             }
             return buyers
         })
 
 }
-getBuyers()
+getBuyers('clients')
 
 // GET
-async function getUsers() {
+async function getUsers(id) {
     const shopId = window.location.pathname.replace('/shop/control/', '')
 
     fetch('/api/shop/' + shopId + '/buyers')
@@ -85,7 +85,7 @@ async function getUsers() {
     await fetch('/api/userlist/all')
         .then(getResponse)
         .then(users => {
-            setAttrSize(users, 'other-clients')
+            setAttrSize(users, id)
 
             const props = ['username'];
             const otherClients = users.filter(function (o1) {
@@ -100,11 +100,11 @@ async function getUsers() {
             });
 
             for (let user of otherClients) {
-                renderSelectUsers(user, 'other-clients')
+                renderSelectUsers(user, id)
             }
         })
 }
-getUsers()
+getUsers('other-clients')
 
 document.getElementById('btn-show-discounts-shop').onclick = async function () {
     const tbody = document.querySelector('.table-discounts').getElementsByTagName('TBODY')[0]
