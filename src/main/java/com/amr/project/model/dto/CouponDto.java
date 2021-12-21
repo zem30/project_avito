@@ -1,5 +1,6 @@
 package com.amr.project.model.dto;
 
+import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.CouponStatus;
 import lombok.*;
 import java.util.Calendar;
@@ -24,4 +25,7 @@ public class CouponDto {
     private Integer sum;
 
     private Long shopId;
+
+    private String username;
+
 }
