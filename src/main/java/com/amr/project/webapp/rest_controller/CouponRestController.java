@@ -1,19 +1,23 @@
 package com.amr.project.webapp.rest_controller;
 
 import com.amr.project.converter.CouponMapper;
+import com.amr.project.converter.ShopMapper;
+import com.amr.project.converter.UserMapper;
 import com.amr.project.model.dto.CouponDto;
 import com.amr.project.model.entity.Coupon;
+import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.CouponStatus;
 import com.amr.project.service.abstracts.CouponService;
 import com.amr.project.service.abstracts.ShopService;
+import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/coupon")
@@ -23,24 +27,34 @@ public class CouponRestController {
 
     private final CouponService couponService;
     private final CouponMapper couponMapper;
+    private final UserMapper userMapper;
+    private final ShopMapper shopMapper;
     private final ShopService shopService;
+    private final UserService userService;
 
     @ApiOperation(value = "Добавление купона")
     @PostMapping("/addCoupon")
-    public ResponseEntity<?> addCoupon(@RequestBody CouponDto couponDto){
+    public ResponseEntity<?> addCoupon(@RequestBody CouponDto couponDto) {
         if (couponDto.getSum() == null && couponDto.getShop() == null) {
             return ResponseEntity.badRequest().build();
         }
-        couponDto.setStatus(CouponStatus.ACTUAL);
-        couponDto.setShop(shopService.getShopId(couponDto.getShopId()));
         Coupon coupon = couponMapper.couponDtoToCoupon(couponDto);
-        couponService.persist(coupon);
+        coupon.setStatus(CouponStatus.ACTUAL);
+
+        coupon = couponService.saveD(coupon);
+        coupon.setShop(shopMapper.dtoToShop(shopService.getShopId(couponDto.getShopId())));
+
+        User user = userService.findByUsername(couponDto.getUsername());
+        List<Coupon> coupons = user.getCoupons();
+        coupons.add(coupon);
+        user.setCoupons(coupons);
+        userService.update(user);
         return ResponseEntity.ok().build();
     }
 
     @ApiOperation(value = "для обновления статуса купона на USED")
     @PutMapping("/update/used/{id}")
-    public ResponseEntity<?> updateToUsed(@PathVariable("id") long id){
+    public ResponseEntity<?> updateToUsed(@PathVariable("id") long id) {
         if (id == 0) {
             return ResponseEntity.badRequest().build();
         }
@@ -52,7 +66,7 @@ public class CouponRestController {
 
     @ApiOperation(value = "для обновления статуса купона на OVERDUE")
     @PutMapping("/update/overdue/{id}")
-    public ResponseEntity<?> updateToOverdue(@PathVariable("id") long id){
+    public ResponseEntity<?> updateToOverdue(@PathVariable("id") long id) {
         if (id == 0) {
             return ResponseEntity.badRequest().build();
         }
@@ -64,10 +78,16 @@ public class CouponRestController {
 
     @GetMapping("/{name}")
     @ApiOperation(value = "для получения купона BY SHOP NAME")
-    public ResponseEntity<List<CouponDto>> getAllCoupons(@PathVariable("name") String nameShop){
+    public ResponseEntity<List<CouponDto>> getAllCoupons(@PathVariable("name") String nameShop) {
         if (shopService.getShop(nameShop) == null) {
             return ResponseEntity.badRequest().build();
         }
-        return ResponseEntity.ok().body(couponService.findByShop(shopService.getShop(nameShop)));
+        List<CouponDto> coupons = couponService.findByShop(shopService.getShop(nameShop));
+        coupons.forEach(c -> c.setUsername(Objects.requireNonNull(
+                        userService.findByCouponId(c.getId())
+                        .orElse(null))
+                        .getUsername()));
+
+        return ResponseEntity.ok().body(coupons);
     }
 }
