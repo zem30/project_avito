@@ -30,7 +30,7 @@ async function fillUserItemTable() {
     let items
     if (response.ok) {
         items = await response.json().then(result => result)
-        console.log(items)
+        // console.log(items)
         await userOrdersTableFill(items)
     }
 }
@@ -73,7 +73,7 @@ async function fillUsersShops() {
     } else {
         cards = []
     }
-    console.log(cards)
+    // console.log(cards)
     cards.push(newShopCard)
     let grid = ''
     for (let i = 0; i < cards.length; i += 3) {
@@ -83,7 +83,7 @@ async function fillUsersShops() {
 }
 
 async function makeShopsCards(shops) {
-    console.log(shops)
+    // console.log(shops)
     let cards = []
     for (let i = 0; shops[i] !== undefined; i++) {
         let shop = shops[i]
@@ -101,7 +101,7 @@ async function makeShopsCards(shops) {
 
         cards.push(massage)
 
-        console.log(cards)
+        // console.log(cards)
     }
     return cards
 }
@@ -155,12 +155,12 @@ async function userNewShop() {
     const shopsAddModal = $('#userShopAddForm');
     $(shopsAddModal.find(":submit")).on('click', async () => {
         let imageInput = shopsAddModal.find('#logoAdd')[0].files[0]
-        console.log(imageInput)
+        // console.log(imageInput)
         let image
         if (imageInput !== undefined) {
             image = imageToBinary(imageInput)
         }
-        console.log(image)
+        // console.log(image)
         let shop = {
             'name': shopsAddModal.find('#shopNameAdd').val(),
             'email': shopsAddModal.find('#shopEmailAdd').val(),
@@ -173,20 +173,20 @@ async function userNewShop() {
                 isMain: true}],
             'rating': 0
         }
-        console.log(shop)
+        // console.log(shop)
 
         const response = await fetch("shop_api/", {
             method: 'POST',
             body: JSON.stringify(shop),
             headers: userService.head
         });
-        console.log(response)
+        // console.log(response)
         if(response.ok) {
             shopsAddModal.modal("hide");
             location.reload()
         } else {
             let body = await response.json()
-            console.log(body)
+            // console.log(body)
             let alert = `<div class="alert alert-danger alert-dismissible fade show col-12" role="alert" id="messageError">
                             ${body.errors}
                             <button type="button" class="close" data-bs-dismiss="alert" aria-label="Close">
@@ -262,8 +262,8 @@ function addCookieCartItem() {
         }
         document.cookie = cookie_name[i] + "basket" + "=" + 0 + "; path=/; max-age = 0"
     }
-    console.log(cookie_name)
-    console.log(cookie_data)
+    // console.log(cookie_name)
+    // console.log(cookie_data)
     if (cookie_data.length > 0) {
         let data = {
             cartItems: cookie_data
@@ -295,7 +295,7 @@ function getProfileForEdit(id) {
     fetch(url + '/getUser/' + id)
         .then(response => response.json())
         .then(user => {
-            console.log(user)
+            // console.log(user)
             let dob = new Date(user.birthday)
             dob = dob.toISOString().substring(0, 10);
             let gender = user.gender
@@ -337,10 +337,10 @@ function sendProfileForEdit() {
         house: $('#edit-house').val(),
         street: $('#edit-street').val()
     }
-    console.log(address)
+    // console.log(address)
     for (let key in address) {
         if(address[key] === "") {
-            console.log(key)
+            // console.log(key)
             $(`#if-${key}-empty`).show()
             isEmpty = true
         }
@@ -368,7 +368,7 @@ function sendProfileForEdit() {
             body: JSON.stringify(user)
         })
             // .then(response => response.json())
-            .then(data => console.log(data))
+            // .then(data => console.log(data))
             .then(getUser)
             .catch(err => console.error(err))
         $('.btn-close').click();
@@ -380,7 +380,7 @@ function sendProfileForDeactivate() {
     event.preventDefault();
     let user_id = $('#edit-id').val();
     fetch(url + '/user/' + user_id, {method: 'DELETE'})
-        .then(response => console.log(response.status, response.body))
+        // .then(response => console.log(response.status, response.body))
         .then(() => document.location.href = url + '/logout')
         .catch(e => console.error(e))
 }

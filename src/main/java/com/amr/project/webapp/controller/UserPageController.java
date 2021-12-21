@@ -36,7 +36,6 @@ public class UserPageController {
     public String getUserPage1(Model model) {
         User user = userService.getAuthorized();
         UserDto userDto = userMapper.userToDto(user);
-        System.err.println(userDto);
         model.addAttribute("user", userDto);
         model.addAttribute("discount", user.getDiscounts());
         model.addAttribute("coupons", user.getCoupons());
@@ -52,7 +51,6 @@ public class UserPageController {
     public String getUserPage(@PathVariable("id") Long id, Model model) {
         User user = userService.getByKey(id);
         UserDto userDto = userMapper.userToDto(user);
-        System.err.println(userDto);
         model.addAttribute("user", userDto);
         return "UserPage";
     }
@@ -66,7 +64,6 @@ public class UserPageController {
     public String getUserList(@PathVariable("id") Long id, Model model){
         User user = userService.getByKey(id);
         UserDto userDto = userMapper.userToDto(user);
-        System.err.println(userDto);
         model.addAttribute("user", userDto);
         return "/shopOwner/shop_add_discount";
     }
