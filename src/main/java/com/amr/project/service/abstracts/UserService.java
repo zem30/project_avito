@@ -7,6 +7,7 @@ import com.amr.project.model.enums.Status;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserService extends ReadWriteService<User, Long> {
     User findByUsername(String username) throws NoResultException;
@@ -32,4 +33,6 @@ public interface UserService extends ReadWriteService<User, Long> {
     List<User> findByStatusOrderAndShopOwnerUser(Status status, User user);
 
     List<User> findAllBuyersForShop(Shop shop);
+
+    Optional<User> findByCouponId(long id);
 }

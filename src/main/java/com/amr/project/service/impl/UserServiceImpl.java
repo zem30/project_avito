@@ -24,10 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.NoResultException;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 
 @Service
@@ -142,6 +139,11 @@ public class UserServiceImpl extends ReadWriteServiceImpl<User, Long> implements
     @Override
     public List<User> findAllBuyersForShop(Shop shop) {
         return userDao.findAllBuyersForShop(shop);
+    }
+
+    @Override
+    public Optional<User> findByCouponId(long id) {
+        return userDao.findByCouponId(id);
     }
 
 

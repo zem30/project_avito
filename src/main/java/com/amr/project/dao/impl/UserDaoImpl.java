@@ -13,6 +13,7 @@ import javax.persistence.NoResultException;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
@@ -53,9 +54,9 @@ public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao
     @Override
     public int deactivateUser(long id) {
         Query query = entityManager.createQuery(
-                "update User set activate = false where id =:id")
+                        "update User set activate = false where id =:id")
                 .setParameter("id", id);
-       return query.executeUpdate();
+        return query.executeUpdate();
     }
 
     @Override
@@ -77,9 +78,19 @@ public class UserDaoImpl extends ReadWriteDaoImpl<User, Long> implements UserDao
 
     @Override
     public List<User> findAllBuyersForShop(Shop shop) {
-        return entityManager.createQuery("select distinct u from User u left join u.orders o left join o.items i where i.shop = ?1 and o.status = ?2", User.class)
+        return entityManager.createQuery("select distinct u from User u left join u.orders o " +
+                        "left join o.items i where i.shop = ?1 and o.status = ?2", User.class)
                 .setParameter(1, shop)
                 .setParameter(2, Status.COMPLETE)
                 .getResultList();
     }
+
+    @Override
+    public Optional<User> findByCouponId(long id) {
+        return Optional.ofNullable(QueryResultWrapper.wrapGetSingleResult(
+                entityManager.createQuery("select u from User u left join u.coupons coupons " +
+                        "where coupons.id = ?1", User.class)
+                        .setParameter(1, id)));
+    }
+
 }
