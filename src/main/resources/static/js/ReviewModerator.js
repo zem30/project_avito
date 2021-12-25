@@ -25,7 +25,7 @@ async function getUnmoderatedReviews() {
     await reviewFetchService.getUnmoderatedReviews()
         .then(res => res.json())
         .then(reviews => {
-            console.log(reviews);
+                console.log(reviews);
                 if (reviews.length === 0) {
                     reviewCards.append(`<div class="row">
                          <div class="col-sm-6">
@@ -57,7 +57,10 @@ async function getUnmoderatedReviews() {
                             </p>
                         
                            <button data-reviewid="${review.id}" data-action="accept" class="btn btn-success">Одобрить</a>
-                           <button data-reviewid="${review.id}" data-action="decline" class="btn btn-danger">Отклонить</button>
+                           <button data-reviewid="${review.id}" data-action="decline" class="btn btn-warning">Отклонить</button>
+                           <button data-reviewid="${review.id}" data-action="edit" class="btn btn-primary">Редактировать</button>
+                           <button data-reviewid="${review.id}" data-action="delete" class="btn btn-danger">Удалить</button>
+
                        
                         </div> 
                       </div>
@@ -75,13 +78,166 @@ async function getUnmoderatedReviews() {
         let targetButton = $(event.target);
         let buttonItemId = targetButton.attr('data-reviewid');
         let buttonAction = targetButton.attr('data-action');
+        let buttonReviewId = targetButton.attr('data-reviewid');
         if (buttonAction === "accept") {
             acceptReview(buttonItemId);
         } else if (buttonAction === "decline") {
             declineReview(buttonItemId);
+        } else if (buttonAction === "edit") {
+            getModalEdit(buttonReviewId);
+        } else if (buttonAction === "delete") {
+            deleteUser(buttonReviewId);
         }
     })
 }
+
+function deleteUser(id) {
+    fetch("http://localhost:8888/api/review/deleteReview/" + id, {
+        method: "DELETE",
+        headers: {"Content-type": "application/json; charset=UTF-8"}
+    })
+        .then(res => {
+            $('#' + id).remove();
+            location.assign('http://localhost:8888/moderator')
+        });
+}
+
+function edit() {
+    let text = document.getElementById('text').value;
+    let flaw = document.getElementById('flaw').value;
+    let dignity = document.getElementById('dignity').value;
+    let id = document.getElementById('id').value;
+    let userId = document.getElementById('userId').value;
+    let itemId = document.getElementById('itemId').value;
+    let date = document.getElementById('date').value;
+    let rating = document.getElementById('rating').value;
+    let shopId = document.getElementById('shopId').value;
+
+
+
+    fetch('/api/review/update', {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json;charset=UTF-8',
+            'Accept': 'application/json'
+        },
+        body: JSON.stringify({
+            id,
+            userId,
+            itemId,
+            shopId,
+            date,
+            text,
+            flaw,
+            dignity,
+            rating,
+
+        })
+    })
+        .then(res => {
+
+            console.log(res.json());
+            location.assign('/moderator')
+        })
+}
+function getModalEdit(id) {
+    fetch('/api/review/' + id)
+        .then(res => res.json())
+        .then(review => {
+            let modal = document.getElementById('reviewsCards');
+            modal.innerHTML = '<div class="modal fade"  id="modalEdit"  tabindex="-1" role="dialog" aria-hidden="true">\n' +
+                '                            <div class="modal-dialog">\n' +
+                '                                <div class="modal-content">\n' +
+                '                                    <div class="modal-header">\n' +
+                '                                        <h5 class="modal-title">Edit User</h5>\n' +
+                '                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">\n' +
+                '                                            <span aria-hidden="true">&times;</span>\n' +
+                '                                        </button>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="modal-body">\n' +
+                '                                        <div class="row justify-content-center align-items-center">\n' +
+                '                                            <form class="text-center" method="PUT" >\n' +
+                '                                                <div class="modal-body col-md text-cente">\n' +
+                '                                        <label class="font-weight-bold">ID</label>\n' +
+                '                                        <input type="number"\n' +
+                '                                               class="form-control" \n' +
+                '                                               name="ids" \n' +
+                '                                               id="id" value="' + review.id + '" \n' +
+                '                                               readonly> \n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">User ID</label>\n' +
+                '                                        <input type="number"\n' +
+                '                                               class="form-control" \n' +
+                '                                               name="userid" \n' +
+                '                                               id="userId" value="' + review.userId + '" \n' +
+                '                                               readonly> \n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Item ID</label>\n' +
+                '                                        <input type="number"\n' +
+                '                                               class="form-control" \n' +
+                '                                               name="itemid" \n' +
+                '                                               id="itemId" value="' + review.itemId + '" \n' +
+                '                                               readonly> \n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Shop ID</label>\n' +
+                '                                        <input type="number"\n' +
+                '                                               class="form-control"\n' +
+                '                                               name="shopId"\n' +
+                '                                               id="shopId" min="1" max="3" value="1" \n' +
+                '                                               required>\n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Date</label>\n' +
+                '                                        <input type=""\n' +
+                '                                               class="form-control" \n' +
+                '                                               name="dates" \n' +
+                '                                               id="date" value="' + review.date + '" \n' +
+                '                                               readonly> \n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Text</label>\n' +
+                '                                        <input type="text"\n' +
+                '                                               class="form-control"\n' +
+                '                                               name="texts"\n' +
+                '                                               id="text" value="' + review.text + '"\n' +
+                '                                               required>\n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Flaw</label>\n' +
+                '                                        <input type="text"\n' +
+                '                                               class="form-control"\n' +
+                '                                               name="flaws"\n' +
+                '                                               id="flaw" value="' + review.flaw + '"\n' +
+                '                                               required>\n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Dignity</label>\n' +
+                '                                        <input type="text"\n' +
+                '                                               class="form-control"\n' +
+                '                                               name="dignitys"\n' +
+                '                                               id="dignity" value="' + review.dignity + '"\n' +
+                '                                               required>\n' +
+                '                                        <br>\n' +
+                '                                        <label class="font-weight-bold">Rating</label>\n' +
+                '                                        <input type="number"\n' +
+                '                                               class="form-control"\n' +
+                '                                               name="ratings"\n' +
+                '                                               id="rating" min="1" max="5" value="' + review.rating + '"\n' +
+                '                                               required>\n' +
+                '                                        <br>\n' +
+                '                                                </div>\n' +
+                '                                            </form>\n' +
+                '                                        </div>\n' +
+                '                                    </div>\n' +
+                '                                    <div class="modal-footer">\n' +
+                '                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close\n' +
+                '                                        </button>\n' +
+                '                                        <button type="submit" data-dismiss="modal" class="btn btn-info" onclick="edit()">Edit\n' +
+                '                                        </button>\n' +
+                '                                    </div>\n' +
+                '                                </div>\n' +
+                '                            </div>\n' +
+                '                        </div>';
+            $("#modalEdit").modal();
+        });
+}
+
 
 async function acceptReview(id) {
     await reviewFetchService.getOneUnmoderatedReview(id)
