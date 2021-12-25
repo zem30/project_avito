@@ -12,5 +12,6 @@ public interface DiscountDao extends ReadWriteDao<Discount, Long> {
     List<Discount> findByUser(User user);
     List<Discount> findByShop(Shop shop);
     Discount findByUserAndShop(Long userId, Long shopId);
+    Optional<Discount> findByAllFields(Integer minOrder, Integer percentage, Integer fixedDiscount, Shop shop);
 
 }

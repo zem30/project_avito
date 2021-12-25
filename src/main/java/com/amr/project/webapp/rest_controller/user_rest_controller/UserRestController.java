@@ -71,7 +71,6 @@ public class UserRestController {
         User user = userService.getUserId(id);
         List<ShopDto> shops = new ArrayList<>();
         user.getShops().forEach(shop -> shops.add(shopMapper.shopToDto(shop)));
-        System.out.println(shops.size());
         if (shops.size() < 1) {
             return ResponseEntity.badRequest().build();
         }

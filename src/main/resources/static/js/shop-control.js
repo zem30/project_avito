@@ -1,5 +1,4 @@
 const pathname = document.location.pathname; // shop/control/?
-const key = 11;
 let shopDto;
 let nullDate = new Date(null) // for if
 //----------------------------------------------------------------------------------------------------------------------
@@ -8,7 +7,7 @@ function getNormalDate(date){
 }
 //----------------------------------------------------------------------------------------------------------------------
 async function userShops() {
-    await fetch("http://localhost:8888/shop_api/shop/" + pathname.substring("/shop/control/".length, pathname.length))
+    await fetch("/shop_api/shop/" + pathname.substring("/shop/control/".length, pathname.length))
         .then(res => res.json())
         .then(shop => {
             shopDto = shop;
@@ -52,7 +51,7 @@ async function userShops() {
             let myClients = ``;
             let order_items = ``;
             shop.orders.forEach((order) => {
-                console.log(order)
+                // console.log(order)
                 order.items.forEach((item) => {
                     order_items += `<img src="data:image/png;base64,${item.images[0].picture}" style="height: 100px; width: 100px">
                                    <h6 style="color: black">${item.name}</h6>`
@@ -73,7 +72,7 @@ async function userShops() {
         })
     // for modal coupons -----------------------------------------------------------------------------------------------
     let shopActiveCoupons = ``;
-    await fetch("http://localhost:8888/api/coupon/" + shopDto.name)
+    await fetch("/api/coupon/" + shopDto.name)
         .then(res => res.json())
         .then((couponList) => {
             let now = new Date();
@@ -89,16 +88,17 @@ async function userShops() {
                     }
                 }
                 shopActiveCoupons += `<tr>
-                                        <th>${coupon.id * key}</th>
+                                        <th>${coupon.id}</th>
                                         <th>${getNormalDate(date)}</th>
                                         <th>${coupon.status}</th>
                                         <th>${coupon.sum}</th>
+                                        <th>${coupon.username}</th>
                                         <th>`
-                if (coupon.status === "ACTUAL") {
-                    shopActiveCoupons += `<input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#sendCouponModal" value="Отправить купон">`
-                } else {
-                    shopActiveCoupons += `<input type="button" class="btn btn-secondary" id="${coupon.id}" disabled value="Отправить купон">`
-                }
+                // if (coupon.status === "ACTUAL") {
+                //     shopActiveCoupons += `<input type="button" class="btn btn-info use-coupon-btn" id="${coupon.id}" data-toggle="modal" data-target="#sendCouponModal" value="Отправить купон">`
+                // } else {
+                //     shopActiveCoupons += `<input type="button" class="btn btn-secondary" id="${coupon.id}" disabled value="Отправить купон">`
+                // }
                 shopActiveCoupons += `
                                         </th>
                                       </tr>`;
@@ -136,7 +136,7 @@ $(document).on('click', '.edit-btn', function () {
 })
 $('#update').on('click', (event) => {
     event.preventDefault()
-    fetch('http://localhost:8888/shop/item', {
+    fetch('/shop/item', {
         method: 'PUT',
         body: JSON.stringify({
             id: $('#editId').val(),
@@ -176,7 +176,7 @@ $("#addItem").on('click', () => {
             categoryNameFromSelect = options[i].value
         }
     }
-    fetch('http://localhost:8888/shop/item', {
+    fetch('/shop/item', {
         method: 'POST',
         body: JSON.stringify({
             name: $('#name').val(),
@@ -200,7 +200,7 @@ $("#addItem").on('click', () => {
 });
 // for add item panel (select)
 async function getSelectCategories() {
-    await fetch("http://localhost:8888/shop/items/category/names")
+    await fetch("/shop/items/category/names")
         .then(res => res.json())
         .then(data => {
             let head = `<p style="color: black">Choose Category name</p>`
@@ -216,28 +216,36 @@ getSelectCategories()
 //----------------------------------------------------------------------------------------------------------------------
 // for coupon panel
 async function updateToOverdue(coupon){
-    console.log(coupon)
-    await fetch('http://localhost:8888/api/coupon/update/overdue/' + coupon.id, {
+    // console.log(coupon)
+    await fetch('/api/coupon/update/overdue/' + coupon.id, {
         method: 'PUT',
         body: JSON.stringify(coupon),
         headers: { "Content-Type": "application/json; charset=utf-8" }
-    }).then(res => {console.log(res)})
+    }).then(res => {
+        // console.log(res)
+    })
 }
 $("#addNewCoupon").on('click', () => {
-    fetch("http://localhost:8888/api/coupon/addCoupon", {
+    let isTabClients = document.getElementById('tab-clients-for-coupon').classList.contains('active')
+    let select = document.querySelector(isTabClients ? '#clients-coupon' : '#other-clients-coupon')
+
+    fetch("/api/coupon/addCoupon", {
         method: 'POST',
         body: JSON.stringify({
             shopId: shopDto.id,
             start: new Date(),
             end: new Date($('#end').val()),
-            sum: $('#sum').val()
+            sum: $('#sum').val(),
+            username: select.value
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     }).then(res => {
-        console.log(res);
+        // console.log(res);
     })
     const { myCouponForm } = document.forms;
     myCouponForm.reset()
     userShops()
 });
 //----------------------------------------------------------------------------------------------------------------------
+getBuyers('clients-coupon')
+getUsers('other-clients-coupon')

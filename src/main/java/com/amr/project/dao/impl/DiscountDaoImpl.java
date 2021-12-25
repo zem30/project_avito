@@ -4,10 +4,9 @@ import com.amr.project.dao.abstracts.DiscountDao;
 import com.amr.project.model.entity.Discount;
 import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
+import com.amr.project.util.QueryResultWrapper;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.Query;
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -35,5 +34,14 @@ public class DiscountDaoImpl extends ReadWriteDaoImpl<Discount, Long> implements
                 .getSingleResult();
     }
 
+    @Override
+    public Optional<Discount> findByAllFields(Integer minOrder, Integer percentage, Integer fixedDiscount, Shop shop) {
+        return Optional.ofNullable(QueryResultWrapper.wrapGetSingleResult(entityManager.createQuery("select d from Discount d where d.minOrder = ?1 and d.percentage = ?2 and d.fixedDiscount = ?3 and d.shop = ?4", Discount.class)
+                .setParameter(1, minOrder)
+                .setParameter(2, percentage)
+                .setParameter(3, fixedDiscount)
+                .setParameter(4, shop)));
+
+    }
 
 }

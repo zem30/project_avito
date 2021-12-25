@@ -29,6 +29,13 @@ public abstract class ReadWriteServiceImpl<T, K> implements ReadWriteService<T, 
 
     @Override
     @Transactional
+    public T saveD(T obj) {
+        dao.persist(obj);
+        return obj;
+    }
+
+    @Override
+    @Transactional
     public void update(T obj) {
         dao.update(obj);
     }

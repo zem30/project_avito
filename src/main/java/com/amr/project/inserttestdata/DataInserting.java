@@ -875,8 +875,8 @@ public class DataInserting {
 //---------------------------------------------------------------Reviews
         //Ревью user4 на товар item1
         User user4_review = userRepository.findByEmail("user4@mail");
-        Item item_review1_user4 = itemRepository.findByName("item1");
-        Shop shop_review1_user4 = shopRepository.findByName("shop1");
+        Item item_review1_user4 = itemRepository.findByName("Samsung TV QE50Q67AAU");
+        Shop shop_review1_user4 = shopRepository.findByName("samsung");
         Review review1_user4_item = Review.builder()
                 .dignity("dignity_review_user4")
                 .flaw("flaw_review_user4")
@@ -1006,7 +1006,7 @@ public class DataInserting {
                 .percentage(10)
                 .fixedDiscount(100)
                 .shop(shop1_discount1)
-                .user(user4_discount1)
+//                .user(user4_discount1)
                 .build();
         discountRepository.save(discount1);
 
@@ -1025,7 +1025,7 @@ public class DataInserting {
                 .percentage(20)
                 .fixedDiscount(200)
                 .shop(shop2_discount1)
-                .user(user5_discount1)
+//                .user(user5_discount1)
                 .build();
         discountRepository.save(discount2);
 
@@ -1080,8 +1080,8 @@ public class DataInserting {
         couponRepository.save(coupon3);
 
         user4_coupons.setCoupons(List.of(coupon1));
-        user5_coupons.setCoupons(List.of(coupon1, coupon2));
-        user6_coupons.setCoupons(List.of(coupon1, coupon2, coupon3));
+        user5_coupons.setCoupons(List.of(coupon2));
+        user6_coupons.setCoupons(List.of(coupon3));
 
         userRepository.save(user4_coupons);
         userRepository.save(user5_coupons);

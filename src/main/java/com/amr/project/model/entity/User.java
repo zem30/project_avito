@@ -108,8 +108,8 @@ public class User implements UserDetails {
     @ToString.Exclude
     private Favorite favorite;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    @JoinTable(name = "user_discount",
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "users_discounts",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "discount_id")})
     @ToString.Exclude

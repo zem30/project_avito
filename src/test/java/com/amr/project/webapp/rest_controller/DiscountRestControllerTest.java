@@ -29,22 +29,22 @@ class DiscountRestControllerTest extends AbstractApiTest {
                 .minOrder(100)
                 .fixedDiscount(10)
                 .percentage(10)
-                .user(UserDto.builder()
-                        .email("user@mail.ru")
-                        .username("username")
-                        .age(10)
-                        .build())
-                .shop(ShopDto.builder()
-                        .description("shop1")
-                        .email("shop1@mail.ru")
-                        .isModerateAccept(false)
-                        .isModerated(false)
-                        .isPretendentToBeDeleted(false)
-                        .moderatedRejectReason("null")
-                        .name("shop1")
-                        .phone("7777777")
-                        .rating(1)
-                        .build())
+//                .user(UserDto.builder()
+//                        .email("user@mail.ru")
+//                        .username("username")
+//                        .age(10)
+//                        .build())
+//                .shop(ShopDto.builder()
+//                        .description("shop1")
+//                        .email("shop1@mail.ru")
+//                        .isModerateAccept(false)
+//                        .isModerated(false)
+//                        .isPretendentToBeDeleted(false)
+//                        .moderatedRejectReason("null")
+//                        .name("shop1")
+//                        .phone("7777777")
+//                        .rating(1)
+//                        .build())
                 .build();
 
         String addDiscountUrl = "/api/userlist/addDiscount";
@@ -55,7 +55,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
-        discount.setShop(null);
+//        discount.setShop(null);
 
         mvc.perform(
                 post(addDiscountUrl)
@@ -63,7 +63,7 @@ class DiscountRestControllerTest extends AbstractApiTest {
                         .content(asJsonString(discount)))
                 .andExpect(status().isBadRequest());
 
-        discount.setUser(null);
+//        discount.setUser(null);
 
         mvc.perform(
                 post(addDiscountUrl)

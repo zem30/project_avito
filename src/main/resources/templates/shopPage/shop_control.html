@@ -63,6 +63,7 @@
                     <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Добавить товар</button>
                     <button class="nav-link" id="MyBuyers" data-bs-toggle="pill" data-bs-target="#listBuyers" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Заказы</button>
                     <button class="nav-link" id="myCoupons" data-bs-toggle="pill" data-bs-target="#listCoupons" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Купоны</button>
+                    <button class="nav-link" id="btn-show-discounts-shop" data-bs-toggle="pill" data-bs-target="#table-discounts" type="button" role="tab" aria-controls="v-pills" aria-selected="false">Скидки</button>
                 </div>
             </div>
             <div class="col-10 bg-light vh-1000" style="background-color: #f5f5f5; padding: 20px 30px">
@@ -180,7 +181,7 @@
                                     <th>До</th>
                                     <th>Статус</th>
                                     <th>На сумму</th>
-                                    <th>*</th>
+<!--                                    <th>*</th>-->
                                 </tr>
                                 </thead>
                                 <tbody class="coupon-table-in-shop-panel"></tbody>
@@ -202,10 +203,28 @@
                                         <form class="add-new-coupon" id="myCouponForm">
                                             <div class="form-group">
                                                 <label for="end">Срок: ДО:</label><br>
-                                                <input type="date" id="end"/><br/>
+                                                <input type="date" id="end" required/><br/>
                                                 <label for="sum">На сумму</label><br>
-                                                <input type="number" id="sum"/><br/>
+                                                <input type="number" min="0" id="sum" required/><br/>
                                             </div>
+                                                <nav>
+                                                    <div class="nav nav-tabs" id="nav-tab-coupon" role="tablist">
+                                                        <a class="nav-item nav-link active first" id="nav-home-tab-coupon" data-toggle="tab"
+                                                           href="#tab-clients-for-coupon" role="tab" aria-controls="nav-home" aria-selected="true">Клиенты</a>
+                                                        <a class="nav-item nav-link second" id="nav-profile-tab-coupon" data-toggle="tab"
+                                                           href="#tab-other-clients-for-coupon" role="tab" aria-controls="nav-profile" aria-selected="false">Потенциальные клиенты</a>
+                                                    </div>
+                                                </nav>
+                                                <div class="tab-content" id="nav-tabContent1-coupon">
+                                                    <div class="tab-pane fade show active" id="tab-clients-for-coupon" role="tabpanel" aria-labelledby="nav-home-tab-coupon">
+                                                        <div class="form-group">
+                                                            <select class="form-select" id="clients-coupon"></select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="tab-pane fade" id="tab-other-clients-for-coupon" role="tabpanel" aria-labelledby="nav-profile-tab-coupon">
+                                                        <select class="form-select" id="other-clients-coupon"></select>
+                                                    </div>
+                                                </div>
                                         </form>
                                     </div>
                                     <div class="modal-footer">
@@ -216,6 +235,35 @@
                             </div>
                         </div>
                     </div>
+<!-- Discounts :: source shopOwner/shop_add_discount.html -->
+                    <div class="tab-pane fade" id="table-discounts" role="tabpanel" aria-labelledby="table-discounts">
+                        <div class="tab-content">
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3>Скидки</h3>
+                                </div>
+                                <div class="card-body">
+                                    <button type="button" class="btn btn-md btn-success my-3" data-bs-toggle="modal" data-bs-target="#discount-modal">
+                                        Добавить скидку
+                                    </button>
+                                    <table class="table table-striped border table-discounts align-middle text-center">
+                                        <thead>
+                                        <tr>
+                                            <th>Мин. сумма заказа</th>
+                                            <th>В процентах</th>
+                                            <th>Фиксированная</th>
+                                            <th>Действие</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div th:replace="modal/shop-add-new-discount-form"/>
+                    <div th:replace="modal/shop-apply-discount-form"/>
                 </div>
                 <div class="container-fluid vh-100 login-form">
                     <div class="login-content"></div>
@@ -228,6 +276,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-alpha1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js"
             integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
+    <script src="/js/discount.js"></script>
     <script src="/js/shop-control.js"></script>
     <script src="/js/registration.js"></script>
 </body>

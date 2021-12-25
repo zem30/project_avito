@@ -1,8 +1,8 @@
 package com.amr.project.dao.impl;
 
 import com.amr.project.dao.abstracts.ReadWriteDao;
-import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -26,6 +26,12 @@ public abstract class ReadWriteDaoImpl<T, K> implements ReadWriteDao<T, K> {
     @Override
     public void persist(T obj) {
         entityManager.persist(obj);
+    }
+
+    @Override
+    public T save(T obj) {
+        entityManager.persist(obj);
+        return obj;
     }
 
     @Override

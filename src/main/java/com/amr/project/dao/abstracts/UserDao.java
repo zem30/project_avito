@@ -1,10 +1,12 @@
 package com.amr.project.dao.abstracts;
 
+import com.amr.project.model.entity.Shop;
 import com.amr.project.model.entity.User;
 import com.amr.project.model.enums.Status;
 
 import javax.persistence.NoResultException;
 import java.util.List;
+import java.util.Optional;
 
 public interface UserDao extends ReadWriteDao<User, Long> {
     User findByUsername(String username) throws NoResultException;
@@ -20,5 +22,9 @@ public interface UserDao extends ReadWriteDao<User, Long> {
     List<User> findByStatusOrder(Status status);
 
     List<User> findByStatusOrderAndShopOwnerUser(Status status, User user);
+
+    List<User> findAllBuyersForShop(Shop shop);
+
+    Optional<User> findByCouponId(long id);
 }
 
