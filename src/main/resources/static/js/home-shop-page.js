@@ -24,7 +24,8 @@ async function shop_items() {
                 </div>`;
             let text = `<div><h3>Самые популярные товары</h3></div>`
             let items = ``;
-                shop.items.forEach((i) => {
+            shop.items.forEach((i) => {
+                if (i.moderateAccept && shop.moderateAccept) {
                     items += `<div class="item-div">
         <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
         <h6>${i.name}</h6>
@@ -32,10 +33,11 @@ async function shop_items() {
         <p>${i.description}</p>
         <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
         </div>`
-                })
-                document.querySelector(".home-shop-right-body").innerHTML = text + items;
-                document.querySelector(".home-shop-left-body").innerHTML = logo;
+                }
             })
+            document.querySelector(".home-shop-right-body").innerHTML = text + items;
+            document.querySelector(".home-shop-left-body").innerHTML = logo;
+        })
 }
 
 //получить страницу товара
