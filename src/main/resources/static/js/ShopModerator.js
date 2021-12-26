@@ -41,7 +41,7 @@ async function getUnmoderatedShops() {
                 <br>`)
                 } else {
                     shops.forEach(shop => {
-                        console.log(shop)
+                        // console.log(shop)
                         let cardFilling =
                             `<div class="row">
                          <div class="col-sm-6">
@@ -60,7 +60,7 @@ async function getUnmoderatedShops() {
                            <button data-shopid="${shop.id}" data-action="decline" class="btn btn-danger">Отклонить</button>
                           
                         </div>
-                        <img class="col-sm-6 text-right" src="data:image/jpg;base64, ${shop.logo.picture}"/>
+                        <img class="col-sm-6 text-right" src="data:image/jpg;base64, ${shop.logo[0].picture}"/>
                     </div>
                 </div>
                 </div>
@@ -88,7 +88,7 @@ async function acceptShop(id) {
     await shopFetchService.getOneUnmoderatedShop(id)
         .then(res => res.json())
         .then(async shop => {
-            console.log(shop);
+            // console.log(shop);
             shop.moderated = true;
             shop.moderateAccept = true;
             const response = await shopFetchService.updateShop(shop);
