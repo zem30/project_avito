@@ -143,11 +143,11 @@ function getReview(review, name) {
                                 <td>${review[i].rating}</td>
                       `;
         if (review[i].logo.length > 0) {
-            console.log("yes")
+            // console.log("yes")
             imageReview[i] = `<td><img src="data:image/png;base64,${review[i].logo[0].picture}" width="200" height="222" class="img-thumbnail"></td>
                             </tr>`;
         } else {
-            console.log("addEmpty")
+            // console.log("addEmpty")
             imageReview[i] = `<td>Отсутсвует</td>
                             </tr>`;
         }

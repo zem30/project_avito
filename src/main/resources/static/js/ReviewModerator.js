@@ -25,7 +25,7 @@ async function getUnmoderatedReviews() {
     await reviewFetchService.getUnmoderatedReviews()
         .then(res => res.json())
         .then(reviews => {
-                console.log(reviews);
+                // console.log(reviews);
                 if (reviews.length === 0) {
                     reviewCards.append(`<div class="row">
                          <div class="col-sm-6">

@@ -2,7 +2,7 @@ async function getRating(ratingVal) {
     const ratings = document.querySelectorAll(".rating")
     // получаем рейтинг если больше 0
     if (ratings.length > 0) {
-        console.log("rating > 0")
+        // console.log("rating > 0")
         initRatings();
     }
 
