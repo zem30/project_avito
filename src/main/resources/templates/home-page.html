@@ -38,6 +38,9 @@
                 <h5 sec:authorize="hasAuthority('ADMIN')" style="text-align: center">
                     <a href="/admin" class="user-tag" id="adminTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
+                <h5 sec:authorize="hasAuthority('MODERATOR')" style="text-align: center">
+                    <a href="/moderator" class="user-tag" id="moderatorTag" sec:authorize="isAuthenticated()"
+                       sec:authentication="principal.username"></a></h5>
                 <h5 sec:authorize="hasAuthority('USER')" style="text-align: center">
                     <a href="/user" class="user-tag" id="userTag" sec:authorize="isAuthenticated()"
                        sec:authentication="principal.username"></a></h5>
