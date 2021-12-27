@@ -25,7 +25,7 @@ async function getUnmoderatedItems() {
     await itemFetchService.getUnmoderatedItems()
         .then(res => res.json())
         .then(items => {
-            console.log(items.length)
+            // console.log(items.length)
                 if (items.length === 0) {
                     itemCards.append(`<div class="row">
                          <div class="col-sm-6">
@@ -43,7 +43,7 @@ async function getUnmoderatedItems() {
                 } else {
                     items.forEach(item => {
 
-                        console.log(item)
+                        // console.log(item)
                         let cardFilling =
                             `<div class="row" id="itemRow${item.id}">
                          <div class="col-sm-6">
@@ -65,7 +65,7 @@ async function getUnmoderatedItems() {
                 </div>
                 </div>
                 `
-                        console.log(item.id)
+                        // console.log(item.id)
                         itemCards.append(cardFilling);
                     })
                     getUnmoderatedItemsCountAndSetBadge();

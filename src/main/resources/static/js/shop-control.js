@@ -191,8 +191,8 @@ $("#addItem").on('click', () => {
         }),
         headers: {"Content-Type": "application/json; charset=utf-8"}
     }).then(res => {
-        console.log(res)
-        alert("Item`s been added")
+        // console.log(res)
+        // alert("Item`s been added")
         userShops()
     })
     const { myForm } = document.forms;

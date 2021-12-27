@@ -10,22 +10,34 @@ function send_data(url, data, method) {
     })
 }
 
+async function getShop(url) {
+    try {
+        const response = await fetch(url);
+        return response.json();
+    } catch (e) {
+        console.error(e);
+    }
+}
+
 //получить популярные товары
 async function popular_items() {
-    await fetch("http://localhost:8888/shop/items")
+    await fetch("/shop/items")
         .then(res => res.json())
-        .then(items => {
+        .then(async items => {
             let logs = ``;
-            items.forEach((i) => {
-                logs += `<div class="item-div">
+            for (const i of items) {
+                const shop = await getShop("/shop_api/shop/" + i.shopId);
+                if (i.moderateAccept && shop.moderateAccept) {
+                    logs += `<div class="item-div">
                          <a href="/item/${i.id}"><img src="data:image/png;base64,${i.images[0].picture}" class="img-thumbnail"></a>
                          <h6>${i.name}</h6>
                          <h6>${i.price}</h6>
                          <p>${i.description}</p>
-                         <p class="star">★ ${Math.round(i.rating,2)}</p>
+                         <p class="star">★ ${Math.round(i.rating, 2)}</p>
                          <button type="button" class="btn btn-primary basket-plus-div" id="${i.id}">В корзину</button>
                          </div>`;
-            })
+                }
+            }
             document.querySelector('.item-container').innerHTML = logs;
         })
 }
@@ -72,7 +84,7 @@ async function findItems() {
                 shops.forEach((s) => {
                     s.items.forEach((item) => {
                         shopItems += item.name.toLowerCase() + ",";
-                        console.log(s.items);
+                        // console.log(s.items);
                     })
                     if (shopItems.includes(searchInput.value.toLowerCase())) {
                         output += `<div class="shop-div">
