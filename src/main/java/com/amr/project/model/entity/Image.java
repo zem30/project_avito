@@ -28,7 +28,7 @@ public class Image {
     private Boolean isMain = false;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "images", cascade = {CascadeType.PERSIST})
+    @OneToOne(mappedBy = "images", cascade = CascadeType.PERSIST)
     private User user;
 
     @JsonIgnore

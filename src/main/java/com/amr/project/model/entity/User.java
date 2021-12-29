@@ -80,7 +80,7 @@ public class User implements UserDetails {
     @ToString.Exclude
     private List<CartItem> cartItems;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "user_adverts",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = {@JoinColumn(name = "advert_id")})
