@@ -1,0 +1,35 @@
+<div class="modal fade" id="advert-modal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Новое объявление</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="mb-3">
+                        <label for="advert-name" class="form-label">Название</label>
+                        <input type="text" class="form-control" id="advert-name" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="advert-description" class="form-label">Описание</label>
+                        <textarea class="form-control" id="advert-description" rows="3"></textarea>
+                    </div>
+                    <div class="forSelectCategoryNames"></div>
+                    <div class="mb-3">
+                        <label for="advert-price" class="form-label">Цена</label>
+                        <input type="number" min="0" class="form-control" id="advert-price">
+                    </div>
+                    <div class="mb-3">
+                        <label for="advert-images" class="form-label">Фото</label>
+                        <input class="form-control" type="file" multiple accept="image/*" id="advert-images">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                <button type="submit" class="btn btn-primary btn-add-advert">Добавить</button>
+            </div>
+        </div>
+    </div>
+</div>

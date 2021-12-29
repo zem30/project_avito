@@ -18,7 +18,7 @@
                 <a href="/" class="heading">Магазины</a>
                 <a href="/" class="heading">Товары</a>
                 <a th:href="@{/user/{id}/userlist (id=${user.id})}" class="heading">Список покупателей</a>
-                <a href="/newAdvert" class="heading">Новое объявление</a>
+                <a href="#advert-modal" data-bs-toggle="modal" class="heading">Новое объявление</a>
                 <a href="" class="heading">Еще...</a></h4>
             <div class="btn_danger_out">
                 <a href="/logout">
@@ -71,6 +71,9 @@
                 <h5><a th:href="@{/user-reports}">Отчеты</a></h5>
                 <h5 style="color: #fdbf2f; cursor: pointer;"><a data-bs-toggle="modal" data-bs-target="#coupons">
                     Мои купоны
+                </a></h5>
+                <h5 style="color: #fdbf2f; cursor: pointer;"><a data-bs-toggle="modal" data-bs-target="#adverts">
+                    Мои объявления
                 </a></h5>
             </div>
         </div>
@@ -333,6 +336,8 @@
         </div>
     </div>
 </div>
+<div th:replace="modal/user-add-new-advert-form"/>
+<div th:replace="modal/user-all-adverts"/>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
@@ -346,6 +351,7 @@
         crossorigin="anonymous"></script>
 <script src="/js/UserPage.js"></script>
 <script src="/js/coupons.js"></script>
+<script src="/js/advertUser.js"></script>
 <link rel="stylesheet" href="/css/UserPageStyle.css"/>
 </body>
 

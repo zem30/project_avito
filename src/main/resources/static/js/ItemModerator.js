@@ -90,7 +90,7 @@ async function acceptItem(id) {
         .then(async item => {
             item.moderated = true;
             item.moderateAccept = true;
-            console.log(item)
+            // console.log(item)
             const response = await itemFetchService.updateItem(item);
             if (response.ok) {
                 let itemCards = $('#itemsCards')

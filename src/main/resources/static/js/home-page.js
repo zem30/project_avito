@@ -66,6 +66,30 @@ async function popular_shops() {
 
 popular_shops();
 
+//получить объявления
+async function popularAdverts() {
+    await fetch('/api/adverts')
+        .then(res => res.json())
+        .then(async adverts => {
+            console.log(adverts)
+            let output = ''
+            for (let a of adverts) {
+                console.log(a)
+                // if (a.moderateAccept) {
+                    output += `<div class="advert-div float-start border p-2 m-2 text-center">
+                        <a href="user/${a.userId}/advert/${a.id}"><img width="200" src="data:image/png;base64,${a.images[0].picture}" class="img-thumbnail"></a>
+                        <h6>${a.name}</h6>
+                        <p>${a.description}</p>
+                        <p>${a.price}</p>
+                        <a href="user/${a.userId}/advert/${a.id}"><button type="button" class="btn btn-primary">Перейти</button></a>
+                    </div>`;
+                // }
+            }
+            document.querySelector('.advert-container').innerHTML = output;
+        })
+}
+popularAdverts();
+
 //получение предметов по поиску
 async function findItems() {
     // получаем значение поиска
