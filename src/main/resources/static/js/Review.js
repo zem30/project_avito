@@ -134,7 +134,6 @@ function getReview(review, name) {
     for (let i = 0; i < review.length; i++) {
         temp[i] = `
                             <tr>
-                                <td>${review[i].id}</td>
                                 <td>${review[i].userFirstName + " " + review[i].userLastName}</td>
                                 <td>${review[i].date.substr(0,10)}</td>
                                 <td>${review[i].text}</td>
