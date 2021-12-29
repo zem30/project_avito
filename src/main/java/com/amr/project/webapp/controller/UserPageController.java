@@ -55,6 +55,19 @@ public class UserPageController {
         return "UserPage";
     }
 
+    @ApiOperation(value = "Объявление пользователя по ID")
+    @GetMapping(value = "/user/{id}/advert/{advertId}")
+    @ApiResponses(value = {
+            @ApiResponse(code = 200, message = "Объявление найдено по ID"),
+            @ApiResponse(code = 404, message = "Объявление не найдено по ID")
+    })
+    public String getUserAdvert(@PathVariable("id") Long id, @PathVariable("advertId") Long advertId, Model model) {
+        User user = userService.getByKey(id);
+        UserDto userDto = userMapper.userToDto(user);
+        model.addAttribute("user", userDto);
+        return "advert-page";
+    }
+
     @ApiOperation(value = "Просмотр списка покупателей")
     @GetMapping("/user/{id}/userlist")
     @ApiResponses(value = {
