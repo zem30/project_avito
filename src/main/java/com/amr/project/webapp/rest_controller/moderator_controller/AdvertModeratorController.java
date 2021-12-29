@@ -4,6 +4,7 @@ import com.amr.project.converter.AdvertMapper;
 import com.amr.project.model.dto.AdvertDto;
 import com.amr.project.model.entity.Advert;
 import com.amr.project.service.abstracts.AdvertService;
+import com.amr.project.service.abstracts.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,11 +21,13 @@ public class AdvertModeratorController {
 
     private final AdvertService advertService;
     private final AdvertMapper advertMapper;
+    private final UserService userService;
 
     @Autowired
-    public AdvertModeratorController(AdvertService advertService, AdvertMapper advertMapper) {
+    public AdvertModeratorController(AdvertService advertService, AdvertMapper advertMapper, UserService userService) {
         this.advertService = advertService;
         this.advertMapper = advertMapper;
+        this.userService = userService;
     }
 
     @ApiOperation(value = "Отправляет все объявления не прошедшие модерацию на фронт")
@@ -51,9 +54,11 @@ public class AdvertModeratorController {
     @PutMapping("/editAdvert")
     public ResponseEntity<AdvertDto> editAdvert(@RequestBody AdvertDto advertDto) {
         Advert advert = advertMapper.dtoToAdvert(advertDto);
+        advert.setUser(userService.getUserId(advertDto.getUserId()));
         advertService.update(advert);
         return ResponseEntity.ok(advertMapper.advertToDto(advert));
     }
+
     @ApiOperation(value = "возвращает на фронт количество не прошедних модерацию товаров для счетчика")
     @GetMapping("/getUnmoderatedAdvertsCount")
     public ResponseEntity<Long> getUnmoderatedItemsCount() {

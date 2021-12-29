@@ -48,14 +48,14 @@ async function getUnmoderatedAdverts() {
                             <div class="card" id="advertCard${advert.id}">
                                 <div class="row card-body">
                                     <div class="col-sm-6">
-                          <h5 class="card-title"><b>Наименование объявления: </b>${advert.name}</h5>
+                          <h5 class="card-title">
+                            <b>Логин: </b> ${advert.username}
+                          </h5>
+                          <b>Наименование объявления: </b>${advert.name}
                            <p class="card-text" id="cardText"><b>Описание объявления: </b>${advert.description}
                             <br>
-                           <b>Email: </b> ${advert.email}
-                           <br>
                            <b>Цена: </b> ${advert.price}
                            </p>
-
                            <button data-advertid="${advert.id}" data-action="accept" class="btn btn-success">Одобрить</a>
                            <button data-advertid="${advert.id}" data-action="decline" class="btn btn-danger">Отклонить</button>
 

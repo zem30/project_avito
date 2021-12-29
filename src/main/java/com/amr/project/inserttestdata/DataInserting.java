@@ -570,8 +570,8 @@ public class DataInserting {
                 .description("Система активного подавления шума")
                 .discount(0)
                 .shop(mi)
-                .isModerated(false)
-                .isModerateAccept(false)
+                .isModerated(true)
+                .isModerateAccept(true)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -586,8 +586,8 @@ public class DataInserting {
                 .description("Количество режимов работы - 4")
                 .discount(0)
                 .shop(mi)
-                .isModerated(false)
-                .isModerateAccept(false)
+                .isModerated(true)
+                .isModerateAccept(true)
                 .moderatedRejectReason(null)
                 .isPretendentToBeDeleted(false)
                 .build();
@@ -1116,6 +1116,56 @@ public class DataInserting {
 
         answerFromModeratorRepository.save(answerFromModerator1);
         answerFromModeratorRepository.save(answerFromModerator2);
+
+//---------------------------------------------------------------Advert
+        User user4_advert = userRepository.findByEmail("user4@mail");
+        User user5_advert = userRepository.findByEmail("user5@mail");
+        User user6_advert = userRepository.findByEmail("user6@mail");
+
+    Advert advert1 = Advert.builder()
+            .name("Advert #1")
+            .description("Description #1")
+            .price(new BigDecimal("1000"))
+            .categories(List.of(categoryRepository.findByName("headphones")))
+            .images(List.of(item1Image1, item1Image2, item1Image3))
+            .isModerated(true)
+            .isModerateAccept(true)
+            .moderatedRejectReason(null)
+            .isPretendentToBeDeleted(false)
+            .build();
+
+    Advert advert2 = Advert.builder()
+            .name("Advert #2")
+            .description("Description #2")
+            .price(new BigDecimal("2000"))
+            .categories(List.of(categoryRepository.findByName("headphones")))
+            .images(List.of(item2Image1, item2Image2, item2Image3))
+            .isModerated(true)
+            .isModerateAccept(true)
+            .moderatedRejectReason(null)
+            .isPretendentToBeDeleted(false)
+            .build();
+
+    Advert advert3 = Advert.builder()
+            .name("Advert #3")
+            .description("Description #3")
+            .price(new BigDecimal("3000"))
+            .categories(List.of(categoryRepository.findByName("headphones")))
+            .images(List.of(item3Image1, item3Image2, item3Image3))
+            .isModerated(true)
+            .isModerateAccept(false)
+            .moderatedRejectReason("moderatedRejectReason")
+            .isPretendentToBeDeleted(false)
+            .build();
+
+//    advert1.setUser(user4_advert);
+//    advert2.setUser(user5_advert);
+//    advert3.setUser(user6_advert);
+//
+//    advertRepository.save(advert1);
+//    advertRepository.save(advert2);
+//    advertRepository.save(advert3);
+
     }
 }
 //-------------------------------------------------------------------------------------

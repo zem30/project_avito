@@ -6,6 +6,8 @@ import springfox.documentation.annotations.ApiIgnore;
 
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -31,19 +33,16 @@ public class Advert {
     private String description;
 
     @Column
-    private int price;
-
-    @Column
-    private String email;
+    private BigDecimal price;
 
     @JsonIgnore
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private User user;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     private List<Category> categories;
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Image> images;
 
     private boolean isPretendentToBeDeleted;
