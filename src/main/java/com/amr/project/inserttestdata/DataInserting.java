@@ -106,10 +106,10 @@ public class DataInserting {
         cityRepository.save(gomel);
         cityRepository.save(vitebsk);
 //---------------------------------------------------------------Countries
-        Country country = Country.builder().name("Country").cities(List.of(city)).build();
-        Country russia = Country.builder().name("Russia").cities(List.of(moscow, petersburg, novosibirsk)).build();
-        Country ukraine = Country.builder().name("Ukraine").cities(List.of(kyiv, kharkiv, odessa)).build();
-        Country belarus = Country.builder().name("Belarus").cities(List.of(minsk, gomel, vitebsk)).build();
+        Country country = Country.builder().name("Country").build();
+        Country russia = Country.builder().name("Russia").build();
+        Country ukraine = Country.builder().name("Ukraine").build();
+        Country belarus = Country.builder().name("Belarus").build();
 
         countryRepository.save(country);
         countryRepository.save(russia);
