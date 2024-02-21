@@ -7,6 +7,7 @@ import com.amr.project.model.entity.Mail;
 import com.amr.project.service.abstracts.CategoryService;
 import com.amr.project.service.email.EmailSenderService;
 import com.amr.project.util.TrackedEmailCategory;
+import com.amr.project.util.Util;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,7 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     @Override
     @Transactional
     public void persist(Category category) {
+        category.setGuid(Util.getGuid());
 //        emailSenderService.sendSimpleEmail(trackedEmailCategory.trackedEmailCategoryPersist(category));
         categoryDao.persist(category);
     }
@@ -45,6 +47,9 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     @Override
     @Transactional
     public void update(Category category) {
+        Category categorys = categoryDao.getCategoryById(category.getId());
+        category.setGuid(categorys.getGuid());
+//        category.getId();
 //        Mail mail = trackedEmailCategory.trackedEmailCategoryUpdate(category);
 //        if (mail.getMessage() != null)
 //            emailSenderService.sendSimpleEmail(mail);
@@ -56,5 +61,9 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     public void deleteByKeyCascadeIgnore(Long key) {
 //        emailSenderService.sendSimpleEmail(trackedEmailCategory.trackedEmailCategoryDelete(key));
         categoryDao.deleteByKeyCascadeIgnore(key);
+    }
+    @Override
+    public Category getCategoryById(Long id){
+        return categoryDao.getCategoryById(id);
     }
 }

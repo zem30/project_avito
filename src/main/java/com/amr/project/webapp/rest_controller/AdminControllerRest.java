@@ -146,7 +146,7 @@ public class AdminControllerRest {
     public void updateAddress(@RequestBody Address address) { addressService.update(address); }
 
     @ApiOperation(value = "Обновляет категорию в БД")
-    @PutMapping("/categories")
+    @PatchMapping("/categories")
     public void updateCategory(@RequestBody Category category) { categoryService.update(category); }
 
     @ApiOperation(value = "Удаляет магазин из БД")

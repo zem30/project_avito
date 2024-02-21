@@ -5,6 +5,7 @@ import com.amr.project.model.entity.*;
 import com.amr.project.model.enums.CouponStatus;
 import com.amr.project.model.enums.Gender;
 import com.amr.project.model.enums.Status;
+import com.amr.project.util.Util;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -542,12 +543,12 @@ public class DataInserting {
         userRepository.save(user1);
 
 //---------------------------------------------------------------Categories
-        Category category1 = Category.builder().name("headphones").guid(UUID.randomUUID()).build();
-        Category hardware = Category.builder().name("hardware").guid(UUID.randomUUID()).build();
-        Category tablets = Category.builder().name("tablets").guid(UUID.randomUUID()).build();
-        Category vacuumCleaners = Category.builder().name("vacuumCleaners").guid(UUID.randomUUID()).build();
-        Category TV = Category.builder().name("TV").guid(UUID.randomUUID()).build();
-        Category laptop = Category.builder().name("laptop").guid(UUID.randomUUID()).build();
+        Category category1 = Category.builder().name("headphones").guid(Util.getGuid()).build();
+        Category hardware = Category.builder().name("hardware").guid(Util.getGuid()).build();
+        Category tablets = Category.builder().name("tablets").guid(Util.getGuid()).build();
+        Category vacuumCleaners = Category.builder().name("vacuumCleaners").guid(Util.getGuid()).build();
+        Category TV = Category.builder().name("TV").guid(Util.getGuid()).build();
+        Category laptop = Category.builder().name("laptop").guid(Util.getGuid()).build();
 
         categoryRepository.save(category1);
         categoryRepository.save(hardware);
