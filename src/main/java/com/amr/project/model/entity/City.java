@@ -34,6 +34,7 @@ public class City {
     @Column(unique = true)
     private String name;
 
+
     @Override
     public String toString() {
         return "City{" +
