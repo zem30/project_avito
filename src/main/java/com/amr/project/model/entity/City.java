@@ -1,10 +1,8 @@
 package com.amr.project.model.entity;
 
 import io.swagger.annotations.Api;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -20,9 +18,11 @@ import javax.persistence.Table;
 import java.util.List;
 
 @Entity
+@Table(name = "city")
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
+@Setter
+@Getter
 @Api(hidden = true)
 @Builder
 public class City {
@@ -43,6 +43,9 @@ public class City {
     }
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinTable(name = "country_cities",
+            joinColumns = {@JoinColumn(name = "cities_id")},
+            inverseJoinColumns = {@JoinColumn(name = "country_id")})
     private Country country;
 
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
