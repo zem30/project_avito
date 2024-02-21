@@ -53,7 +53,7 @@ function loadAndShowModalEditCategoryForm(id) {
                         'name': categoryEditModal.find('#categoryNameEdit').val()
                     };
                     let request = new Request('/admin/api/categories', {
-                        method: 'PUT',
+                        method: 'PATCH',
                         headers: {'content-type': 'application/json'},
                         body: JSON.stringify(category)
                     });

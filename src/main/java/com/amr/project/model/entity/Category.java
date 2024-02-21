@@ -5,12 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
 
 @Entity
 @Table(name = "category")
-//@NoArgsConstructor
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
@@ -23,8 +21,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "guid", unique = true)
-    private UUID guid;
+    @Column(name = "guid")
+    private String guid;
 
     @Column(name = "category_name", unique = true)
     private String name;
@@ -41,11 +39,4 @@ public class Category {
     @JoinTable(name = "category_advert")
     private List<Advert> adverts;
 
-    public Category() {
-        this.guid = UUID.randomUUID();
-    }
-
-    public String getGuid(){
-        return guid.toString().replace("-","").toUpperCase();
-    }
 }
