@@ -39,4 +39,12 @@ public class Category {
     @JoinTable(name = "category_advert")
     private List<Advert> adverts;
 
+    @Override
+    public String toString() {
+        return "Category{" +
+                "id=" + id +
+                ", guid='" + guid + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

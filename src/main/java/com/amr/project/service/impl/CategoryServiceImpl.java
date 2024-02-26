@@ -18,16 +18,21 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
 
     private final CategoryDao categoryDao;
 
-    private final TrackedEmailCategory trackedEmailCategory;
+//    private final TrackedEmailCategory trackedEmailCategory;
+//
+//    private final EmailSenderService emailSenderService;
 
-    private final EmailSenderService emailSenderService;
-
+    //    @Autowired
+//    protected CategoryServiceImpl(CategoryDao categoryDao, TrackedEmailCategory trackedEmailCategory, EmailSenderService emailSenderService) {
+//        super(categoryDao);
+//        this.categoryDao = categoryDao;
+//        this.trackedEmailCategory = trackedEmailCategory;
+//        this.emailSenderService = emailSenderService;
+//    }
     @Autowired
-    protected CategoryServiceImpl(CategoryDao categoryDao, TrackedEmailCategory trackedEmailCategory, EmailSenderService emailSenderService) {
+    protected CategoryServiceImpl(CategoryDao categoryDao) {
         super(categoryDao);
         this.categoryDao = categoryDao;
-        this.trackedEmailCategory = trackedEmailCategory;
-        this.emailSenderService = emailSenderService;
     }
 
 
@@ -49,7 +54,6 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
     public void update(Category category) {
         Category categorys = categoryDao.getCategoryById(category.getId());
         category.setGuid(categorys.getGuid());
-//        category.getId();
 //        Mail mail = trackedEmailCategory.trackedEmailCategoryUpdate(category);
 //        if (mail.getMessage() != null)
 //            emailSenderService.sendSimpleEmail(mail);
@@ -62,8 +66,9 @@ public class CategoryServiceImpl extends ReadWriteServiceImpl<Category, Long> im
 //        emailSenderService.sendSimpleEmail(trackedEmailCategory.trackedEmailCategoryDelete(key));
         categoryDao.deleteByKeyCascadeIgnore(key);
     }
+
     @Override
-    public Category getCategoryById(Long id){
+    public Category getCategoryById(Long id) {
         return categoryDao.getCategoryById(id);
     }
 }
